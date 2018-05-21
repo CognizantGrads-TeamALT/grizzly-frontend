@@ -35,5 +35,5 @@ app.use("/api/posts", posts);
 
 app.get("/", (req, res) => res.send("Hello!"));
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 80;
 app.listen(port, () => console.log(`The server has started on port ${port}`));
