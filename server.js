@@ -42,5 +42,5 @@ app.use("/api/posts", posts);
   });
 //}
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8083;
 app.listen(port, () => console.log(`The server has started on port ${port}`));
