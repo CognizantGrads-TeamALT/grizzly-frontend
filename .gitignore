@@ -5,3 +5,9 @@
 /config/key_dev.js
 package-lock.json
 /client/package-lock.json
+
+*/.DS_Store
+.idea/
+*.idea
+*.iml
+*.ipr
