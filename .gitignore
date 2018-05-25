@@ -1,10 +1,8 @@
 .DS_Store
 .idea
+/.vscode
 /node_modules
-/client/node_modules
-/config/key_dev.js
 package-lock.json
-/client/package-lock.json
 
 */.DS_Store
 .idea/
