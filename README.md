@@ -21,14 +21,12 @@ Clone the project:
 git clone https://github.com/CognizantGrads-TeamALT/grizzly-frontend.git
 ```
 
-You'll need a key from us lol
-
 ```sh
 npm install
 ``` 
 
 ```sh
-npm start dev
+npm start
 ``` 
 
 
