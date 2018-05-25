@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import logo from "../../img/logo.png";
+import Input from "../common/Input";
 
 class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      searchTerm: ""
+      search: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -46,18 +47,17 @@ class Navbar extends Component {
             <form onSubmit={this.onSubmit} className="form-inline mx-auto">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <input
-                    className="form-control mr-sm-2"
+                  <Input
                     type="search"
+                    name="search"
                     placeholder="Search"
-                    aria-label="Search"
-                    value={this.state.searchTerm}
+                    value={this.state.search}
                     onChange={this.onChange}
                   />
                 </li>
                 <li className="nav-item">
                   <button
-                    className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
+                    className="btn btn-outline-success my-2 my-sm-0 ml-sm-1 mr-sm-1"
                     type="submit"
                   >
                     Search

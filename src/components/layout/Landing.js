@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Loading from "../common/Loading";
 import "../../App.css";
 
@@ -12,6 +13,9 @@ class Landing extends Component {
         </header>
         <p className="App-intro">
           <Loading />
+          <Link className="btn btn-outline-success my-2 my-sm-0" to="/portal">
+            Check out the Portal Demo here
+          </Link>
         </p>
       </div>
     );
