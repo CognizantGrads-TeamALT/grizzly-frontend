@@ -11,12 +11,12 @@ class Landing extends Component {
         <header>
           <h1 className="App-title">Welcome to Grizzly</h1>
         </header>
-        <p className="App-intro">
+        <div className="App-intro">
           <Loading />
           <Link className="btn btn-outline-success my-2 my-sm-0" to="/portal">
             Check out the Portal Demo here
           </Link>
-        </p>
+        </div>
       </div>
     );
   }
