@@ -8,7 +8,8 @@ import Landing from "./components/layout/Landing";
 import Footer from "./components/layout/Footer";
 import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
-import Portal from "./components/portal/Portal";
+import AdminPortal from "./components/portal/AdminPortal";
+import VendorPortal from "./components/portal/VendorPortal";
 //import PrivateRoute from "./components/common/PrivateRoute";
 import NotFound from "./components/not-found/NotFound";
 
@@ -24,7 +25,8 @@ class App extends Component {
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/not-found" component={NotFound} />
-              <Route exact path="/portal" component={Portal} />
+              <Route exact path="/adminportal" component={AdminPortal} />
+              <Route exact path="/vendorportal" component={VendorPortal} />
               {/* <Switch>
                 <PrivateRoute exact path="/portal" component={Portal} />
               </Switch> */}

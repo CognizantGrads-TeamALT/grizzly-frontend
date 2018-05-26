@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Input from "../common/Input";
+import { connect } from "react-redux";
 
-class SearchSort extends Component {
+class CategoryFilter extends Component {
   constructor() {
     super();
     this.state = {
@@ -22,38 +22,24 @@ class SearchSort extends Component {
   render() {
     return (
       <div className="btn-group mt-2 mb-2">
-        <Input
-          type="search"
-          name="search"
-          placeholder="Search"
-          value={this.state.search}
-          onChange={this.onChange}
-        />
-        <button
-          className="btn btn-outline-success ml-sm-2 mr-sm-2"
-          type="submit"
-        >
-          Search
-        </button>
-
         <button
           type="button"
-          className="btn btn btn-outline-success dropdown-toggle mr-sm-2"
+          className="btn btn btn-outline-success btn-sm dropdown-toggle"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
         >
-          Sort By
+          Filter by Category
         </button>
         <div className="dropdown-menu">
           <button className="dropdown-item" type="button">
-            ID
+            Name
           </button>
           <button className="dropdown-item" type="button">
             Name
           </button>
           <button className="dropdown-item" type="button">
-            Location
+            Name
           </button>
         </div>
       </div>
@@ -61,4 +47,4 @@ class SearchSort extends Component {
   }
 }
 
-export default SearchSort;
+export default connect(null)(CategoryFilter);

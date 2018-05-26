@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 
 const Input = ({ name, placeholder, value, error, icon, type, onChange }) => {
   return (
-    <div className="input-group">
+    <div className="input-group input-group-sm">
       <input
         className={classnames("form-control", {
           "is-invalid": error
         })}
         placeholder={placeholder}
         name={name}
+        type={type}
         value={value}
         onChange={onChange}
       />
@@ -22,8 +23,6 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
-  error: PropTypes.string,
-  icon: PropTypes.string,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
 };
