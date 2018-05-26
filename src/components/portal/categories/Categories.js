@@ -1,18 +1,19 @@
 import React, { Component } from "react";
-import SearchSort from "./SearchSort";
+import { connect } from "react-redux";
+import SearchSort from "../common/SearchSort";
 
-class Category extends Component {
+class Categories extends Component {
   render() {
     return (
       <div>
         <SearchSort />
         <button
-          className="btn btn-outline-success ml-sm-2 mr-sm-2"
+          className="btn btn-outline-success btn-sm ml-sm-2 mr-sm-2"
           type="submit"
         >
           Add Category
         </button>
-        <table className="table table-striped">
+        <table className="table table-hover">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -30,19 +31,19 @@ class Category extends Component {
               <td>@mdo</td>
               <td>
                 <button
-                  className="btn btn-outline-info my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
-                  View
+                  Edit
                 </button>
                 <button
-                  className="btn btn-outline-warning my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
                   Block
                 </button>
                 <button
-                  className="btn btn-outline-danger my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
                   Delete
@@ -56,19 +57,19 @@ class Category extends Component {
               <td>@fat</td>
               <td>
                 <button
-                  className="btn btn-outline-info my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
-                  View
+                  Edit
                 </button>
                 <button
-                  className="btn btn-outline-warning my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
                   Block
                 </button>
                 <button
-                  className="btn btn-outline-danger my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
                   Delete
@@ -82,19 +83,19 @@ class Category extends Component {
               <td>@twitter</td>
               <td>
                 <button
-                  className="btn btn-outline-info my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
-                  View
+                  Edit
                 </button>
                 <button
-                  className="btn btn-outline-warning my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
                   Block
                 </button>
                 <button
-                  className="btn btn-outline-danger my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
                   type="button"
                 >
                   Delete
@@ -107,4 +108,4 @@ class Category extends Component {
     );
   }
 }
-export default Category;
+export default connect(null)(Categories);

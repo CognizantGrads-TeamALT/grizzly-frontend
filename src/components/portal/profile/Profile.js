@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import photoID from "../../img/photoID.png";
+import { connect } from "react-redux";
+import photoID from "../../../img/photoID.png";
+
 class Profile extends Component {
   render() {
     return (
@@ -20,7 +22,6 @@ class Profile extends Component {
             Update
           </button>
         </div>
-
         <div className="profile-usermenu">
           <div className="profile-usertitle-name">ID</div>
           <div className="profile-usertitle-job">GRZLY17234</div>
@@ -34,4 +35,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default connect(null)(Profile);

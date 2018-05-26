@@ -57,7 +57,7 @@ class Navbar extends Component {
                 </li>
                 <li className="nav-item">
                   <button
-                    className="btn btn-outline-success my-2 my-sm-0 ml-sm-1 mr-sm-1"
+                    className="btn btn-outline-success btn-sm my-2 my-sm-0 ml-sm-1 mr-sm-1"
                     type="submit"
                   >
                     Search
@@ -69,7 +69,7 @@ class Navbar extends Component {
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link
-                  className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
+                  className="btn btn-outline-success btn-sm my-2 my-sm-0 mr-sm-2"
                   to="login"
                 >
                   Login
@@ -77,7 +77,7 @@ class Navbar extends Component {
               </li>
               <li className="nav-item">
                 <Link
-                  className="btn btn-outline-success my-2 my-sm-0"
+                  className="btn btn-outline-success btn-sm my-2 my-sm-0"
                   to="/signup"
                 >
                   SignUp

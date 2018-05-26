@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../common/TextFieldGroup";
 import grizzlyimg from "../../img/grizzly.png";
 
@@ -16,17 +17,17 @@ class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidMount() {
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/portal");
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.auth.isAuthenticated) {
+  //     this.props.history.push("/portal");
+  //   }
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.auth.isAuthenticated) {
-      this.props.history.push("/portal");
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.auth.isAuthenticated) {
+  //     this.props.history.push("/portal");
+  //   }
+  // }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -41,7 +42,7 @@ class Login extends Component {
       <div className="login">
         <div className="container">
           <div className="row">
-            <div className="col-md-8 m-auto">
+            <div className="col-md-4 m-auto">
               <img
                 src={grizzlyimg}
                 alt="Grizzly"
@@ -84,4 +85,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(withRouter(Login));

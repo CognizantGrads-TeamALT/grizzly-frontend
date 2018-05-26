@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 // import Loading from "../common/Loading";
-import Vendor from "./Vendor";
-import Products from "./Products";
-import Category from "./Category";
-import Profile from "./Profile";
+import Vendor from "./vendor/Vendor";
+import Products from "./products/Products";
+import Categories from "./categories/Categories";
+import Profile from "./profile/Profile";
 
-import "../../App.css";
-
-class Portal extends Component {
+class AdminPortal extends Component {
   render() {
     return (
       <div className="container">
@@ -81,7 +79,7 @@ class Portal extends Component {
                 role="tabpanel"
                 aria-labelledby="category-tab"
               >
-                <Category />
+                <Categories />
               </div>
             </div>
           </div>
@@ -91,4 +89,4 @@ class Portal extends Component {
   }
 }
 
-export default connect(null)(Portal);
+export default connect(null)(AdminPortal);

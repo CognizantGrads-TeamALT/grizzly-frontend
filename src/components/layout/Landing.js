@@ -13,8 +13,17 @@ class Landing extends Component {
         </header>
         <div className="App-intro">
           <Loading />
-          <Link className="btn btn-outline-success my-2 my-sm-0" to="/portal">
-            Check out the Portal Demo here
+          <Link
+            className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
+            to="/adminportal"
+          >
+            Admin Portal Demo
+          </Link>
+          <Link
+            className="btn btn-outline-success my-2 my-sm-0"
+            to="/vendorportal"
+          >
+            Vendor Portal Demo
           </Link>
         </div>
       </div>
