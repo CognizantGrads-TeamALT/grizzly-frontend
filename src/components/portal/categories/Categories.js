@@ -13,7 +13,7 @@ class Categories extends Component {
         >
           Add Category
         </button>
-        <table className="table table-hover">
+        <table className="table table-sm table-hover">
           <thead>
             <tr>
               <th scope="col">ID</th>
