@@ -7,7 +7,7 @@ class Vendor extends Component {
     return (
       <div>
         <SearchSort />
-        <table className="table table-hover">
+        <table className="table table-sm table-hover">
           <thead>
             <tr>
               <th scope="col">ID</th>

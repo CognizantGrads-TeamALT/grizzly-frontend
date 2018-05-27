@@ -7,25 +7,23 @@ import "../../App.css";
 class Landing extends Component {
   render() {
     return (
-      <div className="App">
+      <div>
         <header>
-          <h1 className="App-title">Welcome to Grizzly</h1>
+          <h3>Welcome to Grizzly</h3>
         </header>
-        <div className="App-intro">
-          <Loading />
-          <Link
-            className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
-            to="/adminportal"
-          >
-            Admin Portal Demo
-          </Link>
-          <Link
-            className="btn btn-outline-success my-2 my-sm-0"
-            to="/vendorportal"
-          >
-            Vendor Portal Demo
-          </Link>
-        </div>
+        <Loading />
+        <Link
+          className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
+          to="/adminportal"
+        >
+          Admin Portal Demo
+        </Link>
+        <Link
+          className="btn btn-outline-success my-2 my-sm-0"
+          to="/vendorportal"
+        >
+          Vendor Portal Demo
+        </Link>
       </div>
     );
   }

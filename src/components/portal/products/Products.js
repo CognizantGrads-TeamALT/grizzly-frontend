@@ -15,7 +15,7 @@ class Products extends Component {
         >
           Add Product
         </button>
-        <table className="table table-hover">
+        <table className="table table-sm table-hover">
           <thead>
             <tr>
               <th scope="col">ID</th>
