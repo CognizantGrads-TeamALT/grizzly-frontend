@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import logo from "../../img/logo.png";
 import Input from "../common/Input";
 
-var FontAwesome = require('react-fontawesome');
-
 class Navbar extends Component {
   constructor() {
     super();
