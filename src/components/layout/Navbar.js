@@ -80,7 +80,7 @@ class Navbar extends Component {
                   className="btn btn-outline-success btn-sm my-2 my-sm-0"
                   to="/signup"
                 >
-                  SignUp
+                  Sign Up
                 </Link>
               </li>
             </ul>
