@@ -6,10 +6,10 @@ class VendorList extends Component {
     console.log(vendor);
     return (
       <tr>
-        <th scope="row">{vendor.id}</th>
+        <th scope="row">{vendor.vendorId}</th>
         <td>{vendor.name}</td>
-        <td>{vendor.location}</td>
-        <td>{vendor.contact}</td>
+        <td>{vendor.website}</td>
+        <td>{vendor.contactNum}</td>
         <td>
           <button
             className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
