@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
 import SearchSort from "../common/SearchSort";
 import { getVendors } from "../../../actions/vendorActions";
@@ -13,16 +14,25 @@ class Vendor extends Component {
   render() {
     const { vendors, loading } = this.props.vendor;
     let vendorItem;
-    console.log(vendors);
     if (vendors === null || loading) {
-      // vendorItem = <Spinner />;
+      vendorItem = (
+        <tr>
+          <td>
+            <Spinner />
+          </td>
+        </tr>
+      );
     } else {
       if (vendors.length > 0) {
         vendorItem = vendors.map(vendor => (
-          <VendorList key={vendor.id} vendor={vendor} />
+          <VendorList key={vendor.vendorId} vendor={vendor} />
         ));
       } else {
-        // vendorItem = <p>No vendors found.</p>;
+        vendorItem = (
+          <tr>
+            <td>Not found</td>
+          </tr>
+        );
       }
     }
 
