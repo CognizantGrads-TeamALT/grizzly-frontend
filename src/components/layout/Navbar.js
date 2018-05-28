@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import logo from "../../img/logo.png";
 import Input from "../common/Input";
 
+var FontAwesome = require('react-fontawesome');
+
 class Navbar extends Component {
   constructor() {
     super();
@@ -43,33 +45,26 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          <div className="collapse navbar-collapse" id="mobile-nav">
-            <form onSubmit={this.onSubmit} className="form-inline mx-auto">
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Input
-                    type="search"
-                    name="search"
-                    placeholder="Search"
-                    value={this.state.search}
-                    onChange={this.onChange}
-                  />
-                </li>
-                <li className="nav-item">
-                  <button
-                    className="btn btn-outline-success btn-sm my-2 my-sm-0 ml-sm-1 mr-sm-1"
-                    type="submit"
-                  >
-                    Search
+          
+            
+
+          <div className="collapse navbar-collapse " id="mobile-nav">
+            <form onSubmit={this.onSubmit} className="more-rounded form-inline mx-auto">
+            <div class="search-form-custom col-mb-4">
+              <input class="form-control left-rounded border-right-0 border" type="search" placeholder="search" id="example-search-input" value={this.state.search} onChange={this.onChange}/>
+              <span class="input-group-append-more">
+                  <button class="btn btn-outline-success right-rounded border-left-0 border" type="button">
+                      <i class="fa fa-search"></i>
                   </button>
-                </li>
-              </ul>
+                </span>
+            </div>
+            
             </form>
 
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link
-                  className="btn btn-outline-success-secondary btn-sm my-2 my-sm-0 mr-sm-2"
+                  className=" btn more-rounded btn-outline-success-secondary btn-sm my-2 my-sm-0 mr-sm-2"
                   to="login"
                 >
                   Login
@@ -77,7 +72,7 @@ class Navbar extends Component {
               </li>
               <li className="nav-item">
                 <Link
-                  className="btn btn-outline-success-primary btn-sm my-2 my-sm-0"
+                  className="btn more-rounded btn-outline-success-primary btn-sm my-2 my-sm-0"
                   to="/signup"
                 >
                   Sign Up
