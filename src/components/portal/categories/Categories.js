@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchSort from "../common/SearchSort";
-
+import { Link } from "react-router-dom";
 class Categories extends Component {
   render() {
     return (
       <div>
         <SearchSort />
-        <button
+        <Link
           className="btn btn-outline-success btn-sm ml-sm-2 mr-sm-2"
-          type="submit"
+          to="/category/new"
         >
           Add Category
-        </button>
+        </Link>
         <table className="table table-sm table-hover">
           <thead>
             <tr>
