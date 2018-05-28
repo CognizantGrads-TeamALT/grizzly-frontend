@@ -2,6 +2,34 @@
   text-align: center;
 }
 
+
+/* Buttons */
+.btn {
+  border-radius: 4em;
+  padding: 0.5em 1.5em;
+}
+
+.btn-outline-success-primary {
+  background-color:#46B29D;
+  border-color: #46B29D;
+  color: white;
+}
+
+.btn-outline-success-primary:hover {
+  font-weight: bold;
+}
+
+.btn-outline-success-secondary {
+  background-color:white;
+  border-color:#46B29D;
+  color: #46B29D;
+}
+
+.btn-outline-success-secondary:hover {
+  font-weight: bold;
+}
+
+
 /* Profile container */
 .profile {
   margin: 20px 0;
