@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import logo from "../../img/logo.png";
-import Input from "../common/Input";
-
 
 class Navbar extends Component {
   constructor() {
@@ -44,9 +42,6 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          
-            
-
           <div className="collapse navbar-collapse" id="mobile-nav">
             <form onSubmit={this.onSubmit} className="form-inline mx-auto">
             <div className="search-form-custom">
@@ -58,8 +53,7 @@ class Navbar extends Component {
                       <i className="fa fa-search"></i>
                   </button>
                 </span>
-            </div>
-            
+              </div>
             </form>
 
             <ul className="navbar-nav ml-auto">
