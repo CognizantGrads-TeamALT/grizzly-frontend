@@ -24,7 +24,7 @@ class SearchSort extends Component {
     return (
       <div className="btn-group aligned-left mt-2 mb-2">
 
-          <form onSubmit={this.onSubmit} className="form-inline ml-0 mr-3">
+          <form onSubmit={this.onSubmit} className="form-inline ml-0 mr-1">
             <div class="search-form-custom">
               <input class="form-control left-rounded border-right-0 border" type="search" name="search" placeholder="Search" value={this.state.search} onChange={this.onChange}/>
               <span class="input-group-append-more">
