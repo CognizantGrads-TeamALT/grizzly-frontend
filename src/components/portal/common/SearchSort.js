@@ -22,9 +22,9 @@ class SearchSort extends Component {
   }
   render() {
     return (
-      <div className="btn-group mt-2 mb-2">
+      <div className="btn-group aligned-left mt-2 mb-2">
 
-          <form onSubmit={this.onSubmit} className="form-inline mx-auto">
+          <form onSubmit={this.onSubmit} className="form-inline ml-0 mr-3">
             <div class="search-form-custom">
               <input class="form-control left-rounded border-right-0 border" type="search" name="search" placeholder="Search" value={this.state.search} onChange={this.onChange}/>
               <span class="input-group-append-more">
@@ -39,7 +39,7 @@ class SearchSort extends Component {
 
         <button
           type="button"
-          className="btn more-rounded btn-outline-success btn-sm dropdown-toggle mr-sm-2"
+          className="btn more-rounded btn-outline-success dropdown-toggle mr-sm-2"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"

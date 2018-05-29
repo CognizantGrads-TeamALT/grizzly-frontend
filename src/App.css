@@ -227,3 +227,10 @@
   background: #fff;
   min-height: 460px;
 }
+
+
+/* Search bar */
+
+.btn-group.aligned-left {
+  text-align: left;
+}
