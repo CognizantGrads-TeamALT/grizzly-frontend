@@ -3,7 +3,6 @@ import React, { Component } from "react";
 class CategoriesList extends Component {
   render() {
     const { category } = this.props;
-    console.log(category);
     return (
       <tr>
         <th scope="row">{category.name}</th>
