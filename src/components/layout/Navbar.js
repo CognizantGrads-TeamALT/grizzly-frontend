@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import logo from "../../img/logo.png";
-import Input from "../common/Input";
-
 
 class Navbar extends Component {
   constructor() {
@@ -44,20 +42,26 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          
-            
-
           <div className="collapse navbar-collapse" id="mobile-nav">
             <form onSubmit={this.onSubmit} className="form-inline mx-auto">
-            <div className="search-form-custom">
-              <input className="form-control left-rounded border-right-0 border" type="search" placeholder="Search" id="example-search-input" value={this.state.search} onChange={this.onChange}/>
-              <span className="input-group-append-more">
-                  <button className="btn btn-outline-success right-rounded border-left-0 border" type="button">
-                      <i className="fa fa-search"></i>
+              <div className="search-form-custom">
+                <input
+                  className="form-control left-rounded border-right-0 border"
+                  type="search"
+                  placeholder="Search"
+                  id="example-search-input"
+                  value={this.state.search}
+                  onChange={this.onChange}
+                />
+                <span className="input-group-append-more">
+                  <button
+                    className="btn btn-outline-success right-rounded border-left-0 border"
+                    type="button"
+                  >
+                    <i className="fa fa-search" />
                   </button>
                 </span>
-            </div>
-            
+              </div>
             </form>
 
             <ul className="navbar-nav ml-auto">
