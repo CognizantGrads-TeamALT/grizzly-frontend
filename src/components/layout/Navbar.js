@@ -26,7 +26,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-sm mb-4">
+      <nav className="navbar navbar-expand-sm mb-4 text-center">
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img
@@ -71,7 +71,7 @@ class Navbar extends Component {
               </li>
               <li className="nav-item">
                 <Link
-                  className="btn left-rounded btn-outline-success-primary btn-sm my-2 my-sm-0"
+                  className="btn more-rounded btn-outline-success-primary btn-sm my-2 my-sm-0"
                   to="/signup"
                 >
                   Sign Up
