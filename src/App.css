@@ -9,10 +9,42 @@ griz-orange{
 
 
 /* Buttons */
-.more-rounded, .input-group-sm > .form-control {
+.more-rounded {
   border-radius: 4em;
   padding: 0.5em 1.5em;
 }
+
+.search-form-custom, .search-form-custom .form-control.left-rounded{
+  width: calc(83%);
+}
+
+.navbar-collapse > .form-inline {
+  width: 100%;
+}
+
+.form-control {
+  padding-top: .375rem;
+  padding-bottom: .375em;
+}
+
+.form-control.left-rounded {
+  padding-left: 24px;
+  padding-right: 5%;
+}
+
+@media screen and (max-width: 934px) {
+  .form-control.left-rounded {
+    width: calc(60%);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .form-control.left-rounded {
+    width: calc(50%);
+  }
+}
+
+
 
 .left-rounded {
   border-top-left-radius: 4em;
@@ -62,6 +94,27 @@ griz-orange{
   font-weight: bold;
   color: #46B29D;
 }
+
+/* Nav Bar */
+
+.full-parent-width::before {
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+
+@media screen and (max-width: 760px) {
+    .navbar-collapse > form {
+      display: none;
+    }
+
+    .form-control {
+      display: none;
+    }
+}
+
 
 
 /* Profile container */

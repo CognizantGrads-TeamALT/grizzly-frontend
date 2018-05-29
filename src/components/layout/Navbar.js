@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import logo from "../../img/logo.png";
 import Input from "../common/Input";
 
+
 class Navbar extends Component {
   constructor() {
     super();
@@ -47,8 +48,8 @@ class Navbar extends Component {
             
 
           <div className="collapse navbar-collapse " id="mobile-nav">
-            <form onSubmit={this.onSubmit} className="more-rounded form-inline mx-auto">
-            <div class="search-form-custom col-mb-4">
+            <form onSubmit={this.onSubmit} className="form-inline mx-auto">
+            <div class="search-form-custom">
               <input class="form-control left-rounded border-right-0 border" type="search" placeholder="search" id="example-search-input" value={this.state.search} onChange={this.onChange}/>
               <span class="input-group-append-more">
                   <button class="btn btn-outline-success right-rounded border-left-0 border" type="button">
