@@ -13,7 +13,7 @@ class AdminPortal extends Component {
         <div className="col-md-3 m-auto">
           <Profile />
         </div>
-        <div className="col-md-9 m-auto">
+        <div className="col-md-9">
           <ul className="nav nav-tabs" id="myTab" role="tablist">
             <li className="nav-item">
               <a

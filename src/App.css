@@ -6,7 +6,7 @@
 
 
 /* Buttons */
-.more-rounded {
+.btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:first-child), .btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:last-child):not(.dropdown-toggle), .more-rounded {
   border-radius: 4em;
   padding: 0.5em 1.5em;
 }
@@ -68,6 +68,18 @@
   display: flex;
 }
 
+.btn-outline-success {
+  color: #46B29D;
+  background-color: transparent;
+  background-image: none;
+  border-color: #46B29D;
+}
+
+.btn-outline-success:hover, .btn-outline-success:not(:disabled):not(.disabled).active, .btn-outline-success:not(:disabled):not(.disabled):active, .show>.btn-outline-success.dropdown-toggle {
+  background-color:#46B29D;
+  border-color: #46B29D;
+}
+
 .btn-outline-success-primary {
   background-color:#46B29D;
   border-color: #46B29D;
@@ -89,6 +101,8 @@
   font-weight: bold;
   color: #46B29D;
 }
+
+
 
 /* Nav Bar */
 

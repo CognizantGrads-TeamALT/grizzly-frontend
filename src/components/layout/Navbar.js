@@ -63,7 +63,7 @@ class Navbar extends Component {
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link
-                  className=" btn more-rounded btn-outline-success-secondary btn-sm my-2 my-sm-0 mr-sm-2"
+                  className=" btn left-rounded btn-outline-success-secondary btn-sm my-2 my-sm-0 mr-sm-2"
                   to="login"
                 >
                   Login
@@ -71,7 +71,7 @@ class Navbar extends Component {
               </li>
               <li className="nav-item">
                 <Link
-                  className="btn more-rounded btn-outline-success-primary btn-sm my-2 my-sm-0"
+                  className="btn left-rounded btn-outline-success-primary btn-sm my-2 my-sm-0"
                   to="/signup"
                 >
                   Sign Up
