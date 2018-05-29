@@ -1,7 +1,4 @@
 /* General */
-griz-orange{
-  color: #324D5C;
-}
 
 .App {
   text-align: center;
@@ -43,8 +40,6 @@ griz-orange{
     width: calc(50%);
   }
 }
-
-
 
 .left-rounded {
   border-top-left-radius: 4em;
@@ -114,8 +109,6 @@ griz-orange{
       display: none;
     }
 }
-
-
 
 /* Profile container */
 .profile {
