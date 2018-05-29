@@ -8,7 +8,7 @@ class Profile extends Component {
       <div className="text-center profile-sidebar">
         <div className="profile-header">
           <div className="profile-header-text">Profile
-             <button type="button" className="btn btn-link profile-header-button">
+             <button type="button" className="btn btn-link hover-def-plain-b profile-header-button">
               Edit
             </button>
           </div>

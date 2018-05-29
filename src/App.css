@@ -1,11 +1,8 @@
 /* Buttons */
 .btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:first-child), .btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:last-child):not(.dropdown-toggle), .more-rounded {
   border-radius: 4em;
-  padding: 0.5em 1.5em;
-}
-
-.search-form-custom, .search-form-custom .form-control.left-rounded{
-  width: calc(83%);
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 
 .navbar-collapse > .form-inline {
@@ -19,19 +16,13 @@
 
 .form-control.left-rounded {
   padding-left: 24px;
-  padding-right: 5%;
 }
 
-@media screen and (max-width: 934px) {
-  .form-control.left-rounded {
-    width: calc(60%);
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .form-control.left-rounded {
-    width: calc(50%);
-  }
+.search-form-custom::before , .search-form-custom > input::before{
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
 
 .left-rounded {
@@ -71,30 +62,6 @@
   background-color:#46B29D;
   border-color: #46B29D;
 }
-
-.btn-outline-success-primary {
-  background-color:#46B29D;
-  border-color: #46B29D;
-  color: white;
-}
-
-.btn-outline-success-primary:hover, .btn-outline-success-primary > a:hover {
-  font-weight: bold;
-  color: white;
-}
-
-.btn-outline-success-secondary {
-  background-color:white;
-  border-color:#46B29D;
-  color: #46B29D;
-}
-
-.btn-outline-success-secondary:hover, .btn-outline-success-secondary > a:hover  {
-  font-weight: bold;
-  color: #46B29D;
-}
-
-
 
 /* Nav Bar */
 
@@ -168,6 +135,11 @@
   -webkit-border-radius: 30% !important;
   -moz-border-radius: 30% !important;
   border-radius: 30% !important;
+}
+
+.profile-userpic > img {
+  max-width: 100px;
+  max-height: 100px;
 }
 
 
@@ -276,8 +248,28 @@ a {
   color: #46B29D;
 }
 
-.hover-w-txt:hover {
+a:hover {
+  color: #324D5C;
+}
+
+.hover-w-b:hover, .hover-t-b {
   color: white;
+  background-color: #45B29D;
+  border-color: #45B29D;
+}
+
+.hover-t-b:hover, .hover-w-b {
+  color: #46B29D;
+  background-color: white;
+  border-color: #45B29D;
+}
+
+.hover-def-plain-b {
+  color: black;
+}
+
+.hover-def-plain-b:hover {
+  color: #324D5C;
 }
 
 .griz-t-color {
