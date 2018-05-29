@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import PropTypes from "prop-types";
 
-const Input = ({ name, placeholder, value, error, icon, type, onChange }) => {
+const Input = ({ name, placeholder, value, error, type, onChange }) => {
   return (
     <div className="input-group input-group-sm">
       <input
@@ -14,6 +14,7 @@ const Input = ({ name, placeholder, value, error, icon, type, onChange }) => {
         type={type}
         value={value}
         onChange={onChange}
+        
       />
     </div>
   );
@@ -25,6 +26,7 @@ Input.propTypes = {
   value: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired
+  
 };
 
 Input.defaultProps = {
