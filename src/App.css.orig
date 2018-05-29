@@ -264,6 +264,7 @@
   margin-left: -2px;
 }
 
+<<<<<<< HEAD
 /* Profile Content */
 .profile-content {
   padding: 20px;
@@ -343,3 +344,6 @@
 .griz-yellow-brdrc {
   border-color: #F0CA4D;
 }
+=======
+
+>>>>>>> 902cecbaf98819944ea78bec9e0707b491344636

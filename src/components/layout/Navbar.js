@@ -47,13 +47,13 @@ class Navbar extends Component {
           
             
 
-          <div className="collapse navbar-collapse " id="mobile-nav">
+          <div className="collapse navbar-collapse" id="mobile-nav">
             <form onSubmit={this.onSubmit} className="form-inline mx-auto">
-            <div class="search-form-custom">
-              <input class="form-control left-rounded border-right-0 border" type="search" placeholder="search" id="example-search-input" value={this.state.search} onChange={this.onChange}/>
-              <span class="input-group-append-more">
-                  <button class="btn btn-outline-success right-rounded border-left-0 border" type="button">
-                      <i class="fa fa-search"></i>
+            <div className="search-form-custom">
+              <input className="form-control left-rounded border-right-0 border" type="search" placeholder="Search" id="example-search-input" value={this.state.search} onChange={this.onChange}/>
+              <span className="input-group-append-more">
+                  <button className="btn btn-outline-success right-rounded border-left-0 border" type="button">
+                      <i className="fa fa-search"></i>
                   </button>
                 </span>
             </div>
@@ -63,7 +63,7 @@ class Navbar extends Component {
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link
-                  className=" btn left-rounded btn-outline-success-secondary btn-sm my-2 my-sm-0 mr-sm-2"
+                  className="btn more-rounded btn-outline-success-secondary btn-sm my-2 my-sm-0 mr-sm-2"
                   to="login"
                 >
                   Login
