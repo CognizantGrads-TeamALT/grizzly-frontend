@@ -2,8 +2,6 @@ import { GET_VENDORS, VENDOR_LOADING } from "./types";
 import { VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
-const 
-
 // Get Vendor List
 export const getVendors = () => dispatch => {
   dispatch(setVendorLoading());
