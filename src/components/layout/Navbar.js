@@ -44,21 +44,13 @@ class Navbar extends Component {
 
           <div className="collapse navbar-collapse" id="mobile-nav">
             <form onSubmit={this.onSubmit} className="form-inline mx-auto">
-              <div className="search-form-custom">
-                <input
-                  className="form-control left-rounded border-right-0 border"
-                  type="search"
-                  placeholder="Search"
-                  id="example-search-input"
-                  value={this.state.search}
-                  onChange={this.onChange}
-                />
-                <span className="input-group-append-more">
-                  <button
-                    className="btn btn-outline-success right-rounded border-left-0 border"
-                    type="button"
-                  >
-                    <i className="fa fa-search" />
+            <div className="search-form-custom">
+              <input className="form-control left-rounded border-right-0 border" type="search" 
+                  placeholder="Search" id="example-search-input" defaultValue={this.state.search} 
+                  onChange={this.onChange}/>
+              <span className="input-group-append-more">
+                  <button className="btn btn-outline-success right-rounded border-left-0 border" type="button">
+                      <i className="fa fa-search"></i>
                   </button>
                 </span>
               </div>
