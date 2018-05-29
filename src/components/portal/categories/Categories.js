@@ -1,111 +1,68 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Spinner from "../../common/Spinner";
+import PropTypes from "prop-types";
 import SearchSort from "../common/SearchSort";
-import { Link } from "react-router-dom";
-class Categories extends Component {
+import { getCategories } from "../../../actions/categoryActions";
+import CategoriesList from "./CategoriesList";
+
+class Category extends Component {
+  componentDidMount() {
+    this.props.getCategories();
+  }
+
   render() {
+    const { categories, loading } = this.props.category;
+
+    let categoryItem;
+    if (categories === null || loading) {
+      categoryItem = (
+        <tr>
+          <td>
+            <Spinner />
+          </td>
+        </tr>
+      );
+    } else {
+      if (categories.length > 0) {
+        categoryItem = categories.map(category => (
+          <CategoriesList key={category.categoryId} category={category} />
+        ));
+      } else {
+        categoryItem = (
+          <tr>
+            <td>Not found</td>
+          </tr>
+        );
+      }
+    }
+
     return (
       <div>
         <SearchSort />
-        <Link
-          className="btn btn-outline-success btn-sm ml-sm-2 mr-sm-2"
-          to="/category/new"
-        >
-          Add Category
-        </Link>
         <table className="table table-sm table-hover">
           <thead>
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Category</th>
+              <th scope="col">Category Name</th>
               <th scope="col">Description</th>
-              <th scope="col">Description</th>
+              <th scope="col">Products</th>
               <th scope="col" />
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>
-                <button
-                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Block
-                </button>
-                <button
-                  className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td>
-                <button
-                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Block
-                </button>
-                <button
-                  className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>
-                <button
-                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Block
-                </button>
-                <button
-                  className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-                  type="button"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody>{categoryItem}</tbody>
         </table>
       </div>
     );
   }
 }
-export default connect(null)(Categories);
+
+Category.propTypes = {
+  getCategories: PropTypes.func.isRequired,
+  category: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  category: state.category
+});
+
+export default connect(mapStateToProps, { getCategories })(Category);
