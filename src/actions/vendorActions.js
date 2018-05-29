@@ -2,8 +2,6 @@ import { GET_VENDORS, VENDOR_LOADING } from "./types";
 import { VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
-const 
-
 // Get Vendor List
 export const getVendors = () => dispatch => {
   dispatch(setVendorLoading());
@@ -47,7 +45,7 @@ export const searchVendors = keyword => dispatch => {
   dispatch(setVendorLoading());
   const { search } = keyword;
   axios
-    .get(API_GATEWAY + `/vendor/search/${search}`)
+    .get(VENDOR_API_GATEWAY + `/vendor/search/${search}`)
     .then(res =>
       dispatch({
         type: GET_VENDORS,
