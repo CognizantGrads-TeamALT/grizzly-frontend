@@ -35,7 +35,7 @@ class SearchSort extends Component {
   render() {
     return (
       <div className="btn-group aligned-left mt-2 mb-2">
-        <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
+        <form className="form-inline ml-0 mr-1">
           <div className="search-form-custom">
             <input
               className="form-control left-rounded border-right-0 border"
@@ -47,6 +47,7 @@ class SearchSort extends Component {
             />
             <span className="input-group-append-more">
               <button
+                onClick={this.onSearch}
                 className="btn btn-outline-success right-rounded border-left-0 border"
                 type="button"
               >
