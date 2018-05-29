@@ -1,5 +1,113 @@
+/* General */
+
 .App {
   text-align: center;
+}
+
+
+/* Buttons */
+.more-rounded {
+  border-radius: 4em;
+  padding: 0.5em 1.5em;
+}
+
+.search-form-custom, .search-form-custom .form-control.left-rounded{
+  width: calc(83%);
+}
+
+.navbar-collapse > .form-inline {
+  width: 100%;
+}
+
+.form-control {
+  padding-top: .375rem;
+  padding-bottom: .375em;
+}
+
+.form-control.left-rounded {
+  padding-left: 24px;
+  padding-right: 5%;
+}
+
+@media screen and (max-width: 934px) {
+  .form-control.left-rounded {
+    width: calc(60%);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .form-control.left-rounded {
+    width: calc(50%);
+  }
+}
+
+.left-rounded {
+  border-top-left-radius: 4em;
+  border-bottom-left-radius: 4em;
+}
+
+.right-rounded {
+  border-top-right-radius: 4em;
+  border-bottom-right-radius: 4em;
+}
+
+.search-form-custom {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  width: 100%;
+  
+}
+
+.input-group-append-more {
+  margin-left: 0px;
+  display: flex;
+}
+
+.btn-outline-success-primary {
+  background-color:#46B29D;
+  border-color: #46B29D;
+  color: white;
+}
+
+.btn-outline-success-primary:hover, .btn-outline-success-primary > a:hover {
+  font-weight: bold;
+  color: white;
+}
+
+.btn-outline-success-secondary {
+  background-color:white;
+  border-color:#46B29D;
+  color: #46B29D;
+}
+
+.btn-outline-success-secondary:hover, .btn-outline-success-secondary > a:hover  {
+  font-weight: bold;
+  color: #46B29D;
+}
+
+/* Nav Bar */
+
+.full-parent-width::before {
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+
+@media screen and (max-width: 760px) {
+    .navbar-collapse > form {
+      display: none;
+    }
+
+    .form-control {
+      display: none;
+    }
 }
 
 /* Profile container */
