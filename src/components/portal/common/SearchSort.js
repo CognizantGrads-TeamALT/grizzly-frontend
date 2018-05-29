@@ -43,25 +43,22 @@ class SearchSort extends Component {
 
   render() {
     return (
-      <div className="btn-group mt-2 mb-2">
-        <form onSubmit={this.onSearch}>
-          <Input
-            type="search"
-            name="search"
-            placeholder="Search"
-            value={this.state.search}
-            onChange={this.onChange}
-          />
-          <button
-            className="btn btn-outline-success btn-sm ml-sm-2 mr-sm-2"
-            type="submit"
-          >
-            Search
-          </button>
+      <div className="btn-group aligned-left mt-2 mb-2">
+
+          <form onSubmit={this.onSearch} className="form-inline ml-0 mr-3">
+            <div className="search-form-custom">
+              <input className="form-control left-rounded border-right-0 border" type="search" name="search" placeholder="Search" value={this.state.search} onChange={this.onChange}/>
+              <span className="input-group-append-more">
+                  <button className="btn btn-outline-success right-rounded border-left-0 border" type="button">
+                      <i className="fa fa-search"></i>
+                  </button>
+                </span>
+            </div>
+            
         </form>
         <button
           type="button"
-          className="btn btn-outline-success btn-sm dropdown-toggle mr-sm-2"
+          className="btn more-rounded btn-outline-success dropdown-toggle mr-sm-2"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"

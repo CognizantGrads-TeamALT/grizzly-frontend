@@ -24,7 +24,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-sm mb-4">
+      <nav className="navbar navbar-expand-sm mb-4 text-center">
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img

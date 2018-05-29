@@ -5,7 +5,7 @@ import photoID from "../../../img/photoID.png";
 class Profile extends Component {
   render() {
     return (
-      <div className="profile-sidebar">
+      <div className="text-center profile-sidebar">
         <div className="profile-header">
           <div className="profile-header-text">Profile
              <button type="button" className="btn btn-link profile-header-button">

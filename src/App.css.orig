@@ -1,3 +1,10 @@
+/* General */
+
+.App {
+  text-align: center;
+}
+
+
 /* Buttons */
 .btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:first-child), .btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:last-child):not(.dropdown-toggle), .more-rounded {
   border-radius: 4em;
@@ -257,6 +264,7 @@
   margin-left: -2px;
 }
 
+<<<<<<< HEAD
 /* Profile Content */
 .profile-content {
   padding: 20px;
@@ -272,9 +280,6 @@
 }
 
 /* Colours */
-a {
-  color: #46B29D;
-}
 
 .hover-w-txt:hover {
   color: white;
@@ -339,3 +344,6 @@ a {
 .griz-yellow-brdrc {
   border-color: #F0CA4D;
 }
+=======
+
+>>>>>>> 902cecbaf98819944ea78bec9e0707b491344636

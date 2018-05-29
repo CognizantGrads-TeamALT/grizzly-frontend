@@ -13,11 +13,11 @@ class AdminPortal extends Component {
         <div className="col-md-3 m-auto">
           <Profile />
         </div>
-        <div className="col-md-9 m-auto">
-          <ul className="nav nav-tabs" id="myTab" role="tablist">
-            <li className="nav-item">
+        <div className="col-md-9">
+          <ul className="nav nav-tabs row" id="myTab" role="tablist">
+            <li className="nav-item col pl-0 pr-0">
               <a
-                className="nav-link active btn-outline-success my-2 my-sm-0"
+                className="nav-link active row-smbtn-outline-success my-2 my-sm-0"
                 id="products-tab"
                 data-toggle="tab"
                 href="#products"
@@ -28,7 +28,7 @@ class AdminPortal extends Component {
                 PRODUCTS
               </a>
             </li>
-            <li className="nav-item">
+            <li className="nav-item col pl-0 pr-0">
               <a
                 className="nav-link btn-outline-success my-2 my-sm-0"
                 id="vendors-tab"
@@ -41,7 +41,7 @@ class AdminPortal extends Component {
                 VENDORS
               </a>
             </li>
-            <li className="nav-item">
+            <li className="nav-item col pl-0 pr-0">
               <a
                 className="nav-link btn-outline-success my-2 my-sm-0"
                 id="category-tab"
