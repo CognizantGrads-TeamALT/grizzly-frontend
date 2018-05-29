@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-
 class VendorList extends Component {
   render() {
     const { vendor } = this.props;
-    console.log(vendor);
     return (
       <tr>
         <th scope="row">{vendor.vendorId}</th>
