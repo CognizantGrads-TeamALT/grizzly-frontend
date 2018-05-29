@@ -272,6 +272,9 @@
 }
 
 /* Colours */
+a {
+  color: #46B29D;
+}
 
 .hover-w-txt:hover {
   color: white;
