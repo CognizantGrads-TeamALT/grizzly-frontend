@@ -127,11 +127,12 @@
 }
 
 .profile-header{
-  text-align: center;
+  text-align: left;
   text-emphasis: bold;
   font-size: 20px;
-
+  float: middle;
 }
+
 .profile-header-text{
   background: #e0e0e0;
   padding-left: 5%;
@@ -139,6 +140,15 @@
   text-transform: uppercase;
   padding-top: .4em;
   padding-bottom: .4em;
+}
+
+.profile-header-button{
+  color:black;
+  float: right;
+  padding-top: .05em;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: .4em;
 }
 
 .smaller-profile-box{
