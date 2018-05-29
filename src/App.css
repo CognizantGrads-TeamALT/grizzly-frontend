@@ -130,11 +130,15 @@
   text-align: center;
   text-emphasis: bold;
   font-size: 20px;
+
 }
 .profile-header-text{
   background: #e0e0e0;
   padding-left: 5%;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  padding-top: .4em;
+  padding-bottom: .4em;
 }
 
 .smaller-profile-box{
@@ -156,12 +160,10 @@
   left: 0;
   right:0;
   top: 0;
-  
 }
 
 .profile-header-text{
   color:black;
-
 }
 
 .profile-usertitle {
