@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
-import SearchSort from "../common/SearchSort";
+import CategorySearchSort from "../common/CategorySearchSort";
 import { getCategories } from "../../../actions/categoryActions";
 import CategoriesList from "./CategoriesList";
 
 class Category extends Component {
-  componentDidMount() {
-    this.props.getCategories();
-  }
+  // componentDidMount() {
+  //   this.props.getCategories();
+  // }
 
   render() {
     const { categories, loading } = this.props.category;
@@ -31,7 +31,7 @@ class Category extends Component {
       } else {
         categoryItem = (
           <tr>
-            <td>Not found</td>
+            <Spinner />
           </tr>
         );
       }
@@ -39,7 +39,7 @@ class Category extends Component {
 
     return (
       <div>
-        <SearchSort />
+        <CategorySearchSort />
         <table className="table table-sm table-hover">
           <thead>
             <tr>

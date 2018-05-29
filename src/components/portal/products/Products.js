@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SearchSort from "../common/SearchSort";
+import ProductSearchSort from "../common/ProductSearchSort";
 import CategoryFilter from "../common/CategoryFilter";
 
 class Products extends Component {
   render() {
     return (
       <div>
-        <SearchSort />
+        <ProductSearchSort />
         <CategoryFilter />
         <button
           className="btn btn-outline-success btn-sm ml-sm-2 mr-sm-2"

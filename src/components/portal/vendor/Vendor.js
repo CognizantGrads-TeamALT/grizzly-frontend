@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
-import SearchSort from "../common/SearchSort";
+import VendorSearchSort from "../common/VendorSearchSort";
 import { getVendors } from "../../../actions/vendorActions";
 import VendorList from "./VendorList";
 
 class Vendor extends Component {
-  componentDidMount() {
-    this.props.getVendors();
-  }
+  // componentDidMount() {
+  //   this.props.getVendors();
+  // }
 
   render() {
     const { vendors, loading } = this.props.vendor;
@@ -30,7 +30,9 @@ class Vendor extends Component {
       } else {
         vendorItem = (
           <tr>
-            <td>Not found</td>
+            <td>
+              <Spinner />
+            </td>
           </tr>
         );
       }
@@ -38,7 +40,7 @@ class Vendor extends Component {
 
     return (
       <div>
-        <SearchSort />
+        <VendorSearchSort />
         <table className="table table-sm table-hover">
           <thead>
             <tr>

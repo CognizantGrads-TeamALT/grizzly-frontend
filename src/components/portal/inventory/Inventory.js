@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import SearchSort from "../common/SearchSort";
+import InventorySearchSort from "../common/InventorySearchSort";
 
 class Inventory extends Component {
   render() {
     return (
       <div>
-        <SearchSort />
+        <InventorySearchSort />
         <table className="table table-sm table-hover">
           <thead>
             <tr>
