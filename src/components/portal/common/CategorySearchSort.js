@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { searchVendors } from "../../../actions/vendorActions";
+import CategoryForm from "../categories/CategoryForm";
 class CategorySearchSort extends Component {
   constructor() {
     super();
@@ -72,6 +73,11 @@ class CategorySearchSort extends Component {
             Location
           </button>
         </div>
+        <CategoryForm
+                  buttonLabel="Login"
+                  title="Login"
+                  actionLabel="Login"
+                />
       </div>
     );
   }
