@@ -99,6 +99,14 @@
   margin: 20px 0;
 }
 
+.align-center{
+  align-content: center;
+}
+
+.flex-grow-04{
+  flex-grow:0.4;
+}
+
 /* Profile sidebar */
 .profile-sidebar {
   padding-top: 0;
