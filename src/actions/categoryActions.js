@@ -27,13 +27,10 @@ export const getCategories = () => dispatch => {
 };
 
 // Add Category
-export const addCategory = (name, desc) => dispatch => {
+export const addCategory = newCat => dispatch => {
   dispatch(setCategoryAdding());
   axios
-    .post(CATEGORY_API_GATEWAY + "/all/default", {
-      name,
-      desc
-    })
+    .put(CATEGORY_API_GATEWAY + "/add", newCat)
     .then(res => dispatch(getCategories()))
     .catch(err =>
       dispatch({

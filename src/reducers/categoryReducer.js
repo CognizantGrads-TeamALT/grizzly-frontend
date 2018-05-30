@@ -1,4 +1,8 @@
-import { GET_CATEGORIES, CATEGORY_LOADING } from "../actions/types";
+import {
+  GET_CATEGORIES,
+  CATEGORY_LOADING,
+  CATEGORY_ADDING
+} from "../actions/types";
 
 const initialState = {
   categories: null
@@ -16,6 +20,11 @@ export default function(state = initialState, action) {
         ...state,
         categories: action.payload,
         loading: false
+      };
+    case CATEGORY_ADDING:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;

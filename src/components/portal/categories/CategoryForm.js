@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../../common/TextFieldGroup";
 import TextAreaFieldGroup from "../../common/TextAreaFieldGroup";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { addCategory } from "../../../actions/categoryActions";
 
 class CategoryForm extends Component {
   constructor(props) {
@@ -33,8 +34,16 @@ class CategoryForm extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    // Do stuff here
+    const newCat = {
+      name: this.state.catname,
+      description: this.state.description
+    };
 
+    this.props.addCategory(newCat);
+    this.setState({
+      catname: "",
+      description: ""
+    });
     this.onToggle();
   }
 
@@ -55,10 +64,10 @@ class CategoryForm extends Component {
           <ModalHeader toggle={this.onToggle}>Add Category</ModalHeader>
           <ModalBody>
             <form onSubmit={this.onSubmit}>
-            <div className="row">
-              <div className="col-sm text-right flex-grow-04">
+              <div className="row">
+                <div className="col-sm text-right flex-grow-04">
                   <text>Category Name</text>
-              </div>
+                </div>
                 <div className="col-md">
                   <TextFieldGroup
                     placeholder="Category Name"
@@ -68,20 +77,20 @@ class CategoryForm extends Component {
                     onChange={this.onChange}
                   />
                 </div>
-            </div>
-            <div className="row">
-              <div className="col-sm text-right flex-grow-04">
+              </div>
+              <div className="row">
+                <div className="col-sm text-right flex-grow-04">
                   <text>Category Description</text>
-              </div>
+                </div>
                 <div className="col-md">
-              <TextAreaFieldGroup
-                placeholder="Category Description"
-                name="description"
-                type="description"
-                value={this.state.description}
-                onChange={this.onChange}
-              />
-              </div>
+                  <TextAreaFieldGroup
+                    placeholder="Category Description"
+                    name="description"
+                    type="description"
+                    value={this.state.description}
+                    onChange={this.onChange}
+                  />
+                </div>
               </div>
             </form>
           </ModalBody>
@@ -91,7 +100,7 @@ class CategoryForm extends Component {
                 className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-3"
                 onClick={this.onSubmit}
               >
-                done
+                Submit
               </Button>
 
               <Button
@@ -109,11 +118,14 @@ class CategoryForm extends Component {
 }
 
 CategoryForm.propTypes = {
-  auth: PropTypes.object.isRequired
+  category: PropTypes.object.isRequired,
+  addCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  category: state.category
 });
 
-export default connect(mapStateToProps)(withRouter(CategoryForm));
+export default connect(mapStateToProps, { addCategory })(
+  withRouter(CategoryForm)
+);
