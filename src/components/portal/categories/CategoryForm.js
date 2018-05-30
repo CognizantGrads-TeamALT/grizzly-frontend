@@ -4,30 +4,27 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../../common/TextFieldGroup";
 import TextAreaFieldGroup from "../../common/TextAreaFieldGroup";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 class CategoryForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      modal: false,
       catname: "",
       description: ""
     };
 
+    this.onToggle = this.onToggle.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  // componentDidMount() {
-  //   if (this.props.auth.isAuthenticated) {
-  //     this.props.history.push("/portal");
-  //   }
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.auth.isAuthenticated) {
-  //     this.props.history.push("/portal");
-  //   }
-  // }
+  onToggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -35,40 +32,63 @@ class CategoryForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+
+    // Do stuff here
+
+    this.onToggle();
   }
 
   render() {
     return (
-      <div className="login">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6 m-auto">
-              <h3 className="lead text-center">
-                <strong>Add Category</strong>
-              </h3>
-              <form onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  placeholder="Category Name"
-                  name="catname"
-                  type="catname"
-                  value={this.state.catname}
-                  onChange={this.onChange}
-                />
-                <TextAreaFieldGroup
-                  placeholder="Category Description"
-                  name="description"
-                  type="description"
-                  value={this.state.description}
-                  onChange={this.onChange}
-                />
-                <input
-                  type="submit"
-                  className="btn btn-outline-success btn-block mt-4"
-                />
-              </form>
+      <div className="form-group mb-0">
+        <input
+          type="button"
+          value="Add Category"
+          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+          onClick={this.onToggle}
+        />
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          className={this.props.className}
+        >
+          <ModalHeader toggle={this.onToggle}>Add Category</ModalHeader>
+          <ModalBody>
+            <form onSubmit={this.onSubmit}>
+              <TextFieldGroup
+                placeholder="Category Name"
+                name="catname"
+                type="catname"
+                value={this.state.catname}
+                onChange={this.onChange}
+              />
+              <TextAreaFieldGroup
+                placeholder="Category Description"
+                name="description"
+                type="description"
+                value={this.state.description}
+                onChange={this.onChange}
+              />
+            </form>
+          </ModalBody>
+          <ModalFooter>
+            <div>
+              <Button
+                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-3"
+                onClick={this.onSubmit}
+              >
+                done
+              </Button>
+
+              <Button
+                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
+                onClick={this.onToggle}
+              >
+                Cancel
+              </Button>
             </div>
-          </div>
-        </div>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }

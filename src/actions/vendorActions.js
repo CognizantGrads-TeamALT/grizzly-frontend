@@ -1,4 +1,9 @@
-import { GET_VENDORS, VENDOR_LOADING } from "./types";
+import {
+  GET_VENDORS,
+  VENDOR_LOADING,
+  VENDOR_DELETING,
+  GET_ERRORS
+} from "./types";
 import { VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
@@ -63,5 +68,26 @@ export const searchVendors = keyword => dispatch => {
 export const setVendorLoading = () => {
   return {
     type: VENDOR_LOADING
+  };
+};
+
+// Delete Vendor
+export const deleteVendor = id => dispatch => {
+  dispatch(setVendorDeleting());
+  axios
+    .delete(VENDOR_API_GATEWAY + `/delete/${id}`)
+    .then(res => dispatch(getVendors()))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Vendor loading
+export const setVendorDeleting = () => {
+  return {
+    type: VENDOR_DELETING
   };
 };
