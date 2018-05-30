@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { searchVendors } from "../../../actions/vendorActions";
-class SearchSort extends Component {
+class ProductSearchSort extends Component {
   constructor() {
     super();
     this.state = {
@@ -81,7 +81,7 @@ class SearchSort extends Component {
   }
 }
 
-SearchSort.propTypes = {
+ProductSearchSort.propTypes = {
   searchVendors: PropTypes.func.isRequired,
   vendor: PropTypes.object.isRequired
 };
@@ -90,4 +90,4 @@ const mapStateToProps = state => ({
   vendor: state.vendor
 });
 
-export default connect(mapStateToProps, { searchVendors })(SearchSort);
+export default connect(mapStateToProps, { searchVendors })(ProductSearchSort);
