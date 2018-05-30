@@ -91,7 +91,7 @@ class CategoryForm extends Component {
                 className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-3"
                 onClick={this.onSubmit}
               >
-                done
+                Done
               </Button>
 
               <Button
