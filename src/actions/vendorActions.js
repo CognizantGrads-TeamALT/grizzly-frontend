@@ -73,21 +73,18 @@ export const setVendorLoading = () => {
 
 // Delete Vendor
 export const deleteVendor = id => dispatch => {
-  dispatch(setVendorDeleting());
   axios
     .delete(VENDOR_API_GATEWAY + `/delete/${id}`)
-    .then(res => dispatch(getVendors()))
+    .then(res =>
+      dispatch({
+        type: VENDOR_DELETING,
+        payload: id
+      })
+    )
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
       })
     );
-};
-
-// Vendor loading
-export const setVendorDeleting = () => {
-  return {
-    type: VENDOR_DELETING
-  };
 };

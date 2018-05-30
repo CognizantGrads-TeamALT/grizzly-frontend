@@ -1,4 +1,4 @@
-import { GET_VENDORS, VENDOR_LOADING } from "../actions/types";
+import { GET_VENDORS, VENDOR_LOADING, VENDOR_DELETING } from "../actions/types";
 
 const initialState = {
   vendors: null
@@ -16,6 +16,13 @@ export default function(state = initialState, action) {
         ...state,
         vendors: action.payload,
         loading: false
+      };
+    case VENDOR_DELETING:
+      return {
+        ...state,
+        vendors: state.vendors.filter(
+          vendor => vendor.vendorId !== action.payload
+        )
       };
     default:
       return state;
