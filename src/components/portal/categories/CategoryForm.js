@@ -55,13 +55,25 @@ class CategoryForm extends Component {
           <ModalHeader toggle={this.onToggle}>Add Category</ModalHeader>
           <ModalBody>
             <form onSubmit={this.onSubmit}>
-              <TextFieldGroup
-                placeholder="Category Name"
-                name="catname"
-                type="catname"
-                value={this.state.catname}
-                onChange={this.onChange}
-              />
+            <div className="row">
+              <div className="col-sm text-right flex-grow-04">
+                  <text>Category Name</text>
+              </div>
+                <div className="col-md">
+                  <TextFieldGroup
+                    placeholder="Category Name"
+                    name="catname"
+                    type="catname"
+                    value={this.state.catname}
+                    onChange={this.onChange}
+                  />
+                </div>
+            </div>
+            <div className="row">
+              <div className="col-sm text-right flex-grow-04">
+                  <text>Category Description</text>
+              </div>
+                <div className="col-md">
               <TextAreaFieldGroup
                 placeholder="Category Description"
                 name="description"
@@ -69,6 +81,8 @@ class CategoryForm extends Component {
                 value={this.state.description}
                 onChange={this.onChange}
               />
+              </div>
+              </div>
             </form>
           </ModalBody>
           <ModalFooter>
