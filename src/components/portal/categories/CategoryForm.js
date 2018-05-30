@@ -40,7 +40,7 @@ class CategoryForm extends Component {
 
   render() {
     return (
-      <div className="form-group">
+      <div className="form-group mb-0">
         <input
           type="button"
           value="Add Category"
@@ -52,7 +52,7 @@ class CategoryForm extends Component {
           toggle={this.toggle}
           className={this.props.className}
         >
-          <ModalHeader toggle={this.onToggle}>Login</ModalHeader>
+          <ModalHeader toggle={this.onToggle}>Add Category</ModalHeader>
           <ModalBody>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
