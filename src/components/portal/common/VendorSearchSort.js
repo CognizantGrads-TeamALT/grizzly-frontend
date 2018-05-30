@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { searchVendors } from "../../../actions/vendorActions";
-class SearchSort extends Component {
+import {
+  searchVendors,
+  sortVendorsByParam
+} from "../../../actions/vendorActions";
+class VendorSearchSort extends Component {
   constructor() {
     super();
     this.state = {
@@ -12,6 +15,10 @@ class SearchSort extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.onSortById = this.onSortById.bind(this);
+    this.onSortByName = this.onSortByName.bind(this);
+    this.onSortByWebsite = this.onSortByWebsite.bind(this);
+    this.onSortByContact = this.onSortByContact.bind(this);
   }
 
   onChange(e) {
@@ -29,10 +36,30 @@ class SearchSort extends Component {
     this.setState({ search: "" });
   }
 
+  onSortById(e) {
+    e.preventDefault();
+    this.props.sortVendorsByParam("vendorId");
+  }
+
+  onSortByName(e) {
+    e.preventDefault();
+    this.props.sortVendorsByParam("name");
+  }
+
+  onSortByWebsite(e) {
+    e.preventDefault();
+    this.props.sortVendorsByParam("website");
+  }
+
+  onSortByContact(e) {
+    e.preventDefault();
+    this.props.sortVendorsByParam("contactNum");
+  }
+
   render() {
     return (
       <div className="btn-group aligned-left mt-2 mb-2">
-        <form className="form-inline ml-0 mr-1">
+        <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
           <div className="search-form-custom">
             <input
               className="form-control left-rounded border-right-0 border"
@@ -63,14 +90,33 @@ class SearchSort extends Component {
           Sort By
         </button>
         <div className="dropdown-menu">
-          <button className="dropdown-item" type="button">
+          <button
+            onClick={this.onSortById}
+            className="dropdown-item"
+            type="button"
+          >
             ID
           </button>
-          <button className="dropdown-item" type="button">
+          <button
+            onClick={this.onSortByName}
+            className="dropdown-item"
+            type="button"
+          >
             Name
           </button>
-          <button className="dropdown-item" type="button">
-            Location
+          <button
+            onClick={this.onSortByWebsite}
+            className="dropdown-item"
+            type="button"
+          >
+            Website
+          </button>
+          <button
+            onClick={this.onSortByContact}
+            className="dropdown-item"
+            type="button"
+          >
+            Contact Number
           </button>
         </div>
       </div>
@@ -78,8 +124,9 @@ class SearchSort extends Component {
   }
 }
 
-SearchSort.propTypes = {
+VendorSearchSort.propTypes = {
   searchVendors: PropTypes.func.isRequired,
+  sortVendorsByParam: PropTypes.func.isRequired,
   vendor: PropTypes.object.isRequired
 };
 
@@ -87,4 +134,6 @@ const mapStateToProps = state => ({
   vendor: state.vendor
 });
 
-export default connect(mapStateToProps, { searchVendors })(SearchSort);
+export default connect(mapStateToProps, { searchVendors, sortVendorsByParam })(
+  VendorSearchSort
+);
