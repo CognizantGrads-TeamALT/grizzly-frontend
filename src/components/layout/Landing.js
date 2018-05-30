@@ -7,7 +7,7 @@ import "../../App.css";
 class Landing extends Component {
   render() {
     return (
-      <div>
+      <div className="landingpage">
         <header>
           <h3>Welcome to Grizzly</h3>
         </header>
