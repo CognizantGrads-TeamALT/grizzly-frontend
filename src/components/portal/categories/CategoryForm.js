@@ -69,19 +69,18 @@ class CategoryForm extends Component {
                   value={this.state.description}
                   onChange={this.onChange}
                 />
-                <input
-                  type="submit"
-                  className="btn btn-outline-success btn-block mt-4"
-                />
               </form>
               </ModalBody>
-          <ModalFooter>
-            <Button color="outline-success" onClick={this.onSubmit}>
-              Login
-            </Button>
-            <Button color="outline-secondary" onClick={this.onToggle}>
-              Cancel
-            </Button>
+          <ModalFooter >
+            <div>
+              <Button className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-3" onClick={this.onSubmit}>
+                done
+              </Button>
+              
+              <Button className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2" onClick={this.onToggle}>
+                Cancel
+              </Button>
+            </div>
           </ModalFooter>
         </Modal>   
         </div>
