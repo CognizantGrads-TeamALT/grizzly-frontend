@@ -1,5 +1,11 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { deleteVendor } from "../../../actions/vendorActions";
 class VendorList extends Component {
+  onDeleteClick(id) {
+    this.props.deleteVendor(id);
+  }
   render() {
     const { vendor } = this.props;
     return (
@@ -22,6 +28,7 @@ class VendorList extends Component {
             Block
           </button>
           <button
+            onClick={this.onDeleteClick.bind(this, vendor.vendorId)}
             className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
             type="button"
           >
@@ -33,4 +40,8 @@ class VendorList extends Component {
   }
 }
 
-export default VendorList;
+VendorList.propTypes = {
+  deleteVendor: PropTypes.func.isRequired
+};
+
+export default connect(null, { deleteVendor })(VendorList);

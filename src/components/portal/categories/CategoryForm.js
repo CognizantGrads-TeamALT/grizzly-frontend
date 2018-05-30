@@ -11,8 +11,8 @@ class CategoryForm extends Component {
     super(props);
     this.state = {
       modal: false,
-      username: "",
-      password: ""
+      catname: "",
+      description: ""
     };
 
     this.onToggle = this.onToggle.bind(this);
@@ -54,36 +54,42 @@ class CategoryForm extends Component {
         >
           <ModalHeader toggle={this.onToggle}>Add Category</ModalHeader>
           <ModalBody>
-              <form onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  placeholder="Category Name"
-                  name="catname"
-                  type="catname"
-                  value={this.state.catname}
-                  onChange={this.onChange}
-                />
-                <TextAreaFieldGroup
-                  placeholder="Category Description"
-                  name="description"
-                  type="description"
-                  value={this.state.description}
-                  onChange={this.onChange}
-                />
-              </form>
-              </ModalBody>
-          <ModalFooter >
+            <form onSubmit={this.onSubmit}>
+              <TextFieldGroup
+                placeholder="Category Name"
+                name="catname"
+                type="catname"
+                value={this.state.catname}
+                onChange={this.onChange}
+              />
+              <TextAreaFieldGroup
+                placeholder="Category Description"
+                name="description"
+                type="description"
+                value={this.state.description}
+                onChange={this.onChange}
+              />
+            </form>
+          </ModalBody>
+          <ModalFooter>
             <div>
-              <Button className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-3" onClick={this.onSubmit}>
+              <Button
+                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-3"
+                onClick={this.onSubmit}
+              >
                 done
               </Button>
-              
-              <Button className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2" onClick={this.onToggle}>
+
+              <Button
+                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
+                onClick={this.onToggle}
+              >
                 Cancel
               </Button>
             </div>
           </ModalFooter>
-        </Modal>   
-        </div>
+        </Modal>
+      </div>
     );
   }
 }
