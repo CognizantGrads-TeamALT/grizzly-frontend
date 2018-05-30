@@ -1,4 +1,9 @@
-import { GET_CATEGORIES, CATEGORY_LOADING } from "./types";
+import {
+  GET_CATEGORIES,
+  CATEGORY_LOADING,
+  CATEGORY_ADDING,
+  GET_ERRORS
+} from "./types";
 import { CATEGORY_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
@@ -21,9 +26,33 @@ export const getCategories = () => dispatch => {
     );
 };
 
+// Add Category
+export const addCategory = (name, desc) => dispatch => {
+  dispatch(setCategoryAdding());
+  axios
+    .post(CATEGORY_API_GATEWAY + "/all/default", {
+      name,
+      desc
+    })
+    .then(res => dispatch(getCategories()))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: {}
+      })
+    );
+};
+
 // Category loading
 export const setCategoryLoading = () => {
   return {
     type: CATEGORY_LOADING
+  };
+};
+
+// Category loading
+export const setCategoryAdding = () => {
+  return {
+    type: CATEGORY_ADDING
   };
 };
