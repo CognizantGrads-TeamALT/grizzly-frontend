@@ -13,7 +13,6 @@ class Category extends Component {
 
   render() {
     const { categories, loading } = this.props.category;
-
     let categoryItem;
     if (categories === null || loading) {
       categoryItem = (

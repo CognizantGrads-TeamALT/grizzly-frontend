@@ -1,47 +1,24 @@
 import { GET_CATEGORIES, CATEGORY_LOADING } from "./types";
-//import axios from "axios";
+import { CATEGORY_API_GATEWAY } from "./microservices";
+import axios from "axios";
 
-const cats = [
-  {
-    categoryId: "1",
-    name: "hats",
-    description: "sport hats",
-    productCount: "3"
-  },
-  {
-    categoryId: "2",
-    name: "pants",
-    description: "sport pants",
-    productCount: "2"
-  },
-  {
-    categoryId: "3",
-    name: "jackets",
-    description: "sport jackets",
-    productCount: "89898"
-  }
-];
 // Get Category List
 export const getCategories = () => dispatch => {
   dispatch(setCategoryLoading());
-  // axios
-  // .get("categorymicro/category/all")
-  // .then(res =>
-  //   dispatch({
-  //     type: GET_CATEGORIES,
-  //     payload: res.data
-  //   })
-  // )
-  // .catch(err =>
-  //   dispatch({
-  //     type: GET_CATEGORIES,
-  //     payload: {}
-  //   })
-  // );
-  dispatch({
-    type: GET_CATEGORIES,
-    payload: cats
-  });
+  axios
+    .get(CATEGORY_API_GATEWAY + "/all/default")
+    .then(res =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: {}
+      })
+    );
 };
 
 // Category loading
