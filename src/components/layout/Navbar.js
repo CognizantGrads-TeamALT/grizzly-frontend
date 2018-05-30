@@ -21,6 +21,7 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ search: "" });
   }
 
   render() {
@@ -44,10 +45,7 @@ class Navbar extends Component {
           </button>
 
           <div className="collapse navbar-collapse" id="mobile-nav">
-            <form
-              onSubmit={this.onSubmit}
-              className="form-inline mx-auto col-7"
-            >
+            <form className="form-inline mx-auto col-8">
               <div className="search-form-custom row">
                 <input
                   className="form-control left-rounded border-right-0 border col-6"
@@ -59,6 +57,7 @@ class Navbar extends Component {
                 />
                 <span className="input-group-append-more">
                   <button
+                    onClick={this.onSubmit}
                     className="btn btn-outline-success right-rounded border-left-0 border"
                     type="button"
                   >
@@ -76,14 +75,6 @@ class Navbar extends Component {
                   actionLabel="Login"
                 />
               </li>
-              {/* <li className="nav-item">
-                <Link
-                  className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-                  to="login"
-                >
-                  Login
-                </Link>
-              </li> */}
               <li className="nav-item">
                 <Link
                   className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"

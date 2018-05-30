@@ -24,12 +24,8 @@ class SearchSort extends Component {
 
   onSearch(e) {
     e.preventDefault();
-
-    const searchTerm = {
-      search: this.state.search
-    };
-
-    this.props.searchVendors(searchTerm);
+    this.props.searchVendors(this.state.search);
+    this.setState({ search: "" });
   }
 
   render() {

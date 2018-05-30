@@ -43,9 +43,8 @@ export const sortVendorsByParam = param => dispatch => {
 // Search Vendors
 export const searchVendors = keyword => dispatch => {
   dispatch(setVendorLoading());
-  const { search } = keyword;
   axios
-    .get(VENDOR_API_GATEWAY + `/search/${search}`)
+    .get(VENDOR_API_GATEWAY + `/search/${keyword}`)
     .then(res =>
       dispatch({
         type: GET_VENDORS,
