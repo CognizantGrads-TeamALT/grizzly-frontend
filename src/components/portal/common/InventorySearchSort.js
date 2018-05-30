@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Input from "../../common/Input";
 import { searchVendors } from "../../../actions/vendorActions";
 class SearchSort extends Component {
   constructor() {
@@ -33,28 +32,29 @@ class SearchSort extends Component {
     this.props.searchVendors(searchTerm);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(nextProps);
-
-  //   if (nextProps.vendor) {
-  //     this.setState({ vendor: nextProps.vendor });
-  //   }
-  // }
-
   render() {
     return (
       <div className="btn-group aligned-left mt-2 mb-2">
-
-          <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
-            <div className="search-form-custom">
-              <input className="form-control left-rounded border-right-0 border" type="search" name="search" placeholder="Search" value={this.state.search} onChange={this.onChange}/>
-              <span className="input-group-append-more">
-                  <button className="btn btn-outline-success right-rounded border-left-0 border" type="button">
-                      <i className="fa fa-search"></i>
-                  </button>
-                </span>
-            </div>
-            
+        <form className="form-inline ml-0 mr-1">
+          <div className="search-form-custom">
+            <input
+              className="form-control left-rounded border-right-0 border"
+              type="search"
+              name="search"
+              placeholder="Search"
+              value={this.state.search}
+              onChange={this.onChange}
+            />
+            <span className="input-group-append-more">
+              <button
+                onClick={this.onSearch}
+                className="btn btn-outline-success right-rounded border-left-0 border"
+                type="button"
+              >
+                <i className="fa fa-search" />
+              </button>
+            </span>
+          </div>
         </form>
         <button
           type="button"

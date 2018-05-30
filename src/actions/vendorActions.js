@@ -1,13 +1,31 @@
 import { GET_VENDORS, VENDOR_LOADING } from "./types";
+import { VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
-
-const API_GATEWAY = "http://localhost:8765/";
 
 // Get Vendor List
 export const getVendors = () => dispatch => {
   dispatch(setVendorLoading());
   axios
-    .get(API_GATEWAY + "vendormicro/vendor/all")
+    .get(VENDOR_API_GATEWAY + "/all/default")
+    .then(res =>
+      dispatch({
+        type: GET_VENDORS,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_VENDORS,
+        payload: {}
+      })
+    );
+};
+
+// Sort Vendor by @param
+export const sortVendorsByParam = param => dispatch => {
+  dispatch(setVendorLoading());
+  axios
+    .get(VENDOR_API_GATEWAY + `/all/${param}`)
     .then(res =>
       dispatch({
         type: GET_VENDORS,
@@ -25,9 +43,8 @@ export const getVendors = () => dispatch => {
 // Search Vendors
 export const searchVendors = keyword => dispatch => {
   dispatch(setVendorLoading());
-  const { search } = keyword;
   axios
-    .get(API_GATEWAY + `vendormicro/vendor/search/${search}`)
+    .get(VENDOR_API_GATEWAY + `/search/${keyword}`)
     .then(res =>
       dispatch({
         type: GET_VENDORS,
