@@ -51,11 +51,21 @@ export const editCategory = newInfo => dispatch => {
       dispatch({
         type: CATEGORY_EDITED,
         payload: newInfo
+
+//Search Categories
+export const searchCategories = keyword => dispatch => {
+  dispatch(setCategoryLoading());
+  axios
+    .get(CATEGORY_API_GATEWAY + `/search/${keyword}`)
+    .then(res =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: GET_CATEGORIES,
         payload: {}
       })
     );
