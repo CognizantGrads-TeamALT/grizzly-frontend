@@ -51,6 +51,15 @@ export const editCategory = newInfo => dispatch => {
       dispatch({
         type: CATEGORY_EDITED,
         payload: newInfo
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: {}
+      })
+    );
+};
 
 //Search Categories
 export const searchCategories = keyword => dispatch => {
