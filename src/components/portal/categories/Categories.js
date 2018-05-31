@@ -30,7 +30,9 @@ class Category extends Component {
       } else {
         categoryItem = (
           <tr>
-            <Spinner />
+            <td>
+              <Spinner />
+            </td>
           </tr>
         );
       }

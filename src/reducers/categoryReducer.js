@@ -1,7 +1,9 @@
 import {
   GET_CATEGORIES,
   CATEGORY_LOADING,
-  CATEGORY_ADDING
+  CATEGORY_ADDING,
+  CATEGORY_EDITING,
+  CATEGORY_EDITED
 } from "../actions/types";
 
 const initialState = {
@@ -25,6 +27,20 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case CATEGORY_EDITING:
+      return {
+        ...state,
+        loading: true
+      };
+    case CATEGORY_EDITED:
+      return {
+        ...state,
+        categories: state.categories.map(
+          cat =>
+            cat.categoryId === action.payload.categoryId ? action.payload : cat
+        ),
+        loading: false
       };
     default:
       return state;

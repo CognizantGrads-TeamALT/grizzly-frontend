@@ -30,6 +30,10 @@ class CategorySearchSort extends Component {
   }
 
   render() {
+    const category = {
+      name: "",
+      description: ""
+    };
     return (
       <div className="btn-group aligned-left mt-2 mb-2">
         <form className="form-inline ml-0 mr-1">
@@ -74,10 +78,11 @@ class CategorySearchSort extends Component {
           </button>
         </div>
         <CategoryForm
-                  buttonLabel="Login"
-                  title="Login"
-                  actionLabel="Login"
-                />
+          category={category}
+          title="Add Category"
+          buttonLabel="Add Category"
+          actionLabel="Add Category"
+        />
       </div>
     );
   }
