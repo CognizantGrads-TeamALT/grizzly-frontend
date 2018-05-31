@@ -3,6 +3,7 @@ import {
   CATEGORY_LOADING,
   CATEGORY_ADDING,
   CATEGORY_EDITING,
+  CATEGORY_DELETING,
   CATEGORY_EDITED
 } from "../actions/types";
 
@@ -41,6 +42,13 @@ export default function(state = initialState, action) {
             cat.categoryId === action.payload.categoryId ? action.payload : cat
         ),
         loading: false
+      };
+    case CATEGORY_DELETING:
+      return {
+        ...state,
+        categories: state.categories.filter(
+          category => category.categoryId !== action.payload
+        )
       };
     default:
       return state;

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import Loading from "../common/Loading";
 import VendorTab from "./VendorTab";
 import Profile from "./profile/Profile";
 class VendorPortal extends Component {

@@ -4,6 +4,7 @@ import {
   CATEGORY_ADDING,
   CATEGORY_EDITING,
   CATEGORY_EDITED,
+  CATEGORY_DELETING,
   GET_ERRORS
 } from "./types";
 import { CATEGORY_API_GATEWAY } from "./microservices";
@@ -99,4 +100,22 @@ export const setCategoryEditing = () => {
   return {
     type: CATEGORY_EDITING
   };
+};
+
+// Delete Category
+export const deleteCategory = id => dispatch => {
+  axios
+    .delete(CATEGORY_API_GATEWAY + `/delete/${id}`)
+    .then(res =>
+      dispatch({
+        type: CATEGORY_DELETING,
+        payload: id
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
