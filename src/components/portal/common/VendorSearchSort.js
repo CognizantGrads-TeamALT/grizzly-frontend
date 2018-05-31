@@ -5,6 +5,8 @@ import {
   searchVendors,
   sortVendorsByParam
 } from "../../../actions/vendorActions";
+import VendorForm from "../vendor/VendorForm";
+
 class VendorSearchSort extends Component {
   constructor() {
     super();
@@ -119,6 +121,11 @@ class VendorSearchSort extends Component {
             Contact Number
           </button>
         </div>
+        <VendorForm
+          buttonLabel="addVendor"
+          title="addVendor"
+          actionLabel="addVendor"
+        />
       </div>
     );
   }

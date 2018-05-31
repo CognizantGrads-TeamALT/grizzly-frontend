@@ -2,6 +2,7 @@ import {
   GET_VENDORS,
   VENDOR_LOADING,
   VENDOR_DELETING,
+  VENDOR_ADDING,
   GET_ERRORS
 } from "./types";
 import { VENDOR_API_GATEWAY } from "./microservices";
@@ -21,6 +22,20 @@ export const getVendors = () => dispatch => {
     .catch(err =>
       dispatch({
         type: GET_VENDORS,
+        payload: {}
+      })
+    );
+};
+
+// Add Vendor
+export const addVendor = newVendor => dispatch => {
+  dispatch(setVendorAdding());
+  axios
+    .put(VENDOR_API_GATEWAY + "/add", newVendor)
+    .then(res => dispatch(getVendors()))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
         payload: {}
       })
     );
@@ -68,6 +83,13 @@ export const searchVendors = keyword => dispatch => {
 export const setVendorLoading = () => {
   return {
     type: VENDOR_LOADING
+  };
+};
+
+// Vendor loading
+export const setVendorAdding = () => {
+  return {
+    type: VENDOR_ADDING
   };
 };
 
