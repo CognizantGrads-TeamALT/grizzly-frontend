@@ -49,7 +49,7 @@ class CategorySearchSort extends Component {
             <span className="input-group-append-more">
               <button
                 onClick={this.onSearch}
-                className="btn btn-outline-success right-rounded border-left-0 border"
+                className="btn btn-outline-success btn-sm right-rounded border-left-0 border"
                 type="button"
               >
                 <i className="fa fa-search" />
@@ -59,7 +59,7 @@ class CategorySearchSort extends Component {
         </form>
         <button
           type="button"
-          className="btn more-rounded btn-outline-success dropdown-toggle mr-sm-2"
+          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"

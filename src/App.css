@@ -20,6 +20,9 @@
 .form-control {
   padding-top: 0.375rem;
   padding-bottom: 0.375em;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .form-control.left-rounded {
@@ -76,7 +79,6 @@
 }
 
 /* Nav Bar */
-
 .full-parent-width::before {
   top: 0;
   right: 0;
@@ -84,7 +86,7 @@
   bottom: 0;
 }
 
-@media screen and (max-width: 760px) {
+/* @media screen and (max-width: 760px) {
   .navbar-collapse > form {
     display: none;
   }
@@ -92,19 +94,19 @@
   .form-control {
     display: none;
   }
-}
+} */
 
 /* Profile container */
 .profile {
   margin: 20px 0;
 }
 
-.align-center{
+.align-center {
   align-content: center;
 }
 
-.flex-grow-04{
-  flex-grow:0.4;
+.flex-grow-04 {
+  flex-grow: 0.4;
 }
 
 /* Profile sidebar */

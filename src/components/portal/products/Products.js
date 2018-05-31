@@ -10,7 +10,7 @@ class Products extends Component {
         <ProductSearchSort />
         <CategoryFilter />
         <button
-          className="btn btn-outline-success btn-sm ml-sm-2 mr-sm-2"
+          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
           type="submit"
         >
           Add Product
