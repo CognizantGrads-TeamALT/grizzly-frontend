@@ -1,4 +1,9 @@
-import { GET_VENDORS, VENDOR_LOADING, VENDOR_DELETING } from "../actions/types";
+import {
+  GET_VENDORS,
+  VENDOR_LOADING,
+  VENDOR_DELETING,
+  VENDOR_ADDING
+} from "../actions/types";
 
 const initialState = {
   vendors: null
@@ -16,6 +21,11 @@ export default function(state = initialState, action) {
         ...state,
         vendors: action.payload,
         loading: false
+      };
+    case VENDOR_ADDING:
+      return {
+        ...state,
+        loading: true
       };
     case VENDOR_DELETING:
       return {
