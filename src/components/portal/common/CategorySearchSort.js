@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { searchVendors } from "../../../actions/vendorActions";
+import { searchCategories } from "../../../actions/categoryActions";
 import CategoryForm from "../categories/CategoryForm";
 class CategorySearchSort extends Component {
   constructor() {
@@ -25,14 +25,18 @@ class CategorySearchSort extends Component {
 
   onSearch(e) {
     e.preventDefault();
-    this.props.searchVendors(this.state.search);
+    this.props.searchCategories(this.state.search);
     this.setState({ search: "" });
   }
 
   render() {
+    const category = {
+      name: "",
+      description: ""
+    };
     return (
       <div className="btn-group aligned-left mt-2 mb-2">
-        <form className="form-inline ml-0 mr-1">
+        <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
           <div className="search-form-custom">
             <input
               className="form-control left-rounded border-right-0 border"
@@ -74,22 +78,25 @@ class CategorySearchSort extends Component {
           </button>
         </div>
         <CategoryForm
-                  buttonLabel="Login"
-                  title="Login"
-                  actionLabel="Login"
-                />
+          category={category}
+          title="Add Category"
+          buttonLabel="Add Category"
+          actionLabel="Add Category"
+        />
       </div>
     );
   }
 }
 
 CategorySearchSort.propTypes = {
-  searchVendors: PropTypes.func.isRequired,
-  vendor: PropTypes.object.isRequired
+  searchCategories: PropTypes.func.isRequired,
+  category: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  vendor: state.vendor
+  category: state.category
 });
 
-export default connect(mapStateToProps, { searchVendors })(CategorySearchSort);
+export default connect(mapStateToProps, { searchCategories })(
+  CategorySearchSort
+);

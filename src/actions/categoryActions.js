@@ -2,6 +2,8 @@ import {
   GET_CATEGORIES,
   CATEGORY_LOADING,
   CATEGORY_ADDING,
+  CATEGORY_EDITING,
+  CATEGORY_EDITED,
   GET_ERRORS
 } from "./types";
 import { CATEGORY_API_GATEWAY } from "./microservices";
@@ -40,6 +42,35 @@ export const addCategory = newCat => dispatch => {
     );
 };
 
+// Edit Category
+export const editCategory = newInfo => dispatch => {
+  dispatch(setCategoryEditing());
+  axios
+    .post(CATEGORY_API_GATEWAY + `/edit/${newInfo.categoryId}`, newInfo)
+    .then(res =>
+      dispatch({
+        type: CATEGORY_EDITED,
+        payload: newInfo
+
+//Search Categories
+export const searchCategories = keyword => dispatch => {
+  dispatch(setCategoryLoading());
+  axios
+    .get(CATEGORY_API_GATEWAY + `/search/${keyword}`)
+    .then(res =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: {}
+      })
+    );
+};
+
 // Category loading
 export const setCategoryLoading = () => {
   return {
@@ -47,9 +78,16 @@ export const setCategoryLoading = () => {
   };
 };
 
-// Category loading
+// Category adding
 export const setCategoryAdding = () => {
   return {
     type: CATEGORY_ADDING
+  };
+};
+
+// Category editing
+export const setCategoryEditing = () => {
+  return {
+    type: CATEGORY_EDITING
   };
 };
