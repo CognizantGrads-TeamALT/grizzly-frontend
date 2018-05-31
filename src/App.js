@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-// import { Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import Navbar from "./components/layout/Navbar";
@@ -23,15 +23,17 @@ class App extends Component {
             <Navbar />
             <Route exact path="/" component={Landing} />
             <div className="container">
-              <Route exact path="/signup" component={SignUp} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/not-found" component={NotFound} />
-              <Route exact path="/adminportal" component={AdminPortal} />
-              <Route exact path="/vendorportal" component={VendorPortal} />
-              <Route exact path="/category/new" component={CategoryForm} />
-              {/* <Switch>
+              <Switch>
+                <Route exact path="/signup" component={SignUp} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/not-found" component={NotFound} />
+                <Route exact path="/adminportal" component={AdminPortal} />
+                <Route exact path="/vendorportal" component={VendorPortal} />
+                <Route exact path="/category/new" component={CategoryForm} />
+                {/* 
                 <PrivateRoute exact path="/portal" component={Portal} />
-              </Switch> */}
+              */}
+              </Switch>
             </div>
             <Footer />
           </div>
