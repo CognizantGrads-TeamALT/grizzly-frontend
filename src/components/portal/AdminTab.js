@@ -16,6 +16,7 @@ import { getCategories } from "../../actions/categoryActions";
 import Vendor from "./vendor/Vendor";
 import { getVendors } from "../../actions/vendorActions";
 import Products from "./products/Products";
+import { getProducts } from "../../actions/productsActions"; 
 
 class AdminTab extends Component {
   constructor(props) {
@@ -23,8 +24,9 @@ class AdminTab extends Component {
 
     this.onToggle = this.onToggle.bind(this);
     this.state = {
-      activeTab: ""
+      activeTab: "1"
     };
+    this.props.getProducts();
   }
 
   onToggle(tab) {
@@ -33,9 +35,9 @@ class AdminTab extends Component {
         this.props.getCategories();
       } else if (tab === "2") {
         this.props.getVendors();
-      } //  else {
-      //   // Load products
-      // }
+      } else {
+        this.props.getProducts();
+      }
 
       this.setState({
         activeTab: tab
@@ -126,7 +128,8 @@ class AdminTab extends Component {
 
 AdminTab.propTypes = {
   getCategories: PropTypes.func.isRequired,
-  getVendors: PropTypes.func.isRequired
+  getVendors: PropTypes.func.isRequired,
+  getProducts: PropTypes.func.isRequired,
 };
 
-export default connect(null, { getCategories, getVendors })(AdminTab);
+export default connect(null, { getCategories, getVendors, getProducts })(AdminTab);
