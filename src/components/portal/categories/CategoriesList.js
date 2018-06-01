@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import CategoryForm from "../categories/CategoryForm";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
+import { deleteCategory } from "../../../actions/categoryActions";
+
 class CategoriesList extends Component {
+  onDeleteClick(id) {
+    this.props.deleteCategory(id);
+  }
   render() {
     const { category } = this.props;
     if (category !== null && category !== undefined) {
@@ -24,6 +31,7 @@ class CategoriesList extends Component {
               Block
             </button>
             <button
+              onClick={this.onDeleteClick.bind(this, category.categoryId)}
               className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
               type="button"
             >
@@ -43,5 +51,8 @@ class CategoriesList extends Component {
     }
   }
 }
+CategoriesList.propTypes = {
+  deleteCategory: PropTypes.func.isRequired
+};
 
-export default CategoriesList;
+export default connect(null, { deleteCategory })(CategoriesList);

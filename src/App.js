@@ -10,7 +10,6 @@ import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
 import AdminPortal from "./components/portal/AdminPortal";
 import VendorPortal from "./components/portal/VendorPortal";
-//import PrivateRoute from "./components/common/PrivateRoute";
 import NotFound from "./components/not-found/NotFound";
 import CategoryForm from "./components/portal/categories/CategoryForm";
 
@@ -30,9 +29,6 @@ class App extends Component {
                 <Route exact path="/adminportal" component={AdminPortal} />
                 <Route exact path="/vendorportal" component={VendorPortal} />
                 <Route exact path="/category/new" component={CategoryForm} />
-                {/* 
-                <PrivateRoute exact path="/portal" component={Portal} />
-              */}
               </Switch>
             </div>
             <Footer />

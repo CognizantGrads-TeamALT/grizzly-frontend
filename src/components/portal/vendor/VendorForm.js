@@ -12,9 +12,11 @@ class VendorForm extends Component {
     super(props);
     this.state = {
       modal: false,
-      vendorname: "",
+      name: "",
       website: "",
-      contactNumber: ""
+      contactNum: "",
+      email: "",
+      bio: ""
     };
 
     this.onToggle = this.onToggle.bind(this);
@@ -36,16 +38,20 @@ class VendorForm extends Component {
     e.preventDefault();
 
     const newVendor = {
-      vendorname: this.state.vendorname,
+      name: this.state.name,
       website: this.state.website,
-      contactNumber: this.state.contactNumber
+      contactNum: this.state.contactNum,
+      email: "",
+      bio: ""
     };
 
     this.props.addVendor(newVendor);
     this.setState({
-      vendorname: "",
+      name: "",
       website: "",
-      contactNumber: ""
+      contactNum: "",
+      email: "",
+      bio: ""
     });
     this.onToggle();
   }
@@ -69,27 +75,25 @@ class VendorForm extends Component {
             <form onSubmit={this.onSubmit}>
               <div className="row">
                 <div className="col-sm text-right flex-grow-04">
-                  <text>Vendor Name</text>
+                  <p>Vendor Name</p>
                 </div>
                 <div className="col-md">
                   <TextFieldGroup
                     placeholder="Vendor Name"
-                    name="vendorname"
-                    type="vendorname"
-                    value={this.state.vendorname}
+                    name="name"
+                    value={this.state.name}
                     onChange={this.onChange}
                   />
                 </div>
               </div>
               <div className="row">
                 <div className="col-sm text-right flex-grow-04">
-                  <text>Vendor Website</text>
+                  <p>Vendor Website</p>
                 </div>
                 <div className="col-md">
-                  <TextAreaFieldGroup
+                  <TextFieldGroup
                     placeholder="Vendor Website"
                     name="website"
-                    type="website"
                     value={this.state.website}
                     onChange={this.onChange}
                   />
@@ -97,14 +101,13 @@ class VendorForm extends Component {
               </div>
               <div className="row">
                 <div className="col-sm text-right flex-grow-04">
-                  <text>Vendor Contact Number</text>
+                  <p>Contact Number</p>
                 </div>
                 <div className="col-md">
                   <TextAreaFieldGroup
-                    placeholder="Vendor Contact Number"
-                    name="contactNumber"
-                    type="contactNumber"
-                    value={this.state.contactNumber}
+                    placeholder="Contact Number"
+                    name="contactNum"
+                    value={this.state.contactNum}
                     onChange={this.onChange}
                   />
                 </div>
@@ -114,7 +117,7 @@ class VendorForm extends Component {
           <ModalFooter>
             <div>
               <Button
-                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-3"
+                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
                 onClick={this.onSubmit}
               >
                 Submit

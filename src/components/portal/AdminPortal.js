@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import Loading from "../common/Loading";
-// import Vendor from "./vendor/Vendor";
-// import Products from "./products/Products";
-// import Categories from "./categories/Categories";
 import Profile from "./profile/Profile";
 import AdminTab from "./AdminTab";
 class AdminPortal extends Component {
