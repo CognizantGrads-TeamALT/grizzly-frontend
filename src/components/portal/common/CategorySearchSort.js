@@ -105,7 +105,7 @@ class CategorySearchSort extends Component {
           <button
             className="dropdown-item"
             type="button"
-            onclick={this.onSortByCount}
+            onClick={this.onSortByCount}
           >
             Product Count
           </button>
