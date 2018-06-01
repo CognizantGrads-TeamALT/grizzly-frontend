@@ -40,17 +40,17 @@ class VendorSearchSort extends Component {
 
   onSortById(e) {
     e.preventDefault();
-    this.props.sortVendorsByParam("vendorId");
+    this.props.sortVendorsByParam("0", "vendorId");
   }
 
   onSortByName(e) {
     e.preventDefault();
-    this.props.sortVendorsByParam("name");
+    this.props.sortVendorsByParam("0", "name");
   }
 
   onSortByWebsite(e) {
     e.preventDefault();
-    this.props.sortVendorsByParam("website");
+    this.props.sortVendorsByParam("0", "website");
   }
 
   onSortByContact(e) {

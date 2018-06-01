@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Products from "./products/Products";
 import Inventory from "./inventory/Inventory";
+import PropTypes from "prop-types";
 import classnames from "classnames";
 import {
   TabContent,
@@ -12,6 +13,7 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { getProducts } from "../../actions/productsActions";
 
 class VendorTab extends Component {
   constructor(props) {
@@ -19,8 +21,9 @@ class VendorTab extends Component {
 
     this.onToggle = this.onToggle.bind(this);
     this.state = {
-      activeTab: ""
+      activeTab: "1"
     };
+    this.props.getProducts();
   }
 
   onToggle(tab) {
@@ -28,7 +31,7 @@ class VendorTab extends Component {
       if (tab === "2") {
         // Load inventory
       } else {
-        // Load products
+        this.props.getProducts();
       }
 
       this.setState({
@@ -96,9 +99,8 @@ class VendorTab extends Component {
   }
 }
 
-// VendorTab.propTypes = {
-//   getCategories: PropTypes.func.isRequired,
-//   getVendors: PropTypes.func.isRequired
-// };
+VendorTab.propTypes = {
+  getProducts: PropTypes.func.isRequired
+};
 
-export default connect(null)(VendorTab);
+export default connect(null, { getProducts })(VendorTab);

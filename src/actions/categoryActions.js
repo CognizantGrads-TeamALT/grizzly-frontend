@@ -11,10 +11,10 @@ import { CATEGORY_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
 // Get Category List
-export const getCategories = () => dispatch => {
+export const getCategories = index => dispatch => {
   dispatch(setCategoryLoading());
   axios
-    .get(CATEGORY_API_GATEWAY + "/all/default")
+    .get(CATEGORY_API_GATEWAY + `/get/${index}/default`)
     .then(res =>
       dispatch({
         type: GET_CATEGORIES,
@@ -34,7 +34,7 @@ export const addCategory = newCat => dispatch => {
   dispatch(setCategoryAdding());
   axios
     .put(CATEGORY_API_GATEWAY + "/add", newCat)
-    .then(res => dispatch(getCategories()))
+    .then(res => dispatch(getCategories("0")))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
@@ -116,6 +116,25 @@ export const deleteCategory = id => dispatch => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
+      })
+    );
+};
+
+// Sort Vendor by @param
+export const sortCategoriesByParam = (index, param) => dispatch => {
+  dispatch(setCategoryLoading());
+  axios
+    .get(CATEGORY_API_GATEWAY + `/get/${index}/${param}`)
+    .then(res =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: {}
       })
     );
 };

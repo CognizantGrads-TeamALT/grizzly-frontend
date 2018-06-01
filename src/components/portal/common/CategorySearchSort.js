@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { searchCategories } from "../../../actions/categoryActions";
+import {
+  searchCategories,
+  sortCategoriesByParam
+} from "../../../actions/categoryActions";
 import CategoryForm from "../categories/CategoryForm";
 class CategorySearchSort extends Component {
   constructor() {
@@ -13,6 +16,9 @@ class CategorySearchSort extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.onSortByName = this.onSortByName.bind(this);
+    this.onSortByDescription = this.onSortByDescription.bind(this);
+    this.onSortByCount = this.onSortByCount.bind(this);
   }
 
   onChange(e) {
@@ -27,6 +33,21 @@ class CategorySearchSort extends Component {
     e.preventDefault();
     this.props.searchCategories(this.state.search);
     this.setState({ search: "" });
+  }
+
+  onSortByName(e) {
+    e.preventDefault();
+    this.props.sortCategoriesByParam("0", "name");
+  }
+
+  onSortByDescription(e) {
+    e.preventDefault();
+    this.props.sortCategoriesByParam("0", "description");
+  }
+
+  onSortByCount(e) {
+    e.preventDefault();
+    this.props.sortCategoriesByParam("0", "count");
   }
 
   render() {
@@ -67,14 +88,26 @@ class CategorySearchSort extends Component {
           Sort By
         </button>
         <div className="dropdown-menu">
-          <button className="dropdown-item" type="button">
-            ID
-          </button>
-          <button className="dropdown-item" type="button">
+          <button
+            className="dropdown-item"
+            type="button"
+            onClick={this.onSortByName}
+          >
             Name
           </button>
-          <button className="dropdown-item" type="button">
-            Location
+          <button
+            className="dropdown-item"
+            type="button"
+            onClick={this.onSortByDescription}
+          >
+            Description
+          </button>
+          <button
+            className="dropdown-item"
+            type="button"
+            onclick={this.onSortByCount}
+          >
+            Product Count
           </button>
         </div>
         <CategoryForm
@@ -90,6 +123,7 @@ class CategorySearchSort extends Component {
 
 CategorySearchSort.propTypes = {
   searchCategories: PropTypes.func.isRequired,
+  sortCategoriesByParam: PropTypes.func.isRequired,
   category: PropTypes.object.isRequired
 };
 
@@ -97,6 +131,7 @@ const mapStateToProps = state => ({
   category: state.category
 });
 
-export default connect(mapStateToProps, { searchCategories })(
-  CategorySearchSort
-);
+export default connect(mapStateToProps, {
+  searchCategories,
+  sortCategoriesByParam
+})(CategorySearchSort);
