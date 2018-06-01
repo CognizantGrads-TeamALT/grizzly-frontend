@@ -35,6 +35,8 @@ class AdminTab extends Component {
         this.props.getCategories("0");
       } else if (tab === "2") {
         this.props.getVendors("0");
+      } else if (tab === "null") {
+        
       } else {
         this.props.getProducts();
       }
@@ -115,6 +117,13 @@ class AdminTab extends Component {
                 <Row>
                   <Col sm="12">
                     <Categories />
+                  </Col>
+                </Row>
+              </TabPane>
+              <TabPane tabId="null">
+                <Row>
+                  <Col sm="12">
+                    
                   </Col>
                 </Row>
               </TabPane>

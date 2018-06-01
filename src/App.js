@@ -10,6 +10,7 @@ import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
 import AdminPortal from "./components/portal/AdminPortal";
 import VendorPortal from "./components/portal/VendorPortal";
+import DetailedProduct from "./components/portal/detailedProduct/DetailedProduct";
 import NotFound from "./components/not-found/NotFound";
 import CategoryForm from "./components/portal/categories/CategoryForm";
 
@@ -28,6 +29,7 @@ class App extends Component {
                 <Route exact path="/not-found" component={NotFound} />
                 <Route exact path="/adminportal" component={AdminPortal} />
                 <Route exact path="/vendorportal" component={VendorPortal} />
+                <Route exact path="/detailedproduct" component={DetailedProduct} />
                 <Route exact path="/category/new" component={CategoryForm} />
               </Switch>
             </div>

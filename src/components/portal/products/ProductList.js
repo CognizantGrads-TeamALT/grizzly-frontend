@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { onToggle } from "../AdminTab";
 class ProductList extends Component {
     render() {
         const { product } = this.props;
@@ -13,6 +14,7 @@ class ProductList extends Component {
                 <td>{product.price}</td>
                 <td>
                     <button
+                        // onClick={this.onClick.onToggle("null")}
                         className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
                         type="button"
                     >
