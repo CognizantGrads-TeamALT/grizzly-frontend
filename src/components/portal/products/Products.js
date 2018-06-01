@@ -2,19 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ProductSearchSort from "../common/ProductSearchSort";
 import CategoryFilter from "../common/CategoryFilter";
+import AddProduct from "./AddProduct";
+import { Link } from "react-router-dom";
+
 
 class Products extends Component {
+
   render() {
     return (
       <div>
         <ProductSearchSort />
-        <CategoryFilter />
-        <button
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-          type="submit"
+        <Link
+          className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
+          to="/addProduct"
         >
           Add Product
-        </button>
+        </Link>
         <table className="table table-sm table-hover">
           <thead>
             <tr>

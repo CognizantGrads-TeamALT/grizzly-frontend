@@ -12,6 +12,7 @@ import AdminPortal from "./components/portal/AdminPortal";
 import VendorPortal from "./components/portal/VendorPortal";
 import NotFound from "./components/not-found/NotFound";
 import CategoryForm from "./components/portal/categories/CategoryForm";
+import AddProduct from "./components/portal/products/AddProduct";
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
                 <Route exact path="/adminportal" component={AdminPortal} />
                 <Route exact path="/vendorportal" component={VendorPortal} />
                 <Route exact path="/category/new" component={CategoryForm} />
+                <Route exact path="/addProduct" component={AddProduct} />
               </Switch>
             </div>
             <Footer />
