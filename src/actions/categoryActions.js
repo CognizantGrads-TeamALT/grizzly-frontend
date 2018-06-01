@@ -119,3 +119,22 @@ export const deleteCategory = id => dispatch => {
       })
     );
 };
+
+// Sort Vendor by @param
+export const sortCategoriesByParam = param => dispatch => {
+  dispatch(setCategoryLoading());
+  axios
+    .get(CATEGORY_API_GATEWAY + `/all/${param}`)
+    .then(res =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_CATEGORIES,
+        payload: {}
+      })
+    );
+};
