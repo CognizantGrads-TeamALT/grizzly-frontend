@@ -1,6 +1,7 @@
 import {
     GET_PRODUCTS,
-    PRODUCTS_LOADING
+    PRODUCTS_LOADING,
+    PRODUCT_ADDING
 } from "../actions/types";
 
 const initialState = {
@@ -20,6 +21,11 @@ export default function(state = initialState, action) {
                 products: action.payload,
                 loading: false
             };
+        case PRODUCT_ADDING:
+            return{
+                ...state,
+                loading: false
+            }
         default:
             return state;
     }

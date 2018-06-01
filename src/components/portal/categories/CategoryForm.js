@@ -7,6 +7,7 @@ import TextAreaFieldGroup from "../../common/TextAreaFieldGroup";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { addCategory, editCategory } from "../../../actions/categoryActions";
 import isEmpty from "../../../validation/is-empty";
+
 class CategoryForm extends Component {
   constructor(props) {
     super(props);

@@ -8,6 +8,9 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import isEmpty from "../../../validation/is-empty";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import AddProduct from "./AddProduct";
+import { Link } from "react-router-dom";
+import { addProduct } from "../../../actions/productsActions";
 
 
 class AddProducts extends Component {
@@ -17,10 +20,10 @@ class AddProducts extends Component {
         
         this.state = {
           modal: false,
-          catgegory : this.props.product.category,
-          name : this.props.product.name,
-          description: this.props.product.description,
-          price: this.props.product.price
+          category : "",
+          name : "",
+          description: "",
+          price: ""
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -39,18 +42,20 @@ class AddProducts extends Component {
       onSubmit(e) {
         e.preventDefault();
 
-          const newCat = {
+          const newProd = {
             category: this.state.catgegory,
             name: this.state.name,
             description: this.state.description,
             price: this.state.price
           };
-    
-          this.props.addCategory(newCat);
+          addProduct(newProd);
+          //this.props.addProduct(newProd);
         
         this.setState({
-          name: "",
-          description: ""
+            category : "",
+            name : "",
+            description: "",
+            price: ""
         });
         this.onToggle();
       }
@@ -66,7 +71,7 @@ class AddProducts extends Component {
             <TextFieldGroup
                     placeholder="Category"
                     name="category"
-                    value={this.state.name}
+                    value={this.state.category}
                     onChange={this.onChange}
                   />
                   <TextFieldGroup
@@ -78,13 +83,13 @@ class AddProducts extends Component {
                   <TextFieldGroup
                     placeholder="Description"
                     name="description"
-                    value={this.state.name}
+                    value={this.state.description}
                     onChange={this.onChange}
                   />
                   <TextFieldGroup
-                    placeholder="price"
+                    placeholder="Price"
                     name="price"
-                    value={this.state.name}
+                    value={this.state.price}
                     onChange={this.onChange}
                   />
                   </form>
@@ -107,4 +112,13 @@ class AddProducts extends Component {
     }
     
 }
-export default connect(null)(AddProducts);
+
+AddProducts.propTypes = {
+    addProduct: PropTypes.func.isRequired,
+  };
+
+  const mapStateToProps = state => ({
+    addProduct: state.product
+  });
+
+export default connect(mapStateToProps, { AddProduct })(AddProducts);

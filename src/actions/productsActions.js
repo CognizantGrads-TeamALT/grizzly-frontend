@@ -1,6 +1,8 @@
 import {
     GET_PRODUCTS,
-    PRODUCTS_LOADING
+    PRODUCTS_LOADING,
+    PRODUCT_ADDING,
+    GET_ERRORS
 } from "./types";
 import { PRODUCT_API_GATEWAY } from "./microservices";
 import axios from "axios";
@@ -25,9 +27,30 @@ export const getProducts = () => dispatch => {
         );
 };
 
+export const setProductAdding = () =>{
+    return{
+        type: PRODUCT_ADDING
+    };
+};
+
+export const addProduct = newProd => dispatch => {
+    dispatch(setProductLoading());
+    axios
+      .put(PRODUCT_API_GATEWAY + "/add", newProd)
+      .then(res => dispatch(getProducts()))
+      .catch(err =>
+        dispatch({
+          type: GET_ERRORS,
+          payload: {}
+        })
+      );
+  };
+
 // Product Loading
 export const setProductLoading = () => {
     return {
         type: PRODUCTS_LOADING
     };
 };
+
+
