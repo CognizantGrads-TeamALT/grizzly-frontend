@@ -91,7 +91,7 @@ class VendorForm extends Component {
                   <p>Vendor Website</p>
                 </div>
                 <div className="col-md">
-                  <TextAreaFieldGroup
+                  <TextFieldGroup
                     placeholder="Vendor Website"
                     name="website"
                     value={this.state.website}
@@ -117,7 +117,7 @@ class VendorForm extends Component {
           <ModalFooter>
             <div>
               <Button
-                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-3"
+                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
                 onClick={this.onSubmit}
               >
                 Submit

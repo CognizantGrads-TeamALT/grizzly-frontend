@@ -24,7 +24,7 @@ class CategoryFilter extends Component {
       <div className="btn-group mt-2 mb-2">
         <button
           type="button"
-          className="btn btn btn-outline-success btn-sm dropdown-toggle"
+          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
