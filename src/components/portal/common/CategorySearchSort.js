@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { searchCategories,
-        sortCategoriesByParam } from "../../../actions/categoryActions";
+import {
+  searchCategories,
+  sortCategoriesByParam
+} from "../../../actions/categoryActions";
 import CategoryForm from "../categories/CategoryForm";
 class CategorySearchSort extends Component {
   constructor() {
@@ -35,17 +37,17 @@ class CategorySearchSort extends Component {
 
   onSortByName(e) {
     e.preventDefault();
-    this.props.sortCategoriesByParam("name");
+    this.props.sortCategoriesByParam("0", "name");
   }
 
   onSortByDescription(e) {
     e.preventDefault();
-    this.props.sortCategoriesByParam("description");
+    this.props.sortCategoriesByParam("0", "description");
   }
 
   onSortByCount(e) {
     e.preventDefault();
-    this.props.sortCategoriesByParam("count");
+    this.props.sortCategoriesByParam("0", "count");
   }
 
   render() {
@@ -86,22 +88,25 @@ class CategorySearchSort extends Component {
           Sort By
         </button>
         <div className="dropdown-menu">
-          <button 
-            className="dropdown-item" 
+          <button
+            className="dropdown-item"
             type="button"
-            onClick={this.onSortByName}>
+            onClick={this.onSortByName}
+          >
             Name
           </button>
-          <button 
-            className="dropdown-item" 
+          <button
+            className="dropdown-item"
             type="button"
-            onClick={this.onSortByDescription}>
+            onClick={this.onSortByDescription}
+          >
             Description
           </button>
-          <button 
-            className="dropdown-item" 
+          <button
+            className="dropdown-item"
             type="button"
-            onclick={this.onSortByCount}>
+            onclick={this.onSortByCount}
+          >
             Product Count
           </button>
         </div>
@@ -126,6 +131,7 @@ const mapStateToProps = state => ({
   category: state.category
 });
 
-export default connect(mapStateToProps, { searchCategories, sortCategoriesByParam })(
-  CategorySearchSort
-);
+export default connect(mapStateToProps, {
+  searchCategories,
+  sortCategoriesByParam
+})(CategorySearchSort);
