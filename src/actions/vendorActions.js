@@ -32,7 +32,7 @@ export const addVendor = newVendor => dispatch => {
   dispatch(setVendorAdding());
   axios
     .put(VENDOR_API_GATEWAY + "/add", newVendor)
-    .then(res => dispatch(getVendors()))
+    .then(res => dispatch(getVendors("0")))
     .catch(err =>
       dispatch({
         type: GET_ERRORS,
