@@ -7,10 +7,6 @@ import { getCategories } from "../../../actions/categoryActions";
 import CategoriesList from "./CategoriesList";
 
 class Category extends Component {
-  // componentDidMount() {
-  //   this.props.getCategories();
-  // }
-
   render() {
     const { categories, loading } = this.props.category;
     let categoryItem;

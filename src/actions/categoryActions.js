@@ -11,10 +11,10 @@ import { CATEGORY_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
 // Get Category List
-export const getCategories = () => dispatch => {
+export const getCategories = index => dispatch => {
   dispatch(setCategoryLoading());
   axios
-    .get(CATEGORY_API_GATEWAY + "/all/default")
+    .get(CATEGORY_API_GATEWAY + `/get/${index}/default`)
     .then(res =>
       dispatch({
         type: GET_CATEGORIES,
@@ -121,10 +121,10 @@ export const deleteCategory = id => dispatch => {
 };
 
 // Sort Vendor by @param
-export const sortCategoriesByParam = param => dispatch => {
+export const sortCategoriesByParam = (index, param) => dispatch => {
   dispatch(setCategoryLoading());
   axios
-    .get(CATEGORY_API_GATEWAY + `/all/${param}`)
+    .get(CATEGORY_API_GATEWAY + `/get/${index}/${param}`)
     .then(res =>
       dispatch({
         type: GET_CATEGORIES,

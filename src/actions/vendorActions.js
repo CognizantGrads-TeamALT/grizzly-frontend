@@ -9,10 +9,10 @@ import { VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
 // Get Vendor List
-export const getVendors = () => dispatch => {
+export const getVendors = index => dispatch => {
   dispatch(setVendorLoading());
   axios
-    .get(VENDOR_API_GATEWAY + "/all/default")
+    .get(VENDOR_API_GATEWAY + `/get/${index}/default`)
     .then(res =>
       dispatch({
         type: GET_VENDORS,
@@ -42,10 +42,10 @@ export const addVendor = newVendor => dispatch => {
 };
 
 // Sort Vendor by @param
-export const sortVendorsByParam = param => dispatch => {
+export const sortVendorsByParam = (index, param) => dispatch => {
   dispatch(setVendorLoading());
   axios
-    .get(VENDOR_API_GATEWAY + `/all/${param}`)
+    .get(VENDOR_API_GATEWAY + `/get/${index}/${param}`)
     .then(res =>
       dispatch({
         type: GET_VENDORS,
