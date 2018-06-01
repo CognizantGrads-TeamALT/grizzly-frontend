@@ -26,7 +26,7 @@ class AdminTab extends Component {
     this.state = {
       activeTab: "1"
     };
-    this.props.getProducts();
+    this.props.getProducts("0");
   }
 
   onToggle(tab) {
@@ -36,7 +36,7 @@ class AdminTab extends Component {
       } else if (tab === "2") {
         this.props.getVendors("0");
       } else {
-        this.props.getProducts();
+        this.props.getProducts("0");
       }
 
       this.setState({
