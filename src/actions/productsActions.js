@@ -4,7 +4,6 @@ import {
     PRODUCT_ADDING,
     GET_ERRORS
 } from "./types";
-import { GET_PRODUCTS, PRODUCTS_LOADING } from "./types";
 import { PRODUCT_API_GATEWAY } from "./microservices";
 import axios from "axios";
 

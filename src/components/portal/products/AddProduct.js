@@ -48,8 +48,8 @@ class AddProducts extends Component {
             description: this.state.description,
             price: this.state.price
           };
-          addProduct(newProd);
-          //this.props.addProduct(newProd);
+        //   addProduct(newProd);
+        this.props.addProduct(newProd);
         
         this.setState({
             category : "",
