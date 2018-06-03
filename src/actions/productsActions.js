@@ -1,4 +1,8 @@
-import { GET_PRODUCTS, PRODUCTS_LOADING } from "./types";
+import {
+  GET_PRODUCTS,
+  PRODUCTS_LOADING,
+  CLEAR_CURRENT_PRODUCTS
+} from "./types";
 import { PRODUCT_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
@@ -25,5 +29,12 @@ export const getProducts = index => dispatch => {
 export const setProductLoading = () => {
   return {
     type: PRODUCTS_LOADING
+  };
+};
+
+// Clear Products
+export const clearCurrentProducts = () => {
+  return {
+    type: CLEAR_CURRENT_PRODUCTS
   };
 };
