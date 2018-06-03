@@ -1,13 +1,4 @@
-import {
-  GET_CATEGORIES,
-  CATEGORY_LOADING,
-  CATEGORY_ADDING,
-  CATEGORY_EDITING,
-  CATEGORY_EDITED,
-  CATEGORY_DELETING,
-  GET_ERRORS,
-  CLEAR_CURRENT_CATEGORIES
-} from "./types";
+import * as types from "./types";
 import { CATEGORY_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
@@ -18,13 +9,13 @@ export const getCategories = index => dispatch => {
     .get(CATEGORY_API_GATEWAY + `/get/${index}/default`)
     .then(res =>
       dispatch({
-        type: GET_CATEGORIES,
+        type: types.GET_CATEGORIES,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_CATEGORIES,
+        type: types.GET_CATEGORIES,
         payload: {}
       })
     );
@@ -38,7 +29,7 @@ export const addCategory = newCat => dispatch => {
     .then(res => dispatch(getCategories("0")))
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: types.GET_ERRORS,
         payload: {}
       })
     );
@@ -51,13 +42,13 @@ export const editCategory = newInfo => dispatch => {
     .post(CATEGORY_API_GATEWAY + `/edit/${newInfo.categoryId}`, newInfo)
     .then(res =>
       dispatch({
-        type: CATEGORY_EDITED,
+        type: types.CATEGORY_EDITED,
         payload: newInfo
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_CATEGORIES,
+        type: types.GET_CATEGORIES,
         payload: {}
       })
     );
@@ -70,13 +61,13 @@ export const searchCategories = keyword => dispatch => {
     .get(CATEGORY_API_GATEWAY + `/search/${keyword}`)
     .then(res =>
       dispatch({
-        type: GET_CATEGORIES,
+        type: types.GET_CATEGORIES,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_CATEGORIES,
+        type: types.GET_CATEGORIES,
         payload: {}
       })
     );
@@ -85,21 +76,21 @@ export const searchCategories = keyword => dispatch => {
 // Category loading
 export const setCategoryLoading = () => {
   return {
-    type: CATEGORY_LOADING
+    type: types.CATEGORY_LOADING
   };
 };
 
 // Category adding
 export const setCategoryAdding = () => {
   return {
-    type: CATEGORY_ADDING
+    type: types.CATEGORY_ADDING
   };
 };
 
 // Category editing
 export const setCategoryEditing = () => {
   return {
-    type: CATEGORY_EDITING
+    type: types.CATEGORY_EDITING
   };
 };
 
@@ -109,13 +100,13 @@ export const deleteCategory = id => dispatch => {
     .delete(CATEGORY_API_GATEWAY + `/delete/${id}`)
     .then(res =>
       dispatch({
-        type: CATEGORY_DELETING,
+        type: types.CATEGORY_DELETING,
         payload: id
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: types.GET_ERRORS,
         payload: err.response.data
       })
     );
@@ -128,13 +119,13 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
     .get(CATEGORY_API_GATEWAY + `/get/${index}/${param}`)
     .then(res =>
       dispatch({
-        type: GET_CATEGORIES,
+        type: types.GET_CATEGORIES,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_CATEGORIES,
+        type: types.GET_CATEGORIES,
         payload: {}
       })
     );
@@ -143,6 +134,6 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
 // Clear Categories
 export const clearCurrentCategories = () => {
   return {
-    type: CLEAR_CURRENT_CATEGORIES
+    type: types.CLEAR_CURRENT_CATEGORIES
   };
 };
