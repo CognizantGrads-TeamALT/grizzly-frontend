@@ -1,4 +1,4 @@
-import { GET_PRODUCTS, PRODUCTS_LOADING } from "./types";
+import * as types from "./types";
 import { PRODUCT_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
@@ -9,13 +9,13 @@ export const getProducts = index => dispatch => {
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
     .then(res =>
       dispatch({
-        type: GET_PRODUCTS,
+        type: types.GET_PRODUCTS,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_PRODUCTS,
+        type: types.GET_PRODUCTS,
         payload: {}
       })
     );
@@ -24,6 +24,13 @@ export const getProducts = index => dispatch => {
 // Product Loading
 export const setProductLoading = () => {
   return {
-    type: PRODUCTS_LOADING
+    type: types.PRODUCTS_LOADING
+  };
+};
+
+// Clear Products
+export const clearCurrentProducts = () => {
+  return {
+    type: types.CLEAR_CURRENT_PRODUCTS
   };
 };
