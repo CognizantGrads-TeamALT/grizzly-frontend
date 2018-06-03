@@ -5,7 +5,8 @@ import {
   CATEGORY_EDITING,
   CATEGORY_EDITED,
   CATEGORY_DELETING,
-  GET_ERRORS
+  GET_ERRORS,
+  CLEAR_CURRENT_CATEGORIES
 } from "./types";
 import { CATEGORY_API_GATEWAY } from "./microservices";
 import axios from "axios";
@@ -137,4 +138,11 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
         payload: {}
       })
     );
+};
+
+// Clear Categories
+export const clearCurrentCategories = () => {
+  return {
+    type: CLEAR_CURRENT_CATEGORIES
+  };
 };

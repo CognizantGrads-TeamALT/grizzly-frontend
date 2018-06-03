@@ -3,7 +3,8 @@ import {
   VENDOR_LOADING,
   VENDOR_DELETING,
   VENDOR_ADDING,
-  GET_ERRORS
+  GET_ERRORS,
+  CLEAR_CURRENT_VENDORS
 } from "./types";
 import { VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
@@ -109,4 +110,11 @@ export const deleteVendor = id => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+// Clear Vendors
+export const clearCurrentVendors = () => {
+  return {
+    type: CLEAR_CURRENT_VENDORS
+  };
 };

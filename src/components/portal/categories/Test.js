@@ -1,13 +1,28 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
-import isEmpty from "../../../validation/is-empty";
 import PropTypes from "prop-types";
 import CategorySearchSort from "../common/CategorySearchSort";
 import { getCategories } from "../../../actions/categoryActions";
 import CategoriesList from "./CategoriesList";
+import isEmpty from "../../../validation/is-empty";
 
-class Categories extends Component {
+import Waypoint from "react-waypoint";
+// need to run: sudo npm i react-waypoint --save
+
+class Test extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0
+    };
+    this.loadMore = this.loadMore.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadMore();
+  }
+
   show() {
     const { categories, loading } = this.props.category;
     if (isEmpty(categories) || loading) {
@@ -25,11 +40,21 @@ class Categories extends Component {
     }
   }
 
+  loadMore() {
+    if (this.props.category.hasMore) {
+      this.props.getCategories(this.state.index);
+      this.setState({
+        index: this.state.index + 1
+      });
+    }
+  }
+
   render() {
+    cl;
     return (
-      <div>
+      <section className="photo-feed">
         <CategorySearchSort />
-        <table className="table table-sm table-hover">
+        <table id="catDisplay" className="table table-sm table-hover">
           <thead>
             <tr>
               <th scope="col">Category Name</th>
@@ -40,12 +65,13 @@ class Categories extends Component {
           </thead>
           <tbody>{this.show()}</tbody>
         </table>
-      </div>
+        <Waypoint onEnter={this.loadMore} />
+      </section>
     );
   }
 }
 
-Categories.propTypes = {
+Test.propTypes = {
   getCategories: PropTypes.func.isRequired,
   category: PropTypes.object.isRequired
 };
@@ -54,4 +80,4 @@ const mapStateToProps = state => ({
   category: state.category
 });
 
-export default connect(mapStateToProps, { getCategories })(Categories);
+export default connect(mapStateToProps, { getCategories })(Test);
