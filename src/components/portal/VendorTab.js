@@ -13,7 +13,10 @@ import {
   Row,
   Col
 } from "reactstrap";
-import { getProducts } from "../../actions/productsActions";
+import {
+  getProducts,
+  clearCurrentProducts
+} from "../../actions/productsActions";
 
 class VendorTab extends Component {
   constructor(props) {
@@ -23,15 +26,20 @@ class VendorTab extends Component {
     this.state = {
       activeTab: "1"
     };
-    this.props.getProducts();
+    this.clear();
+    this.props.getProducts("0");
+  }
+  clear() {
+    this.props.clearCurrentProducts();
   }
 
   onToggle(tab) {
+    this.clear();
     if (this.state.activeTab !== tab) {
       if (tab === "2") {
         // Load inventory
       } else {
-        this.props.getProducts();
+        this.props.getProducts("0");
       }
 
       this.setState({
@@ -100,7 +108,8 @@ class VendorTab extends Component {
 }
 
 VendorTab.propTypes = {
-  getProducts: PropTypes.func.isRequired
+  getProducts: PropTypes.func.isRequired,
+  clearCurrentProducts: PropTypes.func.isRequired
 };
 
-export default connect(null, { getProducts })(VendorTab);
+export default connect(null, { getProducts, clearCurrentProducts })(VendorTab);

@@ -1,10 +1,4 @@
-import {
-  GET_VENDORS,
-  VENDOR_LOADING,
-  VENDOR_DELETING,
-  VENDOR_ADDING,
-  GET_ERRORS
-} from "./types";
+import * as types from "./types";
 import { VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
@@ -15,13 +9,13 @@ export const getVendors = index => dispatch => {
     .get(VENDOR_API_GATEWAY + `/get/${index}/default`)
     .then(res =>
       dispatch({
-        type: GET_VENDORS,
+        type: types.GET_VENDORS,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_VENDORS,
+        type: types.GET_VENDORS,
         payload: {}
       })
     );
@@ -35,7 +29,7 @@ export const addVendor = newVendor => dispatch => {
     .then(res => dispatch(getVendors("0")))
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: types.GET_ERRORS,
         payload: {}
       })
     );
@@ -48,13 +42,13 @@ export const sortVendorsByParam = (index, param) => dispatch => {
     .get(VENDOR_API_GATEWAY + `/get/${index}/${param}`)
     .then(res =>
       dispatch({
-        type: GET_VENDORS,
+        type: types.GET_VENDORS,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_VENDORS,
+        type: types.GET_VENDORS,
         payload: {}
       })
     );
@@ -67,13 +61,13 @@ export const searchVendors = keyword => dispatch => {
     .get(VENDOR_API_GATEWAY + `/search/${keyword}`)
     .then(res =>
       dispatch({
-        type: GET_VENDORS,
+        type: types.GET_VENDORS,
         payload: res.data
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_VENDORS,
+        type: types.GET_VENDORS,
         payload: {}
       })
     );
@@ -82,14 +76,14 @@ export const searchVendors = keyword => dispatch => {
 // Vendor loading
 export const setVendorLoading = () => {
   return {
-    type: VENDOR_LOADING
+    type: types.VENDOR_LOADING
   };
 };
 
 // Vendor loading
 export const setVendorAdding = () => {
   return {
-    type: VENDOR_ADDING
+    type: types.VENDOR_ADDING
   };
 };
 
@@ -99,14 +93,21 @@ export const deleteVendor = id => dispatch => {
     .delete(VENDOR_API_GATEWAY + `/delete/${id}`)
     .then(res =>
       dispatch({
-        type: VENDOR_DELETING,
+        type: types.VENDOR_DELETING,
         payload: id
       })
     )
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: types.GET_ERRORS,
         payload: err.response.data
       })
     );
+};
+
+// Clear Vendors
+export const clearCurrentVendors = () => {
+  return {
+    type: types.CLEAR_CURRENT_VENDORS
+  };
 };

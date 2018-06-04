@@ -8,15 +8,15 @@ import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner";
 import ProductList from "./ProductList";
 import { getProducts } from "../../../actions/productsActions";
+import isEmpty from "../../../validation/is-empty";
 
 
 class Products extends Component {
 
-  render() {
+  show() {
     const { products, loading } = this.props.product;
-    let productItem;
-    if (products === null || loading) {
-      productItem = (
+    if (isEmpty(products) || loading) {
+      return (
         <tr>
           <td>
             <Spinner />
@@ -24,20 +24,13 @@ class Products extends Component {
         </tr>
       );
     } else {
-      if (products.length > 0) {
-        productItem = products.map(prod => (
-          <ProductList key={prod.productId} product={prod} />
-        ));
-      } else {
-        productItem = (
-          <tr>
-            <td>
-              <Spinner />
-            </td>
-          </tr>
-        );
-      }
+      return products.map(prod => (
+        <ProductList key={prod.productId} product={prod} />
+      ));
     }
+  }
+
+  render() {
     return (
       <div>
         <ProductSearchSort />
@@ -58,7 +51,7 @@ class Products extends Component {
               <th scope="col" />
             </tr>
           </thead>
-          <tbody>{productItem}</tbody>
+          <tbody>{this.show()}</tbody>
         </table>
       </div>
     );

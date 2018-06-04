@@ -12,31 +12,44 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import Categories from "./categories/Categories";
-import { getCategories } from "../../actions/categoryActions";
+import {
+  getCategories,
+  clearCurrentCategories
+} from "../../actions/categoryActions";
 import Vendor from "./vendor/Vendor";
-import { getVendors } from "../../actions/vendorActions";
+import { getVendors, clearCurrentVendors } from "../../actions/vendorActions";
 import Products from "./products/Products";
-import { getProducts } from "../../actions/productsActions";
+import {
+  getProducts,
+  clearCurrentProducts
+} from "../../actions/productsActions";
 
 class AdminTab extends Component {
   constructor(props) {
     super(props);
-
     this.onToggle = this.onToggle.bind(this);
     this.state = {
       activeTab: "1"
     };
-    this.props.getProducts();
+    this.clear();
+    this.props.getProducts("0");
+  }
+
+  clear() {
+    this.props.clearCurrentCategories();
+    this.props.clearCurrentVendors();
+    this.props.clearCurrentProducts();
   }
 
   onToggle(tab) {
+    this.clear();
     if (this.state.activeTab !== tab) {
       if (tab === "3") {
         this.props.getCategories("0");
       } else if (tab === "2") {
         this.props.getVendors("0");
       } else {
-        this.props.getProducts();
+        this.props.getProducts("0");
       }
 
       this.setState({
@@ -129,9 +142,17 @@ class AdminTab extends Component {
 AdminTab.propTypes = {
   getCategories: PropTypes.func.isRequired,
   getVendors: PropTypes.func.isRequired,
-  getProducts: PropTypes.func.isRequired
+  getProducts: PropTypes.func.isRequired,
+  clearCurrentProducts: PropTypes.func.isRequired,
+  clearCurrentVendors: PropTypes.func.isRequired,
+  clearCurrentCategories: PropTypes.func.isRequired
 };
 
-export default connect(null, { getCategories, getVendors, getProducts })(
-  AdminTab
-);
+export default connect(null, {
+  getCategories,
+  clearCurrentCategories,
+  getVendors,
+  clearCurrentVendors,
+  getProducts,
+  clearCurrentProducts
+})(AdminTab);

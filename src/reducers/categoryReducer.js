@@ -1,40 +1,44 @@
-import {
-  GET_CATEGORIES,
-  CATEGORY_LOADING,
-  CATEGORY_ADDING,
-  CATEGORY_EDITING,
-  CATEGORY_DELETING,
-  CATEGORY_EDITED
-} from "../actions/types";
+import * as types from "../actions/types";
+import isEmpty from "../validation/is-empty";
 
 const initialState = {
-  categories: null
+  categories: null,
+  hasMore: false
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case CATEGORY_LOADING:
+    case types.CATEGORY_LOADING:
       return {
         ...state,
         loading: true
       };
-    case GET_CATEGORIES:
+    case types.GET_CATEGORIES:
+      const hasMore =
+        action.payload.length < 25 || isEmpty(action.payload.length)
+          ? false
+          : true;
+      const currentCats = isEmpty(state.categories) ? [] : state.categories;
+      const newCats = isEmpty(action.payload)
+        ? currentCats
+        : currentCats.concat(action.payload);
       return {
         ...state,
-        categories: action.payload,
+        categories: newCats,
+        hasMore: hasMore,
         loading: false
       };
-    case CATEGORY_ADDING:
+    case types.CATEGORY_ADDING:
       return {
         ...state,
         loading: true
       };
-    case CATEGORY_EDITING:
+    case types.CATEGORY_EDITING:
       return {
         ...state,
         loading: true
       };
-    case CATEGORY_EDITED:
+    case types.CATEGORY_EDITED:
       return {
         ...state,
         categories: state.categories.map(
@@ -43,12 +47,17 @@ export default function(state = initialState, action) {
         ),
         loading: false
       };
-    case CATEGORY_DELETING:
+    case types.CATEGORY_DELETING:
       return {
         ...state,
         categories: state.categories.filter(
           category => category.categoryId !== action.payload
         )
+      };
+    case types.CLEAR_CURRENT_CATEGORIES:
+      return {
+        ...state,
+        categories: null
       };
     default:
       return state;
