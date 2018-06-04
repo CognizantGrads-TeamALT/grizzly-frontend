@@ -24,13 +24,14 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <div className="container">
               <Switch>
+                <Route exact path="/" component={Landing} />
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/not-found" component={NotFound} />
                 <Route exact path="/adminportal" component={AdminPortal} />
                 <Route exact path="/vendorportal" component={VendorPortal} />
                 <Route exact path="/category/new" component={CategoryForm} />
                 <Route exact path="/addProduct" component={AddProduct} />
+                <Route path="*" exact={true} component={NotFound} />
               </Switch>
             </div>
             <Footer />

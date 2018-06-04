@@ -12,6 +12,20 @@ import isEmpty from "../../../validation/is-empty";
 
 
 class Products extends Component {
+  constructor() {
+    super();
+    this.state = {
+      addProduct : false,
+      viewProduct : false,
+      viewProducts : true
+    };
+
+
+  }
+
+  toggleAddProduct(){
+    this.props.addProduct = !this.props.addProduct;
+  }
 
   show() {
     const { products, loading } = this.props.product;
@@ -23,6 +37,8 @@ class Products extends Component {
           </td>
         </tr>
       );
+    } else if (this.props.addProduct) {
+        return <AddProduct />
     } else {
       return products.map(prod => (
         <ProductList key={prod.productId} product={prod} />

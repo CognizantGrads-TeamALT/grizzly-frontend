@@ -8,7 +8,6 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import isEmpty from "../../../validation/is-empty";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import AddProduct from "./AddProduct";
 import { Link } from "react-router-dom";
 import { addProduct } from "../../../actions/productsActions";
 
@@ -57,7 +56,7 @@ class AddProducts extends Component {
             description: "",
             price: ""
         });
-        this.onToggle();
+        this.cancel();
       }
 
       onChange(e) {
@@ -121,4 +120,4 @@ AddProducts.propTypes = {
     addProduct: state.product
   });
 
-export default connect(mapStateToProps, { AddProduct })(AddProducts);
+export default connect(mapStateToProps, { addProduct })(AddProducts);
