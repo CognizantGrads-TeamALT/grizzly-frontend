@@ -1,4 +1,11 @@
 import React, { Component } from "react";
+import {
+    Row,
+    Col,
+    Nav,
+    NavItem,
+    NavLink
+  } from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import classnames from "classnames";
@@ -7,7 +14,7 @@ import { getProducts } from "../../../actions/productsActions";
 import Profile from "../profile/Profile"
 import ProductDescription from "./ProductDescription";
 import ProductCallToActionButtons from "./ProductCallToActionButtons";
-import ProductImage from "./ProductImage";
+import ProductTitle from "./ProductTitle";
 
 class DetailedProduct extends Component {
 
@@ -18,16 +25,40 @@ class DetailedProduct extends Component {
                     <Profile />
                 </div>
                 <div className="col-9">
-                    <div className="col-5">
-                    <ProductImage />
+                    <Row>
+                        <Col>
+                            <Nav tabs>
+                                <NavItem>
+                                    <NavLink
+                                    className={classnames("nav-link hover-w-b btn-outline-success my-2 my-sm-0")}
+                                    >
+                                    PRODUCTS
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                    className={classnames("nav-link hover-w-b btn-outline-success my-2 my-sm-0")}
+                                    >
+                                    VENDORS
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                    className={classnames("nav-link hover-w-b btn-outline-success my-2 my-sm-0")}
+                                    >
+                                    CATEGORIES
+                                    </NavLink>
+                                </NavItem>
+                            </Nav>
+                    </Col>
+                    </Row>
+                    <div className="row-3 mb-3">
+                        <ProductTitle />
                     </div>
-                    <div className="col-5">
+                    <div className="row-9">
                         <ProductDescription />
-                    </div>
-                    <div className="col-2">
-                        <ProductCallToActionButtons />
-                    </div>
-                </div>
+                    </div>  
+                </div> 
             </div>
         );
     }
