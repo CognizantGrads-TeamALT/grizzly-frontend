@@ -10,7 +10,9 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { addProduct } from "../../../actions/productsActions";
-import { getCategories } from "../../../actions/categoryActions";
+import { searchCategories } from "../../../actions/categoryActions";
+import _ from 'lodash';
+//import { DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
 class AddProducts extends Component {
     constructor(props) {
@@ -26,11 +28,12 @@ class AddProducts extends Component {
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.searchCatTimer = this.searchCatTimer.bind(this);
       }
 
-      populate() {
+      populate(param) {
         const { category } = this.props;
-        this.props.getCategories(); // Or search with delay after typing
+        this.props.searchCategories(param);
        var options = [];
        category.map(category => (
        options.add(
@@ -75,16 +78,36 @@ class AddProducts extends Component {
         this.setState({ [e.target.name]: e.target.value });
       }
 
+      searchCatTimer(e){
+        this.setState({ [e.target.name]: e.target.value });
+
+        const catSearch = _.debounce((e) => {this.searchCat(e)}, 300);
+
+      }
+
+      searchCat(e) {
+          console.log("test");
+          var categories = this.populate(e.target.value);
+          if(categories != null){
+            categories.forEach(<button className="btn"> {categories.name} </button>, < br />,  [] )  
+          }
+          
+      }
+
+
+
     render(){
         return(
         <div>
             <form>
-            <TextFieldGroup
+                <div className="cat-scroll">
+                    <TextFieldGroup
                     placeholder="Category"
                     name="category"
                     value={this.state.category}
-                    onChange={this.onChange}
-                  />
+                    onChange={this.searchCatTimer}
+                    />
+                </div>
                   <TextFieldGroup
                     placeholder="Name"
                     name="name"

@@ -109,6 +109,12 @@
   flex-grow: 0.4;
 }
 
+/*categoryscrolllist*/
+.cat-scroll {
+  max-height: 150px;
+  overflow: auto;
+}
+
 /* Profile sidebar */
 .profile-sidebar {
   padding-top: 0;
