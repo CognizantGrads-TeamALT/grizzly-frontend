@@ -33,6 +33,10 @@ class Vendor extends Component {
         index: this.state.index + 1
       });
       this.props.getVendors(this.state.index);
+    } else {
+      this.setState({
+        index: 0
+      });
     }
   }
 

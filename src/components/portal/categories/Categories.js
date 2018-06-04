@@ -34,6 +34,10 @@ class Categories extends Component {
         index: this.state.index + 1
       });
       this.props.getCategories(this.state.index);
+    } else {
+      this.setState({
+        index: 0
+      });
     }
   }
 

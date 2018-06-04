@@ -35,6 +35,10 @@ class Products extends Component {
         index: this.state.index + 1
       });
       this.props.getProducts(this.state.index);
+    } else {
+      this.setState({
+        index: 0
+      });
     }
   }
 
