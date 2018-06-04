@@ -29,7 +29,7 @@ class App extends Component {
                 <Route exact path="/adminportal" component={AdminPortal} />
                 <Route exact path="/vendorportal" component={VendorPortal} />
                 <Route exact path="/category/new" component={CategoryForm} />
-                <Route path="*" exact={true} component={NotFound} />
+                <Route component={NotFound} />
               </Switch>
             </div>
             <Footer />
