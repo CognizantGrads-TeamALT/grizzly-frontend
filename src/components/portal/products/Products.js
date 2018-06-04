@@ -12,21 +12,6 @@ import isEmpty from "../../../validation/is-empty";
 
 
 class Products extends Component {
-  constructor() {
-    super();
-    this.state = {
-      addProduct : false,
-      viewProduct : false,
-      viewProducts : true
-    };
-
-
-  }
-
-  toggleAddProduct(){
-    this.props.addProduct = !this.props.addProduct;
-  }
-
   show() {
     const { products, loading } = this.props.product;
     if (isEmpty(products) || loading) {

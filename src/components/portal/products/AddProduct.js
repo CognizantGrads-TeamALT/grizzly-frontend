@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { addProduct } from "../../../actions/productsActions";
 
 
+
 class AddProducts extends Component {
     constructor(props) {
         
@@ -35,7 +36,7 @@ class AddProducts extends Component {
       }
 
       cancel(e){
-        window.location.href = '/adminportal';
+        this.props.history.push("/adminportal");
       }
 
       onSubmit(e) {
@@ -120,4 +121,4 @@ AddProducts.propTypes = {
     addProduct: state.product
   });
 
-export default connect(mapStateToProps, { addProduct })(AddProducts);
+export default connect(mapStateToProps, { addProduct })(withRouter(AddProducts));
