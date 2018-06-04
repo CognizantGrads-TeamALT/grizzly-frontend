@@ -5,17 +5,12 @@ import PropTypes from "prop-types";
 import VendorSearchSort from "../common/VendorSearchSort";
 import { getVendors } from "../../../actions/vendorActions";
 import VendorList from "./VendorList";
-
+import isEmpty from "../../../validation/is-empty";
 class Vendor extends Component {
-  // componentDidMount() {
-  //   this.props.getVendors();
-  // }
-
-  render() {
+  show() {
     const { vendors, loading } = this.props.vendor;
-    let vendorItem;
-    if (vendors === null || loading) {
-      vendorItem = (
+    if (isEmpty(vendors) || loading) {
+      return (
         <tr>
           <td>
             <Spinner />
@@ -23,21 +18,13 @@ class Vendor extends Component {
         </tr>
       );
     } else {
-      if (vendors.length > 0) {
-        vendorItem = vendors.map(vendor => (
-          <VendorList key={vendor.vendorId} vendor={vendor} />
-        ));
-      } else {
-        vendorItem = (
-          <tr>
-            <td>
-              <Spinner />
-            </td>
-          </tr>
-        );
-      }
+      return vendors.map(vendor => (
+        <VendorList key={vendor.vendorId} vendor={vendor} />
+      ));
     }
+  }
 
+  render() {
     return (
       <div>
         <VendorSearchSort />
@@ -51,7 +38,7 @@ class Vendor extends Component {
               <th scope="col" />
             </tr>
           </thead>
-          <tbody>{vendorItem}</tbody>
+          <tbody>{this.show()}</tbody>
         </table>
       </div>
     );

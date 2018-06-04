@@ -20,7 +20,6 @@ class VendorSearchSort extends Component {
     this.onSortById = this.onSortById.bind(this);
     this.onSortByName = this.onSortByName.bind(this);
     this.onSortByWebsite = this.onSortByWebsite.bind(this);
-    this.onSortByContact = this.onSortByContact.bind(this);
   }
 
   onChange(e) {
@@ -51,11 +50,6 @@ class VendorSearchSort extends Component {
   onSortByWebsite(e) {
     e.preventDefault();
     this.props.sortVendorsByParam("0", "website");
-  }
-
-  onSortByContact(e) {
-    e.preventDefault();
-    this.props.sortVendorsByParam("contactNum");
   }
 
   render() {
@@ -112,13 +106,6 @@ class VendorSearchSort extends Component {
             type="button"
           >
             Website
-          </button>
-          <button
-            onClick={this.onSortByContact}
-            className="dropdown-item"
-            type="button"
-          >
-            Contact Number
           </button>
         </div>
         <VendorForm

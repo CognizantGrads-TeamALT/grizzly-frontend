@@ -6,10 +6,10 @@ class VendorPortal extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-3 m-auto">
+        <div className="col-md-3">
           <Profile />
         </div>
-        <div className="col-md-9 m-auto">
+        <div className="col-md-9">
           <VendorTab />
         </div>
       </div>

@@ -21,16 +21,17 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path="/" component={Landing} />
+
             <div className="container">
               <Switch>
+                <Route exact path="/" component={Landing} />
                 <Route exact path="/signup" component={SignUp} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/not-found" component={NotFound} />
                 <Route exact path="/adminportal" component={AdminPortal} />
                 <Route exact path="/vendorportal" component={VendorPortal} />
                 <Route exact path="/detailedproduct" component={DetailedProduct} />
                 <Route exact path="/category/new" component={CategoryForm} />
+                <Route component={NotFound} />
               </Switch>
             </div>
             <Footer />
