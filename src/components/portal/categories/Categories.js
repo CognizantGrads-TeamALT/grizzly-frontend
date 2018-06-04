@@ -10,9 +10,7 @@ import isEmpty from "../../../validation/is-empty";
 class Categories extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      index: 0
-    };
+    this.index = 0;
   }
 
   componentDidMount() {
@@ -21,23 +19,24 @@ class Categories extends Component {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-        this.refs.myscroll.scrollHeight
+          this.refs.myscroll.scrollHeight &&
+        !this.props.category.loading
       ) {
         this.loadMore();
       }
     });
   }
 
+  shouldComponentUpdate() {
+    return this.props.category.loading;
+  }
+
   loadMore() {
     if (this.props.category.hasMore) {
-      this.setState({
-        index: this.state.index + 1
-      });
-      this.props.getCategories(this.state.index);
+      this.index += 1;
+      this.props.getCategories(this.index);
     } else {
-      this.setState({
-        index: 0
-      });
+      this.index = 0;
     }
   }
 

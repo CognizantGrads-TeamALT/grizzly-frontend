@@ -25,11 +25,16 @@ class Products extends Component {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-        this.refs.myscroll.scrollHeight
+          this.refs.myscroll.scrollHeight &&
+        !this.props.product.loading
       ) {
         this.loadMore();
       }
     });
+  }
+
+  shouldComponentUpdate() {
+    return this.props.product.loading;
   }
 
   loadMore() {

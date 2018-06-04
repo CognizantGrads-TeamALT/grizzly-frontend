@@ -9,9 +9,7 @@ import isEmpty from "../../../validation/is-empty";
 class Vendor extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      index: 0
-    };
+    this.index = 0;
   }
 
   componentDidMount() {
@@ -20,23 +18,24 @@ class Vendor extends Component {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-        this.refs.myscroll.scrollHeight
+          this.refs.myscroll.scrollHeight &&
+        !this.props.vendor.loading
       ) {
         this.loadMore();
       }
     });
   }
 
+  shouldComponentUpdate() {
+    return this.props.vendor.loading;
+  }
+
   loadMore() {
     if (this.props.vendor.hasMore) {
-      this.setState({
-        index: this.state.index + 1
-      });
-      this.props.getVendors(this.state.index);
+      this.index += 1;
+      this.props.getVendors(this.index);
     } else {
-      this.setState({
-        index: 0
-      });
+      this.index = 0;
     }
   }
 
