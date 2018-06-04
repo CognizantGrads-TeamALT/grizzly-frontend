@@ -10,8 +10,7 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { addProduct } from "../../../actions/productsActions";
-
-
+import { getCategories } from "../../../actions/categoryActions";
 
 class AddProducts extends Component {
     constructor(props) {
@@ -28,6 +27,18 @@ class AddProducts extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
       }
+
+      populate() {
+        const { category } = this.props;
+        this.props.getCategories(); // Or search with delay after typing
+       var options = [];
+       category.map(category => (
+       options.add(
+           {id: category.id,
+            name: category.name})
+       ));
+       return options;
+    }
     
       onToggle() {
         this.setState({
@@ -101,7 +112,7 @@ class AddProducts extends Component {
               </Button>
               <Button
                 className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
-                onClick={this.cancel}
+                onClick={() => this.cancel()}
               >
               Cancel
               </Button>
