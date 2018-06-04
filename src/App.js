@@ -21,7 +21,6 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Landing} />
