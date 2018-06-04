@@ -48,8 +48,6 @@ class AdminTab extends Component {
         this.props.getCategories("0");
       } else if (tab === "2") {
         this.props.getVendors("0");
-      } else if (tab === "null") {
-        
       } else {
         this.props.getProducts("0");
       }

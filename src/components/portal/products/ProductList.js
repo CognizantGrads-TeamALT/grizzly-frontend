@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { onToggle } from "../AdminTab";
+import { Link } from "react-router-dom";
 class ProductList extends Component {
     render() {
         const { product } = this.props;
@@ -13,13 +13,12 @@ class ProductList extends Component {
                 <td>{product.desc}</td>
                 <td>{product.price}</td>
                 <td>
-                    <button
-                        // onClick={this.onClick.onToggle("null")}
+                    <Link
                         className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
-                        type="button"
+                        to="/detailedproduct"
                     >
-                        View
-                    </button>
+                    View
+                    </Link>
                     <button
                         className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
                         type="button"

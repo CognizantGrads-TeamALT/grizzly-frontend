@@ -11,7 +11,6 @@ class ProductCallToActionButtons extends Component {
                 <div className="row-11">
                     <Button
                         className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
-                        onClick={this.onToggle("null")}
 
                     >
                         Finish
