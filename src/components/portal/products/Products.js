@@ -9,6 +9,35 @@ import { getProducts } from "../../../actions/productsActions";
 import isEmpty from "../../../validation/is-empty";
 
 class Products extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0
+    };
+  }
+
+  componentDidMount() {
+    // Detect when scrolled to bottom.
+    this.refs.myscroll.addEventListener("scroll", e => {
+      e.preventDefault();
+      if (
+        this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
+        this.refs.myscroll.scrollHeight
+      ) {
+        this.loadMore();
+      }
+    });
+  }
+
+  loadMore() {
+    if (this.props.product.hasMore) {
+      this.setState({
+        index: this.state.index + 1
+      });
+      this.props.getProducts(this.state.index);
+    }
+  }
+
   show() {
     const { products, loading } = this.props.product;
     if (isEmpty(products) || loading) {
@@ -48,8 +77,12 @@ class Products extends Component {
               <th scope="col" />
             </tr>
           </thead>
-          <tbody>{this.show()}</tbody>
         </table>
+        <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
+          <table className="table table-sm table-hover">
+            <tbody>{this.show()}</tbody>
+          </table>
+        </div>
       </div>
     );
   }
