@@ -62,7 +62,7 @@ class DetailedProduct extends Component {
                             </Nav>
                         </Col>
                     </Row>
-                    <div className="row-3 mb-3">
+                    <div className="row-3 mb-3 mt-4">
                         <ProductTitle />
                     </div>
                     <div className="row-9">

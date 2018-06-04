@@ -9,7 +9,7 @@ class ProductDescription extends Component {
                     <img
                         src={ exampleImg }
                         alt="Example Product Image"
-                        style={{ width: "300px", display: "block" }}
+                        style={{ width: "280px", display: "block" }}
                     />
                 </div>
                 <div className="col-4">
