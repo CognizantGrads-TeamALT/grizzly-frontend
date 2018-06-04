@@ -7,6 +7,8 @@ import {
     NavLink
   } from "reactstrap";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import Products from "../products/Products";
@@ -17,7 +19,12 @@ import ProductCallToActionButtons from "./ProductCallToActionButtons";
 import ProductTitle from "./ProductTitle";
 
 class DetailedProduct extends Component {
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeTab: "1"
+        };
+    }
     render() {
         return (
             <div className="row">
@@ -29,28 +36,31 @@ class DetailedProduct extends Component {
                         <Col>
                             <Nav tabs>
                                 <NavItem>
-                                    <NavLink
-                                    className={classnames("nav-link hover-w-b btn-outline-success my-2 my-sm-0")}
+                                    <Link to="/adminportal"
+                                    className={classnames("nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                                    {
+                                        active: this.state.activeTab === "1"
+                                    })}
                                     >
                                     PRODUCTS
-                                    </NavLink>
+                                    </Link>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink
+                                    <Link to="/adminportal"
                                     className={classnames("nav-link hover-w-b btn-outline-success my-2 my-sm-0")}
                                     >
                                     VENDORS
-                                    </NavLink>
+                                    </Link>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink
+                                    <Link to="/adminportal"
                                     className={classnames("nav-link hover-w-b btn-outline-success my-2 my-sm-0")}
                                     >
                                     CATEGORIES
-                                    </NavLink>
+                                    </Link>
                                 </NavItem>
                             </Nav>
-                    </Col>
+                        </Col>
                     </Row>
                     <div className="row-3 mb-3">
                         <ProductTitle />
