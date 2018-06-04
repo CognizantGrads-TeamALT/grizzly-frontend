@@ -3,6 +3,7 @@ import {
     Row,
     Col,
     Nav,
+    Button,
     NavItem,
     NavLink
   } from "reactstrap";
@@ -62,12 +63,16 @@ class DetailedProduct extends Component {
                             </Nav>
                         </Col>
                     </Row>
-                    <div className="row-3 mb-3 mt-4">
-                        <ProductTitle />
+
+                    <div className="row mt-4">
+                        <div className="col-5">
+                            <ProductTitle />
+                        </div>
+                        <div className="col-7">
+                            <ProductDescription />
+                        </div>
                     </div>
-                    <div className="row-9">
-                        <ProductDescription />
-                    </div>  
+
                 </div> 
             </div>
         );

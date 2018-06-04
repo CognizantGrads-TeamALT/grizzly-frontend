@@ -9,6 +9,10 @@
   text-align: left;
 }
 
+.bottom-zero {
+  bottom: 0;
+}
+
 .dscrptnSize-7 {
   font-size: 0.7em;
 }
@@ -49,7 +53,8 @@
 }
 
 .search-form-custom::before,
-.search-form-custom > input::before {
+.search-form-custom > input::before,
+.surround-parent {
   top: 0;
   right: 0;
   left: 0;
@@ -279,6 +284,12 @@
 
 .btn-group.aligned-left {
   text-align: left;
+}
+
+/* View a Product */
+
+.bottom-heavy {
+  vertical-align: bottom;
 }
 
 /* Colours */

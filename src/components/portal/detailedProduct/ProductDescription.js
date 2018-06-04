@@ -1,29 +1,57 @@
 import React, { Component } from "react";
-import exampleImg from "../../../img/exampleImg.png";
+import {
+    Button
+} from "reactstrap";
 
 class ProductDescription extends Component {
     render() {
         return (
-            <div className="row">
-                <div className="col-5">
-                    <img
-                        src={ exampleImg }
-                        alt="Example Product Image"
-                        style={{ width: "280px", display: "block" }}
-                    />
-                </div>
-                <div className="col-4">
-                    <div className="mb-3">
-                        Product Description
+            <div className="container">
+                <div className="row align-items-start">
+                    <div className="col">
+                        <div className="row align-items-center">
+                            <div className="col">
+                                <div className="mb-3">
+                                    Product Description
+                                </div>
+                                <div className="dscrptnSize-7">
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row align-items-end">
+                            <p className="mb-0 bottom-zero bottom-heavy">$14</p>
+                        </div>
+
+            
+
                     </div>
-                    <div className="dscrptnSize-7">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                </div>
+                <div className="row align-items-end">
+                    <div className="col">
+                        <div className="row">
+                            <div className="col align-self-start">    
+                            </div>
+                            <div className="col align-self-end">
+                                    <Button
+                                        className="btn more-rounded hover-w-b btn-sm row-auto mt-auto"
+        
+                                            >
+                                                Finish
+                                        </Button>
+        
+                                    <Button
+                                        className="btn more-rounded hover-w-b btn-sm row-auto"
+                                        // onClick={this.onSubmit}
+                                    >
+                                        Cancel
+                                    </Button>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-                <div className="col-3">
-                    Buttons
-                </div>
-            </div>
+            </div>    
         );
     }
 }
