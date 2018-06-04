@@ -21,7 +21,7 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-            <Route exact path="/" component={Landing} />
+
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Landing} />
@@ -32,6 +32,7 @@ class App extends Component {
                 <Route exact path="/category/new" component={CategoryForm} />
                 <Route exact path="/addProduct" component={AddProduct} />
                 <Route path="*" exact={true} component={NotFound} />
+                <Route component={NotFound} />
               </Switch>
             </div>
             <Footer />
