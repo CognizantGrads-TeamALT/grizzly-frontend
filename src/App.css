@@ -1,9 +1,23 @@
-.landingpage {
-  text-align: center;
+/* General */
+.parent-wide {
+  width: 100%;
 }
 
-/* Typography */
+.parent-min-high {
+  min-height: 50%;
+}
 
+.parent-high {
+  height: 100%;
+}
+
+.parent-min-half-high {
+  min-height: 25%;
+}
+
+.parent-half-high {
+  height: 50%;
+}
 
 .align-left {
   text-align: left;
@@ -12,6 +26,12 @@
 .bottom-zero {
   bottom: 0;
 }
+
+.landingpage {
+  text-align: center;
+}
+
+/* Typography */
 
 .dscrptnSize-7 {
   font-size: 0.7em;
@@ -25,11 +45,11 @@
   font-size: 0.9em;
 }
 
-/* Buttons */
-.parent-wide {
-  width: 100%;
+.fnt-weight-400 { 
+  font-weight: 400;
 }
 
+/* Buttons */
 
 .btn-group > .btn-group:not(:first-child) > .btn,
 .btn-group > .btn:not(:first-child),

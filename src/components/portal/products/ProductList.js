@@ -6,11 +6,9 @@ class ProductList extends Component {
 
         return (
             <tr>
-                <th scope="row">{product.productId}</th>
-                <td>{product.name}</td>
+                <th scope="row" className="fnt-weight-400">{product.name}</th>
                 <td>{product.vendorId}</td>
                 <td>{product.categoryId}</td>
-                <td>{product.desc}</td>
                 <td>{product.price}</td>
                 <td>
                     <Link to={`/detailedproduct/${product.productId}`}

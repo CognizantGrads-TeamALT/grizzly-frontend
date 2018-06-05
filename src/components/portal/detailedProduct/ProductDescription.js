@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import {
-    Button
-} from "reactstrap";
+import { Link } from "react-router-dom";
+
 
 class ProductDescription extends Component {
     constructor(props) {
@@ -13,7 +12,7 @@ class ProductDescription extends Component {
     }
     render() {
         return (
-            <div className="container">
+            <div className="container surround-parent parent-high">
                 <div className="row align-items-start">
                     <div className="col">
                         <div className="mb-3 mt-5">
@@ -21,7 +20,7 @@ class ProductDescription extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="row align-items-center">
+                <div className="row align-items-start parent-min-high">
                     <div className="col-8">
                         <div className="dscrptnSize-7">
                             <p>{this.state.desc}</p>
@@ -39,18 +38,20 @@ class ProductDescription extends Component {
                     <div className="col surround-parent parent-wide">  
                         <div className="row surround-parent parent-wide">
                             <div className="col align-self-end surround-parent parent-wide">
-                                    <Button
-                                        className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent parent-wide mt-2"
-
+                                    <Link 
+                                        className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
+                                        to="/adminportal"
+                                        // Please change when you do Edit Product
                                             >
                                                 Finish
-                                    </Button>
-                                    <Button
+                                    </Link>
+                                    <Link
                                         className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent parent-wide mt-2"
-                                        // onClick={this.onSubmit}
+                                        to="/adminportal"
                                     >
                                         Cancel
-                                    </Button>
+                                    </Link>
+
                             </div>
                         </div>
 
