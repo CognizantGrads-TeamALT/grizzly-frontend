@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { addProduct } from "../../../actions/productsActions";
 import { searchCategories } from "../../../actions/categoryActions";
 import _ from 'lodash';
+
 //import { DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
 class ProductForm extends Component {
@@ -33,13 +34,15 @@ class ProductForm extends Component {
       }
 
       populate(param) {
-        const { category } = this.props;
-        console.log(this.props.searchCategories(param));
-        if(category == undefined)
-            console.log(category);
+        
+        this.props.searchCategories(param);
+        const { categories } = this.props.category;
+        console.log(categories);
+        if(isEmpty(categories))
+            console.log(categories);
             return undefined;
        var options = [];
-       category.map(category => (
+       categories.map(category => (
        options.add(
            {id: category.id,
             name: category.name})
@@ -164,7 +167,8 @@ ProductForm.propTypes = {
   };
 
   const mapStateToProps = state => ({
-    product: state.product
+    product: state.product,
+    category: state.category
   });
 
 export default connect(mapStateToProps, { addProduct, searchCategories })(withRouter(ProductForm));
