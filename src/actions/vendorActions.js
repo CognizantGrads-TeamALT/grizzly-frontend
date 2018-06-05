@@ -15,8 +15,8 @@ export const getVendors = index => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_VENDORS,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -26,17 +26,23 @@ export const addVendor = newVendor => dispatch => {
   dispatch(setVendorAdding());
   axios
     .put(VENDOR_API_GATEWAY + "/add", newVendor)
-    .then(res => dispatch(getVendors("0")))
+    .then(res =>
+      dispatch({
+        type: types.VENDOR_ADDING,
+        payload: res.data
+      })
+    )
     .catch(err =>
       dispatch({
         type: types.GET_ERRORS,
-        payload: {}
+        payload: err.response.data
       })
     );
 };
 
 // Sort Vendor by @param
 export const sortVendorsByParam = (index, param) => dispatch => {
+  dispatch(clearCurrentVendors());
   dispatch(setVendorLoading());
   axios
     .get(VENDOR_API_GATEWAY + `/get/${index}/${param}`)
@@ -48,14 +54,15 @@ export const sortVendorsByParam = (index, param) => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_VENDORS,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
 
 // Search Vendors
 export const searchVendors = keyword => dispatch => {
+  dispatch(clearCurrentVendors());
   dispatch(setVendorLoading());
   axios
     .get(VENDOR_API_GATEWAY + `/search/${keyword}`)
@@ -67,8 +74,8 @@ export const searchVendors = keyword => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_VENDORS,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -77,6 +84,19 @@ export const searchVendors = keyword => dispatch => {
 export const setVendorLoading = () => {
   return {
     type: types.VENDOR_LOADING
+  };
+};
+
+// Vendor update
+export const setVendorUpdateOnce = () => {
+  return {
+    type: types.VENDOR_UPDATING
+  };
+};
+
+export const setVendorUpdated = () => {
+  return {
+    type: types.VENDOR_UPDATED
   };
 };
 
@@ -89,6 +109,7 @@ export const setVendorAdding = () => {
 
 // Delete Vendor
 export const deleteVendor = id => dispatch => {
+  dispatch(setVendorUpdateOnce());
   axios
     .delete(VENDOR_API_GATEWAY + `/delete/${id}`)
     .then(res =>

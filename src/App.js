@@ -13,6 +13,7 @@ import VendorPortal from "./components/portal/VendorPortal";
 import DetailedProduct from "./components/portal/detailedProduct/DetailedProduct";
 import NotFound from "./components/not-found/NotFound";
 import CategoryForm from "./components/portal/categories/CategoryForm";
+import TestForm from "./components/portal/products/TestForm";
 
 class App extends Component {
   render() {
@@ -21,7 +22,6 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navbar />
-
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Landing} />
@@ -31,6 +31,7 @@ class App extends Component {
                 <Route exact path="/vendorportal" component={VendorPortal} />
                 <Route exact path="/detailedproduct/:productId" component={DetailedProduct} />
                 <Route exact path="/category/new" component={CategoryForm} />
+                <Route exact path="/product/new" component={TestForm} />
                 <Route component={NotFound} />
               </Switch>
             </div>

@@ -1,7 +1,9 @@
 import * as types from "../actions/types";
+import isEmpty from "../validation/is-empty";
 
 const initialState = {
-  vendors: null
+  vendors: null,
+  hasMore: false
 };
 
 export default function(state = initialState, action) {
@@ -11,16 +13,39 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
-    case types.GET_VENDORS:
+    case types.VENDOR_UPDATING:
       return {
         ...state,
-        vendors: action.payload,
+        updateOnce: true
+      };
+    case types.VENDOR_UPDATED:
+      return {
+        ...state,
+        updateOnce: false
+      };
+    case types.GET_VENDORS:
+      const hasMore =
+        action.payload.length < 25 || isEmpty(action.payload.length)
+          ? false
+          : true;
+      const currentVendors = isEmpty(state.vendors) ? [] : state.vendors;
+      const newVendors = isEmpty(action.payload)
+        ? currentVendors
+        : currentVendors.concat(action.payload);
+      return {
+        ...state,
+        vendors: newVendors,
+        hasMore: hasMore,
         loading: false
       };
     case types.VENDOR_ADDING:
+      const currentVendors2 = isEmpty(state.vendors) ? [] : state.vendors;
+      const addVendor = isEmpty(action.payload) ? [] : [action.payload];
+      const newVendors2 = addVendor.concat(currentVendors2);
       return {
         ...state,
-        loading: true
+        vendors: newVendors2,
+        updateOnce: true
       };
     case types.VENDOR_DELETING:
       return {

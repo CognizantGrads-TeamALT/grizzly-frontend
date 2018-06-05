@@ -13,6 +13,16 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
+    case types.CATEGORY_UPDATING:
+      return {
+        ...state,
+        updateOnce: true
+      };
+    case types.CATEGORY_UPDATED:
+      return {
+        ...state,
+        updateOnce: false
+      };
     case types.GET_CATEGORIES:
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
@@ -29,9 +39,13 @@ export default function(state = initialState, action) {
         loading: false
       };
     case types.CATEGORY_ADDING:
+      const currentCats2 = isEmpty(state.categories) ? [] : state.categories;
+      const addCategory = isEmpty(action.payload) ? [] : [action.payload];
+      const newCats2 = addCategory.concat(currentCats2);
       return {
         ...state,
-        loading: true
+        categories: newCats2,
+        updateOnce: true
       };
     case types.CATEGORY_EDITING:
       return {

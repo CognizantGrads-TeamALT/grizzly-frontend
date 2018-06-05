@@ -1,5 +1,5 @@
 import React from "react";
-import loading from "./loading.svg";
+import loading from "./spinningdog.svg";
 
 export default () => {
   return (
