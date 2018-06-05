@@ -40,6 +40,25 @@ export const deleteProduct = id => dispatch => {
     );
 };
 
+// Block/unlock Product
+export const toggleBlockProduct = product => dispatch => {
+  dispatch(setProductUpdateOnce());
+  axios
+    .post(PRODUCT_API_GATEWAY + `/setBlock/${product.productId}`, product)
+    .then(res =>
+      dispatch({
+        type: types.PRODUCTS_EDITED,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Product Loading
 export const setProductLoading = () => {
   return {
