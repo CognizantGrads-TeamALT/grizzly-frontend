@@ -34,7 +34,10 @@ class ProductForm extends Component {
 
       populate(param) {
         const { category } = this.props;
-        this.props.searchCategories(param);
+        console.log(this.props.searchCategories(param));
+        if(category == undefined)
+            console.log(category);
+            return undefined;
        var options = [];
        category.map(category => (
        options.add(
@@ -56,8 +59,7 @@ class ProductForm extends Component {
 
       onSubmit(e) {
         e.preventDefault();
-
-          const newProd = {
+        const newProd = {
             category: this.state.catgegory,
             name: this.state.name,
             description: this.state.description,
@@ -80,22 +82,24 @@ class ProductForm extends Component {
       }
 
       searchCatTimer(e){
-          var event = e;
-        this.setState({ [event.target.name]: event.target.value });
-        e.persist();
-        const catSearch = _.debounce((event) => {this.searchCat(event)}, 300);
-
-        catSearch(event);
+          e.preventDefault();
+          e.persist();
+        this.setState({ [e.target.name]: e.target.value });
+        //event.persist();
+        const catSearch = _.debounce((e) => {this.searchCat(e)}, 300);
+        catSearch(e);
       }
 
       searchCat(e) {
-          console.log("test");
+          console.log(e.target.value);
           var categories = this.populate(e.target.value);
-          if(categories != null){
+          if(categories != undefined){
+              console.log("categories not undefined");
             categories.forEach(this.setState(this.props.categoryList.add(
                 <button className="btn"> {categories.name} </button>, < br/>
             )
-            ),  [] )  
+            ),  [] )
+            console.log(this.props.categoryLIst.length())  
           }
           //
       }
@@ -113,6 +117,7 @@ class ProductForm extends Component {
                     value={this.state.category}
                     onChange={this.searchCatTimer}
                     />
+                    {this.state.categoryList}
                 </div>
                   <TextFieldGroup
                     placeholder="Name"
@@ -162,4 +167,4 @@ ProductForm.propTypes = {
     product: state.product
   });
 
-export default connect(mapStateToProps, { addProduct })(withRouter(ProductForm));
+export default connect(mapStateToProps, { addProduct, searchCategories })(withRouter(ProductForm));
