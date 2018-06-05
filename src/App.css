@@ -1,8 +1,56 @@
+/* General */
+.parent-wide {
+  width: 100%;
+}
+
+.parent-min-high {
+  min-height: 50%;
+}
+
+.parent-high {
+  height: 100%;
+}
+
+.parent-min-half-high {
+  min-height: 25%;
+}
+
+.parent-half-high {
+  height: 50%;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.bottom-zero {
+  bottom: 0;
+}
+
 .landingpage {
   text-align: center;
 }
 
+/* Typography */
+
+.dscrptnSize-7 {
+  font-size: 0.7em;
+}
+
+.dscrptnSize-8 {
+  font-size: 0.8em;
+}
+
+.dscrptnSize-9 {
+  font-size: 0.9em;
+}
+
+.fnt-weight-400 { 
+  font-weight: 400;
+}
+
 /* Buttons */
+
 .btn-group > .btn-group:not(:first-child) > .btn,
 .btn-group > .btn:not(:first-child),
 .btn-group > .btn-group:not(:first-child) > .btn,
@@ -30,7 +78,8 @@
 }
 
 .search-form-custom::before,
-.search-form-custom > input::before {
+.search-form-custom > input::before,
+.surround-parent {
   top: 0;
   right: 0;
   left: 0;
@@ -260,6 +309,12 @@
 
 .btn-group.aligned-left {
   text-align: left;
+}
+
+/* View a Product */
+
+.bottom-heavy {
+  vertical-align: bottom;
 }
 
 /* Colours */

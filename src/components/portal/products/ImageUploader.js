@@ -205,10 +205,10 @@ class ImageUploader extends Component {
   render() {
     return (
       <div
-        className={"fileUploader " + this.props.className}
+        className={"fileUploader parent-high" + this.props.className}
         style={this.props.style}
       >
-        <div className="fileContainer">
+        <div className="fileContainer parent-high">
           {this.renderIcon()}
           {this.renderLabel()}
           <div className="errorsContainer">{this.renderErrors()}</div>

@@ -59,6 +59,32 @@ export const toggleBlockProduct = product => dispatch => {
     );
 };
 
+// Edit Product
+export const editProduct = newInfo => dispatch => {
+  dispatch(setProductEditing());
+  axios
+    .post(PRODUCT_API_GATEWAY + `/edit/${newInfo.productId}`, newInfo)
+    .then(res =>
+      dispatch({
+        type: types.PRODUCT_EDITED,
+        payload: newInfo
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: types.GET_PRODUCTS,
+        payload: {}
+      })
+    );
+};
+
+// Product Editing
+export const setProductEditing = () => {
+  return {
+    type: types.PRODUCT_EDITING
+  };
+};
+
 // Product Loading
 export const setProductLoading = () => {
   return {
