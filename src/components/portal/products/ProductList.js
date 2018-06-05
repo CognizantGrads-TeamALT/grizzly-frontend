@@ -1,5 +1,12 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { deleteProduct } from "../../../actions/productsActions";
 class ProductList extends Component {
+    onDeleteClick(id) {
+        this.props.deleteProduct(id);
+    }
+
     render() {
         const { product } = this.props;
 
@@ -25,7 +32,7 @@ class ProductList extends Component {
                         Block
                     </button>
                     <button
-                        // onClick={this.onDeleteClick.bind(this, product.productId)}
+                        onClick={this.onDeleteClick.bind(this, product.productId)}
                         className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
                         type="button"
                     >
@@ -37,4 +44,9 @@ class ProductList extends Component {
     }
 }
 
-export default ProductList;
+ProductList.propTypes = {
+    deleteProduct: PropTypes.func.isRequired
+  };
+  
+export default connect(null, { deleteProduct })(ProductList);
+  
