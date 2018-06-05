@@ -73,14 +73,14 @@ class DetailedProduct extends Component {
                         </Col>
                     </Row>
 
-                    <div className="row mt-4">
+                    <div className="row mt-4 parent-min-half-high">
                         <div className="col-5">
                             <ProductTitle
                                 productDetails={prodDetails}
                             />
                             
                         </div>
-                        <div className="col-7">
+                        <div className="col-7 parent-min-half-high">
                             <ProductDescription 
                                 productDetails={prodDetails}
                             />

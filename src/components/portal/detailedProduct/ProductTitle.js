@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import exampleImg from "../../../img/exampleImg.png";
+import ImageUploader from "../products/ImageUploader";
 
 
 class ProductTitle extends Component {
@@ -14,7 +14,7 @@ class ProductTitle extends Component {
     }
     render() {
         return (
-            <div className="container">
+            <div className="container parent-high">
                 <div className="row align-items-start">
 
                     <div className="col pl-0">
@@ -28,12 +28,8 @@ class ProductTitle extends Component {
 
 
                 </div>
-                <div className="row align-items-end mt-3">
-                    <img
-                        src={ exampleImg }
-                        alt="Example"
-                        style={{ width: "333px", display: "block" }}
-                    />
+                <div className="row align-items-end mt-3 parent-high">
+                    <ImageUploader />
                 </div>
             </div>
         );
