@@ -49,6 +49,14 @@ export default function(state = initialState, action) {
           product => product.productId !== action.payload
         ),
       };
+    case types.PRODUCTS_EDITED:
+      return {
+        ...state,
+        products: state.products.map(
+          product =>
+            product.productId === action.payload.productId ? action.payload : product
+        ),
+      };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
         ...state,

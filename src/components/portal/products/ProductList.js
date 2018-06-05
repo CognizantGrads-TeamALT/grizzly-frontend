@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteProduct } from "../../../actions/productsActions";
+import { toggleBlockProduct, deleteProduct } from "../../../actions/productsActions";
 class ProductList extends Component {
     onDeleteClick(id) {
         this.props.deleteProduct(id);
+    }
+
+    onBlockClick(id, bool) {
+        this.props.product.enabled = !this.props.product.enabled;
+        this.props.toggleBlockProduct(this.props.product);
     }
 
     render() {
@@ -26,10 +31,11 @@ class ProductList extends Component {
                         View
                     </button>
                     <button
+                        onClick={this.onBlockClick.bind(this, product.productId, !product.enabled)}
                         className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
                         type="button"
                     >
-                        Block
+                        {product.enabled ? 'Block' : 'Unblock'}
                     </button>
                     <button
                         onClick={this.onDeleteClick.bind(this, product.productId)}
@@ -45,8 +51,9 @@ class ProductList extends Component {
 }
 
 ProductList.propTypes = {
-    deleteProduct: PropTypes.func.isRequired
+    deleteProduct: PropTypes.func.isRequired,
+    toggleBlockProduct: PropTypes.func.isRequired
   };
   
-export default connect(null, { deleteProduct })(ProductList);
+export default connect(null, { toggleBlockProduct, deleteProduct })(ProductList);
   
