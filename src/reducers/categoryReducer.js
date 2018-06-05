@@ -33,7 +33,7 @@ export default function(state = initialState, action) {
         hasMore: hasMore,
         loading: false
       };
-      case types.VENDOR_ADDING:
+    case types.CATEGORY_ADDING:
         const currentCats2 = isEmpty(state.categories) ? [] : state.categories;
         const addCategory = isEmpty(action.payload) ? [] : [action.payload];
         const newCats2 = addCategory.concat(currentCats2);

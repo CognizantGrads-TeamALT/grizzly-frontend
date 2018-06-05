@@ -47,7 +47,7 @@ export default function(state = initialState, action) {
         ...state,
         vendors: state.vendors.filter(
           vendor => vendor.vendorId !== action.payload
-        ),
+        )
       };
     case types.CLEAR_CURRENT_VENDORS:
       return {
