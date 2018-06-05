@@ -53,7 +53,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         vendors: null
-      };
+      }
     default:
       return state;
   }
