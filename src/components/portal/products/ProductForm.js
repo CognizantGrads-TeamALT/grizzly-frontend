@@ -12,6 +12,12 @@ import { Link } from "react-router-dom";
 import { addProduct } from "../../../actions/productsActions";
 import { searchCategories } from "../../../actions/categoryActions";
 import _ from 'lodash';
+import Spinner from "../../common/Spinner";
+import Loading from "../../common/Loading";
+import async from 'async';
+
+
+
 
 //import { DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 
@@ -33,21 +39,30 @@ class ProductForm extends Component {
         this.searchCatTimer = this.searchCatTimer.bind(this);
       }
 
+      
+
       populate(param) {
         
-        this.props.searchCategories(param);
-        const { categories } = this.props.category;
-        console.log(categories);
-        if(isEmpty(categories))
-            console.log(categories);
-            return undefined;
-       var options = [];
-       categories.map(category => (
-       options.add(
-           {id: category.id,
-            name: category.name})
-       ));
-       return options;
+        console.log("param");
+        console.log(param);
+
+        //this.props.searchCategories(param);
+        //const { categories, loading } = this.state.categories;//this.props.categories;
+      //   const {categories} = this.props;
+      //   if (!isEmpty(categories)){
+      //     console.log(categories);
+      //   var count = 0;
+      var options = param.map(category => ({ id: category.id, name: category.name }));
+
+     /*      var options = [];
+          param.map(category => (
+            options.concat(
+            {id: category.id,
+            name: category.name})     
+        )); */
+        console.log(options.length + " options Length");
+           return options;
+      // }
     }
     
       onToggle() {
@@ -89,21 +104,36 @@ class ProductForm extends Component {
           e.persist();
         this.setState({ [e.target.name]: e.target.value });
         //event.persist();
-        const catSearch = _.debounce((e) => {this.searchCat(e)}, 300);
+        const catSearch = _.debounce((e) => {this.searchCat(e)}, 1);
         catSearch(e);
       }
 
+
       searchCat(e) {
-          console.log(e.target.value);
-          var categories = this.populate(e.target.value);
-          if(categories != undefined){
-              console.log("categories not undefined");
-            categories.forEach(this.setState(this.props.categoryList.add(
-                <button className="btn"> {categories.name} </button>, < br/>
-            )
-            ),  [] )
-            console.log(this.props.categoryLIst.length())  
+          //const makeRequest = async () => {
+          this.props.searchCategories(e.target.value);
+          
+
+          var list;
+
+          if (!isEmpty(this.props.category.categories && !this.props.category.loading)){ 
+            const {categories} = this.props.category;
+
+            list = this.populate(categories);
+            this.setState({categoryList : list.map(listItem => (<button className="btn"> {categories.name} </button>,
+          < br/>  ))})
           }
+
+          
+          
+            
+              
+//<button className="btn"> {categories.name} </button>, < br/>
+          
+
+          //     this.setState({categoryList : catList});
+          //   console.log(catList.length);  
+          // }
           //
       }
 
@@ -120,6 +150,7 @@ class ProductForm extends Component {
                     value={this.state.category}
                     onChange={this.searchCatTimer}
                     />
+
                     {this.state.categoryList}
                 </div>
                   <TextFieldGroup
