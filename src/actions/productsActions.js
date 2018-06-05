@@ -44,7 +44,7 @@ export const deleteProduct = id => dispatch => {
 export const toggleBlockProduct = product => dispatch => {
   dispatch(setProductUpdateOnce());
   axios
-    .post(PRODUCT_API_GATEWAY + `/setBlock/${product.productId}/`, product)
+    .post(PRODUCT_API_GATEWAY + `/setBlock/${product.productId}`, product)
     .then(res =>
       dispatch({
         type: types.PRODUCTS_EDITED,
