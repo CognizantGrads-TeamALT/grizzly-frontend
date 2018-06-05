@@ -29,7 +29,7 @@ class App extends Component {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/adminportal" component={AdminPortal} />
                 <Route exact path="/vendorportal" component={VendorPortal} />
-                <Route exact path="/detailedproduct" component={DetailedProduct} />
+                <Route exact path="/detailedproduct/:productId" component={DetailedProduct} />
                 <Route exact path="/category/new" component={CategoryForm} />
                 <Route component={NotFound} />
               </Switch>

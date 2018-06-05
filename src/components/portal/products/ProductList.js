@@ -13,11 +13,11 @@ class ProductList extends Component {
                 <td>{product.desc}</td>
                 <td>{product.price}</td>
                 <td>
-                    <Link
+                    <Link to={`/detailedproduct/${product.productId}`}
                         className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
-                        to="/detailedproduct"
+                        // product={product}
                     >
-                    View
+                    View   
                     </Link>
                     <button
                         className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"

@@ -3,21 +3,19 @@ import {
     Row,
     Col,
     Nav,
-    Button,
-    NavItem,
-    NavLink
+    NavItem
   } from "reactstrap";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import Products from "../products/Products";
+import ProductList from "../products/ProductList";
 import { getProducts } from "../../../actions/productsActions";
 import Profile from "../profile/Profile"
 import ProductDescription from "./ProductDescription";
-import ProductCallToActionButtons from "./ProductCallToActionButtons";
 import ProductTitle from "./ProductTitle";
+import Spinner from "../../common/Spinner";
+import isEmpty from '../../../validation/is-empty'
 
 class DetailedProduct extends Component {
     constructor(props) {
@@ -27,6 +25,17 @@ class DetailedProduct extends Component {
         };
     }
     render() {
+        const { products, loading} = this.props.product;
+
+        let prodDetails;
+        if (isEmpty(products) || loading) {
+                prodDetails = <Spinner />;
+          } 
+          else {
+            prodDetails = products.filter(
+                product => product.productId == this.props.match.params.productId
+            )[0];
+          }
         return (
             <div className="row">
                 <div className="col-3">
@@ -66,10 +75,15 @@ class DetailedProduct extends Component {
 
                     <div className="row mt-4">
                         <div className="col-5">
-                            <ProductTitle />
+                            <ProductTitle
+                                productDetails={prodDetails}
+                            />
+                            
                         </div>
                         <div className="col-7">
-                            <ProductDescription />
+                            <ProductDescription 
+                                productDetails={prodDetails}
+                            />
                         </div>
                     </div>
 
@@ -79,12 +93,12 @@ class DetailedProduct extends Component {
     }
 }  
 
-// DetailedProduct.propTypes = {
-//     getDetailedProduct: PropTypes.func.isRequired
-// };
+ProductList.propTypes = {
+    getProducts: PropTypes.func.isRequired
+};
 
-// export default connect(null, { getDetailedProduct })(
-//     DetailedProduct
-// );
+const mapStateToProps = state => ({
+    product: state.product
+  });
 
-export default DetailedProduct;
+export default connect(mapStateToProps, { getProducts })(DetailedProduct);

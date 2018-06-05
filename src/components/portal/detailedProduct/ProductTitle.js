@@ -3,14 +3,23 @@ import exampleImg from "../../../img/exampleImg.png";
 
 
 class ProductTitle extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            detailedProductId: this.props.productId,
+            name: this.props.productDetails.name,
+            vendor: this.props.productDetails.vendorId
+        }
+        
+    }
     render() {
         return (
             <div className="container">
                 <div className="row align-items-start">
 
-                    <div className="col">
+                    <div className="col pl-0">
                         <div className="productTitle">
-                            <b className="d-inline">Trimmer </b><p className="d-inline">by Philips</p>
+                            <b className="d-inline">{this.state.name}</b><p className="d-inline"> by {this.state.vendor}</p>
                         </div>
                         <div className="productRating">
                             <i className="d-inline fas fa-star fa-xs mr-1"/><p className="d-inline descriptionSize">4.7</p>
@@ -22,7 +31,7 @@ class ProductTitle extends Component {
                 <div className="row align-items-end">
                     <img
                         src={ exampleImg }
-                        alt="Example Product Image"
+                        alt="Example"
                         style={{ width: "333px", display: "block" }}
                     />
                 </div>

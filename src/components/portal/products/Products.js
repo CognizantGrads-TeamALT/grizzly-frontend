@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import CategoryFilter from "../common/CategoryFilter";
 import Spinner from "../../common/Spinner";
 import ProductList from "./ProductList";
-import { getProducts } from "../../../actions/productsActions";
 import isEmpty from "../../../validation/is-empty";
 
 class Products extends Component {
@@ -56,7 +55,6 @@ class Products extends Component {
 }
 
 Products.propTypes = {
-  getProducts: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired
 };
 
@@ -64,4 +62,4 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps, { getProducts })(Products);
+export default connect(mapStateToProps)(Products);
