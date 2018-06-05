@@ -47,7 +47,7 @@ export const toggleBlockProduct = product => dispatch => {
     .post(PRODUCT_API_GATEWAY + `/setBlock/${product.productId}`, product)
     .then(res =>
       dispatch({
-        type: types.PRODUCTS_EDITED,
+        type: types.PRODUCTS_TOGGLEBLOCK,
         payload: res.data
       })
     )
@@ -70,6 +70,13 @@ export const setProductLoading = () => {
 export const setProductUpdateOnce = () => {
   return {
     type: types.PRODUCTS_UPDATING
+  };
+};
+
+// Product update
+export const setProductUpdated = () => {
+  return {
+    type: types.PRODUCTS_UPDATED
   };
 };
 

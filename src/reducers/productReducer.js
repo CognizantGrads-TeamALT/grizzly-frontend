@@ -17,7 +17,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         updateOnce: true
-      }
+      };
+    case types.PRODUCTS_UPDATED:
+      return {
+        ...state,
+        updateOnce: false
+      };
     case types.GET_PRODUCTS:
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
@@ -47,15 +52,17 @@ export default function(state = initialState, action) {
         ...state,
         products: state.products.filter(
           product => product.productId !== action.payload
-        ),
+        )
       };
-    case types.PRODUCTS_EDITED:
+    case types.PRODUCTS_TOGGLEBLOCK:
       return {
         ...state,
         products: state.products.map(
           product =>
-            product.productId === action.payload.productId ? action.payload : product
-        ),
+            product.productId === action.payload.productId
+              ? action.payload
+              : product
+        )
       };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
