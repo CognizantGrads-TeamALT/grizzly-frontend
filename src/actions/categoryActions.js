@@ -15,8 +15,8 @@ export const getCategories = index => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_CATEGORIES,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -33,8 +33,8 @@ export const addCategory = newCat => dispatch => {
       })
     ).catch(err =>
       dispatch({
-        type: types.CATEGORY_ADDING,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     )
 };
@@ -52,8 +52,8 @@ export const editCategory = newInfo => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_CATEGORIES,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -72,8 +72,8 @@ export const searchCategories = keyword => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_CATEGORIES,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -139,8 +139,8 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_CATEGORIES,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };

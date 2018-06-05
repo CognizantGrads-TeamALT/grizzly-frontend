@@ -15,8 +15,8 @@ export const getVendors = index => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_VENDORS,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -33,8 +33,8 @@ export const addVendor = newVendor => dispatch => {
       })
     ).catch(err =>
       dispatch({
-        type: types.VENDOR_ADDING,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     )
 };
@@ -53,8 +53,8 @@ export const sortVendorsByParam = (index, param) => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_VENDORS,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -73,8 +73,8 @@ export const searchVendors = keyword => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_VENDORS,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
