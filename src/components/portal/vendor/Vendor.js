@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
 import VendorSearchSort from "../common/VendorSearchSort";
-import { getVendors } from "../../../actions/vendorActions";
+import { getVendors, setVendorUpdated } from "../../../actions/vendorActions";
 import VendorList from "./VendorList";
 import isEmpty from "../../../validation/is-empty";
 class Vendor extends Component {
@@ -28,7 +28,7 @@ class Vendor extends Component {
 
   shouldComponentUpdate() {
     if (this.props.vendor.updateOnce) {
-      this.props.vendor.updateOnce = false;
+      this.props.setVendorUpdated();
       return true;
     }
 
@@ -88,6 +88,7 @@ class Vendor extends Component {
 
 Vendor.propTypes = {
   getVendors: PropTypes.func.isRequired,
+  setVendorUpdated: PropTypes.func.isRequired,
   vendor: PropTypes.object.isRequired
 };
 
@@ -95,4 +96,7 @@ const mapStateToProps = state => ({
   vendor: state.vendor
 });
 
-export default connect(mapStateToProps, { getVendors })(Vendor);
+export default connect(
+  mapStateToProps,
+  { getVendors, setVendorUpdated }
+)(Vendor);

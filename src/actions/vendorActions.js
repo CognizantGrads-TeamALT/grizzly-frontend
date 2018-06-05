@@ -31,12 +31,13 @@ export const addVendor = newVendor => dispatch => {
         type: types.VENDOR_ADDING,
         payload: res.data
       })
-    ).catch(err =>
+    )
+    .catch(err =>
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    )
+    );
 };
 
 // Sort Vendor by @param
@@ -90,6 +91,12 @@ export const setVendorLoading = () => {
 export const setVendorUpdateOnce = () => {
   return {
     type: types.VENDOR_UPDATING
+  };
+};
+
+export const setVendorUpdated = () => {
+  return {
+    type: types.VENDOR_UPDATED
   };
 };
 

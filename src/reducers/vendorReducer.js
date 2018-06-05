@@ -3,7 +3,7 @@ import isEmpty from "../validation/is-empty";
 
 const initialState = {
   vendors: null,
-  hasMore: false,
+  hasMore: false
 };
 
 export default function(state = initialState, action) {
@@ -17,7 +17,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         updateOnce: true
-      }
+      };
+    case types.VENDOR_UPDATED:
+      return {
+        ...state,
+        updateOnce: false
+      };
     case types.GET_VENDORS:
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
