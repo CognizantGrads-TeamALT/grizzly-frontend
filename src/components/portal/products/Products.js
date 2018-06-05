@@ -31,7 +31,12 @@ class Products extends Component {
   }
 
   shouldComponentUpdate() {
-    return this.props.product.loading;
+    if (this.props.product.updateOnce) {
+      this.props.product.updateOnce = false;
+      return true;
+    }
+
+    return this.props.product.loading || false;
   }
 
   loadMore() {

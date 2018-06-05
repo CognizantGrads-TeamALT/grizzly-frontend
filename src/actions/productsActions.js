@@ -15,8 +15,8 @@ export const getProducts = index => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_PRODUCTS,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };

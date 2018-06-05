@@ -15,8 +15,8 @@ export const getCategories = index => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_CATEGORIES,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -26,13 +26,17 @@ export const addCategory = newCat => dispatch => {
   dispatch(setCategoryAdding());
   axios
     .put(CATEGORY_API_GATEWAY + "/add", newCat)
-    .then(res => dispatch(getCategories("0")))
-    .catch(err =>
+    .then(res =>
+      dispatch({
+        type: types.CATEGORY_ADDING,
+        payload: res.data
+      })
+    ).catch(err =>
       dispatch({
         type: types.GET_ERRORS,
-        payload: {}
+        payload: err.response.data
       })
-    );
+    )
 };
 
 // Edit Category
@@ -48,14 +52,15 @@ export const editCategory = newInfo => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_CATEGORIES,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
 
 //Search Categories
 export const searchCategories = keyword => dispatch => {
+  dispatch(clearCurrentCategories());
   dispatch(setCategoryLoading());
   axios
     .get(CATEGORY_API_GATEWAY + `/search/${keyword}`)
@@ -67,8 +72,8 @@ export const searchCategories = keyword => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_CATEGORIES,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
@@ -87,6 +92,13 @@ export const setCategoryAdding = () => {
   };
 };
 
+// Category update
+export const setCategoryUpdateOnce = () => {
+  return {
+    type: types.CATEGORY_UPDATING
+  };
+};
+
 // Category editing
 export const setCategoryEditing = () => {
   return {
@@ -96,6 +108,7 @@ export const setCategoryEditing = () => {
 
 // Delete Category
 export const deleteCategory = id => dispatch => {
+  dispatch(setCategoryUpdateOnce());
   axios
     .delete(CATEGORY_API_GATEWAY + `/delete/${id}`)
     .then(res =>
@@ -114,6 +127,7 @@ export const deleteCategory = id => dispatch => {
 
 // Sort Vendor by @param
 export const sortCategoriesByParam = (index, param) => dispatch => {
+  dispatch(clearCurrentCategories());
   dispatch(setCategoryLoading());
   axios
     .get(CATEGORY_API_GATEWAY + `/get/${index}/${param}`)
@@ -125,8 +139,8 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: types.GET_CATEGORIES,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
     );
 };
