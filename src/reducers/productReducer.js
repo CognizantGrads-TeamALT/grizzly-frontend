@@ -13,6 +13,11 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
+    case types.PRODUCTS_UPDATING:
+      return {
+        ...state,
+        updateOnce: true
+      }
     case types.GET_PRODUCTS:
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
@@ -27,6 +32,22 @@ export default function(state = initialState, action) {
         products: newProducts,
         hasMore: hasMore,
         loading: false
+      };
+    case types.PRODUCTS_ADDING:
+      const currentProducts2 = isEmpty(state.products) ? [] : state.products;
+      const addProduct = isEmpty(action.payload) ? [] : [action.payload];
+      const newProducts2 = addProduct.concat(currentProducts2);
+      return {
+        ...state,
+        products: newProducts2,
+        updateOnce: true
+      };
+    case types.PRODUCTS_DELETING:
+      return {
+        ...state,
+        products: state.products.filter(
+          product => product.productId !== action.payload
+        ),
       };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {

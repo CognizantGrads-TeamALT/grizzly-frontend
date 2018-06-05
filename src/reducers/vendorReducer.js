@@ -3,7 +3,7 @@ import isEmpty from "../validation/is-empty";
 
 const initialState = {
   vendors: null,
-  hasMore: false
+  hasMore: false,
 };
 
 export default function(state = initialState, action) {
@@ -13,6 +13,11 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
+    case types.VENDOR_UPDATING:
+      return {
+        ...state,
+        updateOnce: true
+      }
     case types.GET_VENDORS:
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
@@ -29,16 +34,20 @@ export default function(state = initialState, action) {
         loading: false
       };
     case types.VENDOR_ADDING:
+      const currentVendors2 = isEmpty(state.vendors) ? [] : state.vendors;
+      const addVendor = isEmpty(action.payload) ? [] : [action.payload];
+      const newVendors2 = addVendor.concat(currentVendors2);
       return {
         ...state,
-        loading: true
+        vendors: newVendors2,
+        updateOnce: true
       };
     case types.VENDOR_DELETING:
       return {
         ...state,
         vendors: state.vendors.filter(
           vendor => vendor.vendorId !== action.payload
-        )
+        ),
       };
     case types.CLEAR_CURRENT_VENDORS:
       return {
