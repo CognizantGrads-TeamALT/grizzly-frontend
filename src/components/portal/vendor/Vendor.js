@@ -27,7 +27,12 @@ class Vendor extends Component {
   }
 
   shouldComponentUpdate() {
-    return this.props.vendor.loading;
+    if (this.props.vendor.updateOnce) {
+      this.props.vendor.updateOnce = false;
+      return true;
+    }
+
+    return this.props.vendor.loading || false;
   }
 
   loadMore() {

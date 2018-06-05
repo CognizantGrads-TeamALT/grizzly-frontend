@@ -28,7 +28,12 @@ class Categories extends Component {
   }
 
   shouldComponentUpdate() {
-    return this.props.category.loading;
+    if (this.props.category.updateOnce) {
+      this.props.category.updateOnce = false;
+      return true;
+    }
+
+    return this.props.category.loading || false;
   }
 
   loadMore() {
