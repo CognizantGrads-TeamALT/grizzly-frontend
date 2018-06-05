@@ -47,7 +47,7 @@ export const editCategory = newInfo => dispatch => {
     .then(res =>
       dispatch({
         type: types.CATEGORY_EDITED,
-        payload: newInfo
+        payload: res.data
       })
     )
     .catch(err =>
