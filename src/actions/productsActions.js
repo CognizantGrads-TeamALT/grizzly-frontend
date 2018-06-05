@@ -21,10 +21,36 @@ export const getProducts = index => dispatch => {
     );
 };
 
+// Delete Product
+export const deleteProduct = id => dispatch => {
+  dispatch(setProductUpdateOnce());
+  axios
+    .delete(PRODUCT_API_GATEWAY + `/delete/${id}`)
+    .then(res =>
+      dispatch({
+        type: types.PRODUCTS_DELETING,
+        payload: id
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Product Loading
 export const setProductLoading = () => {
   return {
     type: types.PRODUCTS_LOADING
+  };
+};
+
+// Product update
+export const setProductUpdateOnce = () => {
+  return {
+    type: types.PRODUCTS_UPDATING
   };
 };
 
