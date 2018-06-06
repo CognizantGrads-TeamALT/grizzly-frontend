@@ -31,11 +31,8 @@ class ProductList extends Component {
         product.categoryId === 0
           ? product.categoryId
           : product_category.filter(
-              item => item.categoryId !== product.categoryId
+              item => item.categoryId === product.categoryId
             )[0].name;
-
-      console.log("product_category");
-      console.log(product_category);
       return catName;
     }
   }
@@ -47,10 +44,8 @@ class ProductList extends Component {
       const vendName =
         product.vendorId === 0
           ? product.vendorId
-          : product_vendor.filter(item => item.vendorId !== product.vendorId)[0]
+          : product_vendor.filter(item => item.vendorId === product.vendorId)[0]
               .name;
-      console.log("product_vendor");
-      console.log(this.props.product_vendor);
       return vendName;
     }
   }

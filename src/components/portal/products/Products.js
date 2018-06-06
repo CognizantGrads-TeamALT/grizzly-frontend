@@ -55,8 +55,6 @@ class Products extends Component {
       !isEmpty(product_vendor) &&
       !loading
     ) {
-      console.log("loading: ");
-      console.log(loading);
       return products.map(prod => (
         <ProductList
           key={prod.productId}

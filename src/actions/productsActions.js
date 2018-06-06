@@ -139,10 +139,7 @@ export const clearCurrentProducts = () => {
   };
 };
 
-// Get ID:NAME batch
 export const getVendorBatch = vendorIdArray => dispatch => {
-  console.log("OK1");
-  console.log(vendorIdArray);
   axios
     .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
     .then(res => {
@@ -150,8 +147,6 @@ export const getVendorBatch = vendorIdArray => dispatch => {
         type: types.GET_PRODUCT_VENDOR,
         payload: res.data
       });
-      console.log("getVendorBatch");
-      console.log(res.data);
     })
     .catch(err =>
       dispatch({
@@ -161,12 +156,7 @@ export const getVendorBatch = vendorIdArray => dispatch => {
     );
 };
 
-// Get ID:NAME batch
 export const getCategoryBatch = categoryIdArray => dispatch => {
-  console.log("OK2");
-  console.log(categoryIdArray);
-  //TODO
-  // Return array of {Categories}
   axios
     .get(CATEGORY_API_GATEWAY + `/batchFetch/${categoryIdArray}`)
     .then(res => {
@@ -174,8 +164,6 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
         type: types.GET_PRODUCT_CATEGORY,
         payload: res.data
       });
-      console.log("getCategoryBatch");
-      console.log(res.data);
     })
     .catch(err =>
       dispatch({
