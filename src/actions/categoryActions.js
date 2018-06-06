@@ -13,12 +13,13 @@ export const getCategories = index => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Add Category
@@ -32,12 +33,13 @@ export const addCategory = newCat => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Edit Category
@@ -51,12 +53,13 @@ export const editCategory = newInfo => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 //Search Categories
@@ -71,12 +74,13 @@ export const searchCategories = keyword => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Category loading
@@ -124,12 +128,13 @@ export const deleteCategory = id => dispatch => {
         payload: id
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Block/unlock Category
@@ -143,12 +148,13 @@ export const toggleBlockCategory = category => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Sort Vendor by @param
@@ -163,12 +169,13 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Clear Categories
