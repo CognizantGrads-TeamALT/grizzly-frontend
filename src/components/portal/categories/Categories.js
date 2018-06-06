@@ -61,18 +61,16 @@ class Categories extends Component {
     return (
       <div>
         <CategorySearchSort />
-        <table className="table table-sm table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Category Name</th>
-              <th scope="col">Description</th>
-              <th scope="col">Products</th>
-              <th scope="col" />
-            </tr>
-          </thead>
-        </table>
         <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
           <table className="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Category Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Products</th>
+                <th scope="col" />
+              </tr>
+            </thead>
             <tbody>{this.show()}</tbody>
           </table>
         </div>
