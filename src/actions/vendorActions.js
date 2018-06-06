@@ -126,6 +126,25 @@ export const deleteVendor = id => dispatch => {
     );
 };
 
+// Block/unlock Vendor
+export const toggleBlockVendor = vendor => dispatch => {
+  dispatch(setVendorUpdateOnce());
+  axios
+    .post(VENDOR_API_GATEWAY + `/setBlock/${vendor.vendorId}`, vendor)
+    .then(res =>
+      dispatch({
+        type: types.VENDOR_TOGGLEBLOCK,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Clear Vendors
 export const clearCurrentVendors = () => {
   return {

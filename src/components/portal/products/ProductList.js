@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  toggleBlockProduct,
-  deleteProduct
-} from "../../../actions/productsActions";
+import { toggleBlockProduct, deleteProduct } from "../../../actions/productsActions";
+
 class ProductList extends Component {
   constructor(props) {
     super(props);
     this.onBlockClick = this.onBlockClick.bind(this);
   }
+
   onDeleteClick(id) {
     this.props.deleteProduct(id);
   }
@@ -19,11 +18,6 @@ class ProductList extends Component {
     const { product } = this.props;
     const updatedProd = {
       productId: product.productId,
-      name: product.name,
-      vendorId: product.vendorId,
-      categoryId: product.categoryId,
-      desc: product.desc,
-      price: product.price,
       enabled: !product.enabled
     };
     this.props.toggleBlockProduct(updatedProd);
@@ -64,8 +58,8 @@ class ProductList extends Component {
 }
 
 ProductList.propTypes = {
-  deleteProduct: PropTypes.func.isRequired,
-  toggleBlockProduct: PropTypes.func.isRequired
+  toggleBlockProduct: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired
 };
 
 export default connect(
