@@ -38,6 +38,7 @@ export const getProducts = index => dispatch => {
               : (categoryIdArray = categoryIdArray + "," + prod.categoryId)
         );
       dispatch(getCategoryBatch(categoryIdArray));
+      dispatch(setProductLoaded());
     })
     .catch(err =>
       dispatch({
@@ -115,6 +116,12 @@ export const setProductEditing = () => {
 export const setProductLoading = () => {
   return {
     type: types.PRODUCTS_LOADING
+  };
+};
+
+export const setProductLoaded = () => {
+  return {
+    type: types.PRODUCTS_LOADED
   };
 };
 

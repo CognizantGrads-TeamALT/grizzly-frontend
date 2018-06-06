@@ -84,7 +84,11 @@ export default function(state = initialState, action) {
     case types.GET_PRODUCT_CATEGORY:
       return {
         ...state,
-        product_category: action.payload,
+        product_category: action.payload
+      };
+    case types.PRODUCTS_LOADED:
+      return {
+        ...state,
         loading: false
       };
     case types.CLEAR_CURRENT_PRODUCTS:

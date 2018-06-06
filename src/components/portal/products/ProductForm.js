@@ -19,15 +19,14 @@ class ProductForm extends Component {
 
     this.state = {
       modal: false,
-      pictures: [],
-      files: [],
       name: "",
       categoryId: "",
       desc: "",
       price: "",
       categoryList: []
     };
-
+    this.pictures = [];
+    this.files = [];
     this.onDrop = this.onDrop.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -35,10 +34,8 @@ class ProductForm extends Component {
   }
 
   onDrop(pictureFiles, pictureDataURLs) {
-    this.setState({
-      pictures: this.state.pictures.concat(pictureFiles),
-      files: this.state.files.concat(pictureDataURLs)
-    });
+    this.pictures = pictureFiles;
+    this.files = pictureDataURLs;
   }
 
   onToggle() {
@@ -53,22 +50,8 @@ class ProductForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const newProd = {
-      category: this.state.catgegory,
-      name: this.state.name,
-      desc: this.state.desc,
-      price: this.state.price
-    };
-    console.log(newProd);
-    // this.props.addProduct(newProd);
-
-    this.setState({
-      category: "",
-      name: "",
-      description: "",
-      price: ""
-    });
-    this.cancel();
+    console.log(this.pictures);
+    console.log(this.files);
   }
 
   cancel(e) {
@@ -169,7 +152,7 @@ class ProductForm extends Component {
                   withPreview={true}
                   buttonText="Choose images"
                   onChange={this.onDrop}
-                  imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+                  imgExtension={[".jpg", ".jpeg", ".gif", ".png"]}
                   maxFileSize={5242880}
                 />
               </div>
