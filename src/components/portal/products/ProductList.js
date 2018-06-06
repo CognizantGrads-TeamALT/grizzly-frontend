@@ -6,6 +6,8 @@ import {
   toggleBlockProduct,
   deleteProduct
 } from "../../../actions/productsActions";
+import isEmpty from "../../../validation/is-empty";
+
 class ProductList extends Component {
   constructor(props) {
     super(props);
@@ -17,16 +19,40 @@ class ProductList extends Component {
 
   onBlockClick() {
     const { product } = this.props;
-    const updatedProd = {
-      productId: product.productId,
-      name: product.name,
-      vendorId: product.vendorId,
-      categoryId: product.categoryId,
-      desc: product.desc,
-      price: product.price,
-      enabled: !product.enabled
-    };
-    this.props.toggleBlockProduct(updatedProd);
+    product.enabled = !product.enabled;
+    this.props.toggleBlockProduct(product);
+  }
+
+  showCatName(product) {
+    const { product_category } = this.props;
+    if (!isEmpty(product) && !isEmpty(product_category)) {
+      // TODO : display Cat name and Vendor Name instead of Ids
+      const catName =
+        product.categoryId === 0
+          ? product.categoryId
+          : product_category.filter(
+              item => item.categoryId !== product.categoryId
+            )[0].name;
+
+      console.log("product_category");
+      console.log(product_category);
+      return catName;
+    }
+  }
+
+  showVendorName(product) {
+    const { product_vendor } = this.props;
+    if (!isEmpty(product) && !isEmpty(product_vendor)) {
+      // TODO : display Cat name and Vendor Name instead of Ids
+      const vendName =
+        product.vendorId === 0
+          ? product.vendorId
+          : product_vendor.filter(item => item.vendorId !== product.vendorId)[0]
+              .name;
+      console.log("product_vendor");
+      console.log(this.props.product_vendor);
+      return vendName;
+    }
   }
 
   render() {
@@ -34,15 +60,20 @@ class ProductList extends Component {
 
     return (
       <tr>
-        <th scope="row" className="fnt-weight-400">{product.name}</th>
-        <td>{product.vendorId}</td>
-        <td>{product.categoryId}</td>
+        <th scope="row" className="fnt-weight-400">
+          {product.productId}
+        </th>
+        <td>{product.name}</td>
+        <td>{this.showVendorName(product)}</td>
+        <td>{this.showCatName(product)}</td>
         <td>{product.price}</td>
         <td>
-            <Link to={`/detailedproduct/${product.productId}`}
-                className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2">
-                View   
-                </Link>
+          <Link
+            to={`/detailedproduct/${product.productId}`}
+            className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
+          >
+            View
+          </Link>
           <button
             onClick={this.onBlockClick}
             className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"

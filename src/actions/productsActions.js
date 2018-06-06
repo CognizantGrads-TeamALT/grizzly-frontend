@@ -1,5 +1,9 @@
 import * as types from "./types";
-import { PRODUCT_API_GATEWAY } from "./microservices";
+import {
+  PRODUCT_API_GATEWAY,
+  CATEGORY_API_GATEWAY,
+  VENDOR_API_GATEWAY
+} from "./microservices";
 import axios from "axios";
 
 // Get Product List
@@ -7,12 +11,34 @@ export const getProducts = index => dispatch => {
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.GET_PRODUCTS,
         payload: res.data
-      })
-    )
+      });
+
+      let vendorIdArray = "";
+      res.data
+        .filter(prod => prod.vendorId !== 0)
+        .map(
+          prod =>
+            vendorIdArray === ""
+              ? (vendorIdArray = prod.vendorId)
+              : (vendorIdArray = vendorIdArray + "," + prod.vendorId)
+        );
+      dispatch(getVendorBatch(vendorIdArray));
+
+      let categoryIdArray = "";
+      res.data
+        .filter(prod => prod.categoryId !== 0)
+        .map(
+          prod =>
+            categoryIdArray === ""
+              ? (categoryIdArray = prod.categoryId)
+              : (categoryIdArray = categoryIdArray + "," + prod.categoryId)
+        );
+      dispatch(getCategoryBatch(categoryIdArray));
+    })
     .catch(err =>
       dispatch({
         type: types.GET_ERRORS,
@@ -111,4 +137,50 @@ export const clearCurrentProducts = () => {
   return {
     type: types.CLEAR_CURRENT_PRODUCTS
   };
+};
+
+// Get ID:NAME batch
+export const getVendorBatch = vendorIdArray => dispatch => {
+  console.log("OK1");
+  console.log(vendorIdArray);
+  axios
+    .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCT_VENDOR,
+        payload: res.data
+      });
+      console.log("getVendorBatch");
+      console.log(res.data);
+    })
+    .catch(err =>
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Get ID:NAME batch
+export const getCategoryBatch = categoryIdArray => dispatch => {
+  console.log("OK2");
+  console.log(categoryIdArray);
+  //TODO
+  // Return array of {Categories}
+  axios
+    .get(CATEGORY_API_GATEWAY + `/batchFetch/${categoryIdArray}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCT_CATEGORY,
+        payload: res.data
+      });
+      console.log("getCategoryBatch");
+      console.log(res.data);
+    })
+    .catch(err =>
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };

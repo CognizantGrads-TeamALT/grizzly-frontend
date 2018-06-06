@@ -30,22 +30,29 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentProducts = isEmpty(state.products) ? [] : state.products;
-      const index = isEmpty(state.products) ? 1 : state.index+1;
+      const index = isEmpty(state.products) ? 1 : state.index + 1;
       const newProducts = isEmpty(action.payload)
         ? currentProducts
-        : [...new Map(currentProducts.concat(action.payload).map(o => [o['productId'], o])).values()];
+        : [
+            ...new Map(
+              currentProducts
+                .concat(action.payload)
+                .map(o => [o["productId"], o])
+            ).values()
+          ];
       return {
         ...state,
         products: newProducts,
         hasMore: hasMore,
-        index: index,
-        loading: false
+        index: index
       };
     case types.PRODUCTS_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];
       const newProducts2 = addProduct.concat(currentProducts2);
-      const hasMore2 = !state.hasMore ? ((newProducts2.length / 25) >= state.index+1) : state.hasMore;
+      const hasMore2 = !state.hasMore
+        ? newProducts2.length / 25 >= state.index + 1
+        : state.hasMore;
       return {
         ...state,
         products: newProducts2,
@@ -68,6 +75,17 @@ export default function(state = initialState, action) {
               ? action.payload
               : product
         )
+      };
+    case types.GET_PRODUCT_VENDOR:
+      return {
+        ...state,
+        product_vendor: action.payload
+      };
+    case types.GET_PRODUCT_CATEGORY:
+      return {
+        ...state,
+        product_category: action.payload,
+        loading: false
       };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
