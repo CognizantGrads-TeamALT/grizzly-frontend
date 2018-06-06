@@ -72,7 +72,9 @@ class ProductForm extends Component {
         });
       }
 
-      cancel(e){
+      cancel(){
+        //e.preventDefault();
+        console.log("test5");
         this.props.history.push("/adminportal");
       }
 
@@ -120,7 +122,8 @@ class ProductForm extends Component {
             
             list = this.populate(categories);
             console.log("list: ");
-            this.setState({categoryList : list.map(function(listItem) { return([<button className="btn" key={listItem.id}> {listItem.name} </button>, <br key={1} />]);})})}
+            this.setState({categoryList : list.map(function(listItem) { return([<button className="btn btn-light border-dark cat-scroll-button"
+             key={listItem.id} type="button" onClick={() => this.cancel()}> {listItem.name} </button>, <br key={listItem.id} />]);})})}
             console.log(this.state.categoryList);
           }, 1000);
           /* if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
@@ -132,16 +135,8 @@ class ProductForm extends Component {
           } */
       }
 
-      testmethod(){
-        var list;
-        console.log(this.props);
-          if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
-            const {categories} = this.props.category;
-            console.log("test2");
-            list = this.populate(categories);
-            this.setState({categoryList : list.map(listItem => (<button className="btn"> {categories.name} </button>,
-          < br/>  ))})
-          }
+      setCategoryName(e){
+          console.log("butotn pressed");
       }
 
     render(){

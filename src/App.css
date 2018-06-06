@@ -160,7 +160,15 @@
 
 /*categoryscrolllist*/
 .cat-scroll {
-  max-height: 150px;
+  max-height: 7cm;
+  overflow: auto;
+  max-width: 250px;
+  
+}
+
+.cat-scroll-button{
+  min-width: 200px;
+  max-width: 250px;
   overflow: auto;
 }
 
