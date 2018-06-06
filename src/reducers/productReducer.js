@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentProducts = isEmpty(state.products) ? [] : state.products;
-      const index = isEmpty(state.products) ? 0 : state.index+1;
+      const index = isEmpty(state.products) ? 1 : state.index+1;
       const newProducts = isEmpty(action.payload)
         ? currentProducts
         : [...new Map(currentProducts.concat(action.payload).map(o => [o['productId'], o])).values()];

@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentCats = isEmpty(state.categories) ? [] : state.categories;
-      const index = isEmpty(state.categories) ? 0 : state.index+1;
+      const index = isEmpty(state.categories) ? 1 : state.index+1;
       const newCats = isEmpty(action.payload)
         ? currentCats
         : [...new Map(currentCats.concat(action.payload).map(o => [o['categoryId'], o])).values()];

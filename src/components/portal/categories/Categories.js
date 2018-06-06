@@ -11,11 +11,6 @@ import CategoriesList from "./CategoriesList";
 import isEmpty from "../../../validation/is-empty";
 
 class Categories extends Component {
-  constructor(props) {
-    super(props);
-    this.index = 0;
-  }
-
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener("scroll", e => {
@@ -41,10 +36,7 @@ class Categories extends Component {
 
   loadMore() {
     if (this.props.category.hasMore) {
-      this.index += 1;
-      this.props.getCategories(this.index);
-    } else {
-      this.index = 0;
+      this.props.getCategories(this.props.category.index);
     }
   }
 

@@ -30,7 +30,7 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentVendors = isEmpty(state.vendors) ? [] : state.vendors;
-      const index = isEmpty(state.vendors) ? 0 : state.index+1;
+      const index = isEmpty(state.vendors) ? 1 : state.index+1;
       const newVendors = isEmpty(action.payload)
         ? currentVendors
         : [...new Map(currentVendors.concat(action.payload).map(o => [o['vendorId'], o])).values()];
