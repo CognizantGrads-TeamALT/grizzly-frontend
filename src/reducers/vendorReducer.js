@@ -3,7 +3,8 @@ import isEmpty from "../validation/is-empty";
 
 const initialState = {
   vendors: null,
-  hasMore: false
+  hasMore: false,
+  index: 0
 };
 
 export default function(state = initialState, action) {
@@ -29,22 +30,26 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentVendors = isEmpty(state.vendors) ? [] : state.vendors;
+      const index = isEmpty(state.vendors) ? 0 : state.index+1;
       const newVendors = isEmpty(action.payload)
         ? currentVendors
-        : currentVendors.concat(action.payload);
+        : [...new Map(currentVendors.concat(action.payload).map(o => [o['vendorId'], o])).values()];
       return {
         ...state,
         vendors: newVendors,
         hasMore: hasMore,
+        index: index,
         loading: false
       };
     case types.VENDOR_ADDING:
       const currentVendors2 = isEmpty(state.vendors) ? [] : state.vendors;
       const addVendor = isEmpty(action.payload) ? [] : [action.payload];
       const newVendors2 = addVendor.concat(currentVendors2);
+      const hasMore2 = !state.hasMore ? ((newVendors2.length / 25) >= state.index+1) : state.hasMore;
       return {
         ...state,
         vendors: newVendors2,
+        hasMore: hasMore2,
         updateOnce: true
       };
     case types.VENDOR_DELETING:
