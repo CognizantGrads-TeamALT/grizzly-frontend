@@ -132,6 +132,25 @@ export const deleteCategory = id => dispatch => {
     );
 };
 
+// Block/unlock Category
+export const toggleBlockCategory = category => dispatch => {
+  dispatch(setCategoryUpdateOnce());
+  axios
+    .post(CATEGORY_API_GATEWAY + `/setBlock/${category.categoryId}`, category)
+    .then(res =>
+      dispatch({
+        type: types.CATEGORY_TOGGLEBLOCK,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Sort Vendor by @param
 export const sortCategoriesByParam = (index, param) => dispatch => {
   dispatch(clearCurrentCategories());

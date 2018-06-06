@@ -59,6 +59,16 @@ export default function(state = initialState, action) {
           vendor => vendor.vendorId !== action.payload
         )
       };
+    case types.VENDOR_TOGGLEBLOCK:
+      return {
+        ...state,
+        vendors: state.vendors.map(
+          vendor =>
+            vendor.vendorId === action.payload.vendorId
+              ? action.payload
+              : vendor
+        )
+      };
     case types.CLEAR_CURRENT_VENDORS:
       return {
         ...state,
