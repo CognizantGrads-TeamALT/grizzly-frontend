@@ -15,7 +15,6 @@ import NotFound from "./components/not-found/NotFound";
 import CategoryForm from "./components/portal/categories/CategoryForm";
 import AddProduct from "./components/portal/products/AddProduct";
 import ProductFrom from "./components/portal/products/ProductForm";
-import TestForm from "./components/portal/products/TestForm";
 import ProductForm from "./components/portal/products/ProductForm";
 
 class App extends Component {
