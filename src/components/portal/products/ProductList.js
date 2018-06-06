@@ -49,13 +49,12 @@ class ProductList extends Component {
               .name;
       return vendName;
     }
-    
+
     const updatedProd = {
       productId: product.productId,
       enabled: !product.enabled
     };
     this.props.toggleBlockProduct(updatedProd);
-
   }
 
   render() {
@@ -63,9 +62,7 @@ class ProductList extends Component {
 
     return (
       <tr>
-        <th scope="row" className="fnt-weight-400">
-          {product.productId}
-        </th>
+        <th scope="row">{product.productId}</th>
         <td>{product.name}</td>
         <td>{this.showVendorName(product)}</td>
         <td>{this.showCatName(product)}</td>
