@@ -108,16 +108,6 @@ class ProductForm extends Component {
         catSearch(e);
       }
 
-      testBuild(){
-        var test = [
-          <button> test </button>, <br/>, 
-          <button> test2 </button>, <br/>, 
-          <button> test3 </button>, <br/>, 
-          <button> test4 </button>, <br/>, 
-          <button> test5 </button>, <br/>, 
-
-        ]
-      }
 
       searchCat(e) {
           //const makeRequest = async () => {
