@@ -108,24 +108,32 @@ class ProductForm extends Component {
         catSearch(e);
       }
 
+      testBuild(){
+        var test = [
+          <button> test </button>, <br/>, 
+          <button> test2 </button>, <br/>, 
+          <button> test3 </button>, <br/>, 
+          <button> test4 </button>, <br/>, 
+          <button> test5 </button>, <br/>, 
+
+        ]
+      }
 
       searchCat(e) {
           //const makeRequest = async () => {
           this.props.searchCategories(e.target.value);
-          
+          console.log(this.props.category.categories);
 
           var list;
 
-          if (!isEmpty(this.props.category.categories && !this.props.category.loading)){ 
+          if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
             const {categories} = this.props.category;
-
+            console.log("test2");
             list = this.populate(categories);
             this.setState({categoryList : list.map(listItem => (<button className="btn"> {categories.name} </button>,
           < br/>  ))})
           }
 
-          
-          
             
               
 //<button className="btn"> {categories.name} </button>, < br/>

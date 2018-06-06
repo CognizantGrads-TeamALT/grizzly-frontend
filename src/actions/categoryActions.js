@@ -31,12 +31,13 @@ export const addCategory = newCat => dispatch => {
         type: types.CATEGORY_ADDING,
         payload: res.data
       })
-    ).catch(err =>
+    )
+    .catch(err =>
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    )
+    );
 };
 
 // Edit Category
@@ -47,7 +48,7 @@ export const editCategory = newInfo => dispatch => {
     .then(res =>
       dispatch({
         type: types.CATEGORY_EDITED,
-        payload: newInfo
+        payload: res.data
       })
     )
     .catch(err =>
@@ -96,6 +97,12 @@ export const setCategoryAdding = () => {
 export const setCategoryUpdateOnce = () => {
   return {
     type: types.CATEGORY_UPDATING
+  };
+};
+
+export const setCategoryUpdated = () => {
+  return {
+    type: types.CATEGORY_UPDATED
   };
 };
 

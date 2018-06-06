@@ -7,8 +7,12 @@ import AddProduct from "./AddProduct";
 import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner";
 import ProductList from "./ProductList";
-import { getProducts } from "../../../actions/productsActions";
+import {
+  getProducts,
+  setProductUpdated
+} from "../../../actions/productsActions";
 import isEmpty from "../../../validation/is-empty";
+
 
 
 class Products extends Component {
@@ -35,7 +39,7 @@ class Products extends Component {
 
   shouldComponentUpdate() {
     if (this.props.product.updateOnce) {
-      this.props.product.updateOnce = false;
+      this.props.setProductUpdated();
       return true;
     }
 
@@ -78,10 +82,10 @@ class Products extends Component {
     return (
       <div>
         <ProductSearchSort />
+        <CategoryFilter />
         <Link
-          className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
-          to="/addProduct"
-        >
+          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+          to="/product/new">
           Add Product
         </Link>
         <table className="table table-sm table-hover">
@@ -108,6 +112,7 @@ class Products extends Component {
 
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
+  setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired
 };
 
@@ -115,4 +120,7 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps, { getProducts })(Products);
+export default connect(
+  mapStateToProps,
+  { getProducts, setProductUpdated }
+)(Products);

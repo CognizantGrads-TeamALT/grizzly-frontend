@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
 import CategorySearchSort from "../common/CategorySearchSort";
-import { getCategories } from "../../../actions/categoryActions";
+import {
+  getCategories,
+  setCategoryUpdated
+} from "../../../actions/categoryActions";
 import CategoriesList from "./CategoriesList";
 import isEmpty from "../../../validation/is-empty";
 
@@ -29,7 +32,7 @@ class Categories extends Component {
 
   shouldComponentUpdate() {
     if (this.props.category.updateOnce) {
-      this.props.category.updateOnce = false;
+      this.props.setCategoryUpdated();
       return true;
     }
 
@@ -88,6 +91,7 @@ class Categories extends Component {
 
 Categories.propTypes = {
   getCategories: PropTypes.func.isRequired,
+  setCategoryUpdated: PropTypes.func.isRequired,
   category: PropTypes.object.isRequired
 };
 
@@ -95,4 +99,7 @@ const mapStateToProps = state => ({
   category: state.category
 });
 
-export default connect(mapStateToProps, { getCategories })(Categories);
+export default connect(
+  mapStateToProps,
+  { getCategories, setCategoryUpdated }
+)(Categories);
