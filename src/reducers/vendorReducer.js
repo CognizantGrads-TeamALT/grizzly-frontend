@@ -22,7 +22,8 @@ export default function(state = initialState, action) {
     case types.VENDOR_UPDATED:
       return {
         ...state,
-        updateOnce: false
+        updateOnce: false,
+        loading: false
       };
     case types.GET_VENDORS:
       const hasMore =

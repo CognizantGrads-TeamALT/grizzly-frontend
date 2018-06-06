@@ -13,12 +13,13 @@ export const getVendors = index => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Add Vendor
@@ -32,12 +33,13 @@ export const addVendor = newVendor => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Sort Vendor by @param
@@ -52,12 +54,13 @@ export const sortVendorsByParam = (index, param) => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Search Vendors
@@ -72,12 +75,13 @@ export const searchVendors = keyword => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Vendor loading
@@ -118,12 +122,13 @@ export const deleteVendor = id => dispatch => {
         payload: id
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Block/unlock Vendor
@@ -137,12 +142,13 @@ export const toggleBlockVendor = vendor => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Clear Vendors
