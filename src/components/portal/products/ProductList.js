@@ -13,6 +13,7 @@ class ProductList extends Component {
     super(props);
     this.onBlockClick = this.onBlockClick.bind(this);
   }
+
   onDeleteClick(id) {
     this.props.deleteProduct(id);
   }
@@ -48,6 +49,13 @@ class ProductList extends Component {
               .name;
       return vendName;
     }
+    
+    const updatedProd = {
+      productId: product.productId,
+      enabled: !product.enabled
+    };
+    this.props.toggleBlockProduct(updatedProd);
+
   }
 
   render() {
@@ -90,8 +98,8 @@ class ProductList extends Component {
 }
 
 ProductList.propTypes = {
-  deleteProduct: PropTypes.func.isRequired,
-  toggleBlockProduct: PropTypes.func.isRequired
+  toggleBlockProduct: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired
 };
 
 export default connect(

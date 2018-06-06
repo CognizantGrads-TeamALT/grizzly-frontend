@@ -73,6 +73,16 @@ export default function(state = initialState, action) {
           category => category.categoryId !== action.payload
         )
       };
+    case types.CATEGORY_TOGGLEBLOCK:
+      return {
+        ...state,
+        categories: state.categories.map(
+          category =>
+            category.categoryId === action.payload.categoryId
+              ? action.payload
+              : category
+        )
+      };
     case types.CLEAR_CURRENT_CATEGORIES:
       return {
         ...state,

@@ -1,11 +1,27 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { deleteVendor } from "../../../actions/vendorActions";
+import { toggleBlockVendor, deleteVendor } from "../../../actions/vendorActions";
+
 class VendorList extends Component {
+  constructor(props) {
+    super(props);
+    this.onBlockClick = this.onBlockClick.bind(this);
+  }
+
   onDeleteClick(id) {
     this.props.deleteVendor(id);
   }
+
+  onBlockClick() {
+    const { vendor } = this.props;
+    const updatedVendor = {
+      vendorId: vendor.vendorId,
+      enabled: !vendor.enabled
+    };
+    this.props.toggleBlockVendor(updatedVendor);
+  }
+
   render() {
     const { vendor } = this.props;
     return (
@@ -22,10 +38,11 @@ class VendorList extends Component {
             View
           </button>
           <button
+            onClick={this.onBlockClick}
             className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
             type="button"
           >
-            Block
+            {vendor.enabled ? "Block" : "Unblock"}
           </button>
           <button
             onClick={this.onDeleteClick.bind(this, vendor.vendorId)}
@@ -41,7 +58,11 @@ class VendorList extends Component {
 }
 
 VendorList.propTypes = {
+  toggleBlockVendor: PropTypes.func.isRequired,
   deleteVendor: PropTypes.func.isRequired
 };
 
-export default connect(null, { deleteVendor })(VendorList);
+export default connect(
+  null,
+  { toggleBlockVendor, deleteVendor }
+)(VendorList);
