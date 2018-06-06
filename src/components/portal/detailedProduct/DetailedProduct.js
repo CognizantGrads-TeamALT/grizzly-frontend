@@ -9,7 +9,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import ProductList from "../products/ProductList";
 import { getProducts } from "../../../actions/productsActions";
 import Profile from "../profile/Profile"
 import ProductDescription from "./ProductDescription";
@@ -25,7 +24,7 @@ class DetailedProduct extends Component {
         };
     }
     render() {
-        const { products, loading} = this.props.product;
+        const { products, loading } = this.props.product;
 
         let prodDetails;
         if (isEmpty(products) || loading) {
@@ -93,12 +92,8 @@ class DetailedProduct extends Component {
     }
 }  
 
-ProductList.propTypes = {
-    getProducts: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
     product: state.product
   });
 
-export default connect(mapStateToProps, { getProducts })(DetailedProduct);
+export default connect(mapStateToProps)(DetailedProduct);
