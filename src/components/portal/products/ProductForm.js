@@ -38,6 +38,7 @@ class ProductForm extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.searchCatTimer = this.searchCatTimer.bind(this);
+        this.cancel = this.cancel.bind(this);
       }
 
       
@@ -123,7 +124,7 @@ class ProductForm extends Component {
             list = this.populate(categories);
             console.log("list: ");
             this.setState({categoryList : list.map(function(listItem) { return([<button className="btn btn-light border-dark cat-scroll-button"
-             key={listItem.id} type="button" onClick={() => this.cancel()}> {listItem.name} </button>, <br key={listItem.id} />]);})})}
+             key={listItem.id} type="button" onClick={this.cancel}> {listItem.name} </button>, <br key={listItem.id} />]);}, this)})}
             console.log(this.state.categoryList);
           }, 1000);
           /* if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
