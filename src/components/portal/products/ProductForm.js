@@ -33,12 +33,15 @@ class ProductForm extends Component {
           name : "",
           description: "",
           price: "",
-          categoryList: []
+          categoryList: [],
+          cur_id: "",
+          valid_cat: false
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.searchCatTimer = this.searchCatTimer.bind(this);
-        this.cancel = this.cancel.bind(this);
+        this.setCategoryName = this.setCategoryName.bind(this);
+      
       }
 
       
@@ -54,8 +57,8 @@ class ProductForm extends Component {
       //   if (!isEmpty(categories)){
       //     console.log(categories);
       //   var count = 0;
-      var options = param.map(category => ({ id: category.id, name: category.name }));
-
+      var options = param.map(category => ({ id: category.categoryId, name: category.name }));
+        //options.map(opt => (console.log(opt.id)))
      /*      var options = [];
           param.map(category => (
             options.concat(
@@ -75,17 +78,18 @@ class ProductForm extends Component {
 
       cancel(){
         //e.preventDefault();
-        console.log("test5");
+        //console.log("test5");
         this.props.history.push("/adminportal");
       }
 
       onSubmit(e) {
         e.preventDefault();
         const newProd = {
-            category: this.state.catgegory,
+            categoryId: this.state.cat_id,
             name: this.state.name,
-            description: this.state.description,
-            price: this.state.price
+            desc: this.state.description,
+            price: this.state.price,
+            enabled: true
           };
         //   addProduct(newProd);
         this.props.addProduct(newProd);
@@ -99,11 +103,13 @@ class ProductForm extends Component {
         this.cancel();
       }
 
-      onChange(e) {
+      onChange(e, persist=false) {
         this.setState({ [e.target.name]: e.target.value });
+        if(persist) e.persist();
       }
 
       searchCatTimer(e){
+          
           e.preventDefault();
           e.persist();
         this.setState({ [e.target.name]: e.target.value });
@@ -111,8 +117,18 @@ class ProductForm extends Component {
         const catSearch = _.debounce((e) => {this.searchCat(e)}, 1);
         catSearch(e);
       }
+      
 
       searchCat(e) {
+       // e.preventDefault();
+        this.setState({valid_cat: false})
+        if(isEmpty(e)){
+          //no responce, invalid input
+          this.setState({categoryList: []})
+
+        }
+        else{
+        
           //const makeRequest = async () => {
           this.props.searchCategories(e.target.value);
           console.log(this.props.category.categories);
@@ -120,27 +136,31 @@ class ProductForm extends Component {
           var list;
           setTimeout(() => {if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
             const {categories} = this.props.category;
-            
             list = this.populate(categories);
             console.log("list: ");
-            this.setState({categoryList : list.map(function(listItem) { return([<button className="btn btn-light border-dark cat-scroll-button"
-             key={listItem.id} type="button" onClick={this.cancel}> {listItem.name} </button>, <br key={listItem.id} />]);}, this)})}
-            console.log(this.state.categoryList);
+            this.setState({categoryList : 
+              list.map(function(listItem) { 
+                return([<button className="btn btn-light border-dark cat-scroll-button"
+             key={listItem.id} type="button" name={listItem.name} value={listItem.id} onClick={this.setCategoryName}>
+              {listItem.name} </button>, <br key={listItem.id +10000} />]);}, this)})}
+
           }, 1000);
-          /* if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
-            const {categories} = this.props.category;
-            console.log("test2");
-            list = this.populate(categories);
-            this.setState({categoryList : list.map(listItem => (<button className="btn"> {categories.name} </button>,
-          < br/>  ))})
-          } */
+        }
       }
 
       setCategoryName(e){
-          console.log("butotn pressed");
+          console.log(e.target.value + " value"); //id
+          console.log(e.target.name + " name"); //name
+
+          this.setState({category: e.target.name,
+                        cur_id: e.target.value,
+                        valid_cat: true,
+                      categoryList: []})
+
       }
 
     render(){
+      const catSearch = _.debounce((e) => {this.searchCat(e)}, 200);
         return(
         <div>
             <form>
@@ -149,7 +169,8 @@ class ProductForm extends Component {
                       placeholder="Category"
                       name="category"
                       value={this.state.category}
-                      onChange={this.searchCatTimer}
+                      //onChange={this.catSearch}
+                      onChange={(event) => {this.onChange(event, true), catSearch(event)}}
                     />
 
                     {this.state.categoryList}

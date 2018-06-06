@@ -32,11 +32,16 @@ export const addProduct = newProd => dispatch => {
     dispatch(setProductLoading());
     axios
       .put(PRODUCT_API_GATEWAY + "/add", newProd)
-      .then(res => dispatch(getProducts()))
+      .then(res => 
+        dispatch({
+            type: types.PRODUCT_ADDING,
+            payload: res.data
+        })
+    )
       .catch(err =>
         dispatch({
           type: types.GET_ERRORS,
-          payload: {}
+          payload: err.response.data
         })
       );
   };
