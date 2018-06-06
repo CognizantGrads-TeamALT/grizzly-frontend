@@ -89,7 +89,8 @@ class ProductForm extends Component {
             name: this.state.name,
             desc: this.state.description,
             price: this.state.price,
-            enabled: true
+            enabled: true,
+            vendor: 1
           };
         //   addProduct(newProd);
         this.props.addProduct(newProd);
