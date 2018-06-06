@@ -40,12 +40,13 @@ export const getProducts = index => dispatch => {
       dispatch(getCategoryBatch(categoryIdArray));
       dispatch(setProductLoaded());
     })
-    .catch(err =>
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Delete Product
@@ -59,12 +60,13 @@ export const deleteProduct = id => dispatch => {
         payload: id
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Block/unlock Product
@@ -78,12 +80,13 @@ export const toggleBlockProduct = product => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 // Edit Product
@@ -97,12 +100,13 @@ export const editProduct = newInfo => dispatch => {
         payload: newInfo
       })
     )
-    .catch(err =>
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
-        type: types.GET_PRODUCTS,
-        payload: {}
+        type: types.GET_ERRORS,
+        payload: err.response.data
       })
-    );
+    });
 };
 
 // Product Editing
@@ -155,12 +159,13 @@ export const getVendorBatch = vendorIdArray => dispatch => {
         payload: res.data
       });
     })
-    .catch(err =>
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };
 
 export const getCategoryBatch = categoryIdArray => dispatch => {
@@ -172,10 +177,11 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
         payload: res.data
       });
     })
-    .catch(err =>
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
       })
-    );
+    });
 };

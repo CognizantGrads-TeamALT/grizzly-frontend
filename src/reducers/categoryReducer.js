@@ -22,7 +22,8 @@ export default function(state = initialState, action) {
     case types.CATEGORY_UPDATED:
       return {
         ...state,
-        updateOnce: false
+        updateOnce: false,
+        loading: false
       };
     case types.GET_CATEGORIES:
       const hasMore =
