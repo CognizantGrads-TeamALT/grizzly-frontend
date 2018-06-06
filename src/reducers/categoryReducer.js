@@ -3,7 +3,8 @@ import isEmpty from "../validation/is-empty";
 
 const initialState = {
   categories: null,
-  hasMore: false
+  hasMore: false,
+  index: 0
 };
 
 export default function(state = initialState, action) {
@@ -29,22 +30,26 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentCats = isEmpty(state.categories) ? [] : state.categories;
+      const index = isEmpty(state.categories) ? 1 : state.index+1;
       const newCats = isEmpty(action.payload)
         ? currentCats
-        : currentCats.concat(action.payload);
+        : [...new Map(currentCats.concat(action.payload).map(o => [o['categoryId'], o])).values()];
       return {
         ...state,
         categories: newCats,
         hasMore: hasMore,
+        index: index,
         loading: false
       };
     case types.CATEGORY_ADDING:
       const currentCats2 = isEmpty(state.categories) ? [] : state.categories;
       const addCategory = isEmpty(action.payload) ? [] : [action.payload];
       const newCats2 = addCategory.concat(currentCats2);
+      const hasMore2 = !state.hasMore ? ((newCats2.length / 25) >= state.index+1) : state.hasMore;
       return {
         ...state,
         categories: newCats2,
+        hasMore: hasMore2,
         updateOnce: true
       };
     case types.CATEGORY_EDITING:

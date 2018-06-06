@@ -3,7 +3,8 @@ import isEmpty from "../validation/is-empty";
 
 const initialState = {
   products: null,
-  hasMore: false
+  hasMore: false,
+  index: 0
 };
 
 export default function(state = initialState, action) {
@@ -29,22 +30,26 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentProducts = isEmpty(state.products) ? [] : state.products;
+      const index = isEmpty(state.products) ? 1 : state.index+1;
       const newProducts = isEmpty(action.payload)
         ? currentProducts
-        : currentProducts.concat(action.payload);
+        : [...new Map(currentProducts.concat(action.payload).map(o => [o['productId'], o])).values()];
       return {
         ...state,
         products: newProducts,
         hasMore: hasMore,
+        index: index,
         loading: false
       };
     case types.PRODUCTS_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];
       const newProducts2 = addProduct.concat(currentProducts2);
+      const hasMore2 = !state.hasMore ? ((newProducts2.length / 25) >= state.index+1) : state.hasMore;
       return {
         ...state,
         products: newProducts2,
+        hasMore: hasMore2,
         updateOnce: true
       };
     case types.PRODUCTS_DELETING:
