@@ -7,11 +7,6 @@ import { getVendors, setVendorUpdated } from "../../../actions/vendorActions";
 import VendorList from "./VendorList";
 import isEmpty from "../../../validation/is-empty";
 class Vendor extends Component {
-  constructor(props) {
-    super(props);
-    this.index = 0;
-  }
-
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener("scroll", e => {
@@ -37,10 +32,7 @@ class Vendor extends Component {
 
   loadMore() {
     if (this.props.vendor.hasMore) {
-      this.index += 1;
-      this.props.getVendors(this.index);
-    } else {
-      this.index = 0;
+      this.props.getVendors(this.props.vendor.index);
     }
   }
 

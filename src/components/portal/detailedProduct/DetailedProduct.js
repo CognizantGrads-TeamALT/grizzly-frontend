@@ -7,11 +7,8 @@ import {
   } from "reactstrap";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import classnames from "classnames";
-import ProductList from "../products/ProductList";
-import { getProducts } from "../../../actions/productsActions";
-import Profile from "../profile/Profile"
+import Profile from "../profile/Profile";
 import ProductDescription from "./ProductDescription";
 import ProductTitle from "./ProductTitle";
 import Spinner from "../../common/Spinner";
@@ -21,21 +18,28 @@ class DetailedProduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: "1"
+            activeTab: 0
         };
     }
-    render() {
-        const { products, loading} = this.props.product;
 
-        let prodDetails;
+    show() {
+        const { products, loading } = this.props.product;
         if (isEmpty(products) || loading) {
-                prodDetails = <Spinner />;
-          } 
-          else {
-            prodDetails = products.filter(
-                product => product.productId == this.props.match.params.productId
+          return (
+            <tr>
+              <td>
+                <Spinner />
+              </td>
+            </tr>
+          );
+        } else {
+            return products.filter(
+                product => product.productId === parseInt(this.props.match.params.productId, 10)
             )[0];
-          }
+        }
+    }
+
+    render() {
         return (
             <div className="row">
                 <div className="col-3">
@@ -49,7 +53,7 @@ class DetailedProduct extends Component {
                                     <Link to="/adminportal"
                                     className={classnames("nav-link hover-w-b btn-outline-success my-2 my-sm-0",
                                     {
-                                        active: this.state.activeTab === "1"
+                                        active: this.state.activeTab === 0
                                     })}
                                     >
                                     PRODUCTS
@@ -76,29 +80,24 @@ class DetailedProduct extends Component {
                     <div className="row mt-4 parent-min-half-high">
                         <div className="col-5">
                             <ProductTitle
-                                productDetails={prodDetails}
+                                productDetails={this.show()}
                             />
                             
                         </div>
                         <div className="col-7 parent-min-half-high">
                             <ProductDescription 
-                                productDetails={prodDetails}
+                                productDetails={this.show()}
                             />
                         </div>
                     </div>
-
                 </div> 
             </div>
         );
     }
 }  
 
-ProductList.propTypes = {
-    getProducts: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
     product: state.product
   });
 
-export default connect(mapStateToProps, { getProducts })(DetailedProduct);
+export default connect(mapStateToProps, {})(DetailedProduct);

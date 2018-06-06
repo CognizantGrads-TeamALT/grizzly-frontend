@@ -16,13 +16,6 @@ import isEmpty from "../../../validation/is-empty";
 
 
 class Products extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      index: 0
-    };
-  }
-
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener("scroll", e => {
@@ -48,14 +41,7 @@ class Products extends Component {
 
   loadMore() {
     if (this.props.product.hasMore) {
-      this.setState({
-        index: this.state.index + 1
-      });
-      this.props.getProducts(this.state.index);
-    } else {
-      this.setState({
-        index: 0
-      });
+      this.props.getProducts(this.props.product.index);
     }
   }
 
