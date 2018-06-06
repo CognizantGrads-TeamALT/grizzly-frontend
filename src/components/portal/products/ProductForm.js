@@ -15,6 +15,7 @@ import _ from 'lodash';
 import Spinner from "../../common/Spinner";
 import Loading from "../../common/Loading";
 import async from 'async';
+import { setTimeout } from "timers";
 
 
 
@@ -108,14 +109,31 @@ class ProductForm extends Component {
         catSearch(e);
       }
 
-
       searchCat(e) {
           //const makeRequest = async () => {
           this.props.searchCategories(e.target.value);
           console.log(this.props.category.categories);
 
           var list;
+          setTimeout(() => {if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
+            const {categories} = this.props.category;
+            console.log("test2");
+            list = this.populate(categories);
+            this.setState({categoryList : list.map(listItem => (<button className="btn"> {categories.name} </button>,
+          < br/>  ))})}
+          }, 1000);
+          /* if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
+            const {categories} = this.props.category;
+            console.log("test2");
+            list = this.populate(categories);
+            this.setState({categoryList : list.map(listItem => (<button className="btn"> {categories.name} </button>,
+          < br/>  ))})
+          } */
+      }
 
+      testmethod(){
+        var list;
+        console.log(this.props);
           if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
             const {categories} = this.props.category;
             console.log("test2");
@@ -123,19 +141,7 @@ class ProductForm extends Component {
             this.setState({categoryList : list.map(listItem => (<button className="btn"> {categories.name} </button>,
           < br/>  ))})
           }
-
-            
-              
-//<button className="btn"> {categories.name} </button>, < br/>
-          
-
-          //     this.setState({categoryList : catList});
-          //   console.log(catList.length);  
-          // }
-          //
       }
-
-
 
     render(){
         return(
@@ -143,10 +149,10 @@ class ProductForm extends Component {
             <form>
                 <div className="cat-scroll">
                     <TextFieldGroup
-                    placeholder="Category"
-                    name="category"
-                    value={this.state.category}
-                    onChange={this.searchCatTimer}
+                      placeholder="Category"
+                      name="category"
+                      value={this.state.category}
+                      onChange={this.searchCatTimer}
                     />
 
                     {this.state.categoryList}
@@ -184,10 +190,8 @@ class ProductForm extends Component {
               </Button>
               
             </div>
-        )
-        
+        )      
     }
-    
 }
 
 ProductForm.propTypes = {
