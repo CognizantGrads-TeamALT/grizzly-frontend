@@ -131,6 +131,13 @@ class AdminTab extends Component {
                   </Col>
                 </Row>
               </TabPane>
+              <TabPane tabId="null">
+                <Row>
+                  <Col sm="12">
+                    
+                  </Col>
+                </Row>
+              </TabPane>
             </TabContent>
           </div>
         </Col>

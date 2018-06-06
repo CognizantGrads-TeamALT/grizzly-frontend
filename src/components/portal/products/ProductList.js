@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -10,7 +11,6 @@ class ProductList extends Component {
     super(props);
     this.onBlockClick = this.onBlockClick.bind(this);
   }
-
   onDeleteClick(id) {
     this.props.deleteProduct(id);
   }
@@ -34,19 +34,15 @@ class ProductList extends Component {
 
     return (
       <tr>
-        <th scope="row">{product.productId}</th>
-        <td>{product.name}</td>
+        <th scope="row" className="fnt-weight-400">{product.name}</th>
         <td>{product.vendorId}</td>
         <td>{product.categoryId}</td>
-        <td>{product.desc}</td>
         <td>{product.price}</td>
         <td>
-          <button
-            className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
-            type="button"
-          >
-            View
-          </button>
+            <Link to={`/detailedproduct/${product.productId}`}
+                className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2">
+                View   
+                </Link>
           <button
             onClick={this.onBlockClick}
             className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"

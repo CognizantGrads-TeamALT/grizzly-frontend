@@ -91,11 +91,10 @@ class Products extends Component {
         <table className="table table-sm table-hover">
           <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Products Name</th>
               <th scope="col">Brand</th>
-              <th scope="col">Category</th>
-              <th scope="col">Rating</th>
+              <th scope="col">Category ID</th>
+              <th scope="col">Price</th>
               <th scope="col" />
             </tr>
           </thead>
