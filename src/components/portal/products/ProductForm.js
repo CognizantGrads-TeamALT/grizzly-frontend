@@ -117,10 +117,11 @@ class ProductForm extends Component {
           var list;
           setTimeout(() => {if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
             const {categories} = this.props.category;
-            console.log("test2");
+            
             list = this.populate(categories);
-            this.setState({categoryList : list.map(listItem => (<button className="btn"> {categories.name} </button>,
-          < br/>  ))})}
+            console.log("list: ");
+            this.setState({categoryList : list.map(function(listItem) { return([<button className="btn" key={listItem.id}> {listItem.name} </button>, <br key={1} />]);})})}
+            console.log(this.state.categoryList);
           }, 1000);
           /* if (!isEmpty(this.props.category.categories) && !this.props.category.loading){ 
             const {categories} = this.props.category;
