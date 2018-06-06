@@ -57,19 +57,17 @@ class Vendor extends Component {
     return (
       <div>
         <VendorSearchSort />
-        <table className="table table-sm table-hover">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Vendor Name</th>
-              <th scope="col">Location</th>
-              <th scope="col">Contact</th>
-              <th scope="col" />
-            </tr>
-          </thead>
-        </table>
         <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
           <table className="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Vendor Name</th>
+                <th scope="col">Location</th>
+                <th scope="col">Contact</th>
+                <th scope="col" />
+              </tr>
+            </thead>
             <tbody>{this.show()}</tbody>
           </table>
         </div>

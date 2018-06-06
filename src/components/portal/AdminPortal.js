@@ -6,10 +6,10 @@ class AdminPortal extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-3">
+        <div className="col-md-2">
           <Profile />
         </div>
-        <div className="col-md-9">
+        <div className="col-md-10">
           <AdminTab />
         </div>
       </div>
