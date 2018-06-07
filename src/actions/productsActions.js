@@ -230,3 +230,25 @@ export const searchProducts = keyword => dispatch => {
       });
     });
 };
+
+// Filter Products by Category
+export const filterProductsByCategory = inputs => dispatch => {
+  dispatch(clearCurrentProducts());
+  dispatch(setProductLoading());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/bycategory/${inputs.cur_id}/${inputs.index}/default`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCTS,
+        payload: res.data
+      });
+      dispatch(setProductLoaded());
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};

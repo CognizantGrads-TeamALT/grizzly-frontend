@@ -145,7 +145,8 @@ class ProductForm extends Component {
               <div className="col-5">
                 <form>
                   <CategoryTypeAhead
-                    placeholder="Category"/>
+                    placeholder="Category"
+                    onClickHandler={this.props.Update_TypeAhead}/>
                   <TextFieldGroup
                     placeholder="Name"
                     name="name"

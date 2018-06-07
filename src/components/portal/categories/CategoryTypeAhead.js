@@ -72,8 +72,9 @@ class CategoryTypeAhead extends Component {
                         valid_cat: true,
                       categoryList: []})
                       
-          this.props.Update_TypeAhead({cur_id: e.target.value,
-                                        valid_cat: true})
+          this.props.onClickHandler({cur_id: e.target.value,
+                                      valid_cat: true,
+                                      index: 0});//this.props.pageIndex});
           
 
       }
@@ -108,12 +109,15 @@ class CategoryTypeAhead extends Component {
 
 CategoryTypeAhead.defaultProps = {
   placeholder: "",
-  extraClassNames: ""
+  extraClassNames: "",
+  pageIndex: 0
 };
 
 CategoryTypeAhead.propTypes = {
   placeholder: PropTypes.string,
-  extraClassNames: PropTypes.string
+  extraClassNames: PropTypes.string,
+  onClickHandler: PropTypes.func.isRequired,
+  pageIndex: PropTypes.number
 };
 
 const mapStateToProps = state => ({
