@@ -71,7 +71,6 @@ class CategoryTypeAhead extends Component {
                         cur_id: e.target.value,
                         valid_cat: true,
                       categoryList: []})
-                      console.log(e.target.value + " curid");
                       
           this.props.Update_TypeAhead({cur_id: e.target.value,
                                         valid_cat: true})

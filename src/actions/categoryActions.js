@@ -23,7 +23,6 @@ export const getCategories = index => dispatch => {
 };
 
 export const Update_TypeAhead = values => dispatch => {
-  console.log("in update typeahead");
     dispatch({
       type: types.CATEGORY_TYPEAHEAD_UPDATE,
       payload: values

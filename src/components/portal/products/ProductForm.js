@@ -49,8 +49,7 @@ class ProductForm extends Component {
   }
 
   cancel() {
-    console.log(this.props.category.cur_id)
-    //this.props.history.push("/adminportal");
+    this.props.history.push("/adminportal");
   }
 
   onSubmit(e) {

@@ -45,7 +45,6 @@ export default function(state = initialState, action) {
     case types.CATEGORY_TYPEAHEAD_UPDATE:
       const current_id = action.payload.cur_id;
       const valid_category = action.payload.valid_cat;
-      console.log(action.payload );
       return{
         ...state,
         cur_id: current_id,
