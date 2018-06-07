@@ -38,14 +38,13 @@ export const getProducts = index => dispatch => {
               : (categoryIdArray = categoryIdArray + "," + prod.categoryId)
         );
       dispatch(getCategoryBatch(categoryIdArray));
-      dispatch(setProductLoaded());
     })
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -65,7 +64,7 @@ export const deleteProduct = id => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -85,7 +84,7 @@ export const toggleBlockProduct = product => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -105,7 +104,7 @@ export const editProduct = newInfo => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -164,7 +163,7 @@ export const getVendorBatch = vendorIdArray => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -176,12 +175,13 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
         type: types.GET_PRODUCT_CATEGORY,
         payload: res.data
       });
+      dispatch(setProductLoaded());
     })
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
