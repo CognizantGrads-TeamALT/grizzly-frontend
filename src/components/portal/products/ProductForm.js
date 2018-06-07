@@ -23,7 +23,7 @@ class ProductForm extends Component {
       modal: false,
       category: "",
       name: "",
-      description: "",
+      desc: "",
       price: "",
       categoryList: [],
       cur_id: "",
@@ -59,7 +59,7 @@ class ProductForm extends Component {
       const newProd = {
         categoryId: this.props.category.cur_id,
         name: this.state.name,
-        desc: this.state.description,
+        desc: this.state.desc,
         price: this.state.price,
         enabled: true,
         vendorId: 1
@@ -69,7 +69,7 @@ class ProductForm extends Component {
       this.setState({
         category: "",
         name: "",
-        description: "",
+        desc: "",
         price: ""
       });
       this.cancel();
