@@ -1,3 +1,4 @@
+
 import * as types from "./types";
 import {
   PRODUCT_API_GATEWAY,
@@ -48,6 +49,36 @@ export const getProducts = index => dispatch => {
     });
 };
 
+export const setProductAdding = () =>{
+    return{
+        type: types.PRODUCT_ADDING
+    };
+};
+
+export const addProduct = newProd => dispatch => {
+    dispatch(setProductLoading());
+    axios
+      .put(PRODUCT_API_GATEWAY + "/add", newProd)
+      .then(res => 
+        dispatch({
+            type: types.PRODUCT_ADDING,
+            payload: res.data
+        })
+    )
+      .catch(err =>
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: err.response.data
+        })
+      );
+  };
+
+  // Clear Products
+export const clearCurrentProducts = () => {
+    return {
+      type: types.CLEAR_CURRENT_PRODUCTS
+    };
+  };
 // Delete Product
 export const deleteProduct = id => dispatch => {
   dispatch(setProductUpdateOnce());
@@ -142,12 +173,6 @@ export const setProductUpdated = () => {
   };
 };
 
-// Clear Products
-export const clearCurrentProducts = () => {
-  return {
-    type: types.CLEAR_CURRENT_PRODUCTS
-  };
-};
 
 export const getVendorBatch = vendorIdArray => dispatch => {
   axios

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import ProductSearchSort from "../common/ProductSearchSort";
 import PropTypes from "prop-types";
 import CategoryFilter from "../common/CategoryFilter";
+import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner";
 import ProductList from "./ProductList";
 import {
@@ -10,7 +11,8 @@ import {
   setProductUpdated
 } from "../../../actions/productsActions";
 import isEmpty from "../../../validation/is-empty";
-import { Link } from "react-router-dom";
+
+
 
 class Products extends Component {
   componentDidMount() {
@@ -71,7 +73,7 @@ class Products extends Component {
           </td>
         </tr>
       );
-    }
+    } 
   }
 
   render() {
@@ -81,8 +83,7 @@ class Products extends Component {
         <CategoryFilter />
         <Link
           className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-          to="/product/new"
-        >
+          to="/product/new">
           Add Product
         </Link>
         <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>

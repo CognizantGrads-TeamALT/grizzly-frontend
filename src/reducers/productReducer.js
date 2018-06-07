@@ -47,7 +47,7 @@ export default function(state = initialState, action) {
         hasMore: hasMore,
         index: index
       };
-    case types.PRODUCTS_ADDING:
+    case types.PRODUCT_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];
       const newProducts2 = addProduct.concat(currentProducts2);
@@ -97,6 +97,11 @@ export default function(state = initialState, action) {
         ...state,
         products: null
       };
+      case types.PRODUCT_ADDING:
+      return{
+          ...state,
+          loading: false
+      }
     default:
       return state;
   }

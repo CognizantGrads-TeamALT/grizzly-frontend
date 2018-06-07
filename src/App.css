@@ -158,6 +158,20 @@
   flex-grow: 0.4;
 }
 
+/*categoryscrolllist*/
+.cat-scroll {
+  max-height: 7cm;
+  overflow: auto;
+  max-width: 250px;
+  
+}
+
+.cat-scroll-button{
+  min-width: 200px;
+  max-width: 250px;
+  overflow: auto;
+}
+
 /* Profile sidebar */
 .profile-sidebar {
   padding-top: 0;
