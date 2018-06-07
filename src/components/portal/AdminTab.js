@@ -31,6 +31,9 @@ class AdminTab extends Component {
     this.state = {
       activeTab: "1"
     };
+  }
+
+  componentWillMount() {
     this.clear();
     this.props.getProducts("0");
   }
@@ -131,13 +134,6 @@ class AdminTab extends Component {
                   </Col>
                 </Row>
               </TabPane>
-              <TabPane tabId="null">
-                <Row>
-                  <Col sm="12">
-                    
-                  </Col>
-                </Row>
-              </TabPane>
             </TabContent>
           </div>
         </Col>
@@ -155,11 +151,14 @@ AdminTab.propTypes = {
   clearCurrentCategories: PropTypes.func.isRequired
 };
 
-export default connect(null, {
-  getCategories,
-  clearCurrentCategories,
-  getVendors,
-  clearCurrentVendors,
-  getProducts,
-  clearCurrentProducts
-})(AdminTab);
+export default connect(
+  null,
+  {
+    getCategories,
+    clearCurrentCategories,
+    getVendors,
+    clearCurrentVendors,
+    getProducts,
+    clearCurrentProducts
+  }
+)(AdminTab);

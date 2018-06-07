@@ -22,7 +22,8 @@ export default function(state = initialState, action) {
     case types.VENDOR_UPDATED:
       return {
         ...state,
-        updateOnce: false
+        updateOnce: false,
+        loading: false
       };
     case types.GET_VENDORS:
       const hasMore =
@@ -57,6 +58,16 @@ export default function(state = initialState, action) {
         ...state,
         vendors: state.vendors.filter(
           vendor => vendor.vendorId !== action.payload
+        )
+      };
+    case types.VENDOR_TOGGLEBLOCK:
+      return {
+        ...state,
+        vendors: state.vendors.map(
+          vendor =>
+            vendor.vendorId === action.payload.vendorId
+              ? action.payload
+              : vendor
         )
       };
     case types.CLEAR_CURRENT_VENDORS:

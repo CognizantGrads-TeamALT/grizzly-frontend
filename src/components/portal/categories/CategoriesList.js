@@ -3,12 +3,27 @@ import CategoryForm from "../categories/CategoryForm";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
-import { deleteCategory } from "../../../actions/categoryActions";
+import { toggleBlockCategory, deleteCategory } from "../../../actions/categoryActions";
 
 class CategoriesList extends Component {
+  constructor(props) {
+    super(props);
+    this.onBlockClick = this.onBlockClick.bind(this);
+  }
+
   onDeleteClick(id) {
     this.props.deleteCategory(id);
   }
+
+  onBlockClick() {
+    const { category } = this.props;
+    const updatedCategory = {
+      categoryId: category.categoryId,
+      enabled: !category.enabled
+    };
+    this.props.toggleBlockCategory(updatedCategory);
+  }
+
   render() {
     const { category } = this.props;
     if (category !== null && category !== undefined) {
@@ -25,10 +40,11 @@ class CategoriesList extends Component {
               actionLabel="Edit"
             />
             <button
+              onClick={this.onBlockClick}
               className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
               type="button"
             >
-              Block
+              {category.enabled ? "Block" : "Unblock"}
             </button>
             <button
               onClick={this.onDeleteClick.bind(this, category.categoryId)}
@@ -51,8 +67,13 @@ class CategoriesList extends Component {
     }
   }
 }
+
 CategoriesList.propTypes = {
+  toggleBlockCategory: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired
 };
 
-export default connect(null, { deleteCategory })(CategoriesList);
+export default connect(
+  null,
+  { toggleBlockCategory, deleteCategory }
+)(CategoriesList);

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import ProductSearchSort from "../common/ProductSearchSort";
 import PropTypes from "prop-types";
 import CategoryFilter from "../common/CategoryFilter";
-import AddProduct from "./AddProduct";
 import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner";
 import ProductList from "./ProductList";
@@ -46,8 +45,27 @@ class Products extends Component {
   }
 
   show() {
-    const { products, loading } = this.props.product;
-    if (isEmpty(products) || loading) {
+    const {
+      products,
+      product_vendor,
+      product_category,
+      loading
+    } = this.props.product;
+    if (
+      !isEmpty(products) &&
+      !isEmpty(product_category) &&
+      !isEmpty(product_vendor) &&
+      !loading
+    ) {
+      return products.map(prod => (
+        <ProductList
+          key={prod.productId}
+          product_category={product_category}
+          product_vendor={product_vendor}
+          product={prod}
+        />
+      ));
+    } else {
       return (
         <tr>
           <td>
@@ -55,13 +73,7 @@ class Products extends Component {
           </td>
         </tr>
       );
-    } else if (this.props.addProduct) {
-        return <AddProduct />
-    } else {
-      return products.map(prod => (
-        <ProductList key={prod.productId} product={prod} />
-      ));
-    }
+    } 
   }
 
   render() {
@@ -74,19 +86,18 @@ class Products extends Component {
           to="/product/new">
           Add Product
         </Link>
-        <table className="table table-sm table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Products Name</th>
-              <th scope="col">Brand</th>
-              <th scope="col">Category ID</th>
-              <th scope="col">Price</th>
-              <th scope="col" />
-            </tr>
-          </thead>
-        </table>
         <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
           <table className="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Products Name</th>
+                <th scope="col">Vendor</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price</th>
+                <th scope="col" />
+              </tr>
+            </thead>
             <tbody>{this.show()}</tbody>
           </table>
         </div>

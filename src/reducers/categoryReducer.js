@@ -22,7 +22,8 @@ export default function(state = initialState, action) {
     case types.CATEGORY_UPDATED:
       return {
         ...state,
-        updateOnce: false
+        updateOnce: false,
+        loading: false
       };
     case types.GET_CATEGORIES:
       const hasMore =
@@ -71,6 +72,16 @@ export default function(state = initialState, action) {
         ...state,
         categories: state.categories.filter(
           category => category.categoryId !== action.payload
+        )
+      };
+    case types.CATEGORY_TOGGLEBLOCK:
+      return {
+        ...state,
+        categories: state.categories.map(
+          category =>
+            category.categoryId === action.payload.categoryId
+              ? action.payload
+              : category
         )
       };
     case types.CLEAR_CURRENT_CATEGORIES:

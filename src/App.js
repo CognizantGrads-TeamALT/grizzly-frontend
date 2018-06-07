@@ -13,8 +13,6 @@ import VendorPortal from "./components/portal/VendorPortal";
 import DetailedProduct from "./components/portal/detailedProduct/DetailedProduct";
 import NotFound from "./components/not-found/NotFound";
 import CategoryForm from "./components/portal/categories/CategoryForm";
-import AddProduct from "./components/portal/products/AddProduct";
-import ProductFrom from "./components/portal/products/ProductForm";
 import ProductForm from "./components/portal/products/ProductForm";
 
 class App extends Component {
@@ -31,7 +29,11 @@ class App extends Component {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/adminportal" component={AdminPortal} />
                 <Route exact path="/vendorportal" component={VendorPortal} />
-                <Route exact path="/detailedproduct/:productId" component={DetailedProduct} />
+                <Route
+                  exact
+                  path="/detailedproduct/:productId"
+                  component={DetailedProduct}
+                />
                 <Route exact path="/category/new" component={CategoryForm} />
                 <Route exact path="/product/new" component={ProductForm} />
                 <Route component={NotFound} />

@@ -39,7 +39,6 @@ class ProductForm extends Component {
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.searchCatTimer = this.searchCatTimer.bind(this);
         this.setCategoryName = this.setCategoryName.bind(this);
       
       }
@@ -84,41 +83,33 @@ class ProductForm extends Component {
 
       onSubmit(e) {
         e.preventDefault();
-        const newProd = {
-            categoryId: this.state.cat_id,
-            name: this.state.name,
-            desc: this.state.description,
-            price: this.state.price,
-            enabled: true,
-            vendor: 1
-          };
-        //   addProduct(newProd);
-        this.props.addProduct(newProd);
-        
-        this.setState({
-            category : "",
-            name : "",
-            description: "",
-            price: ""
-        });
-        this.cancel();
+        console.log(this.state.valid_cat);
+        console.log(this.state.cur_id)
+        if(this.state.valid_cat){
+          const newProd = {
+              categoryId: this.state.cur_id,
+              name: this.state.name,
+              desc: this.state.description,
+              price: this.state.price,
+              enabled: true,
+              vendorId: 1
+            };
+          this.props.addProduct(newProd);
+          
+          this.setState({
+              category : "",
+              name : "",
+              description: "",
+              price: ""
+          });
+          this.cancel();
+      }
       }
 
       onChange(e, persist=false) {
         this.setState({ [e.target.name]: e.target.value });
         if(persist) e.persist();
       }
-
-      searchCatTimer(e){
-          
-          e.preventDefault();
-          e.persist();
-        this.setState({ [e.target.name]: e.target.value });
-        //event.persist();
-        const catSearch = _.debounce((e) => {this.searchCat(e)}, 1);
-        catSearch(e);
-      }
-      
 
       searchCat(e) {
        // e.preventDefault();
