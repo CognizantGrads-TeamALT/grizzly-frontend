@@ -144,7 +144,8 @@ class ProductForm extends Component {
               </div>
               <div className="col-5">
                 <form>
-                  <CategoryTypeAhead/>
+                  <CategoryTypeAhead
+                    placeholder="Category"/>
                   <TextFieldGroup
                     placeholder="Name"
                     name="name"

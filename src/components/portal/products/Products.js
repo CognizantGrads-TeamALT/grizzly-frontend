@@ -11,6 +11,7 @@ import {
   setProductUpdated
 } from "../../../actions/productsActions";
 import isEmpty from "../../../validation/is-empty";
+import CategoryTypeAhead from "../categories/CategoryTypeAhead";
 
 
 
@@ -80,7 +81,9 @@ class Products extends Component {
     return (
       <div>
         <ProductSearchSort />
-        <CategoryFilter />
+        <CategoryTypeAhead 
+          placeholder="Filter by category"
+          extraClassNames="btn-group mt-3 mr-2"/>
         <Link
           className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
           to="/product/new">
