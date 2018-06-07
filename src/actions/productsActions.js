@@ -215,12 +215,13 @@ export const searchProducts = keyword => dispatch => {
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.GET_PRODUCTS,
         payload: res.data
-      })
-    )
+      });
+      dispatch(setProductLoaded());
+    })
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({
