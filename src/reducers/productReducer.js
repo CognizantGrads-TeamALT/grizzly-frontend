@@ -97,11 +97,6 @@ export default function(state = initialState, action) {
         ...state,
         products: null
       };
-      case types.PRODUCT_ADDING:
-      return{
-          ...state,
-          loading: false
-      }
     default:
       return state;
   }
