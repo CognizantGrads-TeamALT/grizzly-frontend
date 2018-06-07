@@ -153,8 +153,8 @@ class ProductForm extends Component {
                   />
                   <TextFieldGroup
                     placeholder="Description"
-                    name="desc"
-                    value={this.state.desc}
+                    name="description"
+                    value={this.state.description}
                     onChange={this.onChange}
                   />
                   <TextFieldGroup
