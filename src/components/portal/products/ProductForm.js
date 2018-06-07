@@ -16,6 +16,7 @@ import Spinner from "../../common/Spinner";
 import Loading from "../../common/Loading";
 import async from 'async';
 import { setTimeout } from "timers";
+import CategoryTypeAhead from "../categories/CategoryTypeAhead";
 
 
 
@@ -76,18 +77,17 @@ class ProductForm extends Component {
       }
 
       cancel(){
-        //e.preventDefault();
-        //console.log("test5");
-        this.props.history.push("/adminportal");
+        //this.props.history.push("/adminportal");
+        console.log(this.props.category.cur_id + " cur id")
       }
 
       onSubmit(e) {
         e.preventDefault();
         console.log(this.state.valid_cat);
         console.log(this.state.cur_id)
-        if(this.state.valid_cat){
+        if(this.props.category.valid_cat){
           const newProd = {
-              categoryId: this.state.cur_id,
+              categoryId: this.props.category.cur_id,
               name: this.state.name,
               desc: this.state.description,
               price: this.state.price,
@@ -156,7 +156,8 @@ class ProductForm extends Component {
         return(
         <div>
             <form>
-                <div className="cat-scroll">
+                <CategoryTypeAhead/>
+                {/* <div className="cat-scroll">
                     <TextFieldGroup
                       placeholder="Category"
                       name="category"
@@ -166,7 +167,7 @@ class ProductForm extends Component {
                     />
 
                     {this.state.categoryList}
-                </div>
+                    </div> */}
                   <TextFieldGroup
                     placeholder="Name"
                     name="name"

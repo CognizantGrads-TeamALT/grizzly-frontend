@@ -22,6 +22,15 @@ export const getCategories = index => dispatch => {
     });
 };
 
+export const Update_TypeAhead = values => dispatch => {
+  console.log("in update typeahead");
+    dispatch({
+      type: types.CATEGORY_TYPEAHEAD_UPDATE,
+      payload: values
+    })
+  
+}
+
 // Add Category
 export const addCategory = newCat => dispatch => {
   dispatch(setCategoryAdding());
