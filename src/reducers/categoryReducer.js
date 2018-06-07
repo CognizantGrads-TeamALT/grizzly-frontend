@@ -42,6 +42,15 @@ export default function(state = initialState, action) {
         index: index,
         loading: false
       };
+    case types.CATEGORY_TYPEAHEAD_UPDATE:
+      const current_id = action.payload.cur_id;
+      const valid_category = action.payload.valid_cat;
+      return{
+        ...state,
+        cur_id: current_id,
+        valid_cat: valid_category
+      }
+
     case types.CATEGORY_ADDING:
       const currentCats2 = isEmpty(state.categories) ? [] : state.categories;
       const addCategory = isEmpty(action.payload) ? [] : [action.payload];

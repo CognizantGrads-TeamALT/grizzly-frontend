@@ -9,9 +9,10 @@ import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { Row, Col, Nav, NavItem } from "reactstrap";
 import { addProduct } from "../../../actions/productsActions";
-import { searchCategories } from "../../../actions/categoryActions";
+import { searchCategories, Update_TypeAhead } from "../../../actions/categoryActions";
 import _ from "lodash";
 import { setTimeout } from "timers";
+import CategoryTypeAhead from "../categories/CategoryTypeAhead";
 import ImageUploader from "./ImageUploader";
 
 class ProductForm extends Component {
@@ -33,7 +34,6 @@ class ProductForm extends Component {
     this.onDrop = this.onDrop.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.setCategoryName = this.setCategoryName.bind(this);
   }
 
   onDrop(pictureFiles, pictureDataURLs) {
@@ -41,13 +41,6 @@ class ProductForm extends Component {
     this.files = pictureDataURLs;
   }
 
-  populate(param) {
-    var options = param.map(category => ({
-      id: category.categoryId,
-      name: category.name
-    }));
-    return options;
-  }
 
   onToggle() {
     this.setState({
@@ -62,9 +55,9 @@ class ProductForm extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    if (this.state.valid_cat) {
+    if (this.props.category.valid_cat) {
       const newProd = {
-        categoryId: this.state.cur_id,
+        categoryId: this.props.category.cur_id,
         name: this.state.name,
         desc: this.state.description,
         price: this.state.price,
@@ -86,53 +79,6 @@ class ProductForm extends Component {
   onChange(e, persist) {
     this.setState({ [e.target.name]: e.target.value });
     if (persist) e.persist();
-  }
-
-  searchCat(e) {
-    this.setState({ valid_cat: false });
-    if (isEmpty(e)) {
-      //no response, invalid input
-      this.setState({ categoryList: [] });
-    } else {
-      this.props.searchCategories(e.target.value);
-
-      var list;
-      setTimeout(() => {
-        if (
-          !isEmpty(this.props.category.categories) &&
-          !this.props.category.loading
-        ) {
-          const { categories } = this.props.category;
-          list = this.populate(categories);
-          this.setState({
-            categoryList: list.map(function(listItem) {
-              return [
-                <button
-                  className="landingpage btn btn btn-outline-info btn-sm cat-scroll-button mb-sm-2"
-                  key={listItem.id}
-                  type="button"
-                  name={listItem.name}
-                  value={listItem.id}
-                  onClick={this.setCategoryName}
-                >
-                  {listItem.name}{" "}
-                </button>,
-                <br key={listItem.id + 10000} />
-              ];
-            }, this)
-          });
-        }
-      }, 1000);
-    }
-  }
-
-  setCategoryName(e) {
-    this.setState({
-      category: e.target.name,
-      cur_id: e.target.value,
-      valid_cat: true,
-      categoryList: []
-    });
   }
 
   render() {
@@ -198,17 +144,7 @@ class ProductForm extends Component {
               </div>
               <div className="col-5">
                 <form>
-                  <TextFieldGroup
-                    placeholder="Category"
-                    name="category"
-                    value={this.state.category}
-                    onChange={event => {
-                      // eslint-disable-next-line
-                      this.onChange(event, true), catSearch(event);
-                    }}
-                  />
-                  <div className="text-center">{this.state.categoryList}</div>
-
+                  <CategoryTypeAhead/>
                   <TextFieldGroup
                     placeholder="Name"
                     name="name"
@@ -217,8 +153,8 @@ class ProductForm extends Component {
                   />
                   <TextFieldGroup
                     placeholder="Description"
-                    name="desc"
-                    value={this.state.desc}
+                    name="description"
+                    value={this.state.description}
                     onChange={this.onChange}
                   />
                   <TextFieldGroup
@@ -260,9 +196,10 @@ ProductForm.propTypes = {
 const mapStateToProps = state => ({
   product: state.product,
   category: state.category
+  
 });
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories }
+  { addProduct, searchCategories, Update_TypeAhead }
 )(withRouter(ProductForm));
