@@ -1,23 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-//import ProductSearchSort from "../common/ProductSearchSort";
-//import CategoryFilter from "../common/CategoryFilter";
 import TextFieldGroup from "../../common/TextFieldGroup";
-//import TextAreaFieldGroup from "../../common/TextAreaFieldGroup";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import isEmpty from "../../../validation/is-empty";
 import PropTypes from "prop-types";
+import Profile from "../profile/Profile";
 import { withRouter } from "react-router-dom";
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import classnames from "classnames";
+import { Row, Col, Nav, NavItem } from "reactstrap";
 import { addProduct } from "../../../actions/productsActions";
 import { searchCategories } from "../../../actions/categoryActions";
 import _ from "lodash";
-// import Spinner from "../../common/Spinner";
-// import Loading from "../../common/Loading";
-import async from "async";
 import { setTimeout } from "timers";
-
-//import { DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import ImageUploader from "./ImageUploader";
 
 class ProductForm extends Component {
   constructor(props) {
@@ -33,35 +28,25 @@ class ProductForm extends Component {
       cur_id: "",
       valid_cat: false
     };
+    this.pictures = [];
+    this.files = [];
+    this.onDrop = this.onDrop.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);
   }
 
-  populate(param) {
-    console.log("param");
-    console.log(param);
+  onDrop(pictureFiles, pictureDataURLs) {
+    this.pictures = pictureFiles;
+    this.files = pictureDataURLs;
+  }
 
-    //this.props.searchCategories(param);
-    //const { categories, loading } = this.state.categories;//this.props.categories;
-    //   const {categories} = this.props;
-    //   if (!isEmpty(categories)){
-    //     console.log(categories);
-    //   var count = 0;
+  populate(param) {
     var options = param.map(category => ({
       id: category.categoryId,
       name: category.name
     }));
-    //options.map(opt => (console.log(opt.id)))
-    /*      var options = [];
-          param.map(category => (
-            options.concat(
-            {id: category.id,
-            name: category.name})     
-        )); */
-    console.log(options.length + " options Length");
     return options;
-    // }
   }
 
   onToggle() {
@@ -71,15 +56,12 @@ class ProductForm extends Component {
   }
 
   cancel() {
-    //e.preventDefault();
-    //console.log("test5");
     this.props.history.push("/adminportal");
   }
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state.valid_cat);
-    console.log(this.state.cur_id);
+
     if (this.state.valid_cat) {
       const newProd = {
         categoryId: this.state.cur_id,
@@ -101,21 +83,18 @@ class ProductForm extends Component {
     }
   }
 
-  onChange(e, persist = false) {
+  onChange(e, persist) {
     this.setState({ [e.target.name]: e.target.value });
     if (persist) e.persist();
   }
 
   searchCat(e) {
-    // e.preventDefault();
     this.setState({ valid_cat: false });
     if (isEmpty(e)) {
-      //no responce, invalid input
+      //no response, invalid input
       this.setState({ categoryList: [] });
     } else {
-      //const makeRequest = async () => {
       this.props.searchCategories(e.target.value);
-      console.log(this.props.category.categories);
 
       var list;
       setTimeout(() => {
@@ -125,12 +104,11 @@ class ProductForm extends Component {
         ) {
           const { categories } = this.props.category;
           list = this.populate(categories);
-          console.log("list: ");
           this.setState({
             categoryList: list.map(function(listItem) {
               return [
                 <button
-                  className="btn btn-light border-dark cat-scroll-button"
+                  className="landingpage btn btn btn-outline-info btn-sm cat-scroll-button mb-sm-2"
                   key={listItem.id}
                   type="button"
                   name={listItem.name}
@@ -149,9 +127,6 @@ class ProductForm extends Component {
   }
 
   setCategoryName(e) {
-    console.log(e.target.value + " value"); //id
-    console.log(e.target.name + " name"); //name
-
     this.setState({
       category: e.target.name,
       cur_id: e.target.value,
@@ -165,52 +140,113 @@ class ProductForm extends Component {
       this.searchCat(e);
     }, 200);
     return (
-      <div>
-        <form>
-          <div className="cat-scroll">
-            <TextFieldGroup
-              placeholder="Category"
-              name="category"
-              value={this.state.category}
-              //onChange={this.catSearch}
-              onChange={event => {
-                this.onChange(event, true), catSearch(event);
-              }}
-            />
+      <div className="row">
+        <div className="col-3">
+          <Profile />
+        </div>
+        <div className="col-9">
+          <Row>
+            <Col>
+              <Nav tabs>
+                <NavItem>
+                  <Link
+                    to="/adminportal"
+                    className={classnames(
+                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                      {
+                        active: this.state.activeTab === "1"
+                      }
+                    )}
+                  >
+                    PRODUCTS
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link
+                    to="/adminportal"
+                    className={classnames(
+                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0"
+                    )}
+                  >
+                    VENDORS
+                  </Link>
+                </NavItem>
+                <NavItem>
+                  <Link
+                    to="/adminportal"
+                    className={classnames(
+                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0"
+                    )}
+                  >
+                    CATEGORIES
+                  </Link>
+                </NavItem>
+              </Nav>
+            </Col>
+          </Row>
+          <div className="row-9">
+            <div className="row">
+              <div className="col-5">
+                <ImageUploader
+                  withIcon={true}
+                  withPreview={true}
+                  buttonText="Choose images"
+                  onChange={this.onDrop}
+                  imgExtension={[".jpg", ".jpeg", ".gif", ".png"]}
+                  maxFileSize={5242880}
+                />
+              </div>
+              <div className="col-5">
+                <form>
+                  <TextFieldGroup
+                    placeholder="Category"
+                    name="category"
+                    value={this.state.category}
+                    onChange={event => {
+                      // eslint-disable-next-line
+                      this.onChange(event, true), catSearch(event);
+                    }}
+                  />
+                  <div className="text-center">{this.state.categoryList}</div>
 
-            {this.state.categoryList}
+                  <TextFieldGroup
+                    placeholder="Name"
+                    name="name"
+                    value={this.state.name}
+                    onChange={this.onChange}
+                  />
+                  <TextFieldGroup
+                    placeholder="Description"
+                    name="desc"
+                    value={this.state.desc}
+                    onChange={this.onChange}
+                  />
+                  <TextFieldGroup
+                    placeholder="Price"
+                    name="price"
+                    value={this.state.price}
+                    onChange={this.onChange}
+                  />
+                </form>
+              </div>
+              <div className="col-2">
+                {" "}
+                <button
+                  className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
+                  onClick={this.onSubmit}
+                >
+                  Add
+                </button>
+                <button
+                  className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
+                  onClick={() => this.cancel()}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
-          <TextFieldGroup
-            placeholder="Name"
-            name="name"
-            value={this.state.name}
-            onChange={this.onChange}
-          />
-          <TextFieldGroup
-            placeholder="Description"
-            name="description"
-            value={this.state.description}
-            onChange={this.onChange}
-          />
-          <TextFieldGroup
-            placeholder="Price"
-            name="price"
-            value={this.state.price}
-            onChange={this.onChange}
-          />
-        </form>
-        <Button
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
-          onClick={this.onSubmit}
-        >
-          Add
-        </Button>
-        <Button
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
-          onClick={() => this.cancel()}
-        >
-          Cancel
-        </Button>
+        </div>
       </div>
     );
   }
