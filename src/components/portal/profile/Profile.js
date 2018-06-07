@@ -1,9 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import photoID from "../../../img/photoID.png";
+import { getUsers } from "../../../actions/userActions";
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  getUserDetails(id) {
+    this.props.getUserDetails();
+  }
   render() {
+    const { userDetails } = this.props;
     return (
       <div className="text-center profile-sidebar">
         <div className="profile-header">
@@ -11,6 +21,7 @@ class Profile extends Component {
              <button type="button" className="btn btn-link hover-def-plain-b profile-header-button">
               Edit
             </button>
+            {this.props}
           </div>
          
         </div>
@@ -20,7 +31,7 @@ class Profile extends Component {
           </div>
 
           <div className="profile-usertitle">
-            <div className="profile-usertitle-name">Helen Cho</div>
+            <div className="profile-usertitle-name">{this.props.getUserDetails()}</div>
           </div>
           <div className="profile-usermenu">
             <div className="profile-usertitle-name">ID</div>
@@ -35,5 +46,10 @@ class Profile extends Component {
     );
   }
 }
+
+Profile.propTypes = {
+  getUsers: PropTypes.func.isRequired
+};
+
 
 export default connect(null)(Profile);
