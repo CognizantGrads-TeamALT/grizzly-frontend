@@ -1,4 +1,3 @@
-
 import * as types from "./types";
 import {
   PRODUCT_API_GATEWAY,
@@ -39,47 +38,46 @@ export const getProducts = index => dispatch => {
               : (categoryIdArray = categoryIdArray + "," + prod.categoryId)
         );
       dispatch(getCategoryBatch(categoryIdArray));
-      dispatch(setProductLoaded());
     })
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
-export const setProductAdding = () =>{
-    return{
-        type: types.PRODUCT_ADDING
-    };
+export const setProductAdding = () => {
+  return {
+    type: types.PRODUCT_ADDING
+  };
 };
 
 export const addProduct = newProd => dispatch => {
-    dispatch(setProductLoading());
-    axios
-      .put(PRODUCT_API_GATEWAY + "/add", newProd)
-      .then(res => 
-        dispatch({
-            type: types.PRODUCT_ADDING,
-            payload: res.data
-        })
+  dispatch(setProductLoading());
+  axios
+    .put(PRODUCT_API_GATEWAY + "/add", newProd)
+    .then(res =>
+      dispatch({
+        type: types.PRODUCT_ADDING,
+        payload: res.data
+      })
     )
-      .catch(err =>
-        dispatch({
-          type: types.GET_ERRORS,
-          payload: err.response.data
-        })
-      );
-  };
+    .catch(err =>
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
 
-  // Clear Products
+// Clear Products
 export const clearCurrentProducts = () => {
-    return {
-      type: types.CLEAR_CURRENT_PRODUCTS
-    };
+  return {
+    type: types.CLEAR_CURRENT_PRODUCTS
   };
+};
 // Delete Product
 export const deleteProduct = id => dispatch => {
   dispatch(setProductUpdateOnce());
@@ -96,7 +94,7 @@ export const deleteProduct = id => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -116,7 +114,7 @@ export const toggleBlockProduct = product => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -136,7 +134,7 @@ export const editProduct = newInfo => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -174,7 +172,6 @@ export const setProductUpdated = () => {
   };
 };
 
-
 export const getVendorBatch = vendorIdArray => dispatch => {
   axios
     .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
@@ -189,7 +186,7 @@ export const getVendorBatch = vendorIdArray => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
     });
 };
 
@@ -201,12 +198,35 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
         type: types.GET_PRODUCT_CATEGORY,
         payload: res.data
       });
+      dispatch(setProductLoaded());
     })
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
+      });
+    });
+};
+
+// Search Products
+export const searchProducts = keyword => dispatch => {
+  dispatch(clearCurrentProducts());
+  dispatch(setProductLoading());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCTS,
+        payload: res.data
+      });
+      dispatch(setProductLoaded());
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
     });
 };

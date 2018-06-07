@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { searchVendors } from "../../../actions/vendorActions";
+import { searchProducts } from "../../../actions/productsActions";
+
+import ProductForm from "../products/ProductForm";
 class ProductSearchSort extends Component {
   constructor() {
     super();
@@ -25,17 +27,14 @@ class ProductSearchSort extends Component {
   onSearch(e) {
     e.preventDefault();
 
-    const searchTerm = {
-      search: this.state.search
-    };
-
-    this.props.searchVendors(searchTerm);
+    this.props.searchProducts(this.state.search);
+    this.setState({ search: "" });
   }
 
   render() {
     return (
       <div className="btn-group aligned-left mt-2 mb-2">
-        <form className="form-inline ml-0 mr-1">
+        <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
           <div className="search-form-custom">
             <input
               className="form-control left-rounded border-right-0 border"
@@ -82,12 +81,15 @@ class ProductSearchSort extends Component {
 }
 
 ProductSearchSort.propTypes = {
-  searchVendors: PropTypes.func.isRequired,
-  vendor: PropTypes.object.isRequired
+  searchProducts: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  vendor: state.vendor
+  product: state.product
 });
 
-export default connect(mapStateToProps, { searchVendors })(ProductSearchSort);
+export default connect(
+  mapStateToProps,
+  { searchProducts }
+)(ProductSearchSort);
