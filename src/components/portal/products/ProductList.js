@@ -49,12 +49,6 @@ class ProductList extends Component {
               .name;
       return vendName;
     }
-
-    const updatedProd = {
-      productId: product.productId,
-      enabled: !product.enabled
-    };
-    this.props.toggleBlockProduct(updatedProd);
   }
 
   render() {

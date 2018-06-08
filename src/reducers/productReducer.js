@@ -3,6 +3,8 @@ import isEmpty from "../validation/is-empty";
 
 const initialState = {
   products: null,
+  product_category: null,
+  product_vendor: null,
   hasMore: false,
   index: 0
 };
@@ -78,14 +80,26 @@ export default function(state = initialState, action) {
         )
       };
     case types.GET_PRODUCT_VENDOR:
+      const currentProductVendor = isEmpty(state.product_vendor)
+        ? []
+        : state.product_vendor;
+      const newProductVendor = isEmpty(action.payload)
+        ? currentProductVendor
+        : currentProductVendor.concat(action.payload);
       return {
         ...state,
-        product_vendor: action.payload
+        product_vendor: newProductVendor
       };
     case types.GET_PRODUCT_CATEGORY:
+      const currentProductCat = isEmpty(state.product_category)
+        ? []
+        : state.product_category;
+      const newProductCat = isEmpty(action.payload)
+        ? currentProductCat
+        : currentProductCat.concat(action.payload);
       return {
         ...state,
-        product_category: action.payload
+        product_category: newProductCat
       };
     case types.PRODUCTS_LOADED:
       return {

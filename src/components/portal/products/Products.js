@@ -14,8 +14,6 @@ import {
 import isEmpty from "../../../validation/is-empty";
 import CategoryTypeAhead from "../categories/CategoryTypeAhead";
 
-
-
 class Products extends Component {
   componentDidMount() {
     // Detect when scrolled to bottom.
@@ -32,12 +30,12 @@ class Products extends Component {
   }
 
   shouldComponentUpdate() {
-    if (this.props.product.updateOnce) {
+    if (this.props.product.updateOnce || this.props.product.loading) {
       this.props.setProductUpdated();
       return true;
     }
 
-    return this.props.product.loading || false;
+    return false;
   }
 
   loadMore() {
@@ -75,7 +73,7 @@ class Products extends Component {
           </td>
         </tr>
       );
-    } 
+    }
   }
 
   render() {
@@ -89,7 +87,8 @@ class Products extends Component {
           pageIndex={this.props.product.index}/>
         <Link
           className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-          to="/product/new">
+          to="/product/new"
+        >
           Add Product
         </Link>
         <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
