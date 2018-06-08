@@ -27,7 +27,6 @@ class ProductList extends Component {
   showCatName(product) {
     const { product_category } = this.props;
     if (!isEmpty(product) && !isEmpty(product_category)) {
-      // TODO : display Cat name and Vendor Name instead of Ids
       const catName =
         product.categoryId === 0
           ? product.categoryId
