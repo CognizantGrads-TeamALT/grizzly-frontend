@@ -98,7 +98,7 @@ class ProductForm extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                      "nav-link btn-outline-success my-2 my-sm-0",
                       {
                         active: this.state.activeTab === "1"
                       }
@@ -111,7 +111,7 @@ class ProductForm extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0"
+                      "nav-link btn-outline-success my-2 my-sm-0"
                     )}
                   >
                     VENDORS
@@ -121,7 +121,7 @@ class ProductForm extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0"
+                      "nav-link btn-outline-success my-2 my-sm-0"
                     )}
                   >
                     CATEGORIES
