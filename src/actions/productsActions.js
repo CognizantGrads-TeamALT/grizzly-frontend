@@ -62,18 +62,22 @@ export const addProduct = newProd => dispatch => {
   dispatch(setProductLoading());
   axios
     .put(PRODUCT_API_GATEWAY + "/add", newProd)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.PRODUCT_ADDING,
         payload: res.data
-      })
-    )
-    .catch(err =>
+      });
+      dispatch(getVendorBatch(res.data.vendorId));
+      dispatch(getCategoryBatch(res.data.categoryId));
+      dispatch(setProductLoaded());
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
-    );
+      });
+    });
 };
 
 // Clear Products
