@@ -54,7 +54,7 @@ export default function(state = initialState, action) {
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];
       const newProducts2 = addProduct.concat(currentProducts2);
       const hasMore2 = !state.hasMore
-        ? newProducts2.length / 25 >= state.index + 1
+        ? newProducts2.length / 25 >= state.index
         : state.hasMore;
       return {
         ...state,
@@ -109,6 +109,7 @@ export default function(state = initialState, action) {
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
         ...state,
+        hasMore: true,
         products: null
       };
     default:
