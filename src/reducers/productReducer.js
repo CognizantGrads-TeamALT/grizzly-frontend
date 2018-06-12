@@ -1,5 +1,5 @@
-import * as types from "../actions/types";
-import isEmpty from "../validation/is-empty";
+import * as types from '../actions/types';
+import isEmpty from '../validation/is-empty';
 
 const initialState = {
   products: null,
@@ -40,7 +40,7 @@ export default function(state = initialState, action) {
             ...new Map(
               currentProducts
                 .concat(action.payload)
-                .map(o => [o["productId"], o])
+                .map(o => [o['productId'], o])
             ).values()
           ];
       return {
@@ -48,6 +48,11 @@ export default function(state = initialState, action) {
         products: newProducts,
         hasMore: hasMore,
         index: index
+      };
+    case types.GET_PRODUCT:
+      return {
+        ...state,
+        single: action.payload
       };
     case types.PRODUCT_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
