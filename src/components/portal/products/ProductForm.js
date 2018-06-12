@@ -22,10 +22,10 @@ class ProductForm extends Component {
 
     this.state = {
       modal: false,
-      category: "",
-      name: "",
-      desc: "",
-      price: "",
+      category: '',
+      name: '',
+      desc: '',
+      price: '',
       rating: 0,
       categoryList: [],
       cur_id: '',
@@ -78,13 +78,11 @@ class ProductForm extends Component {
       };
       this.props.addProduct(newProd);
       this.setState({
-        category: "",
-        name: "",
-        price: "",
+        category: '',
+        name: '',
+        price: '',
         rating: 0,
-        desc: "",
-        price: ""
-        
+        desc: ''
       });
       this.cancel();
     }

@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import ConfirmModal from "../common/ConfirmModal";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import ConfirmModal from '../common/ConfirmModal';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   toggleBlockProduct,
   deleteProduct
-} from "../../../actions/productsActions";
-import isEmpty from "../../../validation/is-empty";
+} from '../../../actions/productsActions';
+import isEmpty from '../../../validation/is-empty';
 
 class ProductList extends Component {
   constructor(props) {
@@ -41,7 +41,6 @@ class ProductList extends Component {
   showVendorName(product) {
     const { product_vendor } = this.props;
     if (!isEmpty(product) && !isEmpty(product_vendor)) {
-      // TODO : display Cat name and Vendor Name instead of Ids
       const vendName =
         product.vendorId === 0
           ? product.vendorId
@@ -69,19 +68,21 @@ class ProductList extends Component {
             View
           </Link>
           <ConfirmModal
-              buttonLabel={product.enabled ? "Block" : "Unblock"}
-              title="Block Product"
-              confirmText={(product.enabled ? "Block" : "Unblock") + " " + product.name}
-              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-              onSubmit={this.onBlockClick}
-            />
+            buttonLabel={product.enabled ? 'Block' : 'Unblock'}
+            title="Block Product"
+            confirmText={
+              (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
+            }
+            buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
+            onSubmit={this.onBlockClick}
+          />
           <ConfirmModal
-              buttonLabel="Delete"
-              title="Delete Product"
-              confirmText={"Delete " + product.name}
-              buttonClass="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-              onSubmit={this.onDeleteClick.bind(this, product.productId)}
-            />
+            buttonLabel="Delete"
+            title="Delete Product"
+            confirmText={'Delete ' + product.name}
+            buttonClass="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
+            onSubmit={this.onDeleteClick.bind(this, product.productId)}
+          />
         </td>
       </tr>
     );
