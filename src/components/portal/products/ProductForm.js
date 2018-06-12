@@ -25,7 +25,7 @@ class ProductForm extends Component {
       name: "",
       desc: "",
       price: "",
-      rating: "0",
+      rating: 0,
       categoryList: [],
       cur_id: "",
       valid_cat: false
@@ -72,7 +72,7 @@ class ProductForm extends Component {
         category: "",
         name: "",
         price: "",
-        rating: "",
+        rating: 0,
         desc: "",
         price: ""
         
