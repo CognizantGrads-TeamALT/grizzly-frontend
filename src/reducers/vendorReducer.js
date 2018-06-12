@@ -31,10 +31,14 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentVendors = isEmpty(state.vendors) ? [] : state.vendors;
-      const index = isEmpty(state.vendors) ? 1 : state.index+1;
+      const index = isEmpty(state.vendors) ? 1 : state.index + 1;
       const newVendors = isEmpty(action.payload)
         ? currentVendors
-        : [...new Map(currentVendors.concat(action.payload).map(o => [o['vendorId'], o])).values()];
+        : [
+            ...new Map(
+              currentVendors.concat(action.payload).map(o => [o["vendorId"], o])
+            ).values()
+          ];
       return {
         ...state,
         vendors: newVendors,
@@ -46,7 +50,9 @@ export default function(state = initialState, action) {
       const currentVendors2 = isEmpty(state.vendors) ? [] : state.vendors;
       const addVendor = isEmpty(action.payload) ? [] : [action.payload];
       const newVendors2 = addVendor.concat(currentVendors2);
-      const hasMore2 = !state.hasMore ? ((newVendors2.length / 25) >= state.index+1) : state.hasMore;
+      const hasMore2 = !state.hasMore
+        ? newVendors2.length / 25 >= state.index + 1
+        : state.hasMore;
       return {
         ...state,
         vendors: newVendors2,
@@ -73,6 +79,7 @@ export default function(state = initialState, action) {
     case types.CLEAR_CURRENT_VENDORS:
       return {
         ...state,
+        hasMore: true,
         vendors: null
       };
     default:

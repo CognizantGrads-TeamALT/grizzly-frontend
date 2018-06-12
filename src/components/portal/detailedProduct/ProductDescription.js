@@ -119,9 +119,8 @@ class ProductDescription extends Component {
                         
                 </div>
             </div>
-  
-        );
-    }
+    );
+  }
 }
 
 export default ProductDescription;

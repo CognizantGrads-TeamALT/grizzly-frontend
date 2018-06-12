@@ -29,7 +29,7 @@ class AdminTab extends Component {
     super(props);
     this.onToggle = this.onToggle.bind(this);
     this.state = {
-      activeTab: "1"
+      activeTab: ""
     };
   }
 
@@ -69,7 +69,7 @@ class AdminTab extends Component {
               <NavItem>
                 <NavLink
                   className={classnames(
-                    "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                    "nav-link btn-outline-success my-2 my-sm-0",
                     {
                       active: this.state.activeTab === "1"
                     }
@@ -84,7 +84,7 @@ class AdminTab extends Component {
               <NavItem>
                 <NavLink
                   className={classnames(
-                    "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                    "nav-link btn-outline-success my-2 my-sm-0",
                     {
                       active: this.state.activeTab === "2"
                     }
@@ -99,7 +99,7 @@ class AdminTab extends Component {
               <NavItem>
                 <NavLink
                   className={classnames(
-                    "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                    "nav-link btn-outline-success my-2 my-sm-0",
                     {
                       active: this.state.activeTab === "3"
                     }

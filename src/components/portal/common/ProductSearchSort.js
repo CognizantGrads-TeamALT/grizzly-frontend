@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { searchProducts } from "../../../actions/productsActions";
 
-import ProductForm from "../products/ProductForm";
 class ProductSearchSort extends Component {
   constructor() {
     super();

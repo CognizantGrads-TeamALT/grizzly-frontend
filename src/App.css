@@ -548,3 +548,8 @@ a:hover {
   flex-wrap: wrap;
   width: 100%;
 }
+
+.floating-div {
+  position: absolute;
+  top: 30px;
+}

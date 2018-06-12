@@ -16,6 +16,10 @@
     "react-flip-move": "^3.0.2",
     "react-inline-editing": "^1.0.10",
     "react-ions": "^5.0.5",
+<<<<<<< HEAD
+=======
+    "react-label": "0.0.6",
+>>>>>>> b6a72aad734aca511f0e1d011a7c2116fcb44d86
     "react-moment": "^0.7.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",

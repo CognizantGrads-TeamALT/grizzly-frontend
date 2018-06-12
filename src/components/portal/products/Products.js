@@ -8,10 +8,12 @@ import Spinner from "../../common/Spinner";
 import ProductList from "./ProductList";
 import {
   getProducts,
-  setProductUpdated
+  setProductUpdated,
+  filterProductsByCategory
 } from "../../../actions/productsActions";
 import isEmpty from "../../../validation/is-empty";
 
+import CategoryTypeAhead from "../categories/CategoryTypeAhead";
 
 
 class Products extends Component {
@@ -30,12 +32,12 @@ class Products extends Component {
   }
 
   shouldComponentUpdate() {
-    if (this.props.product.updateOnce) {
+    if (this.props.product.updateOnce || this.props.product.loading) {
       this.props.setProductUpdated();
       return true;
     }
 
-    return this.props.product.loading || false;
+    return false;
   }
 
   loadMore() {
@@ -73,17 +75,22 @@ class Products extends Component {
           </td>
         </tr>
       );
-    } 
+    }
   }
 
   render() {
     return (
       <div>
         <ProductSearchSort />
-        <CategoryFilter />
+        <CategoryTypeAhead 
+          placeholder="Filter by category"
+          extraClassNames="btn-group mt-3 mr-2"
+          onClickHandler={this.props.filterProductsByCategory}
+          pageIndex={this.props.product.index}/>
         <Link
           className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-          to="/product/new">
+          to="/product/new"
+        >
           Add Product
         </Link>
         <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
@@ -94,7 +101,7 @@ class Products extends Component {
                 <th scope="col">Products Name</th>
                 <th scope="col">Vendor</th>
                 <th scope="col">Category</th>
-                <th scope="col">Price</th>
+                <th scope="col">Rating</th>
                 <th scope="col" />
               </tr>
             </thead>
@@ -109,7 +116,8 @@ class Products extends Component {
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -118,5 +126,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated }
+  { getProducts, setProductUpdated, filterProductsByCategory }
 )(Products);
