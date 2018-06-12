@@ -12,7 +12,9 @@ import {
   filterProductsByCategory
 } from "../../../actions/productsActions";
 import isEmpty from "../../../validation/is-empty";
+
 import CategoryTypeAhead from "../categories/CategoryTypeAhead";
+
 
 class Products extends Component {
   componentDidMount() {
@@ -99,7 +101,7 @@ class Products extends Component {
                 <th scope="col">Products Name</th>
                 <th scope="col">Vendor</th>
                 <th scope="col">Category</th>
-                <th scope="col">Price</th>
+                <th scope="col">Rating</th>
                 <th scope="col" />
               </tr>
             </thead>

@@ -25,6 +25,7 @@ class ProductForm extends Component {
       name: "",
       desc: "",
       price: "",
+      rating: 0,
       categoryList: [],
       cur_id: "",
       valid_cat: false
@@ -61,6 +62,7 @@ class ProductForm extends Component {
         name: this.state.name,
         desc: this.state.desc,
         price: this.state.price,
+        rating: this.state.rating,
         enabled: true,
         vendorId: 1
       };
@@ -69,8 +71,11 @@ class ProductForm extends Component {
       this.setState({
         category: "",
         name: "",
+        price: "",
+        rating: 0,
         desc: "",
         price: ""
+        
       });
       this.cancel();
     }
