@@ -25,7 +25,7 @@ class ProductForm extends Component {
       name: "",
       desc: "",
       price: "",
-      rating: "",
+      rating: "0",
       categoryList: [],
       cur_id: "",
       valid_cat: false
@@ -168,12 +168,6 @@ class ProductForm extends Component {
                     placeholder="Price"
                     name="price"
                     value={this.state.price}
-                    onChange={this.onChange}
-                  />
-                  <TextFieldGroup
-                    placeholder="Rating"
-                    name="rating"
-                    value={this.state.rating}
                     onChange={this.onChange}
                   />
                 </form>
