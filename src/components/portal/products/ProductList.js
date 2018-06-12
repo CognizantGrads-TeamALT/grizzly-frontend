@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ConfirmModal from "../common/ConfirmModal";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -59,7 +60,7 @@ class ProductList extends Component {
         <td>{product.name}</td>
         <td>{this.showVendorName(product)}</td>
         <td>{this.showCatName(product)}</td>
-        <td>{product.price}</td>
+        <td>{product.rating}</td>
         <td>
           <Link
             to={`/detailedproduct/${product.productId}`}
@@ -67,20 +68,20 @@ class ProductList extends Component {
           >
             View
           </Link>
-          <button
-            onClick={this.onBlockClick}
-            className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-            type="button"
-          >
-            {product.enabled ? "Block" : "Unblock"}
-          </button>
-          <button
-            onClick={this.onDeleteClick.bind(this, product.productId)}
-            className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-            type="button"
-          >
-            Delete
-          </button>
+          <ConfirmModal
+              buttonLabel={product.enabled ? "Block" : "Unblock"}
+              title="Block Product"
+              confirmText={(product.enabled ? "Block" : "Unblock") + " " + product.name}
+              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
+              onSubmit={this.onBlockClick}
+            />
+          <ConfirmModal
+              buttonLabel="Delete"
+              title="Delete Product"
+              confirmText={"Delete " + product.name}
+              buttonClass="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
+              onSubmit={this.onDeleteClick.bind(this, product.productId)}
+            />
         </td>
       </tr>
     );

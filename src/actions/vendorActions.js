@@ -1,5 +1,5 @@
 import * as types from "./types";
-import { VENDOR_API_GATEWAY } from "./microservices";
+import { PRODUCT_API_GATEWAY, VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
 // Get Vendor List
@@ -116,12 +116,13 @@ export const deleteVendor = id => dispatch => {
   dispatch(setVendorUpdateOnce());
   axios
     .delete(VENDOR_API_GATEWAY + `/delete/${id}`)
-    .then(res =>
+    .then(res => {
+      dispatch(disableVendorProducts(id));
       dispatch({
         type: types.VENDOR_DELETING,
         payload: id
       })
-    )
+    })
     .catch(err => {
       dispatch(setVendorUpdated());
       dispatch({
@@ -150,6 +151,18 @@ export const toggleBlockVendor = vendor => dispatch => {
       })
     });
 };
+
+// Disable products when deleting a vendor. No data is needed back.
+export const disableVendorProducts = id => dispatch => {
+  axios
+    .post(PRODUCT_API_GATEWAY + `/setBlockByVendor/${id}`)
+    .catch(err => {
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    });
+}
 
 // Clear Vendors
 export const clearCurrentVendors = () => {
