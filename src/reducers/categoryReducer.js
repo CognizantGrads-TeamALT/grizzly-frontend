@@ -31,10 +31,14 @@ export default function(state = initialState, action) {
           ? false
           : true;
       const currentCats = isEmpty(state.categories) ? [] : state.categories;
-      const index = isEmpty(state.categories) ? 1 : state.index+1;
+      const index = isEmpty(state.categories) ? 1 : state.index + 1;
       const newCats = isEmpty(action.payload)
         ? currentCats
-        : [...new Map(currentCats.concat(action.payload).map(o => [o['categoryId'], o])).values()];
+        : [
+            ...new Map(
+              currentCats.concat(action.payload).map(o => [o["categoryId"], o])
+            ).values()
+          ];
       return {
         ...state,
         categories: newCats,
@@ -55,7 +59,9 @@ export default function(state = initialState, action) {
       const currentCats2 = isEmpty(state.categories) ? [] : state.categories;
       const addCategory = isEmpty(action.payload) ? [] : [action.payload];
       const newCats2 = addCategory.concat(currentCats2);
-      const hasMore2 = !state.hasMore ? ((newCats2.length / 25) >= state.index+1) : state.hasMore;
+      const hasMore2 = !state.hasMore
+        ? newCats2.length / 25 >= state.index + 1
+        : state.hasMore;
       return {
         ...state,
         categories: newCats2,
@@ -96,6 +102,7 @@ export default function(state = initialState, action) {
     case types.CLEAR_CURRENT_CATEGORIES:
       return {
         ...state,
+        hasMore: true,
         categories: null
       };
     default:

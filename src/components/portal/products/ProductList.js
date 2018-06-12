@@ -27,7 +27,6 @@ class ProductList extends Component {
   showCatName(product) {
     const { product_category } = this.props;
     if (!isEmpty(product) && !isEmpty(product_category)) {
-      // TODO : display Cat name and Vendor Name instead of Ids
       const catName =
         product.categoryId === 0
           ? product.categoryId
@@ -49,12 +48,6 @@ class ProductList extends Component {
               .name;
       return vendName;
     }
-
-    const updatedProd = {
-      productId: product.productId,
-      enabled: !product.enabled
-    };
-    this.props.toggleBlockProduct(updatedProd);
   }
 
   render() {
@@ -66,7 +59,7 @@ class ProductList extends Component {
         <td>{product.name}</td>
         <td>{this.showVendorName(product)}</td>
         <td>{this.showCatName(product)}</td>
-        <td>{product.price}</td>
+        <td>{product.rating}</td>
         <td>
           <Link
             to={`/detailedproduct/${product.productId}`}

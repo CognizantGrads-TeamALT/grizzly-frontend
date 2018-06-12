@@ -58,7 +58,7 @@ class CategoryTypeAhead extends Component {
             list = this.populate(categories);
             this.setState({categoryList : 
               list.map(function(listItem) { 
-                return([<button className="btn btn-light border-dark cat-scroll-button"
+                return([<button className="btn btn-outline-info btn-sm cat-scroll-button"
              key={listItem.id} type="button" name={listItem.name} value={listItem.id} onClick={this.setCategoryName}>
               {listItem.name} </button>, <br key={listItem.id +10000} />]);}, this)})}
 
@@ -72,24 +72,30 @@ class CategoryTypeAhead extends Component {
                         valid_cat: true,
                       categoryList: []})
                       
-          this.props.Update_TypeAhead({cur_id: e.target.value,
-                                        valid_cat: true})
+          this.props.onClickHandler({cur_id: e.target.value,
+                                      valid_cat: true,
+                                      index: 0});//this.props.pageIndex});
           
 
       }
 
       render(){
         const catSearch = _.debounce((e) => {this.searchCat(e)}, 200);
-          return(       
+          return(  
+                <div className={this.props.extraClassNames}>     
                   <div className="cat-scroll">
                       <TextFieldGroup
-                        placeholder="Category"
+                        placeholder={this.props.placeholder}
                         name="category"
                         value={this.state.category}
                         onChange={(event) => {this.onChange(event, true), catSearch(event)}}
                       />
-                      {this.state.categoryList}
-                  </div>)
+                      
+                  </div>
+                  <div className="floating-div bg-white">
+                    {this.state.categoryList}
+                  </div>
+                </div>)
             
 
 
@@ -100,6 +106,19 @@ class CategoryTypeAhead extends Component {
 
 
 }
+
+CategoryTypeAhead.defaultProps = {
+  placeholder: "",
+  extraClassNames: "",
+  pageIndex: 0
+};
+
+CategoryTypeAhead.propTypes = {
+  placeholder: PropTypes.string,
+  extraClassNames: PropTypes.string,
+  onClickHandler: PropTypes.func.isRequired,
+  pageIndex: PropTypes.number
+};
 
 const mapStateToProps = state => ({
   product: state.product,
