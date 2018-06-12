@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ConfirmModal from "../common/ConfirmModal";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { toggleBlockVendor, deleteVendor } from "../../../actions/vendorActions";
@@ -31,26 +32,27 @@ class VendorList extends Component {
         <td>{vendor.website}</td>
         <td>{vendor.contactNum}</td>
         <td>
+          
           <button
             className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
             type="button"
           >
             View
           </button>
-          <button
-            onClick={this.onBlockClick}
-            className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-            type="button"
-          >
-            {vendor.enabled ? "Block" : "Unblock"}
-          </button>
-          <button
-            onClick={this.onDeleteClick.bind(this, vendor.vendorId)}
-            className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-            type="button"
-          >
-            Delete
-          </button>
+          <ConfirmModal
+              buttonLabel={vendor.enabled ? "Block" : "Unblock"}
+              title="Block Vendor"
+              confirmText={(vendor.enabled ? "Block" : "Unblock") + " " + vendor.name}
+              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
+              onSubmit={this.onBlockClick}
+            />
+          <ConfirmModal
+              buttonLabel="Delete"
+              title="Delete Vendor"
+              confirmText={"Delete " + vendor.name}
+              buttonClass="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
+              onSubmit={this.onDeleteClick.bind(this, vendor.vendorId)}
+            />
         </td>
       </tr>
     );
