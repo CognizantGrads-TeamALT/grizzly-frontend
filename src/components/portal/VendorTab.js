@@ -24,7 +24,7 @@ class VendorTab extends Component {
 
     this.onToggle = this.onToggle.bind(this);
     this.state = {
-      activeTab: "1"
+      activeTab: ""
     };
     this.clear();
     this.props.getProducts("0");
@@ -56,7 +56,7 @@ class VendorTab extends Component {
               <NavItem>
                 <NavLink
                   className={classnames(
-                    "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                    "nav-link btn-outline-success my-2 my-sm-0",
                     {
                       active: this.state.activeTab === "1"
                     }
@@ -71,7 +71,7 @@ class VendorTab extends Component {
               <NavItem>
                 <NavLink
                   className={classnames(
-                    "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                    "nav-link btn-outline-success my-2 my-sm-0",
                     {
                       active: this.state.activeTab === "2"
                     }
@@ -112,4 +112,7 @@ VendorTab.propTypes = {
   clearCurrentProducts: PropTypes.func.isRequired
 };
 
-export default connect(null, { getProducts, clearCurrentProducts })(VendorTab);
+export default connect(
+  null,
+  { getProducts, clearCurrentProducts }
+)(VendorTab);
