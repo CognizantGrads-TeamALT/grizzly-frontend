@@ -24,6 +24,7 @@ class ProductForm extends Component {
       name: "",
       description: "",
       price: "",
+      rating: "",
       categoryList: [],
       cur_id: "",
       valid_cat: false
@@ -68,6 +69,7 @@ class ProductForm extends Component {
         name: this.state.name,
         desc: this.state.description,
         price: this.state.price,
+        rating: this.state.rating,
         enabled: true,
         vendorId: 1
       };
@@ -77,7 +79,8 @@ class ProductForm extends Component {
         category: "",
         name: "",
         description: "",
-        price: ""
+        price: "",
+        rating: ""
       });
       this.cancel();
     }
@@ -225,6 +228,12 @@ class ProductForm extends Component {
                     placeholder="Price"
                     name="price"
                     value={this.state.price}
+                    onChange={this.onChange}
+                  />
+                  <TextFieldGroup
+                    placeholder="Rating"
+                    name="rating"
+                    value={this.state.rating}
                     onChange={this.onChange}
                   />
                 </form>

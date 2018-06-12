@@ -66,7 +66,7 @@ class ProductList extends Component {
         <td>{product.name}</td>
         <td>{this.showVendorName(product)}</td>
         <td>{this.showCatName(product)}</td>
-        <td>{product.price}</td>
+        <td>{product.rating}</td>
         <td>
           <Link
             to={`/detailedproduct/${product.productId}`}
