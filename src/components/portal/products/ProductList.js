@@ -77,7 +77,7 @@ class ProductList extends Component {
             />
           <ConfirmModal
               buttonLabel="Delete"
-              title="Delete Vendor"
+              title="Delete Product"
               confirmText={"Delete " + product.name}
               buttonClass="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
               onSubmit={this.onDeleteClick.bind(this, product.productId)}
