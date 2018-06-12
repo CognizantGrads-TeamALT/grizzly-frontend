@@ -11,11 +11,15 @@ import isEmpty from "../../../validation/is-empty";
 class ProductList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      productId : this.props.location
+  }
     this.onBlockClick = this.onBlockClick.bind(this);
   }
 
   onDeleteClick(id) {
-    this.props.deleteProduct(id);
+    console.log(this.productId);
+    //this.props.deleteProduct(id);
   }
 
   onBlockClick() {

@@ -18,8 +18,13 @@ class DetailedProduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: 0
+            activeTab: 0,
+            productId: window.location.href
         };
+    }
+
+    onClick = () => {
+        console.log(this.productId);
     }
 
     show() {
@@ -88,6 +93,7 @@ class DetailedProduct extends Component {
                             <ProductDescription 
                                 productDetails={this.show()}
                             />
+                            <button onClick={this.onClick} >testButton</button>
                         </div>
                     </div>
                 </div> 
