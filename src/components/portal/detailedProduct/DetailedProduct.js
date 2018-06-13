@@ -15,7 +15,10 @@ class DetailedProduct extends Component {
         super(props);
         this.state = {
             activeTab: 0,
-            productId: this.getID(this.props.location)
+            productId: this.getID(this.props.location),
+            count: 0,
+            product: "",
+            intervalID: ""
             
         };
     }
@@ -27,12 +30,28 @@ class DetailedProduct extends Component {
     }
 
     getProductDetails(){
-
+        if(!isEmpty(this.props.detailedProduct)){
+            const {detailedProduct} = this.props.product;
+            this.setState({product : detailedProduct});
+            clearInterval(this.state.intervalID);
+            this.count=0;
+            console.log(this.state.product);
+            console.log("found a product");
+        }
+        else if(this.state.count > 50){
+            clearInterval(this.state.intervalID);
+            console.log("cancelled search products");
+        }
+        else{
+            this.setState({count: this.state.count +1});
+            console.log("searching for product");
+        }
     }
 
     onClick = () => {
         console.log(this.state.productId);
-        this.getProduct(this.state.productId);
+        this.props.getProduct(this.state.productId);
+        this.setState({intervalID: setInterval(this.getProductDetails(), 100)});
     }
 
     show() {
