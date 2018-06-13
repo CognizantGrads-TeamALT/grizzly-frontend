@@ -143,9 +143,6 @@ export const toggleBlockVendor = vendor => dispatch => {
         type: types.VENDOR_TOGGLEBLOCK,
         payload: res.data
       });
-
-      dispatch(clearCurrentProducts());
-      dispatch(getProducts(0));
     })
     .catch(err => {
       dispatch(setVendorUpdated());
