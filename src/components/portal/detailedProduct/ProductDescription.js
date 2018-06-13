@@ -1,15 +1,9 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class ProductDescription extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      desc: this.props.productDetails.desc,
-      price: this.props.productDetails.price
-    };
-  }
   render() {
+    const product = this.props.single[0];
     return (
       <div className="container surround-parent parent-high">
         <div className="row align-items-start">
@@ -20,13 +14,13 @@ class ProductDescription extends Component {
         <div className="row align-items-start parent-min-high">
           <div className="col-8">
             <div className="dscrptnSize-7">
-              <p>{this.state.desc}</p>
+              <p>{product.desc}</p>
             </div>
           </div>
         </div>
         <div className="row align-items-end">
           <div className="col">
-            <p className="mb-0 bottom-zero bottom-heavy">${this.state.price}</p>
+            <p className="mb-0 bottom-zero bottom-heavy">${product.price}</p>
           </div>
           <div className="col" />
           <div className="col surround-parent parent-wide">
