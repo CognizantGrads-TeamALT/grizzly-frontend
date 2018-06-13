@@ -8,7 +8,7 @@ import ProductDescription from "./ProductDescription";
 import ProductTitle from "./ProductTitle";
 import Spinner from "../../common/Spinner";
 import isEmpty from "../../../validation/is-empty";
-import { getProduct } from "../../../actions/productsActions";
+import { getProductWithImgs } from "../../../actions/productsActions";
 
 class DetailedProduct extends Component {
     constructor(props) {
@@ -21,6 +21,8 @@ class DetailedProduct extends Component {
             intervalID: ""
             
         };
+        this.getProductDetails=this.getProductDetails.bind(this);
+        this.populateProduct();
     }
 
     getID(id){
@@ -30,28 +32,32 @@ class DetailedProduct extends Component {
     }
 
     getProductDetails(){
-        if(!isEmpty(this.props.detailedProduct)){
-            const {detailedProduct} = this.props.product;
-            this.setState({product : detailedProduct});
+        if(!isEmpty(this.props.product.single)){
+            //console.log("found a product");
+            const single = this.props.product.single[0];
+            this.setState({product : single});
             clearInterval(this.state.intervalID);
-            this.count=0;
-            console.log(this.state.product);
-            console.log("found a product");
+            this.state.count=0;
+            console.log(single);
         }
         else if(this.state.count > 50){
             clearInterval(this.state.intervalID);
-            console.log("cancelled search products");
+            //console.log("cancelled search products");
         }
         else{
             this.setState({count: this.state.count +1});
-            console.log("searching for product");
+            //console.log("searching for product");
         }
+    }
+
+    populateProduct = () => {
+        this.props.getProductWithImgs(this.state.productId);
+        this.setState({intervalID: setInterval(this.getProductDetails, 100)});
     }
 
     onClick = () => {
         console.log(this.state.productId);
-        this.props.getProduct(this.state.productId);
-        this.setState({intervalID: setInterval(this.getProductDetails(), 100)});
+        this.populateProduct();
     }
 
     show() {
@@ -86,7 +92,7 @@ class DetailedProduct extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link btn-outline-success my-2 my-sm-0",
+                      'nav-link btn-outline-success my-2 my-sm-0',
                       {
                         active: this.state.activeTab === 0
                       }
@@ -99,7 +105,7 @@ class DetailedProduct extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link btn-outline-success my-2 my-sm-0"
+                      'nav-link btn-outline-success my-2 my-sm-0'
                     )}
                   >
                     VENDORS
@@ -109,7 +115,7 @@ class DetailedProduct extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link btn-outline-success my-2 my-sm-0"
+                      'nav-link btn-outline-success my-2 my-sm-0'
                     )}
                   >
                     CATEGORIES
@@ -146,5 +152,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps, 
-  { getProduct }
+  { getProductWithImgs }
 )(DetailedProduct);

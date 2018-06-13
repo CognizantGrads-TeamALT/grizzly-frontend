@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import ImageUploader from "../products/ImageUploader";
 import EditableLabel from 'react-inline-editing';
-import InlineEdit from 'react-ions/lib/components/InlineEdit'
-import Button from 'react-ions/lib/components/Button'
+import InlineEdit from 'react-ions/lib/components/InlineEdit';
+import Button from 'react-ions/lib/components/Button';
+import isEmpty from "../../../validation/is-empty";
+import unavailable from '../../../img/unavailable.png';
 //import styles from './styles'
 
 
@@ -29,6 +31,23 @@ class ProductTitle extends Component {
     
       buttonCallback = () => {
         this.setState({ isEditing: true })
+      }
+
+      showImg() {
+        const product = this.props.single[0];
+        if (isEmpty(product.imageDTO)) {
+          return (
+            <img src={unavailable} className="img-responsive" alt="Unavailable" />
+          ); 
+        } else {
+          return (
+            <img
+              src={product.imageDTO[0].base64Image}
+              className="img-responsive"
+              alt={product.name}
+            />
+          );
+        }
       }
     
     render() {
@@ -63,9 +82,9 @@ class ProductTitle extends Component {
                 <div className="row align-items-end mt-3 parent-high">
                     <ImageUploader />
                 </div>
-            </div>
-        );
-    }
+                </div>
+    
+        )}
 }
 
 export default ProductTitle;
