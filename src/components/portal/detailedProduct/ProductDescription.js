@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 import EditableLabel from "react-inline-editing";
 import Button from "react-ions/lib/components/Button";
 import InlineEdit from "react-ions/lib/components/InlineEdit";
 import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import ImageUploader from "../products/ImageUploader";
+import { withRouter } from 'react-router-dom';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -16,13 +18,18 @@ class ProductDescription extends Component {
       isEditingPrice: false,
       isEditingDesc: false,
       desc: "",
-      price: ""
+      price: "",
+      name: "",
+      
     };
+    
+    this.pictures = [];
     this.handleCallbackDesc = this.handleCallbackDesc.bind(this);
     this.buttonCallbackDesc = this.buttonCallbackDesc.bind(this);
     this.handleCallbackPrice = this.handleCallbackPrice.bind(this);
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onSubmit=this.onSubmit.bind(this);
   }
 
   /*  state = {
@@ -82,6 +89,40 @@ class ProductDescription extends Component {
         />
       );
     }
+  }
+  onSubmit(e) {
+    e.preventDefault();
+    let imageData = [];
+    let i;
+    for (i = 0; i < this.pictures.length; i++) {
+      let img = {
+        imgName: this.pictures[i].name,
+        base64Image: this.files[i].split(',')[1]
+      };
+      imageData.push(img);
+    }
+
+    if (this.state.name!= "" || this.state.desc!= "" || this.state.price != "" ) {
+      const newProd = {
+        categoryId: this.props.single[0].categoryId,
+        name: this.state.name,
+        desc: this.state.desc,
+        price: this.state.price,
+        rating: this.props.single[0].rating,
+        enabled: this.props.single[0].enabled,
+        vendorId: this.props.single[0].vendorId,
+        imageDTO: this.props.single[0].imageData
+      };
+      //this.props.updateProduct(newProd);
+      console.log(newProd);
+      //this.cancel();
+    }
+  }
+
+  onCancel = event =>
+  {
+    
+      this.props.history.push('/adminportal');
   }
 
   render() {
@@ -169,25 +210,25 @@ class ProductDescription extends Component {
                 <div className="col surround-parent parent-wide">
                   <div className="row surround-parent parent-wide">
                     <div className="col align-self-end surround-parent parent-wide">
+                      {/*testing*/}
                       <button
                         onClick={this.onClick}
                         className="btn btn-rounded"
                       >
                         test button
                       </button>
-                      <Link
+                      <Button
                         className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
-                        to="/adminportal"
-                        // Please change when you do Edit Product
-                      >
+                        onClick={this.onSubmit} >                    
+                      
                         Finish
-                      </Link>
-                      <Link
+                      </Button>
+                      <Button
                         className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent parent-wide mt-2"
-                        to="/adminportal"
-                      >
+                        onClick={this.onCancel}>
+                      
                         Cancel
-                      </Link>
+                      </Button>
                     </div>
                   </div>
                 </div>

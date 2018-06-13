@@ -32,6 +32,7 @@ class DetailedProduct extends Component {
             <div>
                   <ProductDescription 
                       single={single}
+                      history={this.props.history}
                   />
               </div>
              
