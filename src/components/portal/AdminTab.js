@@ -51,7 +51,7 @@ class AdminTab extends Component {
   //}
 
   onToggle(tab) {
-    this.clear();
+    //this.clear();
     if (this.state.activeTab !== tab) {
       if (tab === "3" && !this.state.loadedCategories) {
         this.props.getCategories("0");
