@@ -45,8 +45,16 @@
   font-size: 0.9em;
 }
 
+.fnt-weight-300 { 
+  font-weight: 300;
+}
+
 .fnt-weight-400 { 
   font-weight: 400;
+}
+
+.fnt-weight-500 { 
+  font-weight: 500;
 }
 
 /* Buttons */
@@ -241,18 +249,16 @@
   margin-top: 20px;
 }
 
-.profile-usertitle-name {
+.profile-usertitle-title {
   color: black;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 1.2em;
   margin-bottom: 7px;
 }
 
-.profile-usertitle-job {
+.profile-usertitle-info {
   text-transform: uppercase;
   color: black;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: .7em;
   margin-bottom: 15px;
 }
 
