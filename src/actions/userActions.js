@@ -3,7 +3,7 @@ import { USER_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
 // Get User List
-export const getUsers = id = dispatch => {
+export const getUsers = id => dispatch => {
     dispatch(setUserLoading());
     axios
       .get(USER_API_GATEWAY + `/get/${id}/`)
