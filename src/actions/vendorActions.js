@@ -1,7 +1,7 @@
 import * as types from "./types";
 import { PRODUCT_API_GATEWAY, VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
-import { clearCurrentProducts, setProductUpdateOnce, getProducts } from "./productsActions";
+import { clearCurrentProducts, getProducts } from "./productsActions";
 
 // Get Vendor List
 export const getVendors = index => dispatch => {
