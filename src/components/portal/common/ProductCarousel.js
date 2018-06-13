@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
 import isEmpty from "../../../validation/is-empty";
+import Slider from "react-slick";
 import { Link } from "react-router-dom";
 
-class ProductGridList extends Component {
+class ProductCarousel extends Component {
   show() {
     const { products, loading } = this.props.product;
     let prodArray = [];
@@ -14,18 +15,16 @@ class ProductGridList extends Component {
         prodArray.push(products[i]);
       }
       return prodArray.map(prod => (
-        <div className="col-md-2 col-sm-4 imageGrid mt-5">
-          <Link
-            to={`/detailedproduct/${prod.productId}`}
-            className="img-thumbnail"
-          >
-            <img
-              style={{ width: "100%" }}
-              src="https://cdn.shopify.com/s/files/1/0377/2037/products/Mens36.Front_5a287144-63e8-4254-bef0-450a68ccd268_1024x.progressive.jpg?v=1510684704"
-            />
-            <span>{prod.name}</span>
-          </Link>
-        </div>
+        <Link
+          to={`/detailedproduct/${prod.productId}`}
+          className="img-thumbnail"
+        >
+          <img
+            src="https://static.ebates.com/img/merchant_logo/14781/banner-1168x200_2.jpg"
+            alt=""
+          />
+          <span>{prod.name}</span>
+        </Link>
       ));
     } else {
       return <Spinner />;
@@ -33,11 +32,18 @@ class ProductGridList extends Component {
   }
 
   render() {
-    return <div className="row">{this.show()}</div>;
+    var settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    };
+    return <Slider {...settings}>{this.show()}</Slider>;
   }
 }
 
-ProductGridList.propTypes = {
+ProductCarousel.propTypes = {
   product: PropTypes.object.isRequired
 };
 
@@ -45,4 +51,4 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps)(ProductGridList);
+export default connect(mapStateToProps)(ProductCarousel);
