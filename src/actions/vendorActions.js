@@ -5,6 +5,9 @@ import { clearCurrentProducts, getProducts } from "./productsActions";
 
 // Get Vendor List
 export const getVendors = index => dispatch => {
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
   dispatch(setVendorLoading());
   axios
     .get(VENDOR_API_GATEWAY + `/get/${index}/default`)
@@ -138,12 +141,12 @@ export const toggleBlockVendor = vendor => dispatch => {
   dispatch(setVendorUpdateOnce());
   axios
     .post(VENDOR_API_GATEWAY + `/setBlock/${vendor.vendorId}`, vendor)
-    .then(res => {
+    .then(res =>
       dispatch({
         type: types.VENDOR_TOGGLEBLOCK,
         payload: res.data
-      });
-    })
+      })
+    )
     .catch(err => {
       dispatch(setVendorUpdated());
       dispatch({
@@ -159,7 +162,7 @@ export const disableVendorProducts = id => dispatch => {
     .post(PRODUCT_API_GATEWAY + `/setBlockByVendor/${id}`)
     .then(res => {
       dispatch(clearCurrentProducts());
-      dispatch(getProducts(0));
+      dispatch(getProducts());
     })
     .catch(err => {
       dispatch({

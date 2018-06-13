@@ -9,6 +9,9 @@ import isEmpty from '../validation/is-empty';
 
 // Get Product List
 export const getProducts = index => dispatch => {
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
@@ -94,9 +97,9 @@ export const addProduct = newProd => dispatch => {
         type: types.PRODUCT_ADDING,
         payload: res.data
       });
+
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
-      //dispatch(setProductLoaded());
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -113,6 +116,7 @@ export const clearCurrentProducts = () => {
     type: types.CLEAR_CURRENT_PRODUCTS
   };
 };
+
 // Delete Product
 export const deleteProduct = id => dispatch => {
   dispatch(setProductUpdateOnce());
@@ -228,13 +232,12 @@ export const getVendorBatch = vendorIdArray => dispatch => {
 export const getCategoryBatch = categoryIdArray => dispatch => {
   axios
     .get(CATEGORY_API_GATEWAY + `/batchFetch/${categoryIdArray}`)
-    .then(res => {
+    .then(res =>
       dispatch({
         type: types.GET_PRODUCT_CATEGORY,
         payload: res.data
-      });
-      //dispatch(setProductUpdated());
-    })
+      })
+    )
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({

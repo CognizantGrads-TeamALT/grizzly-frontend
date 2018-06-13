@@ -29,41 +29,34 @@ class AdminTab extends Component {
     super(props);
     this.onToggle = this.onToggle.bind(this);
     this.state = {
-      activeTab: "",
-      loadedProducts: false,
-      loadedVendors: false,
-      loadedCategories: false
+      activeTab: ""
     };
   }
 
   componentWillMount() {
     //this.clear();
   
-    this.props.getProducts("0");
-    this.setState({ activeTab: "1", loadedProducts: true });
+    this.props.getProducts();
+    this.props.getVendors();
+    this.props.getCategories();
+    
+    this.setState({ activeTab: "1" });
   }
 
   // in case its needed.
-  //clear() {
-    //this.props.clearCurrentCategories();
-    //this.props.clearCurrentVendors();
-    //this.props.clearCurrentProducts();
-  //}
+  clear() {
+    this.props.clearCurrentCategories();
+    this.props.clearCurrentVendors();
+    this.props.clearCurrentProducts();
+
+    this.props.getProducts();
+    this.props.getVendors();
+    this.props.getCategories();
+  }
 
   onToggle(tab) {
     //this.clear();
     if (this.state.activeTab !== tab) {
-      if (tab === "3" && !this.state.loadedCategories) {
-        this.props.getCategories("0");
-        this.setState({ loadedCategories: true });
-      } else if (tab === "2" && !this.state.loadedVendors) {
-        this.props.getVendors("0");
-        this.setState({ loadedVendors: true });
-      } else if (tab === "1" && !this.state.loadedProducts) {
-        this.props.getProducts("0");
-        this.setState({ loadedProducts: true });
-      }
-
       this.setState({
         activeTab: tab
       });

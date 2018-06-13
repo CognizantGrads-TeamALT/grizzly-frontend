@@ -4,6 +4,9 @@ import axios from "axios";
 
 // Get Category List
 export const getCategories = index => dispatch => {
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
   dispatch(setCategoryLoading());
   axios
     .get(CATEGORY_API_GATEWAY + `/get/${index}/default`)
