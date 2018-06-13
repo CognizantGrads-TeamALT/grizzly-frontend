@@ -1,11 +1,11 @@
-import * as types from "./types";
+import * as types from './types';
 import {
   PRODUCT_API_GATEWAY,
   CATEGORY_API_GATEWAY,
   VENDOR_API_GATEWAY
-} from "./microservices";
-import axios from "axios";
-import isEmpty from "../validation/is-empty";
+} from './microservices';
+import axios from 'axios';
+import isEmpty from '../validation/is-empty';
 
 // Get Product List
 export const getProducts = index => dispatch => {
@@ -19,29 +19,56 @@ export const getProducts = index => dispatch => {
       });
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
-          let vendorIdArray = "";
+          let vendorIdArray = '';
           res.data
             .filter(prod => prod.vendorId !== 0)
             .map(
               prod =>
-                vendorIdArray === ""
+                vendorIdArray === ''
                   ? (vendorIdArray = prod.vendorId)
-                  : (vendorIdArray = vendorIdArray + "," + prod.vendorId)
+                  : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
             );
           dispatch(getVendorBatch(vendorIdArray));
 
-          let categoryIdArray = "";
+          let categoryIdArray = '';
           res.data
             .filter(prod => prod.categoryId !== 0)
             .map(
               prod =>
-                categoryIdArray === ""
+                categoryIdArray === ''
                   ? (categoryIdArray = prod.categoryId)
-                  : (categoryIdArray = categoryIdArray + "," + prod.categoryId)
+                  : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
             );
           dispatch(getCategoryBatch(categoryIdArray));
         }
       }
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Get Product with Imgs
+export const getProductWithImgs = productId => dispatch => {
+  dispatch(setProductLoading());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCT,
+        payload: res.data
+      });
+      if (!isEmpty(res.data[0])) {
+        if (!isEmpty(res.data[0].productId)) {
+          dispatch(getVendorBatch(res.data[0].vendorId));
+          dispatch(getCategoryBatch(res.data[0].categoryId));
+        }
+      }
+      dispatch(setProductUpdated());
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -61,7 +88,7 @@ export const setProductAdding = () => {
 export const addProduct = newProd => dispatch => {
   dispatch(setProductLoading());
   axios
-    .put(PRODUCT_API_GATEWAY + "/add", newProd)
+    .put(PRODUCT_API_GATEWAY + '/add', newProd)
     .then(res => {
       dispatch({
         type: types.PRODUCT_ADDING,
@@ -244,7 +271,10 @@ export const filterProductsByCategory = inputs => dispatch => {
   dispatch(clearCurrentProducts());
   dispatch(setProductLoading());
   axios
-    .get(PRODUCT_API_GATEWAY + `/bycategory/${inputs.cur_id}/${inputs.index}/default`)
+    .get(
+      PRODUCT_API_GATEWAY +
+        `/bycategory/${inputs.cur_id}/${inputs.index}/default`
+    )
     .then(res => {
       dispatch({
         type: types.GET_PRODUCTS,
