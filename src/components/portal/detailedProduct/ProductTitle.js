@@ -12,9 +12,7 @@ class ProductTitle extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            detailedProductId: this.props.productId,
-            name: this.props.productDetails.name,
-            vendor: this.props.productDetails.vendorId,
+            product: this.props.single[0],
         
         }
     }
@@ -67,8 +65,8 @@ class ProductTitle extends Component {
                             <button type="button" className="btn far fa-edit d-inline" 
                             onClick={this.handleClick}></button>*/}
 
-                            <InlineEdit className="d-inline" name='test' value={this.state.name} isEditing={this.state.isEditing} 
-                            changeCallback={this.handleCallback} /><p className="d-inline dscrptnSize-9"> by {this.state.vendor}</p>
+                            <InlineEdit className="d-inline" name='test' value={this.state.product.name} isEditing={this.state.isEditing} 
+                            changeCallback={this.handleCallback} /><p className="d-inline dscrptnSize-9"> by {this.state.product.vendor}</p>
                             <Button className="d-inline btn far fa-edit d-inline" onClick={this.buttonCallback} ></Button>
                             
                         </div>

@@ -14,71 +14,34 @@ class DetailedProduct extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab: 0,
-            productId: this.getID(this.props.location),
-            count: 0,
-            product: "",
-            intervalID: ""
+            activeTab: 0
             
         };
-        this.getProductDetails=this.getProductDetails.bind(this);
-        this.populateProduct();
-    }
-
-    getID(id){
-        var res = id.pathname.split("/");
-        var productId = res[res.length-1];
-        return productId;
-    }
-
-    getProductDetails(){
-        if(!isEmpty(this.props.product.single)){
-            //console.log("found a product");
-            const single = this.props.product.single[0];
-            this.setState({product : single});
-            clearInterval(this.state.intervalID);
-            this.state.count=0;
-            console.log(single);
-        }
-        else if(this.state.count > 50){
-            clearInterval(this.state.intervalID);
-            //console.log("cancelled search products");
-        }
-        else{
-            this.setState({count: this.state.count +1});
-            //console.log("searching for product");
-        }
-    }
-
-    populateProduct = () => {
-        this.props.getProductWithImgs(this.state.productId);
-        this.setState({intervalID: setInterval(this.getProductDetails, 100)});
-    }
-
-    onClick = () => {
-        console.log(this.state.productId);
-        this.populateProduct();
+        this.props.getProductWithImgs(this.props.match.params.productId);
     }
 
     show() {
-        const { products, loading } = this.props.product;
-        if (isEmpty(products) || loading) {
+        const { single, loading } = this.props.product;
+        if (isEmpty(single) || loading) {
           return (
-            <tr>
-              <td>
                 <Spinner />
-              </td>
-            </tr>
           );
         } else {
-            return products.filter(
-                product => product.productId === parseInt(this.props.match.params.productId, 10)
-            )[0];
+            return (
+       
+            <div>
+                  <ProductDescription 
+                      single={single}
+                  />
+              </div>
+             
+            );
         }
     }
   
 
   render() {
+    const { single, loading } = this.props.product;
     return (
       <div className="row">
         <div className="col-3">
@@ -124,21 +87,9 @@ class DetailedProduct extends Component {
               </Nav>
             </Col>
           </Row>
-
-                    <div className="row mt-4 parent-min-half-high">
-                        <div className="col-5">
-                            <ProductTitle
-                                productDetails={this.show()}
-                            />
-                            
-                        </div>
-                        <div className="col-7 parent-min-half-high">
-                            <ProductDescription 
-                                productDetails={this.show()}
-                            />
-                            <button onClick={this.onClick} >testButton</button>
-                        </div>
-                    </div>
+                  {this.show()}
+                    
+                 
                 </div> 
             </div>
     );
