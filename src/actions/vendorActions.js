@@ -1,6 +1,7 @@
 import * as types from "./types";
 import { PRODUCT_API_GATEWAY, VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
+import { clearCurrentProducts, setProductUpdateOnce, getProducts } from "./productsActions";
 
 // Get Vendor List
 export const getVendors = index => dispatch => {
@@ -117,11 +118,11 @@ export const deleteVendor = id => dispatch => {
   axios
     .delete(VENDOR_API_GATEWAY + `/delete/${id}`)
     .then(res => {
-      dispatch(disableVendorProducts(id));
       dispatch({
         type: types.VENDOR_DELETING,
         payload: id
-      })
+      });
+      dispatch(disableVendorProducts(id));
     })
     .catch(err => {
       dispatch(setVendorUpdated());
@@ -137,12 +138,15 @@ export const toggleBlockVendor = vendor => dispatch => {
   dispatch(setVendorUpdateOnce());
   axios
     .post(VENDOR_API_GATEWAY + `/setBlock/${vendor.vendorId}`, vendor)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.VENDOR_TOGGLEBLOCK,
         payload: res.data
-      })
-    )
+      });
+
+      dispatch(clearCurrentProducts());
+      dispatch(getProducts(0));
+    })
     .catch(err => {
       dispatch(setVendorUpdated());
       dispatch({
@@ -156,6 +160,10 @@ export const toggleBlockVendor = vendor => dispatch => {
 export const disableVendorProducts = id => dispatch => {
   axios
     .post(PRODUCT_API_GATEWAY + `/setBlockByVendor/${id}`)
+    .then(res => {
+      dispatch(clearCurrentProducts());
+      dispatch(getProducts(0));
+    })
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,

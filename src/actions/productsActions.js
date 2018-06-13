@@ -96,7 +96,7 @@ export const addProduct = newProd => dispatch => {
       });
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
-      dispatch(setProductLoaded());
+      //dispatch(setProductLoaded());
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -233,7 +233,7 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
         type: types.GET_PRODUCT_CATEGORY,
         payload: res.data
       });
-      dispatch(setProductLoaded());
+      //dispatch(setProductUpdated());
     })
     .catch(err => {
       dispatch(setProductUpdated());

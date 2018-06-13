@@ -29,30 +29,39 @@ class AdminTab extends Component {
     super(props);
     this.onToggle = this.onToggle.bind(this);
     this.state = {
-      activeTab: ""
+      activeTab: "",
+      loadedProducts: false,
+      loadedVendors: false,
+      loadedCategories: false
     };
   }
 
   componentWillMount() {
-    this.clear();
+    //this.clear();
+  
     this.props.getProducts("0");
+    this.setState({ activeTab: "1", loadedProducts: true });
   }
 
-  clear() {
-    this.props.clearCurrentCategories();
-    this.props.clearCurrentVendors();
-    this.props.clearCurrentProducts();
-  }
+  // in case its needed.
+  //clear() {
+    //this.props.clearCurrentCategories();
+    //this.props.clearCurrentVendors();
+    //this.props.clearCurrentProducts();
+  //}
 
   onToggle(tab) {
     this.clear();
     if (this.state.activeTab !== tab) {
-      if (tab === "3") {
+      if (tab === "3" && !this.state.loadedCategories) {
         this.props.getCategories("0");
-      } else if (tab === "2") {
+        this.setState({ loadedCategories: true });
+      } else if (tab === "2" && !this.state.loadedVendors) {
         this.props.getVendors("0");
-      } else {
+        this.setState({ loadedVendors: true });
+      } else if (tab === "1" && !this.state.loadedProducts) {
         this.props.getProducts("0");
+        this.setState({ loadedProducts: true });
       }
 
       this.setState({
