@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
-import isEmpty from "../../../validation/is-empty";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
+import { Link } from 'react-router-dom';
 
 class ProductGridList extends Component {
   show() {
@@ -20,8 +20,9 @@ class ProductGridList extends Component {
             className="img-thumbnail"
           >
             <img
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               src="https://cdn.shopify.com/s/files/1/0377/2037/products/Mens36.Front_5a287144-63e8-4254-bef0-450a68ccd268_1024x.progressive.jpg?v=1510684704"
+              alt=""
             />
             <span>{prod.name}</span>
           </Link>
