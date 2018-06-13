@@ -153,7 +153,7 @@ class ProductForm extends Component {
                   buttonText="Choose images"
                   onChange={this.onDrop}
                   imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
-                  maxFileSize={5242880}
+                  maxFileSize={262144}
                 />
               </div>
               <div className="col-5">
