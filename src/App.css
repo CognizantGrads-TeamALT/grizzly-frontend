@@ -30,6 +30,10 @@
 .landingpage {
   text-align: center;
 }
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 /* Typography */
 
@@ -629,7 +633,7 @@ a:hover {
   font-size: 18px;
 }
 .carousel .thumbs-wrapper {
-  margin: 20px;
+  /* margin: 20px; */
   overflow: hidden;
 }
 .carousel .thumbs {
@@ -687,7 +691,7 @@ a:hover {
 }
 .carousel .slider-wrapper {
   overflow: hidden;
-  margin: auto;
+  /* margin: auto; */
   width: 100%;
   -webkit-transition: height 0.15s ease-in;
   -moz-transition: height 0.15s ease-in;
@@ -822,4 +826,10 @@ a:hover {
 }
 .carousel:hover .slide .legend {
   opacity: 1;
+}
+
+.imageGrid {
+  display: flex;
+  flex-flow: wrap;
+  object-fit: cover;
 }

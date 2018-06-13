@@ -24,6 +24,12 @@ class Landing extends Component {
         >
           Vendor Portal Demo
         </Link>
+        <Link
+          className="btn btn-outline-success my-2 my-sm-0"
+          to="/customerportal"
+        >
+          Customer Portal Demo
+        </Link>
       </div>
     );
   }
