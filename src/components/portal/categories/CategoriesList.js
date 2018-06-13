@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CategoryForm from "../categories/CategoryForm";
+import ConfirmModal from "../common/ConfirmModal";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
@@ -39,20 +40,20 @@ class CategoriesList extends Component {
               title="Edit Category"
               actionLabel="Edit"
             />
-            <button
-              onClick={this.onBlockClick}
-              className="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-              type="button"
-            >
-              {category.enabled ? "Block" : "Unblock"}
-            </button>
-            <button
-              onClick={this.onDeleteClick.bind(this, category.categoryId)}
-              className="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-              type="button"
-            >
-              Delete
-            </button>
+            <ConfirmModal
+              buttonLabel={category.enabled ? "Block" : "Unblock"}
+              title="Block Category"
+              confirmText={(category.enabled ? "Block" : "Unblock") + " " + category.name}
+              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
+              onSubmit={this.onBlockClick}
+            />
+          <ConfirmModal
+              buttonLabel="Delete"
+              title="Delete Category"
+              confirmText={"Delete " + category.name}
+              buttonClass="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
+              onSubmit={this.onDeleteClick.bind(this, category.categoryId)}
+            />
           </td>
         </tr>
       );
