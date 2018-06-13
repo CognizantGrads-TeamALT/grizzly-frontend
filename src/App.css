@@ -30,6 +30,10 @@
 .landingpage {
   text-align: center;
 }
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 /* Typography */
 
@@ -45,7 +49,7 @@
   font-size: 0.9em;
 }
 
-.fnt-weight-400 { 
+.fnt-weight-400 {
   font-weight: 400;
 }
 
@@ -163,10 +167,9 @@
   max-height: 7cm;
   overflow: auto;
   max-width: 250px;
-  
 }
 
-.cat-scroll-button{
+.cat-scroll-button {
   min-width: 200px;
   max-width: 250px;
   overflow: auto;
@@ -552,4 +555,10 @@ a:hover {
 .floating-div {
   position: absolute;
   top: 30px;
+}
+
+.imageGrid {
+  display: flex;
+  flex-flow: wrap;
+  object-fit: cover;
 }
