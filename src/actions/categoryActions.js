@@ -78,7 +78,7 @@ export const editCategory = newInfo => dispatch => {
     });
 };
 
-//Search Categories
+// Search Categories
 export const searchCategories = keyword => dispatch => {
   dispatch(clearCurrentCategories());
   dispatch(setCategoryLoading());
@@ -98,6 +98,12 @@ export const searchCategories = keyword => dispatch => {
       })
     });
 };
+
+// Reload Categories
+export const reloadCategories = () => dispatch => {
+  dispatch(clearCurrentCategories());
+  dispatch(getCategories());
+}
 
 // Category loading
 export const setCategoryLoading = () => {

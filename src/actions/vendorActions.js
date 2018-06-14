@@ -92,6 +92,12 @@ export const searchVendors = keyword => dispatch => {
     });
 };
 
+// Reload Vendors
+export const reloadVendors = () => dispatch => {
+  dispatch(clearCurrentVendors());
+  dispatch(getVendors());
+}
+
 // Vendor loading
 export const setVendorLoading = () => {
   return {

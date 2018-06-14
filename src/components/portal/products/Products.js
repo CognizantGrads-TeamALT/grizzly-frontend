@@ -29,7 +29,7 @@ class Products extends Component {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate() {
     if (this.props.product.updateOnce || this.props.product.loading) {
       this.props.setProductUpdated();
       return true;
