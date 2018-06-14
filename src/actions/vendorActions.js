@@ -1,7 +1,7 @@
 import * as types from "./types";
 import { PRODUCT_API_GATEWAY, VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
-import { clearCurrentProducts, getProducts } from "./productsActions";
+import { reloadProducts } from "./productsActions";
 
 // Get Vendor List
 export const getVendors = index => dispatch => {
@@ -161,8 +161,7 @@ export const disableVendorProducts = id => dispatch => {
   axios
     .post(PRODUCT_API_GATEWAY + `/setBlockByVendor/${id}`)
     .then(res => {
-      dispatch(clearCurrentProducts());
-      dispatch(getProducts());
+      dispatch(reloadProducts());
     })
     .catch(err => {
       dispatch({

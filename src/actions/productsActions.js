@@ -117,6 +117,12 @@ export const clearCurrentProducts = () => {
   };
 };
 
+// Reload Products
+export const reloadProducts = () => dispatch => {
+  dispatch(clearCurrentProducts());
+  dispatch(getProducts());
+}
+
 // Delete Product
 export const deleteProduct = id => dispatch => {
   dispatch(setProductUpdateOnce());
