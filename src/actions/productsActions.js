@@ -264,7 +264,7 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 // Search Products
 export const searchProducts = keyword => dispatch => {
   dispatch(clearCurrentProducts());
-  dispatch(setProductLoading());
+  //dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
     .then(res => {
@@ -272,7 +272,32 @@ export const searchProducts = keyword => dispatch => {
         type: types.GET_PRODUCTS,
         payload: res.data
       });
-      dispatch(setProductLoaded());
+      console.log("DATA IS HERE! " + res.data);
+      if (!isEmpty(res.data[0])) {
+        if (!isEmpty(res.data[0].productId)) {
+          let vendorIdArray = '';
+          res.data
+            .filter(prod => prod.vendorId !== 0)
+            .map(
+              prod =>
+                vendorIdArray === ''
+                  ? (vendorIdArray = prod.vendorId)
+                  : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
+            );
+          dispatch(getVendorBatch(vendorIdArray));
+
+          let categoryIdArray = '';
+          res.data
+            .filter(prod => prod.categoryId !== 0)
+            .map(
+              prod =>
+                categoryIdArray === ''
+                  ? (categoryIdArray = prod.categoryId)
+                  : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
+            );
+          dispatch(getCategoryBatch(categoryIdArray));
+        }
+      }
     })
     .catch(err => {
       dispatch(setProductUpdated());
