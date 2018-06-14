@@ -1,9 +1,13 @@
 import * as types from "./types";
 import { PRODUCT_API_GATEWAY, VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
+import { reloadProducts } from "./productsActions";
 
 // Get Vendor List
 export const getVendors = index => dispatch => {
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
   dispatch(setVendorLoading());
   axios
     .get(VENDOR_API_GATEWAY + `/get/${index}/default`)
@@ -15,6 +19,12 @@ export const getVendors = index => dispatch => {
     )
     .catch(err => {
       dispatch(setVendorUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      if (index === 0)
+        dispatch(getVendors(index));
+
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
@@ -84,6 +94,12 @@ export const searchVendors = keyword => dispatch => {
     });
 };
 
+// Reload Vendors
+export const reloadVendors = () => dispatch => {
+  dispatch(clearCurrentVendors());
+  dispatch(getVendors());
+}
+
 // Vendor loading
 export const setVendorLoading = () => {
   return {
@@ -117,11 +133,11 @@ export const deleteVendor = id => dispatch => {
   axios
     .delete(VENDOR_API_GATEWAY + `/delete/${id}`)
     .then(res => {
-      dispatch(disableVendorProducts(id));
       dispatch({
         type: types.VENDOR_DELETING,
         payload: id
-      })
+      });
+      dispatch(disableVendorProducts(id));
     })
     .catch(err => {
       dispatch(setVendorUpdated());
@@ -156,6 +172,9 @@ export const toggleBlockVendor = vendor => dispatch => {
 export const disableVendorProducts = id => dispatch => {
   axios
     .post(PRODUCT_API_GATEWAY + `/setBlockByVendor/${id}`)
+    .then(res => {
+      dispatch(reloadProducts());
+    })
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,

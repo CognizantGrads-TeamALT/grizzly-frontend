@@ -1,6 +1,8 @@
 export const VENDOR_API_GATEWAY =
-  'http://alt.ausgrads.academy:8765/vendormicro/vendor';
+  'http://api.alt.ausgrads.academy/vendormicro/vendor';
 export const CATEGORY_API_GATEWAY =
-  'http://alt.ausgrads.academy:8765/categorymicro/category';
+  'http://api.alt.ausgrads.academy/categorymicro/category';
 export const PRODUCT_API_GATEWAY =
-  'http://alt.ausgrads.academy:8765/productmicro/product';
+  'http://api.alt.ausgrads.academy/productmicro/product';
+export const USER_API_GATEWAY =
+  'http://api.alt.ausgrads.academy/usermicro/user';

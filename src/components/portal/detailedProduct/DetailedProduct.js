@@ -21,7 +21,9 @@ class DetailedProduct extends Component {
     }
     
   shouldComponentUpdate(){
-    
+    if(this.props.product.prod_vendor == undefined)
+      return false;
+    else return true;
   }
 
     show() {
@@ -51,10 +53,10 @@ class DetailedProduct extends Component {
     const { single, loading } = this.props.product;
     return (
       <div className="row">
-        <div className="col-3">
+        <div className="col-2">
           <Profile />
         </div>
-        <div className="col-9">
+        <div className="col-10">
           <Row>
             <Col>
               <Nav tabs>

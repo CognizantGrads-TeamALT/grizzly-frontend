@@ -9,7 +9,14 @@ import isEmpty from '../validation/is-empty';
 
 // Get Product List
 export const getProducts = index => dispatch => {
-  dispatch(setProductLoading());
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
+  // getVendorBatch and getCategoryBatch set loading: true
+  // if either data is not loaded yet.
+  // if we set loading here, it will refresh the render too many times
+  // which results in losing the scroll wheel position...
+  //dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
     .then(res => {
@@ -17,6 +24,7 @@ export const getProducts = index => dispatch => {
         type: types.GET_PRODUCTS,
         payload: res.data
       });
+
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
           let vendorIdArray = '';
@@ -45,6 +53,12 @@ export const getProducts = index => dispatch => {
     })
     .catch(err => {
       dispatch(setProductUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      if (index === 0)
+        dispatch(getProducts(index));
+
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
@@ -95,7 +109,11 @@ export const setProductAdding = () => {
 };
 
 export const addProduct = newProd => dispatch => {
-  dispatch(setProductLoading());
+  // again, also here...
+  // getVendorBatch and getCategoryBatch handle the loading state variable
+  // if we call it too early, due to state changes between other methods...
+  // the page reloads and shows the "spinning wheel" which causes loss in scroll position
+  //dispatch(setProductLoading());
   axios
     .put(PRODUCT_API_GATEWAY + '/add', newProd)
     .then(res => {
@@ -103,9 +121,9 @@ export const addProduct = newProd => dispatch => {
         type: types.PRODUCT_ADDING,
         payload: res.data
       });
+
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
-      dispatch(setProductLoaded());
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -122,6 +140,13 @@ export const clearCurrentProducts = () => {
     type: types.CLEAR_CURRENT_PRODUCTS
   };
 };
+
+// Reload Products
+export const reloadProducts = () => dispatch => {
+  dispatch(clearCurrentProducts());
+  dispatch(getProducts());
+}
+
 // Delete Product
 export const deleteProduct = id => dispatch => {
   dispatch(setProductUpdateOnce());
@@ -255,13 +280,12 @@ export const getVendorBatch = vendorIdArray => dispatch => {
 export const getCategoryBatch = categoryIdArray => dispatch => {
   axios
     .get(CATEGORY_API_GATEWAY + `/batchFetch/${categoryIdArray}`)
-    .then(res => {
+    .then(res =>
       dispatch({
         type: types.GET_PRODUCT_CATEGORY,
         payload: res.data
-      });
-      dispatch(setProductLoaded());
-    })
+      })
+    )
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({
