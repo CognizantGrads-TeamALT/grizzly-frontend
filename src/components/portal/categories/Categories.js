@@ -25,13 +25,16 @@ class Categories extends Component {
     });
   }
 
-  shouldComponentUpdate() {
-    if (this.props.category.updateOnce) {
+  componentDidUpdate() {
+    if (this.props.category.updateOnce)
       this.props.setCategoryUpdated();
-      return true;
-    }
+  }
 
-    return this.props.category.loading || false;
+  shouldComponentUpdate() {
+    if (this.props.category.updateOnce || this.props.category.loading)
+      return true;
+
+    return false;
   }
 
   loadMore() {

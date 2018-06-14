@@ -12,7 +12,11 @@ export const getProducts = index => dispatch => {
   // Default the index to 0 if not given.
   index = index == null ? 0 : index;
 
-  dispatch(setProductLoading());
+  // getVendorBatch and getCategoryBatch set loading: true
+  // if either data is not loaded yet.
+  // if we set loading here, it will refresh the render too many times
+  // which results in losing the scroll wheel position...
+  //dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
     .then(res => {
@@ -20,6 +24,7 @@ export const getProducts = index => dispatch => {
         type: types.GET_PRODUCTS,
         payload: res.data
       });
+
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
           let vendorIdArray = '';
@@ -95,7 +100,11 @@ export const setProductAdding = () => {
 };
 
 export const addProduct = newProd => dispatch => {
-  dispatch(setProductLoading());
+  // again, also here...
+  // getVendorBatch and getCategoryBatch handle the loading state variable
+  // if we call it too early, due to state changes between other methods...
+  // the page reloads and shows the "spinning wheel" which causes loss in scroll position
+  //dispatch(setProductLoading());
   axios
     .put(PRODUCT_API_GATEWAY + '/add', newProd)
     .then(res => {

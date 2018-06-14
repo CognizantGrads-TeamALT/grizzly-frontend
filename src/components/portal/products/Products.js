@@ -13,7 +13,6 @@ import {
 import isEmpty from '../../../validation/is-empty';
 import CategoryTypeAhead from '../categories/CategoryTypeAhead';
 
-
 class Products extends Component {
   componentDidMount() {
     // Detect when scrolled to bottom.
@@ -29,11 +28,14 @@ class Products extends Component {
     });
   }
 
-  shouldComponentUpdate() {
-    if (this.props.product.updateOnce || this.props.product.loading) {
+  componentDidUpdate() {
+    if (this.props.product.updateOnce)
       this.props.setProductUpdated();
+  }
+
+  shouldComponentUpdate() {
+    if (this.props.product.updateOnce || this.props.product.loading)
       return true;
-    }
 
     return false;
   }
