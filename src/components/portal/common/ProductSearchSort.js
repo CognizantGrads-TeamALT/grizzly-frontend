@@ -10,7 +10,8 @@ class ProductSearchSort extends Component {
   constructor() {
     super();
     this.state = {
-      search: ''
+      search: '',
+      disabled: true
     };
 
     this.onChange = this.onChange.bind(this);
@@ -21,34 +22,42 @@ class ProductSearchSort extends Component {
     this.onSortByRating = this.onSortByRating.bind(this);
   }
 
+  componentDidUpdate() {
+    if (this.state.disabled)
+      this.setState({ disabled: false });
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ disabled: true });
   }
 
   onSortById(e) {
     e.preventDefault();
     this.props.sortProductsByParam('0', 'productId');
+    this.setState({ search: '' });
   }
 
   onSortByName(e) {
     e.preventDefault();
     this.props.sortProductsByParam('0', 'name');
+    this.setState({ search: '' });
   }
 
   onSortByRating(e) {
     e.preventDefault();
     this.props.sortProductsByParam('0', 'rating');
+    this.setState({ search: '' });
   }
 
   onSearch(e) {
     e.preventDefault();
 
     this.props.searchProducts(this.state.search);
-    this.setState({ search: '' });
   }
 
   render() {
@@ -63,6 +72,7 @@ class ProductSearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
+              disabled = {(this.state.disabled)? "disabled" : ""}
             />
             <span className="input-group-append-more">
               <button
