@@ -91,19 +91,6 @@ export default function(state = initialState, action) {
         )
       };
       
-      case types.GET_A_PRODUCT_VENDOR:
-      console.log("get a vendor reducer");
-      if(isEmpty(action.payload)){
-        return {
-          ...state,
-          prod_vendor: "Empty-Vendor"
-        }
-        }
-        else{
-          return
-          { prod_vendor: action.payload[0]}
-        }
-      
     
     case types.GET_PRODUCT_VENDOR:
       const currentProductVendor = isEmpty(state.product_vendor)

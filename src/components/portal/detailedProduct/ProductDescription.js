@@ -15,13 +15,13 @@ class ProductDescription extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: this.props.single[0],
       isEditing: false,
       isEditingPrice: false,
       isEditingDesc: false,
-      desc: "",
-      price: "",
-      name: "",
+      name: this.props.single.name,
+      desc: this.props.single.desc,
+      price: this.props.single.price,
+      
       
     };
     
@@ -30,6 +30,7 @@ class ProductDescription extends Component {
     this.buttonCallbackDesc = this.buttonCallbackDesc.bind(this);
     this.handleCallbackPrice = this.handleCallbackPrice.bind(this);
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
+    this.handleCallback = this.handleCallback.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onSubmit=this.onSubmit.bind(this);
   }
@@ -81,12 +82,12 @@ class ProductDescription extends Component {
     console.log(this.props.product);
     console.log("");
     console.log(this.props);
-    console.log(this.props.single[0]);
+    console.log(this.props.single);
     //console.log(this.state);
   };
 
   showImg() {
-    const product = this.props.single[0];
+    const product = this.props.single;
     if (isEmpty(product.imageDTO)) {
       return (
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
@@ -94,7 +95,7 @@ class ProductDescription extends Component {
     } else {
       return (
         <img
-          src={product.imageDTO[0].base64Image}
+          src={product.imageDTO.base64Image}
           className="img-responsive"
           alt={product.name}
         />
@@ -116,26 +117,26 @@ class ProductDescription extends Component {
     }
     var newProd = {
         productId: this.props.single.productId,
-        categoryId: this.props.single[0].categoryId,
-        name: this.props.single[0].name,
-        desc: this.props.single[0].desc,
-        price: this.props.single[0].price,
-        rating: this.props.single[0].rating,
-        enabled: this.props.single[0].enabled,
-        vendorId: this.props.single[0].vendorId,
-        imageDTO: this.props.single[0].imageData
+        categoryId: this.props.single.categoryId,
+        name: this.state.name,
+        desc: this.state.desc,
+        price: this.state.price,
+        rating: this.props.single.rating,
+        enabled: this.props.single.enabled,
+        vendorId: this.props.single.vendorId,
+        imageDTO: this.props.single.imageData
       };
     if (this.state.name!= "" ){
         newProd.name=this.state.name;
-        var changed = true;
+        changed = true;
     }
     if ( this.state.desc!= "" ){
         newProd.desc = this.state.desc;
-        var changed = true;
+        changed = true;
     }
     if( this.state.price != "" ) {
       newProd.price = parseInt(this.state.price);
-      var changed = true;
+      changed = true;
     }
     console.log(newProd);
     if(changed){
@@ -151,6 +152,8 @@ class ProductDescription extends Component {
   }
 
   render() {
+      console.log(this.props.single.name);
+      console.log(this.state.name);
     return (
       <div className="row mt-4 parent-min-half-high">
         <div className="col-6">
@@ -161,13 +164,13 @@ class ProductDescription extends Component {
                   <InlineEdit
                     className="d-inline"
                     name="name"
-                    value={this.state.product.name}
+                    value={this.state.name}
                     isEditing={this.state.isEditing}
                     changeCallback={this.handleCallback}
                   />
                   <p className="d-inline dscrptnSize-9">
-                    {" "}
-                    by {this.props.product_vendor[0].name}
+                    
+                    by {this.props.vendor.name}
                   </p>
                   <Button
                     className="d-inline btn far fa-edit d-inline"
@@ -206,10 +209,10 @@ class ProductDescription extends Component {
                 <div className="dscrptnSize-7">
                   {/*}  <p>{this.state.desc}</p> */}
                   <InlineEdit
-                    text={this.state.product.desc}
+                  
                     name="desc"
                     className="d-inline"
-                    value={this.state.product.desc}
+                    value={this.state.desc}
                     isEditing={this.state.isEditingDesc}
                     changeCallback={this.handleCallbackDesc}
                   />
@@ -222,8 +225,7 @@ class ProductDescription extends Component {
                 <InlineEdit
                   className="d-inline"
                   name="price"
-                  text={this.state.product.price}
-                  placeholder={"" + this.state.product.price}
+                  placeholder={"" + this.state.price}
                   isEditing={this.state.isEditingPrice}
                   changeCallback={this.handleCallbackPrice}
                 />
@@ -267,11 +269,7 @@ class ProductDescription extends Component {
   }
 }
 
-//export default ProductDescription;
-const mapStateToProps = state => ({
-  });
-  
   export default connect(
-    mapStateToProps, 
+    null, 
     { editProduct }
   )(ProductDescription);

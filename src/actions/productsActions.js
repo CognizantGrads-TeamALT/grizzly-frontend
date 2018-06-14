@@ -56,8 +56,7 @@ export const getProducts = index => dispatch => {
       // For development purposes. The micro-services take time to initialise.
       // This will keep requesting data if it gets a 500 or 403 error...
       // Should be removed once we actually implement a feature to error or retry x times.
-      if (index === 0)
-        dispatch(getProducts(index));
+      if (index === 0) dispatch(getProducts(index));
 
       dispatch({
         type: types.GET_ERRORS,
@@ -68,7 +67,7 @@ export const getProducts = index => dispatch => {
 
 // Get Product with Imgs
 export const getProductWithImgs = productId => dispatch => {
-  //dispatch(setProductLoading());
+  dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
     .then(res => {
@@ -79,7 +78,7 @@ export const getProductWithImgs = productId => dispatch => {
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
           if(res.data[0].vendorId != 0)
-            dispatch(getIndivdualVendor(res.data[0].vendorId));
+            dispatch(getVendorBatch(res.data[0].vendorId));
             else{
               dispatch({
                
@@ -145,7 +144,7 @@ export const clearCurrentProducts = () => {
 export const reloadProducts = () => dispatch => {
   dispatch(clearCurrentProducts());
   dispatch(getProducts());
-}
+};
 
 // Delete Product
 export const deleteProduct = id => dispatch => {
@@ -241,23 +240,6 @@ export const setProductUpdated = () => {
   };
 };
 
-export const getIndivdualVendor = vendorIdArray => dispatch => {
-  axios
-    .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
-    .then(res => {
-      dispatch({
-        type: types.GET_A_PRODUCT_VENDOR,
-        payload: res.data
-      });
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
-      });
-    });
-};
 
 export const getVendorBatch = vendorIdArray => dispatch => {
   axios
