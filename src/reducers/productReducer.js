@@ -84,6 +84,19 @@ export default function(state = initialState, action) {
               : product
         )
       };
+      case types.GET_A_PRODUCT_VENDOR:
+      console.log("get a vendor reducer");
+      if(isEmpty(action.payload)){
+        return {
+          ...state,
+          prod_vendor: "Empty-Vendor"
+        }
+        }
+        else{
+          prod_vendor: action.payload[0]
+        }
+      
+    
     case types.GET_PRODUCT_VENDOR:
       const currentProductVendor = isEmpty(state.product_vendor)
         ? []
@@ -91,6 +104,7 @@ export default function(state = initialState, action) {
       const newProductVendor = isEmpty(action.payload)
         ? currentProductVendor
         : currentProductVendor.concat(action.payload);
+        console.log("in get prod vendor reducer");
       return {
         ...state,
         product_vendor: newProductVendor

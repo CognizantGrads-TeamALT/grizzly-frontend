@@ -19,9 +19,14 @@ class DetailedProduct extends Component {
         };
         this.props.getProductWithImgs(this.props.match.params.productId);
     }
+    
+  shouldComponentUpdate(){
+    
+  }
 
     show() {
-        const { single, loading } = this.props.product;
+        const { single, loading, prod_vendor } = this.props.product;
+        console.log(this.props.product);
         if (isEmpty(single) || loading) {
           return (
                 <Spinner />
@@ -33,6 +38,7 @@ class DetailedProduct extends Component {
                   <ProductDescription 
                       single={single}
                       history={this.props.history}
+                      product_vendor={prod_vendor}
                   />
               </div>
              

@@ -78,10 +78,11 @@ class ProductDescription extends Component {
     this.setState({ isEditingPrice: true, isEditing: false, isEditingDesc: false });
   };
   onClick = event => {
-    console.log("isEditingPrice" + this.state.isEditingPrice);
-    console.log("isEditingDesc" + this.state.isEditing);
+    console.log(this.props.product);
+    console.log("");
     console.log(this.props);
-    console.log(this.state);
+    console.log(this.props.single[0]);
+    //console.log(this.state);
   };
 
   showImg() {
@@ -114,6 +115,7 @@ class ProductDescription extends Component {
       imageData.push(img);
     }
     var newProd = {
+        productId: this.props.single.productId,
         categoryId: this.props.single[0].categoryId,
         name: this.props.single[0].name,
         desc: this.props.single[0].desc,
@@ -137,8 +139,8 @@ class ProductDescription extends Component {
     }
     console.log(newProd);
     if(changed){
-        //this.props.editProduct(newProd);
-        console.log("Change called");
+        this.props.editProduct(newProd);
+        //console.log("Change called");
     }
   }
 
@@ -165,7 +167,7 @@ class ProductDescription extends Component {
                   />
                   <p className="d-inline dscrptnSize-9">
                     {" "}
-                    by {this.state.product.vendor}
+                    by {this.props.product_vendor[0].name}
                   </p>
                   <Button
                     className="d-inline btn far fa-edit d-inline"

@@ -54,7 +54,7 @@ export const getProducts = index => dispatch => {
 
 // Get Product with Imgs
 export const getProductWithImgs = productId => dispatch => {
-  dispatch(setProductLoading());
+  //dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
     .then(res => {
@@ -65,7 +65,7 @@ export const getProductWithImgs = productId => dispatch => {
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
           if(res.data[0].vendorId != 0)
-            dispatch(getVendorBatch(res.data[0].vendorId));
+            dispatch(getIndivdualVendor(res.data[0].vendorId));
             else{
               dispatch({
                
@@ -214,6 +214,24 @@ export const setProductUpdated = () => {
   return {
     type: types.PRODUCTS_UPDATED
   };
+};
+
+export const getIndivdualVendor = vendorIdArray => dispatch => {
+  axios
+    .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_A_PRODUCT_VENDOR,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
 
 export const getVendorBatch = vendorIdArray => dispatch => {
