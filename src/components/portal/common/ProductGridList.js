@@ -16,7 +16,7 @@ class ProductGridList extends Component {
       return prodArray.map(prod => (
         <div className="col-md-2 col-sm-4 imageGrid mt-5">
           <Link
-            to={`/detailedproduct/${prod.productId}`}
+            to={`/customerdetailedproduct/${prod.productId}`}
             className="img-thumbnail"
           >
             <img

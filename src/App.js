@@ -12,6 +12,7 @@ import AdminPortal from "./components/portal/AdminPortal";
 import VendorPortal from "./components/portal/VendorPortal";
 import CustomerPortal from "./components/portal/CustomerPortal";
 import DetailedProduct from "./components/portal/detailedProduct/DetailedProduct";
+import CustomerDetailedProduct from "./components/portal/detailedProduct/CustomerDetailedProduct";
 import NotFound from "./components/not-found/NotFound";
 import CategoryForm from "./components/portal/categories/CategoryForm";
 import ProductForm from "./components/portal/products/ProductForm";
@@ -39,6 +40,11 @@ class App extends Component {
                   exact
                   path="/detailedproduct/:productId"
                   component={DetailedProduct}
+                />
+                <Route
+                  exact
+                  path="/customerdetailedproduct/:productId"
+                  component={CustomerDetailedProduct}
                 />
                 <Route exact path="/category/new" component={CategoryForm} />
                 <Route exact path="/product/new" component={ProductForm} />
