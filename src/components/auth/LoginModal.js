@@ -98,11 +98,11 @@ class LoginModal extends Component {
 }
 
 LoginModal.propTypes = {
-  auth: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  user: state.user
 });
 
 export default connect(mapStateToProps)(withRouter(LoginModal));
