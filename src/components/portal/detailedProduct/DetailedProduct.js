@@ -10,6 +10,7 @@ import Spinner from "../../common/Spinner";
 import isEmpty from "../../../validation/is-empty";
 import { getProductWithImgs, getVendorBatch } from "../../../actions/productsActions";
 
+
 class DetailedProduct extends Component {
     constructor(props) {
         super(props);
@@ -20,29 +21,22 @@ class DetailedProduct extends Component {
         this.props.getProductWithImgs(this.props.match.params.productId);
         
     }
-    
-  /* shouldComponentUpdate(){
-     if(this.props.product.product_vendor === undefined)
-      return false;
-    else  return true; 
-  } */
+
 
     show() {
-        const { single, loading } = this.props.product;
-        //console.log(this.props.product);
-        if (isEmpty(single) || loading) {
+        const { single, loading, product_vendor } = this.props.product;
+        if (isEmpty(single) || isEmpty(product_vendor) || loading) {
           return (
                 <Spinner />
           );
-        } else {
-          //this.props.getVendorBatch([single.vendorId])
+        } else { 
           const vendor = this.props.product.product_vendor.filter(
             item => item.vendorId === single[0].vendorId)[0];
             return (
             <div>
                   <ProductDescription 
                       single={single[0]}
-                      // history={this.props.history}
+                      history={this.props.history}
                       vendor={vendor}
                   />
               </div>
@@ -50,25 +44,6 @@ class DetailedProduct extends Component {
             );
         }
       }
-/*  show() {
-    const { single, loading } = this.props.product;
-    if (isEmpty(single) || loading) {
-      return <Spinner />;
-    } else {
-      const vendor = this.props.product.product_vendor.filter(
-        item => item.vendorId === single[0].vendorId
-      )[0];
-      return (
-        <div className="row mt-4 parent-min-half-high">
-          <div className="col-5">
-            <ProductTitle single={single[0]} vendor={vendor} />
-          </div>
-          <div className="col-7 parent-min-half-high">
-            <ProductDescription single={single[0]} vendor={vendor} />
-          </div>
-        </div>
-      );
-    }  */
   
 
   render() {
