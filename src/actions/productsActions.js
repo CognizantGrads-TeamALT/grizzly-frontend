@@ -9,6 +9,9 @@ import isEmpty from '../validation/is-empty';
 
 // Get Product List
 export const getProducts = index => dispatch => {
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
@@ -45,6 +48,10 @@ export const getProducts = index => dispatch => {
     })
     .catch(err => {
       dispatch(setProductUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      dispatch(getProducts(index));
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
@@ -94,9 +101,9 @@ export const addProduct = newProd => dispatch => {
         type: types.PRODUCT_ADDING,
         payload: res.data
       });
+
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
-      dispatch(setProductLoaded());
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -113,6 +120,13 @@ export const clearCurrentProducts = () => {
     type: types.CLEAR_CURRENT_PRODUCTS
   };
 };
+
+// Reload Products
+export const reloadProducts = () => dispatch => {
+  dispatch(clearCurrentProducts());
+  dispatch(getProducts());
+}
+
 // Delete Product
 export const deleteProduct = id => dispatch => {
   dispatch(setProductUpdateOnce());
@@ -228,13 +242,12 @@ export const getVendorBatch = vendorIdArray => dispatch => {
 export const getCategoryBatch = categoryIdArray => dispatch => {
   axios
     .get(CATEGORY_API_GATEWAY + `/batchFetch/${categoryIdArray}`)
-    .then(res => {
+    .then(res =>
       dispatch({
         type: types.GET_PRODUCT_CATEGORY,
         payload: res.data
-      });
-      dispatch(setProductLoaded());
-    })
+      })
+    )
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({

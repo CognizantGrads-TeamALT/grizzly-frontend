@@ -91,9 +91,11 @@ export default function(state = initialState, action) {
       const newProductVendor = isEmpty(action.payload)
         ? currentProductVendor
         : currentProductVendor.concat(action.payload);
+      const loadingNew = state.product_category == null;
       return {
         ...state,
-        product_vendor: newProductVendor
+        product_vendor: newProductVendor,
+        loading: loadingNew
       };
     case types.GET_PRODUCT_CATEGORY:
       const currentProductCat = isEmpty(state.product_category)
@@ -102,9 +104,11 @@ export default function(state = initialState, action) {
       const newProductCat = isEmpty(action.payload)
         ? currentProductCat
         : currentProductCat.concat(action.payload);
+      const loadingNew2 = state.product_vendor == null;
       return {
         ...state,
-        product_category: newProductCat
+        product_category: newProductCat,
+        loading: loadingNew2
       };
     case types.PRODUCTS_LOADED:
       return {
@@ -115,7 +119,10 @@ export default function(state = initialState, action) {
       return {
         ...state,
         hasMore: true,
-        products: null
+        products: null,
+        product_category: null,
+        product_vendor: null,
+        index: 0
       };
     default:
       return state;

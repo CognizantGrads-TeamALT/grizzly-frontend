@@ -1,9 +1,13 @@
 import * as types from "./types";
-import { CATEGORY_API_GATEWAY } from "./microservices";
+import { PRODUCT_API_GATEWAY, CATEGORY_API_GATEWAY } from "./microservices";
 import axios from "axios";
+import { reloadProducts } from "./productsActions";
 
 // Get Category List
 export const getCategories = index => dispatch => {
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
   dispatch(setCategoryLoading());
   axios
     .get(CATEGORY_API_GATEWAY + `/get/${index}/default`)
@@ -15,6 +19,10 @@ export const getCategories = index => dispatch => {
     )
     .catch(err => {
       dispatch(setCategoryUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      dispatch(getCategories(index));
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
@@ -70,7 +78,7 @@ export const editCategory = newInfo => dispatch => {
     });
 };
 
-//Search Categories
+// Search Categories
 export const searchCategories = keyword => dispatch => {
   dispatch(clearCurrentCategories());
   dispatch(setCategoryLoading());
@@ -90,6 +98,12 @@ export const searchCategories = keyword => dispatch => {
       })
     });
 };
+
+// Reload Categories
+export const reloadCategories = () => dispatch => {
+  dispatch(clearCurrentCategories());
+  dispatch(getCategories());
+}
 
 // Category loading
 export const setCategoryLoading = () => {
@@ -130,12 +144,13 @@ export const deleteCategory = id => dispatch => {
   dispatch(setCategoryUpdateOnce());
   axios
     .delete(CATEGORY_API_GATEWAY + `/delete/${id}`)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.CATEGORY_DELETING,
         payload: id
-      })
-    )
+      });
+      dispatch(disableCategoryProducts(id));
+    })
     .catch(err => {
       dispatch(setCategoryUpdated());
       dispatch({
@@ -164,6 +179,21 @@ export const toggleBlockCategory = category => dispatch => {
       })
     });
 };
+
+// Disable products when deleting a category. No data is needed back.
+export const disableCategoryProducts = id => dispatch => {
+  axios
+    .post(PRODUCT_API_GATEWAY + `/setBlockByCategory/${id}`)
+    .then(res => {
+      dispatch(reloadProducts());
+    })
+    .catch(err => {
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    });
+}
 
 // Sort Vendor by @param
 export const sortCategoriesByParam = (index, param) => dispatch => {
