@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
+import { Carousel } from 'react-responsive-carousel';
 
 class ProductTitle extends Component {
+  show() {
+    const product = this.props.single[0];
+    if (!isEmpty(product.imageDTO)) {
+      return product.imageDTO.map((img, index) => (
+        <div id={index}>
+          <img src={img.base64Image} className="img-responsive" alt="" />
+        </div>
+      ));
+    }
+  }
   showImg() {
     const product = this.props.single[0];
     if (isEmpty(product.imageDTO)) {
@@ -10,13 +21,7 @@ class ProductTitle extends Component {
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
       );
     } else {
-      return (
-        <img
-          src={product.imageDTO[0].base64Image}
-          className="img-responsive"
-          alt={product.name}
-        />
-      );
+      return <Carousel>{this.show()}</Carousel>;
     }
   }
   render() {
@@ -35,7 +40,9 @@ class ProductTitle extends Component {
             </div>
           </div>
         </div>
-        <div className="row align-items-end mt-3 parent-high" />
+        <div className="row align-items-end mt-3 parent-high">
+          {this.showImg()}
+        </div>
       </div>
     );
   }

@@ -40,10 +40,10 @@ class DetailedProduct extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-3">
+        <div className="col-2">
           <Profile />
         </div>
-        <div className="col-9">
+        <div className="col-10">
           <Row>
             <Col>
               <Nav tabs>
