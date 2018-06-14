@@ -283,6 +283,27 @@ export const searchProducts = keyword => dispatch => {
     });
 };
 
+// Sort products by @param
+export const sortProductsByParam = (index, param) => dispatch => {
+  dispatch(clearCurrentProducts());
+  dispatch(setProductLoading());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
+    .then(res =>
+      dispatch({
+        type: types.GET_PRODUCTS,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
   dispatch(clearCurrentProducts());
