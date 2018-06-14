@@ -64,8 +64,15 @@ export const getProductWithImgs = productId => dispatch => {
       });
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
-          dispatch(getVendorBatch(res.data[0].vendorId));
-          dispatch(getCategoryBatch(res.data[0].categoryId));
+          if(res.data[0].vendorId != 0)
+            dispatch(getVendorBatch(res.data[0].vendorId));
+            else{
+              dispatch({
+               
+              });
+            }
+          if(res.data[0].categoryId != 0)
+            dispatch(getCategoryBatch(res.data[0].categoryId));
         }
       }
       dispatch(setProductUpdated());
@@ -78,6 +85,8 @@ export const getProductWithImgs = productId => dispatch => {
       });
     });
 };
+
+
 
 export const setProductAdding = () => {
   return {

@@ -8,6 +8,8 @@ import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import ImageUploader from "../products/ImageUploader";
 import { withRouter } from 'react-router-dom';
+import {editProduct} from "../../../actions/productsActions";
+import { connect } from 'react-redux';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -49,8 +51,8 @@ class ProductDescription extends Component {
   };
 
   handleCallback = event => {
-    this.setState({ isEditing: false, value: event.target.value })
-    console.log("IN handle callback");
+    this.setState({ isEditing: false,
+        [event.target.name]: event.target.value });
   }
 
   buttonCallback = () => {
@@ -58,10 +60,18 @@ class ProductDescription extends Component {
   }
 
   handleCallbackPrice = event => {
+    if(parseInt(event.target.value) == NaN){
+        event.target.value = this.state.product.price;
+        /* this.setState({
+            isEditingPrice: !this.state.isEditingPrice
+          }); */
+    }
+    else{
     this.setState({
       isEditingPrice: !this.state.isEditingPrice,
       [event.target.name]: event.target.value
     });
+    }
   };
 
   buttonCallbackPrice = event => {
@@ -91,6 +101,8 @@ class ProductDescription extends Component {
     }
   }
   onSubmit(e) {
+    console.log("in submit");
+    var changed = false;
     e.preventDefault();
     let imageData = [];
     let i;
@@ -101,21 +113,32 @@ class ProductDescription extends Component {
       };
       imageData.push(img);
     }
-
-    if (this.state.name!= "" || this.state.desc!= "" || this.state.price != "" ) {
-      const newProd = {
+    var newProd = {
         categoryId: this.props.single[0].categoryId,
-        name: this.state.name,
-        desc: this.state.desc,
-        price: this.state.price,
+        name: this.props.single[0].name,
+        desc: this.props.single[0].desc,
+        price: this.props.single[0].price,
         rating: this.props.single[0].rating,
         enabled: this.props.single[0].enabled,
         vendorId: this.props.single[0].vendorId,
         imageDTO: this.props.single[0].imageData
       };
-      //this.props.updateProduct(newProd);
-      console.log(newProd);
-      //this.cancel();
+    if (this.state.name!= "" ){
+        newProd.name=this.state.name;
+        var changed = true;
+    }
+    if ( this.state.desc!= "" ){
+        newProd.desc = this.state.desc;
+        var changed = true;
+    }
+    if( this.state.price != "" ) {
+      newProd.price = parseInt(this.state.price);
+      var changed = true;
+    }
+    console.log(newProd);
+    if(changed){
+        //this.props.editProduct(newProd);
+        console.log("Change called");
     }
   }
 
@@ -135,7 +158,7 @@ class ProductDescription extends Component {
                 <div className="productTitle d-inline">
                   <InlineEdit
                     className="d-inline"
-                    name="test"
+                    name="name"
                     value={this.state.product.name}
                     isEditing={this.state.isEditing}
                     changeCallback={this.handleCallback}
@@ -182,6 +205,7 @@ class ProductDescription extends Component {
                   {/*}  <p>{this.state.desc}</p> */}
                   <InlineEdit
                     text={this.state.product.desc}
+                    name="desc"
                     className="d-inline"
                     value={this.state.product.desc}
                     isEditing={this.state.isEditingDesc}
@@ -241,4 +265,11 @@ class ProductDescription extends Component {
   }
 }
 
-export default ProductDescription;
+//export default ProductDescription;
+const mapStateToProps = state => ({
+  });
+  
+  export default connect(
+    mapStateToProps, 
+    { editProduct }
+  )(ProductDescription);
