@@ -121,9 +121,7 @@ export default function(state = initialState, action) {
     case types.PRODUCTS_LOADED:
       return {
         ...state,
-        loading: false,
-        loadingCategories: false,
-        loadingVendors: false
+        loading: false
       };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
