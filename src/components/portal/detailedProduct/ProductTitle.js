@@ -5,7 +5,7 @@ import { Carousel } from 'react-responsive-carousel';
 
 class ProductTitle extends Component {
   show() {
-    const product = this.props.single[0];
+    const product = this.props.single;
     if (!isEmpty(product.imageDTO)) {
       return product.imageDTO.map((img, index) => (
         <div id={index}>
@@ -15,7 +15,7 @@ class ProductTitle extends Component {
     }
   }
   showImg() {
-    const product = this.props.single[0];
+    const product = this.props.single;
     if (isEmpty(product.imageDTO)) {
       return (
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
@@ -25,14 +25,15 @@ class ProductTitle extends Component {
     }
   }
   render() {
-    const product = this.props.single[0];
+    const product = this.props.single;
+    const vendor = this.props.vendor;
     return (
       <div className="container parent-high">
         <div className="row align-items-start">
           <div className="col pl-0">
             <div className="productTitle">
               <b className="d-inline">{product.name}</b>
-              <p className="d-inline dscrptnSize-9"> by {product.vendorId}</p>
+              <p className="d-inline dscrptnSize-9"> by {vendor.name}</p>
             </div>
             <div className="productRating">
               <i className="d-inline fas fa-star fa-xs mr-1" />
