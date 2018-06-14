@@ -64,14 +64,14 @@ export const getProductWithImgs = productId => dispatch => {
       });
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
-          if(res.data[0].vendorId != 0)
+          if(res.data[0].vendorId !== 0)
             dispatch(getVendorBatch(res.data[0].vendorId));
             else{
               dispatch({
                
               });
             }
-          if(res.data[0].categoryId != 0)
+          if(res.data[0].categoryId !== 0)
             dispatch(getCategoryBatch(res.data[0].categoryId));
         }
       }
@@ -165,6 +165,8 @@ export const toggleBlockProduct = product => dispatch => {
 // Edit Product
 export const editProduct = newInfo => dispatch => {
   dispatch(setProductEditing());
+  console.log(PRODUCT_API_GATEWAY + `/edit/${newInfo.productId}`);
+  console.log(newInfo);
   axios
     .post(PRODUCT_API_GATEWAY + `/edit/${newInfo.productId}`, newInfo)
     .then(res =>

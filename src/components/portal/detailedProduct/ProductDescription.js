@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-import EditableLabel from "react-inline-editing";
 import Button from "react-ions/lib/components/Button";
 import InlineEdit from "react-ions/lib/components/InlineEdit";
 import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import ImageUploader from "../products/ImageUploader";
-import { withRouter } from 'react-router-dom';
 import {editProduct} from "../../../actions/productsActions";
 import { connect } from 'react-redux';
 
@@ -60,7 +56,8 @@ class ProductDescription extends Component {
   }
 
   handleCallbackPrice = event => {
-    if(parseInt(event.target.value) == NaN){
+    if(isNaN(parseInt(event.target.value)))
+    {
         event.target.value = this.state.product.price;
         /* this.setState({
             isEditingPrice: !this.state.isEditingPrice
@@ -115,29 +112,30 @@ class ProductDescription extends Component {
     }
     var newProd = {
         categoryId: this.props.single[0].categoryId,
+        productId: this.props.single[0].productId,
         name: this.props.single[0].name,
         desc: this.props.single[0].desc,
         price: this.props.single[0].price,
         rating: this.props.single[0].rating,
         enabled: this.props.single[0].enabled,
         vendorId: this.props.single[0].vendorId,
-        imageDTO: this.props.single[0].imageData
+        // imageDTO: this.props.single[0].imageData
       };
-    if (this.state.name!= "" ){
+    if (this.state.name!== "" ){
         newProd.name=this.state.name;
-        var changed = true;
+         changed = true;
     }
-    if ( this.state.desc!= "" ){
+    if ( this.state.desc!== "" ){
         newProd.desc = this.state.desc;
-        var changed = true;
+         changed = true;
     }
-    if( this.state.price != "" ) {
+    if( this.state.price !== "" ) {
       newProd.price = parseInt(this.state.price);
-      var changed = true;
+       changed = true;
     }
     console.log(newProd);
     if(changed){
-        //this.props.editProduct(newProd);
+        this.props.editProduct(newProd);
         console.log("Change called");
     }
   }
@@ -155,7 +153,7 @@ class ProductDescription extends Component {
           <div className="container parent-high">
             <div className="row align-items-start">
               <div className="col pl-0">
-                <div className="productTitle d-inline">
+                <div className="productTitle d-inline d-inner-inline">
                   <InlineEdit
                     className="d-inline"
                     name="name"
@@ -172,7 +170,7 @@ class ProductDescription extends Component {
                     onClick={this.buttonCallback}
                   />
                 </div>
-                <div className="productRating d-inline">
+                <div className="productRating ">
                   <i className="d-inline fas fa-star fa-xs mr-1" />
                   <p className="d-inline dscrptnSize-8">4.7</p>
                 </div>
@@ -217,8 +215,9 @@ class ProductDescription extends Component {
             <div className="row align-items-end">
               <div className="col d-inline">
                 {/*} <p className="mb-0 bottom-zero bottom-heavy d-inline">${this.state.price}</p>*/}
+                <div className="d-inline d-inner-inline">
                 <InlineEdit
-                  className="d-inline"
+                  className="d-inline ml-0 mr-0"
                   name="price"
                   text={this.state.product.price}
                   placeholder={"" + this.state.product.price}
@@ -229,6 +228,7 @@ class ProductDescription extends Component {
                   className="d-inline btn far fa-edit d-inline"
                   onClick={this.buttonCallbackPrice}
                 />
+                </div>
               </div>
               <div className="col">
                 <div className="col surround-parent parent-wide">
