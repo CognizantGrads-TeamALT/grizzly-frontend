@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import classnames from "classnames";
 import Profile from "../profile/Profile";
 import ProductDescription from "./ProductDescription";
-import ProductTitle from "./ProductTitle";
 import Spinner from "../../common/Spinner";
 import isEmpty from "../../../validation/is-empty";
 import { getProductWithImgs, getVendorBatch } from "../../../actions/productsActions";
