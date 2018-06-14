@@ -235,7 +235,6 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 // Search Products
 export const searchProducts = keyword => dispatch => {
   dispatch(clearCurrentProducts());
-  //dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
     .then(res => {
@@ -253,7 +252,6 @@ export const searchProducts = keyword => dispatch => {
 // Sort products by @param
 export const sortProductsByParam = (index, param) => dispatch => {
   dispatch(clearCurrentProducts());
-  //dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
     .then(res => {
@@ -271,7 +269,6 @@ export const sortProductsByParam = (index, param) => dispatch => {
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
   dispatch(clearCurrentProducts());
-  //dispatch(setProductLoading());
   axios
     .get(
       PRODUCT_API_GATEWAY +
