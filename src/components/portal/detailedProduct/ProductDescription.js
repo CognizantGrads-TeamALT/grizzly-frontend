@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-import EditableLabel from "react-inline-editing";
 import Button from "react-ions/lib/components/Button";
 import InlineEdit from "react-ions/lib/components/InlineEdit";
 import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import ImageUploader from "../products/ImageUploader";
-import { withRouter } from 'react-router-dom';
 import {editProduct} from "../../../actions/productsActions";
 import { connect } from 'react-redux';
 
@@ -21,6 +17,7 @@ class ProductDescription extends Component {
       name: this.props.single.name,
       desc: this.props.single.desc,
       price: this.props.single.price,
+      changed: false
       
       
     };
@@ -35,15 +32,11 @@ class ProductDescription extends Component {
     this.onSubmit=this.onSubmit.bind(this);
   }
 
-  /*  state = {
-        isEditing: false,
-        //value: 'this.state.price'
-      } */
-
   handleCallbackDesc = event => {
     this.setState({
       isEditingDesc: false,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      changed: true
     });
   };
 
@@ -53,7 +46,8 @@ class ProductDescription extends Component {
 
   handleCallback = event => {
     this.setState({ isEditing: false,
-        [event.target.name]: event.target.value });
+        [event.target.name]: event.target.value,
+      changed: true });
   }
 
   buttonCallback = () => {
@@ -61,29 +55,22 @@ class ProductDescription extends Component {
   }
 
   handleCallbackPrice = event => {
-    if(parseInt(event.target.value) == NaN){
+    if(isNaN(parseInt(event.target.value)))
+    {
         event.target.value = this.state.product.price;
-        /* this.setState({
-            isEditingPrice: !this.state.isEditingPrice
-          }); */
+
     }
     else{
     this.setState({
       isEditingPrice: !this.state.isEditingPrice,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      changed: true
     });
     }
   };
 
   buttonCallbackPrice = event => {
     this.setState({ isEditingPrice: true, isEditing: false, isEditingDesc: false });
-  };
-  onClick = event => {
-    console.log(this.props.product);
-    console.log("");
-    console.log(this.props);
-    console.log(this.props.single);
-    //console.log(this.state);
   };
 
   showImg() {
@@ -103,8 +90,6 @@ class ProductDescription extends Component {
     }
   }
   onSubmit(e) {
-    console.log("in submit");
-    var changed = false;
     e.preventDefault();
     let imageData = [];
     let i;
@@ -126,22 +111,10 @@ class ProductDescription extends Component {
         vendorId: this.props.single.vendorId,
         imageDTO: this.props.single.imageData
       };
-    if (this.state.name!= "" ){
-        newProd.name=this.state.name;
-        changed = true;
-    }
-    if ( this.state.desc!= "" ){
-        newProd.desc = this.state.desc;
-        changed = true;
-    }
-    if( this.state.price != "" ) {
-      newProd.price = parseInt(this.state.price);
-      changed = true;
-    }
-    console.log(newProd);
-    if(changed){
+
+    if(this.state.changed){
         this.props.editProduct(newProd);
-        //console.log("Change called");
+
     }
   }
 
@@ -152,15 +125,14 @@ class ProductDescription extends Component {
   }
 
   render() {
-      console.log(this.props.single.name);
-      console.log(this.state.name);
+
     return (
       <div className="row mt-4 parent-min-half-high">
         <div className="col-6">
           <div className="container parent-high">
             <div className="row align-items-start">
               <div className="col pl-0">
-                <div className="productTitle d-inline">
+                <div className="productTitle d-inline d-inner-inline">
                   <InlineEdit
                     className="d-inline"
                     name="name"
@@ -170,14 +142,14 @@ class ProductDescription extends Component {
                   />
                   <p className="d-inline dscrptnSize-9">
                     
-                    by {this.props.vendor.name}
+                      {" by " + this.props.vendor.name}
                   </p>
                   <Button
                     className="d-inline btn far fa-edit d-inline"
                     onClick={this.buttonCallback}
                   />
                 </div>
-                <div className="productRating d-inline">
+                <div className="productRating ">
                   <i className="d-inline fas fa-star fa-xs mr-1" />
                   <p className="d-inline dscrptnSize-8">4.7</p>
                 </div>
@@ -207,7 +179,7 @@ class ProductDescription extends Component {
             <div className="row align-items-start parent-min-high">
               <div className="col-8">
                 <div className="dscrptnSize-7">
-                  {/*}  <p>{this.state.desc}</p> */}
+
                   <InlineEdit
                   
                     name="desc"
@@ -221,9 +193,9 @@ class ProductDescription extends Component {
             </div>
             <div className="row align-items-end">
               <div className="col d-inline">
-                {/*} <p className="mb-0 bottom-zero bottom-heavy d-inline">${this.state.price}</p>*/}
+                <div className="d-inline d-inner-inline">
                 <InlineEdit
-                  className="d-inline"
+                  className="d-inline ml-0 mr-0"
                   name="price"
                   placeholder={"" + this.state.price}
                   isEditing={this.state.isEditingPrice}
@@ -233,18 +205,12 @@ class ProductDescription extends Component {
                   className="d-inline btn far fa-edit d-inline"
                   onClick={this.buttonCallbackPrice}
                 />
+                </div>
               </div>
               <div className="col">
                 <div className="col surround-parent parent-wide">
                   <div className="row surround-parent parent-wide">
-                    <div className="col align-self-end surround-parent parent-wide">
-                      {/*testing*/}
-                      <button
-                        onClick={this.onClick}
-                        className="btn btn-rounded"
-                      >
-                        test button
-                      </button>
+                    <div className="col align-self-end surround-parent parent-wide">          
                       <Button
                         className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                         onClick={this.onSubmit} >                    

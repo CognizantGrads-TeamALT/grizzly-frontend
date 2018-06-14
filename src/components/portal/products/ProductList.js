@@ -19,8 +19,7 @@ class ProductList extends Component {
   }
 
   onDeleteClick(id) {
-    console.log(this.productId);
-    //this.props.deleteProduct(id);
+    this.props.deleteProduct(id);
   }
 
   onBlockClick() {
