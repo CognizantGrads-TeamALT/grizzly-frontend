@@ -56,8 +56,7 @@ export const getProducts = index => dispatch => {
       // For development purposes. The micro-services take time to initialise.
       // This will keep requesting data if it gets a 500 or 403 error...
       // Should be removed once we actually implement a feature to error or retry x times.
-      if (index === 0)
-        dispatch(getProducts(index));
+      if (index === 0) dispatch(getProducts(index));
 
       dispatch({
         type: types.GET_ERRORS,
@@ -76,12 +75,6 @@ export const getProductWithImgs = productId => dispatch => {
         type: types.GET_PRODUCT,
         payload: res.data
       });
-      if (!isEmpty(res.data[0])) {
-        if (!isEmpty(res.data[0].productId)) {
-          dispatch(getVendorBatch(res.data[0].vendorId));
-          dispatch(getCategoryBatch(res.data[0].categoryId));
-        }
-      }
       dispatch(setProductUpdated());
     })
     .catch(err => {
@@ -136,7 +129,7 @@ export const clearCurrentProducts = () => {
 export const reloadProducts = () => dispatch => {
   dispatch(clearCurrentProducts());
   dispatch(getProducts());
-}
+};
 
 // Delete Product
 export const deleteProduct = id => dispatch => {

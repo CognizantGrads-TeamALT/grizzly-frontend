@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import photoID from "../../../img/photoID.png";
-import isEmpty from "../../../validation/is-empty";
-import Spinner from "../../common/Spinner";
-import { getUsers } from "../../../actions/userActions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import photoID from '../../../img/photoID.png';
+import isEmpty from '../../../validation/is-empty';
+import Spinner from '../../common/Spinner';
+import { getUsers } from '../../../actions/userActions';
 
 class Profile extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class Profile extends Component {
     this.state = {
       userId: 2,
       userType: 'admin'
-    }
+    };
     this.props.getUsers(this.state.userType, this.state.userId);
   }
 
@@ -20,18 +20,14 @@ class Profile extends Component {
     const { loading } = this.props;
     const { user } = this.props.user;
 
-    
     if (isEmpty(user) || loading) {
-      return (
-
-            <Spinner />
-
-      );
+      return <Spinner />;
     } else {
       return user.filter(
+        //DO NOT DELETE THE COMMENT BELOW
+        // eslint-disable-next-line
         user => parseInt(user.userId) === parseInt(this.state.userId, 10)
       )[0];
-      
     }
   }
 
@@ -39,12 +35,15 @@ class Profile extends Component {
     return (
       <div className="text-center profile-sidebar">
         <div className="profile-header">
-          <div className="profile-header-text">Profile
-             <button type="button" className="btn btn-link hover-def-plain-b profile-header-button">
+          <div className="profile-header-text">
+            Profile
+            <button
+              type="button"
+              className="btn btn-link hover-def-plain-b profile-header-button"
+            >
               Edit
             </button>
           </div>
-         
         </div>
         <div className="smaller-profile-box">
           <div className="profile-userpic">
@@ -52,16 +51,20 @@ class Profile extends Component {
           </div>
 
           <div className="profile-usertitle">
-            <div className="profile-usertitle-name">
-
-            </div>
+            <div className="profile-usertitle-name" />
           </div>
           <div className="profile-usermenu">
-            <div className="profile-usertitle-title fnt-weight-500">{this.show().name}</div>
+            <div className="profile-usertitle-title fnt-weight-500">
+              {this.show().name}
+            </div>
             <div className="fnt-weight-400">Contact Number</div>
-            <div className="profile-usertitle-info fnt-weight-300">{this.show().contact_num}</div>
+            <div className="profile-usertitle-info fnt-weight-300">
+              {this.show().contact_num}
+            </div>
             <div className="fnt-weight-400">Email</div>
-            <div className="profile-usertitle-info fnt-weight-300">{this.show().email}</div>
+            <div className="profile-usertitle-info fnt-weight-300">
+              {this.show().email}
+            </div>
           </div>
         </div>
       </div>
@@ -77,5 +80,7 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-
-export default connect(mapStateToProps, { getUsers })(Profile);
+export default connect(
+  mapStateToProps,
+  { getUsers }
+)(Profile);
