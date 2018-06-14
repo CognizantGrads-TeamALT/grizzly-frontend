@@ -2,16 +2,23 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { searchVendors } from "../../../actions/vendorActions";
+
 class InventorySearchSort extends Component {
   constructor() {
     super();
     this.state = {
-      search: ""
+      search: '',
+      disabled: true
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onSearch = this.onSearch.bind(this);
+  }
+
+  componentDidUpdate() {
+    if (this.state.disabled)
+      this.setState({ disabled: false });
   }
 
   onChange(e) {
@@ -44,6 +51,7 @@ class InventorySearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
+              disabled = {(this.state.disabled)? "disabled" : ""}
             />
             <span className="input-group-append-more">
               <button

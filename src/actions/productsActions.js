@@ -20,36 +20,7 @@ export const getProducts = index => dispatch => {
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
     .then(res => {
-      dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
-      });
-
-      if (!isEmpty(res.data[0])) {
-        if (!isEmpty(res.data[0].productId)) {
-          let vendorIdArray = '';
-          res.data
-            .filter(prod => prod.vendorId !== 0)
-            .map(
-              prod =>
-                vendorIdArray === ''
-                  ? (vendorIdArray = prod.vendorId)
-                  : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
-            );
-          dispatch(getVendorBatch(vendorIdArray));
-
-          let categoryIdArray = '';
-          res.data
-            .filter(prod => prod.categoryId !== 0)
-            .map(
-              prod =>
-                categoryIdArray === ''
-                  ? (categoryIdArray = prod.categoryId)
-                  : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
-            );
-          dispatch(getCategoryBatch(categoryIdArray));
-        }
-      }
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -282,15 +253,27 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 // Search Products
 export const searchProducts = keyword => dispatch => {
   dispatch(clearCurrentProducts());
-  dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
     .then(res => {
+      dispatch(refreshProductData(res.data))
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
+        type: types.GET_ERRORS,
+        payload: err.response.data
       });
-      dispatch(setProductLoaded());
+    });
+};
+
+// Sort products by @param
+export const sortProductsByParam = (index, param) => dispatch => {
+  dispatch(clearCurrentProducts());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
+    .then(res => {
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -304,18 +287,13 @@ export const searchProducts = keyword => dispatch => {
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
   dispatch(clearCurrentProducts());
-  dispatch(setProductLoading());
   axios
     .get(
       PRODUCT_API_GATEWAY +
         `/bycategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
-      dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
-      });
-      dispatch(setProductLoaded());
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -325,3 +303,35 @@ export const filterProductsByCategory = inputs => dispatch => {
       });
     });
 };
+
+export const refreshProductData = data => dispatch => {
+  dispatch({
+    type: types.GET_PRODUCTS,
+    payload: data
+  });
+  if (!isEmpty(data[0])) {
+    if (!isEmpty(data[0].productId)) {
+      let vendorIdArray = '';
+      data
+        .filter(prod => prod.vendorId !== 0)
+        .map(
+          prod =>
+            vendorIdArray === ''
+              ? (vendorIdArray = prod.vendorId)
+              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
+        );
+      dispatch(getVendorBatch(vendorIdArray));
+
+      let categoryIdArray = '';
+      data
+        .filter(prod => prod.categoryId !== 0)
+        .map(
+          prod =>
+            categoryIdArray === ''
+              ? (categoryIdArray = prod.categoryId)
+              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
+        );
+      dispatch(getCategoryBatch(categoryIdArray));
+    }
+  }
+}
