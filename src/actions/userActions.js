@@ -2,11 +2,11 @@ import * as types from "./types";
 import { USER_API_GATEWAY } from "./microservices";
 import axios from "axios";
 
-// Get User List
-export const getUsers = id => dispatch => {
+// Get Admins List
+export const getUsers = (userType, id) => dispatch => {
     dispatch(setUserLoading());
     axios
-      .get(USER_API_GATEWAY + `/get/${id}/`)
+      .get(USER_API_GATEWAY + `/get/${userType}/${id}/`)
       .then(res =>
         dispatch({
           type: types.GET_USERS,

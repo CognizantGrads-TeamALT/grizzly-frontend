@@ -10,9 +10,10 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 2
+      userId: 2,
+      userType: 'admin'
     }
-    this.props.getUsers(this.state.userId);
+    this.props.getUsers(this.state.userType, this.state.userId);
   }
 
   show() {
