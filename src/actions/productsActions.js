@@ -1,14 +1,17 @@
-import * as types from "./types";
+import * as types from './types';
 import {
   PRODUCT_API_GATEWAY,
   CATEGORY_API_GATEWAY,
   VENDOR_API_GATEWAY
-} from "./microservices";
-import axios from "axios";
-import isEmpty from "../validation/is-empty";
+} from './microservices';
+import axios from 'axios';
+import isEmpty from '../validation/is-empty';
 
 // Get Product List
 export const getProducts = index => dispatch => {
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
@@ -19,29 +22,62 @@ export const getProducts = index => dispatch => {
       });
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
-          let vendorIdArray = "";
+          let vendorIdArray = '';
           res.data
             .filter(prod => prod.vendorId !== 0)
             .map(
               prod =>
-                vendorIdArray === ""
+                vendorIdArray === ''
                   ? (vendorIdArray = prod.vendorId)
-                  : (vendorIdArray = vendorIdArray + "," + prod.vendorId)
+                  : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
             );
           dispatch(getVendorBatch(vendorIdArray));
 
-          let categoryIdArray = "";
+          let categoryIdArray = '';
           res.data
             .filter(prod => prod.categoryId !== 0)
             .map(
               prod =>
-                categoryIdArray === ""
+                categoryIdArray === ''
                   ? (categoryIdArray = prod.categoryId)
-                  : (categoryIdArray = categoryIdArray + "," + prod.categoryId)
+                  : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
             );
           dispatch(getCategoryBatch(categoryIdArray));
         }
       }
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      if (index === 0)
+        dispatch(getProducts(index));
+
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Get Product with Imgs
+export const getProductWithImgs = productId => dispatch => {
+  dispatch(setProductLoading());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCT,
+        payload: res.data
+      });
+      if (!isEmpty(res.data[0])) {
+        if (!isEmpty(res.data[0].productId)) {
+          dispatch(getVendorBatch(res.data[0].vendorId));
+          dispatch(getCategoryBatch(res.data[0].categoryId));
+        }
+      }
+      dispatch(setProductUpdated());
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -61,19 +97,23 @@ export const setProductAdding = () => {
 export const addProduct = newProd => dispatch => {
   dispatch(setProductLoading());
   axios
-    .put(PRODUCT_API_GATEWAY + "/add", newProd)
-    .then(res =>
+    .put(PRODUCT_API_GATEWAY + '/add', newProd)
+    .then(res => {
       dispatch({
         type: types.PRODUCT_ADDING,
         payload: res.data
-      })
-    )
-    .catch(err =>
+      });
+
+      dispatch(getVendorBatch(res.data.vendorId));
+      dispatch(getCategoryBatch(res.data.categoryId));
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
-      })
-    );
+      });
+    });
 };
 
 // Clear Products
@@ -82,6 +122,13 @@ export const clearCurrentProducts = () => {
     type: types.CLEAR_CURRENT_PRODUCTS
   };
 };
+
+// Reload Products
+export const reloadProducts = () => dispatch => {
+  dispatch(clearCurrentProducts());
+  dispatch(getProducts());
+}
+
 // Delete Product
 export const deleteProduct = id => dispatch => {
   dispatch(setProductUpdateOnce());
@@ -197,13 +244,12 @@ export const getVendorBatch = vendorIdArray => dispatch => {
 export const getCategoryBatch = categoryIdArray => dispatch => {
   axios
     .get(CATEGORY_API_GATEWAY + `/batchFetch/${categoryIdArray}`)
-    .then(res => {
+    .then(res =>
       dispatch({
         type: types.GET_PRODUCT_CATEGORY,
         payload: res.data
-      });
-      dispatch(setProductLoaded());
-    })
+      })
+    )
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({
@@ -219,6 +265,31 @@ export const searchProducts = keyword => dispatch => {
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCTS,
+        payload: res.data
+      });
+      dispatch(setProductLoaded());
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Filter Products by Category
+export const filterProductsByCategory = inputs => dispatch => {
+  dispatch(clearCurrentProducts());
+  dispatch(setProductLoading());
+  axios
+    .get(
+      PRODUCT_API_GATEWAY +
+        `/bycategory/${inputs.cur_id}/${inputs.index}/default`
+    )
     .then(res => {
       dispatch({
         type: types.GET_PRODUCTS,

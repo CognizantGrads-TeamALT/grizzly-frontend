@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import FlipMove from "react-flip-move";
-import UploadIcon from "../../../img/UploadIcon.svg";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import FlipMove from 'react-flip-move';
+import UploadIcon from '../../../img/UploadIcon.svg';
 
 class ImageUploader extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class ImageUploader extends Component {
       notAcceptedFileType: [],
       notAcceptedFileSize: []
     };
-    this.inputElement = "";
+    this.inputElement = '';
     this.onDropFile = this.onDropFile.bind(this);
     this.triggerFileUpload = this.triggerFileUpload.bind(this);
   }
@@ -64,7 +64,7 @@ class ImageUploader extends Component {
         return function(e) {
           // Add the file name to the data URL
           let dataURL = e.target.result;
-          dataURL = dataURL.replace(";base64", `;name=${f.name};base64`);
+          dataURL = dataURL.replace(';base64', `;name=${f.name};base64`);
 
           if (_this.props.singleImage === true) {
             _this.setState({ pictures: [dataURL], files: [f] }, () => {
@@ -114,8 +114,8 @@ class ImageUploader extends Component {
 	 */
   hasExtension(fileName) {
     const pattern =
-      "(" + this.props.imgExtension.join("|").replace(/\./g, "\\.") + ")$";
-    return new RegExp(pattern, "i").test(fileName);
+      '(' + this.props.imgExtension.join('|').replace(/\./g, '\\.') + ')$';
+    return new RegExp(pattern, 'i').test(fileName);
   }
 
   /*
@@ -139,12 +139,12 @@ class ImageUploader extends Component {
 	 Check if any errors && render
 	 */
   renderErrors() {
-    let notAccepted = "";
+    let notAccepted = '';
     if (this.state.notAcceptedFileType.length > 0) {
       notAccepted = this.state.notAcceptedFileType.map((error, index) => {
         return (
           <div
-            className={"errorMessage " + this.props.errorClass}
+            className={'errorMessage ' + this.props.errorClass}
             key={index}
             style={this.props.errorStyle}
           >
@@ -157,7 +157,7 @@ class ImageUploader extends Component {
       notAccepted = this.state.notAcceptedFileSize.map((error, index) => {
         return (
           <div
-            className={"errorMessage " + this.props.errorClass}
+            className={'errorMessage ' + this.props.errorClass}
             key={index}
             style={this.props.errorStyle}
           >
@@ -205,7 +205,7 @@ class ImageUploader extends Component {
   render() {
     return (
       <div
-        className={"fileUploader parent-high" + this.props.className}
+        className={'fileUploader parent-high' + this.props.className}
         style={this.props.style}
       >
         <div className="fileContainer parent-high">
@@ -214,7 +214,7 @@ class ImageUploader extends Component {
           <div className="errorsContainer">{this.renderErrors()}</div>
           <button
             type={this.props.buttonType}
-            className={"chooseFileButton " + this.props.buttonClassName}
+            className={'chooseFileButton ' + this.props.buttonClassName}
             style={this.props.buttonStyles}
             onClick={this.triggerFileUpload}
           >
@@ -236,29 +236,29 @@ class ImageUploader extends Component {
 }
 
 ImageUploader.defaultProps = {
-  className: "",
-  buttonClassName: "",
+  className: '',
+  buttonClassName: '',
   buttonStyles: {},
   withPreview: false,
-  accept: "image/*",
-  name: "",
+  accept: 'image/*',
+  name: '',
   withIcon: true,
-  buttonText: "Choose images",
-  buttonType: "button",
+  buttonText: 'Choose images',
+  buttonType: 'button',
   withLabel: true,
-  label: "Max file size: 5mb, accepted: jpg|gif|png",
+  label: 'Max file size: 250k, accepted: jpg|jpeg|gif|png',
   labelStyles: {},
-  labelClass: "",
-  imgExtension: [".jpg", ".jpeg", ".gif", ".png"],
+  labelClass: '',
+  imgExtension: ['.jpg', '.jpeg', '.gif', '.png'],
   maxFileSize: 5242880,
-  fileSizeError: " file size is too big",
-  fileTypeError: " is not a supported file extension",
-  errorClass: "",
+  fileSizeError: ' file size is too big',
+  fileTypeError: ' is not a supported file extension',
+  errorClass: '',
   style: {},
   errorStyle: {},
   singleImage: false,
   onChange: () => {},
-  defaultImage: ""
+  defaultImage: ''
 };
 
 ImageUploader.propTypes = {

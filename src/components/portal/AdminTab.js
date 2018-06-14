@@ -29,32 +29,34 @@ class AdminTab extends Component {
     super(props);
     this.onToggle = this.onToggle.bind(this);
     this.state = {
-      activeTab: "1"
+      activeTab: ""
     };
   }
 
   componentWillMount() {
-    this.clear();
-    this.props.getProducts("0");
+    //this.clear();
+  
+    this.props.getProducts();
+    this.props.getVendors();
+    this.props.getCategories();
+    
+    this.setState({ activeTab: "1" });
   }
 
+  // in case its needed.
   clear() {
     this.props.clearCurrentCategories();
     this.props.clearCurrentVendors();
     this.props.clearCurrentProducts();
+
+    this.props.getProducts();
+    this.props.getVendors();
+    this.props.getCategories();
   }
 
   onToggle(tab) {
-    this.clear();
+    //this.clear();
     if (this.state.activeTab !== tab) {
-      if (tab === "3") {
-        this.props.getCategories("0");
-      } else if (tab === "2") {
-        this.props.getVendors("0");
-      } else {
-        this.props.getProducts("0");
-      }
-
       this.setState({
         activeTab: tab
       });
@@ -69,7 +71,7 @@ class AdminTab extends Component {
               <NavItem>
                 <NavLink
                   className={classnames(
-                    "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                    "nav-link btn-outline-success my-2 my-sm-0",
                     {
                       active: this.state.activeTab === "1"
                     }
@@ -84,7 +86,7 @@ class AdminTab extends Component {
               <NavItem>
                 <NavLink
                   className={classnames(
-                    "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                    "nav-link btn-outline-success my-2 my-sm-0",
                     {
                       active: this.state.activeTab === "2"
                     }
@@ -99,7 +101,7 @@ class AdminTab extends Component {
               <NavItem>
                 <NavLink
                   className={classnames(
-                    "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                    "nav-link btn-outline-success my-2 my-sm-0",
                     {
                       active: this.state.activeTab === "3"
                     }

@@ -5,4 +5,4 @@ export const CATEGORY_API_GATEWAY =
 export const PRODUCT_API_GATEWAY =
   'http://api.alt.ausgrads.academy/productmicro/product';
 export const USER_API_GATEWAY =
-  "http://api.alt.ausgrads.academy/usermicro/user";
+  'http://api.alt.ausgrads.academy/usermicro/user';

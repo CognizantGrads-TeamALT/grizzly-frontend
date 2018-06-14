@@ -1,19 +1,20 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import TextFieldGroup from "../../common/TextFieldGroup";
-import isEmpty from "../../../validation/is-empty";
-import PropTypes from "prop-types";
-import Profile from "../profile/Profile";
-import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
-import classnames from "classnames";
-import { Row, Col, Nav, NavItem } from "reactstrap";
-import { addProduct } from "../../../actions/productsActions";
-import { searchCategories, Update_TypeAhead } from "../../../actions/categoryActions";
-import _ from "lodash";
-import { setTimeout } from "timers";
-import CategoryTypeAhead from "../categories/CategoryTypeAhead";
-import ImageUploader from "./ImageUploader";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import TextFieldGroup from '../../common/TextFieldGroup';
+import PropTypes from 'prop-types';
+import Profile from '../profile/Profile';
+import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import classnames from 'classnames';
+import { Row, Col, Nav, NavItem } from 'reactstrap';
+import { addProduct } from '../../../actions/productsActions';
+import {
+  searchCategories,
+  Update_TypeAhead
+} from '../../../actions/categoryActions';
+import _ from 'lodash';
+import CategoryTypeAhead from '../categories/CategoryTypeAhead';
+import ImageUploader from './ImageUploader';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -21,12 +22,13 @@ class ProductForm extends Component {
 
     this.state = {
       modal: false,
-      category: "",
-      name: "",
-      desc: "",
-      price: "",
+      category: '',
+      name: '',
+      desc: '',
+      price: '',
+      rating: 0,
       categoryList: [],
-      cur_id: "",
+      cur_id: '',
       valid_cat: false
     };
     this.pictures = [];
@@ -41,7 +43,6 @@ class ProductForm extends Component {
     this.files = pictureDataURLs;
   }
 
-
   onToggle() {
     this.setState({
       modal: !this.state.modal
@@ -49,11 +50,20 @@ class ProductForm extends Component {
   }
 
   cancel() {
-    this.props.history.push("/adminportal");
+    this.props.history.push('/adminportal');
   }
 
   onSubmit(e) {
     e.preventDefault();
+    let imageData = [];
+    let i;
+    for (i = 0; i < this.pictures.length; i++) {
+      let img = {
+        imgName: this.pictures[i].name,
+        base64Image: this.files[i].split(',')[1]
+      };
+      imageData.push(img);
+    }
 
     if (this.props.category.valid_cat) {
       const newProd = {
@@ -61,16 +71,18 @@ class ProductForm extends Component {
         name: this.state.name,
         desc: this.state.desc,
         price: this.state.price,
+        rating: this.state.rating,
         enabled: true,
-        vendorId: 1
+        vendorId: 1,
+        imageDTO: imageData
       };
       this.props.addProduct(newProd);
-
       this.setState({
-        category: "",
-        name: "",
-        desc: "",
-        price: ""
+        category: '',
+        name: '',
+        price: '',
+        rating: 0,
+        desc: ''
       });
       this.cancel();
     }
@@ -82,6 +94,8 @@ class ProductForm extends Component {
   }
 
   render() {
+    //DO NOT DELETE THE COMMENT BELOW
+    // eslint-disable-next-line
     const catSearch = _.debounce(e => {
       this.searchCat(e);
     }, 200);
@@ -98,9 +112,9 @@ class ProductForm extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0",
+                      'nav-link btn-outline-success my-2 my-sm-0',
                       {
-                        active: this.state.activeTab === "1"
+                        active: this.state.activeTab === '1'
                       }
                     )}
                   >
@@ -111,7 +125,7 @@ class ProductForm extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0"
+                      'nav-link btn-outline-success my-2 my-sm-0'
                     )}
                   >
                     VENDORS
@@ -121,7 +135,7 @@ class ProductForm extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      "nav-link hover-w-b btn-outline-success my-2 my-sm-0"
+                      'nav-link btn-outline-success my-2 my-sm-0'
                     )}
                   >
                     CATEGORIES
@@ -138,13 +152,16 @@ class ProductForm extends Component {
                   withPreview={true}
                   buttonText="Choose images"
                   onChange={this.onDrop}
-                  imgExtension={[".jpg", ".jpeg", ".gif", ".png"]}
-                  maxFileSize={5242880}
+                  imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
+                  maxFileSize={262144}
                 />
               </div>
               <div className="col-5">
                 <form>
-                  <CategoryTypeAhead/>
+                  <CategoryTypeAhead
+                    placeholder="Category"
+                    onClickHandler={this.props.Update_TypeAhead}
+                  />
                   <TextFieldGroup
                     placeholder="Name"
                     name="name"
@@ -153,8 +170,8 @@ class ProductForm extends Component {
                   />
                   <TextFieldGroup
                     placeholder="Description"
-                    name="description"
-                    value={this.state.description}
+                    name="desc"
+                    value={this.state.desc}
                     onChange={this.onChange}
                   />
                   <TextFieldGroup
@@ -166,7 +183,7 @@ class ProductForm extends Component {
                 </form>
               </div>
               <div className="col-2">
-                {" "}
+                {' '}
                 <button
                   className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
                   onClick={this.onSubmit}
@@ -196,7 +213,6 @@ ProductForm.propTypes = {
 const mapStateToProps = state => ({
   product: state.product,
   category: state.category
-  
 });
 
 export default connect(

@@ -1,21 +1,23 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import ProductSearchSort from "../common/ProductSearchSort";
-import PropTypes from "prop-types";
-import CategoryFilter from "../common/CategoryFilter";
-import { Link } from "react-router-dom";
-import Spinner from "../../common/Spinner";
-import ProductList from "./ProductList";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import ProductSearchSort from '../common/ProductSearchSort';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import Spinner from '../../common/Spinner';
+import ProductList from './ProductList';
 import {
   getProducts,
-  setProductUpdated
-} from "../../../actions/productsActions";
-import isEmpty from "../../../validation/is-empty";
+  setProductUpdated,
+  filterProductsByCategory
+} from '../../../actions/productsActions';
+import isEmpty from '../../../validation/is-empty';
+import CategoryTypeAhead from '../categories/CategoryTypeAhead';
+
 
 class Products extends Component {
   componentDidMount() {
     // Detect when scrolled to bottom.
-    this.refs.myscroll.addEventListener("scroll", e => {
+    this.refs.myscroll.addEventListener('scroll', e => {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
@@ -78,14 +80,19 @@ class Products extends Component {
     return (
       <div>
         <ProductSearchSort />
-        <CategoryFilter />
+        <CategoryTypeAhead
+          placeholder="Filter by category"
+          extraClassNames="btn-group mt-3 mr-2"
+          onClickHandler={this.props.filterProductsByCategory}
+          pageIndex={this.props.product.index}
+        />
         <Link
           className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
           to="/product/new"
         >
           Add Product
         </Link>
-        <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
+        <div ref="myscroll" style={{ height: '500px', overflow: 'auto' }}>
           <table className="table table-sm table-hover">
             <thead>
               <tr>
@@ -93,7 +100,7 @@ class Products extends Component {
                 <th scope="col">Products Name</th>
                 <th scope="col">Vendor</th>
                 <th scope="col">Category</th>
-                <th scope="col">Price</th>
+                <th scope="col">Rating</th>
                 <th scope="col" />
               </tr>
             </thead>
@@ -108,7 +115,8 @@ class Products extends Component {
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -117,5 +125,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated }
+  { getProducts, setProductUpdated, filterProductsByCategory }
 )(Products);
