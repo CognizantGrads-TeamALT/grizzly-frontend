@@ -1,8 +1,40 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import photoID from "../../../img/photoID.png";
+import isEmpty from "../../../validation/is-empty";
+import Spinner from "../../common/Spinner";
+import { getUsers } from "../../../actions/userActions";
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: 2,
+      userType: 'admin'
+    }
+    this.props.getUsers(this.state.userType, this.state.userId);
+  }
+
+  show() {
+    const { loading } = this.props;
+    const { user } = this.props.user;
+
+    
+    if (isEmpty(user) || loading) {
+      return (
+
+            <Spinner />
+
+      );
+    } else {
+      return user.filter(
+        user => parseInt(user.userId) === parseInt(this.state.userId, 10)
+      )[0];
+      
+    }
+  }
+
   render() {
     return (
       <div className="text-center profile-sidebar">
@@ -20,15 +52,16 @@ class Profile extends Component {
           </div>
 
           <div className="profile-usertitle">
-            <div className="profile-usertitle-name">Helen Cho</div>
+            <div className="profile-usertitle-name">
+
+            </div>
           </div>
           <div className="profile-usermenu">
-            <div className="profile-usertitle-name">ID</div>
-            <div className="profile-usertitle-job">GRZLY17234</div>
-            <div className="profile-usertitle-name">Designation</div>
-            <div className="profile-usertitle-job">Sr. Admin</div>
-            <div className="profile-usertitle-name">Office</div>
-            <div className="profile-usertitle-job">NYC, NY, USA</div>
+            <div className="profile-usertitle-title fnt-weight-500">{this.show().name}</div>
+            <div className="fnt-weight-400">Contact Number</div>
+            <div className="profile-usertitle-info fnt-weight-300">{this.show().contact_num}</div>
+            <div className="fnt-weight-400">Email</div>
+            <div className="profile-usertitle-info fnt-weight-300">{this.show().email}</div>
           </div>
         </div>
       </div>
@@ -36,4 +69,13 @@ class Profile extends Component {
   }
 }
 
-export default connect(null)(Profile);
+Profile.propTypes = {
+  getUsers: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+
+export default connect(mapStateToProps, { getUsers })(Profile);
