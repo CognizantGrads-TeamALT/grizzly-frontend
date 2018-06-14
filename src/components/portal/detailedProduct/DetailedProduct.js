@@ -24,13 +24,16 @@ class DetailedProduct extends Component {
     if (isEmpty(single) || loading) {
       return <Spinner />;
     } else {
+      const vendor = this.props.product.product_vendor.filter(
+        item => item.vendorId === single[0].vendorId
+      )[0];
       return (
         <div className="row mt-4 parent-min-half-high">
           <div className="col-5">
-            <ProductTitle single={single} />
+            <ProductTitle single={single[0]} vendor={vendor} />
           </div>
           <div className="col-7 parent-min-half-high">
-            <ProductDescription single={single} />
+            <ProductDescription single={single[0]} vendor={vendor} />
           </div>
         </div>
       );

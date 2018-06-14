@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 class ProductDescription extends Component {
   render() {
-    const product = this.props.single[0];
+    const product = this.props.single;
+    // const vendor = this.props.vendor;
     return (
       <div className="container surround-parent parent-high">
         <div className="row align-items-start">
