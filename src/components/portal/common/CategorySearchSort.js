@@ -6,11 +6,13 @@ import {
   sortCategoriesByParam
 } from "../../../actions/categoryActions";
 import CategoryForm from "../categories/CategoryForm";
+
 class CategorySearchSort extends Component {
   constructor() {
     super();
     this.state = {
-      search: ""
+      search: '',
+      disabled: true
     };
 
     this.onChange = this.onChange.bind(this);
@@ -21,33 +23,41 @@ class CategorySearchSort extends Component {
     this.onSortByCount = this.onSortByCount.bind(this);
   }
 
+  componentDidUpdate() {
+    if (this.state.disabled)
+      this.setState({ disabled: false });
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ disabled: true });
   }
 
   onSearch(e) {
     e.preventDefault();
     this.props.searchCategories(this.state.search);
-    this.setState({ search: "" });
   }
 
   onSortByName(e) {
     e.preventDefault();
     this.props.sortCategoriesByParam("0", "name");
+    this.setState({ search: '' });
   }
 
   onSortByDescription(e) {
     e.preventDefault();
     this.props.sortCategoriesByParam("0", "description");
+    this.setState({ search: '' });
   }
 
   onSortByCount(e) {
     e.preventDefault();
     this.props.sortCategoriesByParam("0", "count");
+    this.setState({ search: '' });
   }
 
   render() {
@@ -66,6 +76,7 @@ class CategorySearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
+              disabled = {(this.state.disabled)? "disabled" : ""}
             />
             <span className="input-group-append-more">
               <button
