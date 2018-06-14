@@ -246,7 +246,7 @@ ImageUploader.defaultProps = {
   buttonText: 'Choose images',
   buttonType: 'button',
   withLabel: true,
-  label: 'Max file size: 5mb, accepted: jpg|gif|png',
+  label: 'Max file size: 250k, accepted: jpg|jpeg|gif|png',
   labelStyles: {},
   labelClass: '',
   imgExtension: ['.jpg', '.jpeg', '.gif', '.png'],
