@@ -19,6 +19,10 @@ export const getVendors = index => dispatch => {
     )
     .catch(err => {
       dispatch(setVendorUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      dispatch(getVendors(index));
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
