@@ -1,6 +1,7 @@
 import * as types from "./types";
-import { CATEGORY_API_GATEWAY } from "./microservices";
+import { PRODUCT_API_GATEWAY, CATEGORY_API_GATEWAY } from "./microservices";
 import axios from "axios";
+import { reloadProducts } from "./productsActions";
 
 // Get Category List
 export const getCategories = index => dispatch => {
@@ -137,12 +138,13 @@ export const deleteCategory = id => dispatch => {
   dispatch(setCategoryUpdateOnce());
   axios
     .delete(CATEGORY_API_GATEWAY + `/delete/${id}`)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.CATEGORY_DELETING,
         payload: id
-      })
-    )
+      });
+      dispatch(disableCategoryProducts(id));
+    })
     .catch(err => {
       dispatch(setCategoryUpdated());
       dispatch({
@@ -171,6 +173,21 @@ export const toggleBlockCategory = category => dispatch => {
       })
     });
 };
+
+// Disable products when deleting a category. No data is needed back.
+export const disableCategoryProducts = id => dispatch => {
+  axios
+    .post(PRODUCT_API_GATEWAY + `/setBlockByCategory/${id}`)
+    .then(res => {
+      dispatch(reloadProducts());
+    })
+    .catch(err => {
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    });
+}
 
 // Sort Vendor by @param
 export const sortCategoriesByParam = (index, param) => dispatch => {
