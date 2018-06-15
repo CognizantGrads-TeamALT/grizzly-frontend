@@ -26,7 +26,6 @@ class ProductDescription extends Component {
     this.handleCallbackPrice = this.handleCallbackPrice.bind(this);
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
     this.handleCallback = this.handleCallback.bind(this);
-    this.onClick = this.onClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
