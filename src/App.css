@@ -35,6 +35,10 @@
   flex-wrap: wrap;
 }
 
+.d-inner-inline, .d-inner-inline > * , .d-inner-inline > * > * , .d-inner-inline > * > * > *, .d-inner-inline > * > * > * > *{
+  display: inline;
+}
+
 /* Typography */
 
 .dscrptnSize-7 {

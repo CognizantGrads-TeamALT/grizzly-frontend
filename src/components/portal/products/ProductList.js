@@ -12,6 +12,9 @@ import isEmpty from '../../../validation/is-empty';
 class ProductList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      productId : this.props.location
+  }
     this.onBlockClick = this.onBlockClick.bind(this);
   }
 
