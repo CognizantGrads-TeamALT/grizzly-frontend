@@ -2,20 +2,41 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
 import {
+    searchCategories,
     sortCategoriesByParam
   } from "../../../actions/categoryActions";
 
 class ProductCategoryRow extends Component {
     constructor(props) {
         super(props);
-        this.sortCategoryByCount = this.sortCategoryByCount.bind(this);
+        this.props.sortCategoriesByParam("0", "count")
         
     }
 
-    sortCategoryByCount() {
-        this.props.sortCategoriesByParam("0", "count");
-      }
+    show() {
+        const { categories, loading } = this.props.category;
+        let categoryArray = [];
+        if(!isEmpty(categories) && !loading) {
+            for (let i = 0; i < 5; i++) {
+                categoryArray.push(categories[i]);
+            }
+            return categoryArray.map(cat => (
+                <div className="col">
+                    <Link 
+                    className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
+                    to="/customerportal"
+                    >
+                    {cat.name}
+                    </Link>
+                </div>
+            ));
+        } else {
+            return <Spinner />
+        }
+    }
 
     render() {
         return(
@@ -31,46 +52,7 @@ class ProductCategoryRow extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col">
-                        <Link 
-                            className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
-                            to="/adminportal"
-                        >
-                        Cameras
-                        </Link>
-                    </div>
-                    <div className="col">
-                        <Link 
-                            className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
-                            to="/adminportal"
-                        >
-                        Watches
-                        </Link>
-                    </div>
-                    <div className="col">
-                        <Link 
-                            className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
-                            to="/adminportal"
-                        >
-                        Food
-                        </Link>
-                    </div>
-                    <div className="col">
-                        <Link 
-                            className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
-                            to="/adminportal"
-                        >
-                        Drinks
-                        </Link>
-                    </div>
-                    <div className="col">
-                        <Link 
-                            className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
-                            to="/adminportal"
-                        >
-                        Bags
-                        </Link>
-                    </div>
+                    {this.show()}
                 </div>
             </div>
         );
@@ -78,15 +60,16 @@ class ProductCategoryRow extends Component {
 }
 
 ProductCategoryRow.propTypes = {
+    searchCategories: PropTypes.func.isRequired,
     sortCategoriesByParam: PropTypes.func.isRequired
 };
 
-// const mapStateToProps = state => ({
-//     category: state.category
-// });
+const mapStateToProps = state => ({
+    category: state.category
+});
   
-export default connect(
-    null,
-    { sortCategoriesByParam }
-  )(ProductCategoryRow);
+export default connect( mapStateToProps, { 
+    sortCategoriesByParam, 
+    searchCategories 
+})(ProductCategoryRow);
   
