@@ -122,9 +122,8 @@ class ProductForm extends Component {
     if (validator.isEmpty(this.state.name) || 
         validator.isEmpty(this.state.desc) || 
         validator.isEmpty(this.state.price)) {
-      //_(["name", "desc", "price"]).forEach(function(field) {
       _([{key: "name", value: this.state.name},
-          {key: "desc", value: this.state.desc},
+          {key: "description", value: this.state.desc},
           {key: "price", value: this.state.price}]).forEach(function(field) {
         if (validator.isEmpty(field.value)) {
           errors.push({
