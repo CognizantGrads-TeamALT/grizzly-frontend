@@ -3,6 +3,10 @@
   width: 100%;
 }
 
+.parent-wide-inner, .parent-wide-inner > * {
+  width: 100%;
+}
+
 .parent-min-high {
   min-height: 50%;
 }
@@ -98,6 +102,13 @@
   bottom: 0;
 }
 
+.surround-parent-inner, .surround-parent-inner > * {
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
 .left-rounded {
   border-top-left-radius: 4em;
   border-bottom-left-radius: 4em;
@@ -145,6 +156,16 @@
   right: 0;
   left: 0;
   bottom: 0;
+}
+
+.bottom-border {
+  border-bottom: #ebe9e9;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+.min-navbar-button-width {
+  min-width: 9em;
 }
 
 /* @media screen and (max-width: 760px) {

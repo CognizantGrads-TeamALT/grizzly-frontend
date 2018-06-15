@@ -4,6 +4,7 @@ import ProductGridList from './common/ProductGridList';
 import PropTypes from 'prop-types';
 import { getProducts } from '../../actions/productsActions';
 import ProductCarousel from './common/ProductCarousel';
+import ProductCategoryRow from './common/ProductCategoryRow';
 
 class CustomerPortal extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class CustomerPortal extends Component {
   render() {
     return (
       <div>
+        <ProductCategoryRow />
         <ProductCarousel />
         <ProductGridList />
       </div>
