@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 import Profile from "../profile/Profile";
-import ProductDescription from "./ProductDescription";
-import ProductTitle from "./ProductTitle";
+import CustomerProductDescription from "./CustomerProductDescription";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
 import isEmpty from "../../../validation/is-empty";
@@ -20,18 +19,20 @@ class CustomerDetailedProduct extends Component {
   }
 
   show() {
-    const { single, loading } = this.props.product;
-    if (isEmpty(single) || loading) {
+    const { single, loading, product_vendor } = this.props.product;
+    if (isEmpty(single) || isEmpty(product_vendor) || loading) {
       return <Spinner />;
     } else {
+      const vendor = this.props.product.product_vendor.filter(
+        item => item.vendorId === single[0].vendorId
+      )[0];
       return (
-        <div className="row mt-4 parent-min-half-high">
-          <div className="col-5">
-            <ProductTitle single={single} />
-          </div>
-          <div className="col-7 parent-min-half-high">
-            <ProductDescription single={single} />
-          </div>
+        <div>
+          <CustomerProductDescription
+            single={single[0]}
+            history={this.props.history}
+            vendor={vendor}
+          />
         </div>
       );
     }
