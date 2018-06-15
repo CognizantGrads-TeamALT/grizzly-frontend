@@ -56,7 +56,7 @@ class LoginModal extends Component {
         <input
           type="button"
           value="Login"
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+          className="btn more-rounded parent-wide min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0 mr-2"
           onClick={this.onToggle}
         />
         <Modal

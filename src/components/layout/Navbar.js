@@ -26,7 +26,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center">
+      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center bottom-border">
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img
@@ -45,10 +45,10 @@ class Navbar extends Component {
           </button>
 
           <div className="collapse navbar-collapse" id="mobile-nav">
-            <form className="form-inline mx-auto col-8">
+            <form className="form-inline mx-auto col-6">
               <div className="search-form-custom row">
                 <input
-                  className="form-control left-rounded border-right-0 border col-6"
+                  className="form-control left-rounded border-right-0 border col-9"
                   type="search"
                   placeholder="Search"
                   id="example-search-input"
@@ -67,17 +67,18 @@ class Navbar extends Component {
               </div>
             </form>
 
-            <ul className="navbar-nav ml-auto col-2">
-              <li className="nav-item">
+            <ul className="navbar-nav my-auto ml-auto col-4">
+              <li className="mr-3 nav-item">
                 <LoginModal
+                  className="parent-wide-inner"
                   buttonLabel="Login"
                   title="Login"
                   actionLabel="Login"
                 />
               </li>
-              <li className="nav-item">
+              <li className="mr-3 nav-item">
                 <Link
-                  className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+                  className="btn more-rounded parent-wide-inner min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
                   to="/signup"
                 >
                   Sign Up
