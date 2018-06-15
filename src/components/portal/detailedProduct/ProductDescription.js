@@ -4,8 +4,8 @@ import InlineEdit from 'react-ions/lib/components/InlineEdit';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
-import { editProduct } from '../../../actions/productsActions';
-import { connect } from 'react-redux';
+import { editProduct, reloadProducts } from "../../../actions/productsActions";
+import { connect } from "react-redux";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class ProductDescription extends Component {
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
-    if (isNaN(parseInt(event.target.value))) {
+    if (isNaN(parseInt(event.target.value, 10))) {
       event.target.value = this.state.product.price;
     } else {
       this.setState({
@@ -129,6 +129,8 @@ class ProductDescription extends Component {
 
     if (this.state.changed) {
       this.props.editProduct(newProd);
+      this.onCancel();
+      this.props.reloadProducts();
     }
   }
 
@@ -240,5 +242,5 @@ class ProductDescription extends Component {
 
 export default connect(
   null,
-  { editProduct }
+  { editProduct, reloadProducts }
 )(ProductDescription);

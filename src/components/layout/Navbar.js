@@ -67,23 +67,25 @@ class Navbar extends Component {
               </div>
             </form>
 
-            <ul className="navbar-nav ml-auto col-2">
-              <li className="nav-item">
-                <LoginModal
-                  buttonLabel="Login"
-                  title="Login"
-                  actionLabel="Login"
-                />
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-                  to="/signup"
-                >
-                  Sign Up
-                </Link>
-              </li>
-            </ul>
+            <div className="navbar-buttons">
+              <ul className="navbar-nav ml-auto col-2">
+                <li className="nav-item">
+                  <LoginModal
+                    buttonLabel="Login"
+                    title="Login"
+                    actionLabel="Login"
+                  />
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+                    to="/signup"
+                  >
+                    Sign Up
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </nav>

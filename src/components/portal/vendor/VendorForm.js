@@ -6,6 +6,8 @@ import TextFieldGroup from "../../common/TextFieldGroup";
 import TextAreaFieldGroup from "../../common/TextAreaFieldGroup";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { addVendor } from "../../../actions/vendorActions";
+import validator from 'validator';
+import _ from 'lodash';
 
 class VendorForm extends Component {
   constructor(props) {
@@ -22,6 +24,7 @@ class VendorForm extends Component {
     this.onToggle = this.onToggle.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.validateVendor = this.validateVendor.bind(this);
   }
 
   onToggle() {
@@ -45,15 +48,63 @@ class VendorForm extends Component {
       bio: ""
     };
 
-    this.props.addVendor(newVendor);
-    this.setState({
-      name: "",
-      website: "",
-      contactNum: "",
-      email: "",
-      bio: ""
-    });
-    this.onToggle();
+    let validationErrors = this.validateVendor(newVendor);
+
+    if (validationErrors.length > 0) {
+      // TODO: show modal with error messages. For now just logging to console
+      console.log("The vendor could not be created. Please amend the following issues:");
+      _(validationErrors).forEach(function(error) {
+        console.log(error.msg);
+        console.log("DEBUG: " + error.debug);
+      });
+    } 
+    // No validation errors found!
+    else {
+      this.props.addVendor(newVendor);
+      this.setState({
+        name: "",
+        website: "",
+        contactNum: "",
+        email: "",
+        bio: ""
+      });
+      this.onToggle();
+    }
+  }
+
+  /**
+   * Validates fields of a newly created vendor (where appropriate)
+   * @param vendor, object representing a Vendor to be sent to back-end
+   * @returns array of validation issues (empty if no issues)
+   */
+  validateVendor(vendor) {
+    let errors = [];
+
+    // empty field validation
+    if (validator.isEmpty(this.state.name) || 
+        validator.isEmpty(this.state.website) || 
+        validator.isEmpty(this.state.contactNum)) {
+      _([{key: "name", value: this.state.name},
+          {key: "website", value: this.state.website},
+          {key: "contact number", value: this.state.contactNum}]).forEach(function(field) {
+        if (validator.isEmpty(field.value)) {
+          errors.push({
+            msg: "Invalid " + field.key + ". " + field.key + " cannot be empty.",
+            debug: "Invalid " + field.key + ": " + field.value
+          });
+        }
+      })
+    }
+
+    // website is a URL
+    if (!validator.isURL(this.state.website)) {
+      errors.push({
+        msg: "Invalid website. Website must be a valid URL.",
+        debug: "Invalid website: " + this.state.website
+      });
+    }
+
+    return errors;
   }
 
   render() {
