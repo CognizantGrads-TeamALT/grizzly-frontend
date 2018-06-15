@@ -42,7 +42,8 @@ class DetailedProduct extends Component {
   }
 
   render() {
-    const { single, loading } = this.props.product;
+    // not being used yet.
+    //const { single, loading } = this.props.product;
     return (
       <div className="row">
         <div className="col-2">
