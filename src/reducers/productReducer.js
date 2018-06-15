@@ -90,8 +90,6 @@ export default function(state = initialState, action) {
               : product
         )
       };
-      
-    
     case types.GET_PRODUCT_VENDOR:
       const currentProductVendor = isEmpty(state.product_vendor)
         ? []

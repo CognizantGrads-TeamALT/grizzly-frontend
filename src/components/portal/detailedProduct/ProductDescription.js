@@ -4,8 +4,8 @@ import InlineEdit from "react-ions/lib/components/InlineEdit";
 import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import ImageUploader from "../products/ImageUploader";
-import {editProduct} from "../../../actions/productsActions";
-import { connect } from 'react-redux';
+import { editProduct } from "../../../actions/productsActions";
+import { connect } from "react-redux";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -18,10 +18,8 @@ class ProductDescription extends Component {
       desc: this.props.single.desc,
       price: this.props.single.price,
       changed: false
-      
-      
     };
-    
+
     this.pictures = [];
     this.handleCallbackDesc = this.handleCallbackDesc.bind(this);
     this.buttonCallbackDesc = this.buttonCallbackDesc.bind(this);
@@ -29,7 +27,7 @@ class ProductDescription extends Component {
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
     this.handleCallback = this.handleCallback.bind(this);
     this.onClick = this.onClick.bind(this);
-    this.onSubmit=this.onSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   handleCallbackDesc = event => {
@@ -41,36 +39,47 @@ class ProductDescription extends Component {
   };
 
   buttonCallbackDesc = event => {
-    this.setState({ isEditingDesc: true, isEditingPrice: false, isEditing: false });
+    this.setState({
+      isEditingDesc: true,
+      isEditingPrice: false,
+      isEditing: false
+    });
   };
 
   handleCallback = event => {
-    this.setState({ isEditing: false,
-        [event.target.name]: event.target.value,
-      changed: true });
-  }
-
-  buttonCallback = () => {
-    this.setState({ isEditing: true, isEditingDesc: false, isEditingPrice:false})
-  }
-
-  handleCallbackPrice = event => {
-    if(isNaN(parseInt(event.target.value)))
-    {
-        event.target.value = this.state.product.price;
-
-    }
-    else{
     this.setState({
-      isEditingPrice: !this.state.isEditingPrice,
+      isEditing: false,
       [event.target.name]: event.target.value,
       changed: true
     });
+  };
+
+  buttonCallback = () => {
+    this.setState({
+      isEditing: true,
+      isEditingDesc: false,
+      isEditingPrice: false
+    });
+  };
+
+  handleCallbackPrice = event => {
+    if (isNaN(parseInt(event.target.value))) {
+      event.target.value = this.state.product.price;
+    } else {
+      this.setState({
+        isEditingPrice: !this.state.isEditingPrice,
+        [event.target.name]: event.target.value,
+        changed: true
+      });
     }
   };
 
   buttonCallbackPrice = event => {
-    this.setState({ isEditingPrice: true, isEditing: false, isEditingDesc: false });
+    this.setState({
+      isEditingPrice: true,
+      isEditing: false,
+      isEditingDesc: false
+    });
   };
 
   showImg() {
@@ -96,36 +105,32 @@ class ProductDescription extends Component {
     for (i = 0; i < this.pictures.length; i++) {
       let img = {
         imgName: this.pictures[i].name,
-        base64Image: this.files[i].split(',')[1]
+        base64Image: this.files[i].split(",")[1]
       };
       imageData.push(img);
     }
     var newProd = {
-        productId: this.props.single.productId,
-        categoryId: this.props.single.categoryId,
-        name: this.state.name,
-        desc: this.state.desc,
-        price: this.state.price,
-        rating: this.props.single.rating,
-        enabled: this.props.single.enabled,
-        vendorId: this.props.single.vendorId,
-        imageDTO: this.props.single.imageData
-      };
+      productId: this.props.single.productId,
+      categoryId: this.props.single.categoryId,
+      name: this.state.name,
+      desc: this.state.desc,
+      price: this.state.price,
+      rating: this.props.single.rating,
+      enabled: this.props.single.enabled,
+      vendorId: this.props.single.vendorId,
+      imageDTO: this.props.single.imageData
+    };
 
-    if(this.state.changed){
-        this.props.editProduct(newProd);
-
+    if (this.state.changed) {
+      this.props.editProduct(newProd);
     }
   }
 
-  onCancel = event =>
-  {
-    
-      this.props.history.push('/adminportal');
-  }
+  onCancel = event => {
+    this.props.history.push("/adminportal");
+  };
 
   render() {
-
     return (
       <div className="row mt-4 parent-min-half-high">
         <div className="col-6">
@@ -141,8 +146,7 @@ class ProductDescription extends Component {
                     changeCallback={this.handleCallback}
                   />
                   <p className="d-inline dscrptnSize-9">
-                    
-                      {" by " + this.props.vendor.name}
+                    {" by " + this.props.vendor.name}
                   </p>
                   <Button
                     className="d-inline btn far fa-edit d-inline"
@@ -161,8 +165,6 @@ class ProductDescription extends Component {
           </div>
         </div>
 
-  
-
         <div className="col-6">
           <div className="container surround-parent parent-high">
             <div className="row align-items-start">
@@ -179,9 +181,7 @@ class ProductDescription extends Component {
             <div className="row align-items-start parent-min-high">
               <div className="col-8">
                 <div className="dscrptnSize-7">
-
                   <InlineEdit
-                  
                     name="desc"
                     className="d-inline"
                     value={this.state.desc}
@@ -194,33 +194,33 @@ class ProductDescription extends Component {
             <div className="row align-items-end">
               <div className="col d-inline">
                 <div className="d-inline d-inner-inline">
-                <InlineEdit
-                  className="d-inline ml-0 mr-0"
-                  name="price"
-                  placeholder={"" + this.state.price}
-                  isEditing={this.state.isEditingPrice}
-                  changeCallback={this.handleCallbackPrice}
-                />
-                <Button
-                  className="d-inline btn far fa-edit d-inline"
-                  onClick={this.buttonCallbackPrice}
-                />
+                  <InlineEdit
+                    className="d-inline ml-0 mr-0"
+                    name="price"
+                    placeholder={"" + this.state.price}
+                    isEditing={this.state.isEditingPrice}
+                    changeCallback={this.handleCallbackPrice}
+                  />
+                  <Button
+                    className="d-inline btn far fa-edit d-inline"
+                    onClick={this.buttonCallbackPrice}
+                  />
                 </div>
               </div>
               <div className="col">
                 <div className="col surround-parent parent-wide">
                   <div className="row surround-parent parent-wide">
-                    <div className="col align-self-end surround-parent parent-wide">          
+                    <div className="col align-self-end surround-parent parent-wide">
                       <Button
                         className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
-                        onClick={this.onSubmit} >                    
-                      
+                        onClick={this.onSubmit}
+                      >
                         Finish
                       </Button>
                       <Button
                         className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent parent-wide mt-2"
-                        onClick={this.onCancel}>
-                      
+                        onClick={this.onCancel}
+                      >
                         Cancel
                       </Button>
                     </div>
@@ -235,7 +235,7 @@ class ProductDescription extends Component {
   }
 }
 
-  export default connect(
-    null, 
-    { editProduct }
-  )(ProductDescription);
+export default connect(
+  null,
+  { editProduct }
+)(ProductDescription);
