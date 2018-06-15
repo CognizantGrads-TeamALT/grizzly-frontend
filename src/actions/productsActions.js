@@ -46,6 +46,14 @@ export const getProductWithImgs = productId => dispatch => {
         type: types.GET_PRODUCT,
         payload: res.data
       });
+      if (!isEmpty(res.data[0])) {
+        if (!isEmpty(res.data[0].productId)) {
+          if(res.data[0].vendorId !== 0)
+            dispatch(getVendorBatch(res.data[0].vendorId));
+          if(res.data[0].categoryId !== 0)
+            dispatch(getCategoryBatch(res.data[0].categoryId));
+        }
+      }
       dispatch(setProductUpdated());
     })
     .catch(err => {
@@ -56,6 +64,8 @@ export const getProductWithImgs = productId => dispatch => {
       });
     });
 };
+
+
 
 export const setProductAdding = () => {
   return {
@@ -195,6 +205,7 @@ export const setProductUpdated = () => {
     type: types.PRODUCTS_UPDATED
   };
 };
+
 
 export const getVendorBatch = vendorIdArray => dispatch => {
   axios
