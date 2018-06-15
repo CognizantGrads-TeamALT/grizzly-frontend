@@ -15,6 +15,7 @@ import {
 import _ from 'lodash';
 import CategoryTypeAhead from '../categories/CategoryTypeAhead';
 import ImageUploader from './ImageUploader';
+import validator from 'validator';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class ProductForm extends Component {
     this.onDrop = this.onDrop.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.validateProduct = this.validateProduct.bind(this);
   }
 
   onDrop(pictureFiles, pictureDataURLs) {
@@ -65,17 +67,29 @@ class ProductForm extends Component {
       imageData.push(img);
     }
 
-    if (this.props.category.valid_cat) {
-      const newProd = {
-        categoryId: this.props.category.cur_id,
-        name: this.state.name,
-        desc: this.state.desc,
-        price: this.state.price,
-        rating: this.state.rating,
-        enabled: true,
-        vendorId: 1,
-        imageDTO: imageData
-      };
+    const newProd = {
+      categoryId: this.props.category.cur_id,
+      name: this.state.name,
+      desc: this.state.desc,
+      price: this.state.price,
+      rating: this.state.rating,
+      enabled: true,
+      vendorId: 1,
+      imageDTO: imageData
+    };
+
+    // Validate new product
+    let validationErrors = this.validateProduct(newProd);
+    if (validationErrors.length > 0) {
+      // TODO: show modal with error messages. For now just logging to console
+      console.log("The product could not be created. Please amend the following issues:");
+      _(validationErrors).forEach(function(error) {
+        console.log(error.msg);
+        console.log("DEBUG: " + error.debug);
+      });
+    } 
+    // No validation errors found!
+    else {
       this.props.addProduct(newProd);
       this.setState({
         category: '',
@@ -86,6 +100,57 @@ class ProductForm extends Component {
       });
       this.cancel();
     }
+  }
+
+  /**
+   * Validates fields of a newly created product (where appropriate)
+   * @param prod, object representing a Product to be sent to back-end
+   * @returns array of validation issues (empty if no issues)
+   */
+  validateProduct(prod) {
+    let errors = [];
+
+    // category ID is populated from typeahead
+    if (!this.props.category.valid_cat) {
+      errors.push({
+        msg: "Invalid category. Please select one from the category field's search results.",
+        debug: "Invalid catId: " + this.props.category.cur_id
+      });
+    }
+
+    // empty field validation
+    if (validator.isEmpty(this.state.name) || 
+        validator.isEmpty(this.state.desc) || 
+        validator.isEmpty(this.state.price)) {
+      _([{key: "name", value: this.state.name},
+          {key: "description", value: this.state.desc},
+          {key: "price", value: this.state.price}]).forEach(function(field) {
+        if (validator.isEmpty(field.value)) {
+          errors.push({
+            msg: "Invalid " + field.key + ". " + field.key + " cannot be empty.",
+            debug: "Invalid " + field.key + ": " + field.value
+          });
+        }
+      })
+    }
+
+    // price is a number - there is also a validator for currency which we may want to use
+    if (!validator.isFloat(this.state.price)) {
+      errors.push({
+        msg: "Invalid price. Price must be a number.",
+        debug: "Invalid price: " + this.state.price
+      });
+    }
+
+    // image data is not empty
+    if (this.pictures.length === 0) {
+      errors.push({
+        msg: "Invalid images. At least one image must be uploaded.",
+        debug: "Invalid images: " + this.pictures
+      });
+    }
+
+    return errors;
   }
 
   onChange(e, persist) {

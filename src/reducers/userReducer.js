@@ -1,7 +1,8 @@
 import * as types from '../actions/types';
 
 const initialState = {
-  user: null
+  user: null,
+  userType: null
 };
 
 export default function(state = initialState, action) {
@@ -15,6 +16,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         user: action.payload,
+        userType: action.userType,
         loading: false
       };
 
