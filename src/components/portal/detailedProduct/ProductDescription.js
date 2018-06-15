@@ -64,12 +64,12 @@ class ProductDescription extends Component {
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
-    if (isNaN(parseInt(event.target.value, 10))) {
-      event.target.value = this.state.product.price;
-    } else {
+    // this is un-successful at reverting the state value for the inline-edit - dan
+    let value = parseInt(event.target.value, 10);
+    if (!isNaN(value)) {
       this.setState({
         isEditingPrice: !this.state.isEditingPrice,
-        [event.target.name]: event.target.value,
+        [event.target.name]: value,
         changed: true
       });
     }
