@@ -29,8 +29,7 @@ class Products extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.product.updateOnce)
-      this.props.setProductUpdated();
+    if (this.props.product.updateOnce) this.props.setProductUpdated();
   }
 
   shouldComponentUpdate() {
@@ -65,6 +64,7 @@ class Products extends Component {
           product_category={product_category}
           product_vendor={product_vendor}
           product={prod}
+          userType={this.props.userType}
         />
       ));
     } else {
@@ -122,7 +122,8 @@ Products.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  userType: state.user.userType
 });
 
 export default connect(

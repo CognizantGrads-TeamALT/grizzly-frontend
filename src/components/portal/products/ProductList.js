@@ -52,7 +52,6 @@ class ProductList extends Component {
 
   render() {
     const { product } = this.props;
-
     return (
       <tr>
         <th scope="row">{product.productId}</th>
@@ -67,15 +66,19 @@ class ProductList extends Component {
           >
             View
           </Link>
-          <ConfirmModal
-            buttonLabel={product.enabled ? 'Block' : 'Unblock'}
-            title="Block Product"
-            confirmText={
-              (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
-            }
-            buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-            onSubmit={this.onBlockClick}
-          />
+          {this.props.userType === 'admin' ? (
+            <ConfirmModal
+              buttonLabel={product.enabled ? 'Block' : 'Unblock'}
+              title="Block Product"
+              confirmText={
+                (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
+              }
+              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
+              onSubmit={this.onBlockClick}
+            />
+          ) : (
+            <span />
+          )}
           <ConfirmModal
             buttonLabel="Delete"
             title="Delete Product"
