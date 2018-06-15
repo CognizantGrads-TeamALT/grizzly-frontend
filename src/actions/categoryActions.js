@@ -93,7 +93,7 @@ export const searchCategories = keyword => dispatch => {
       })
     )
     .catch(err => {
-      dispatch(setCategoryUpdated());
+      // dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data

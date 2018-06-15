@@ -13,7 +13,6 @@ class ProductCategoryRow extends Component {
     constructor(props) {
         super(props);
         this.props.sortCategoriesByParam("0", "count")
-        
     }
 
     show() {
@@ -27,7 +26,7 @@ class ProductCategoryRow extends Component {
                 <div className="col">
                     <Link 
                     className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
-                    to="/customerportal"
+                    to={`/productportal/category/${cat.name}`}
                     >
                     {cat.name}
                     </Link>
