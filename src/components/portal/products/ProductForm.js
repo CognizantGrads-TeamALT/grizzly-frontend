@@ -16,6 +16,7 @@ import _ from 'lodash';
 import CategoryTypeAhead from '../categories/CategoryTypeAhead';
 import ImageUploader from './ImageUploader';
 import validator from 'validator';
+import VendorTypeAhead from '../vendor/VendorTypeAhead';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -245,6 +246,19 @@ class ProductForm extends Component {
                     value={this.state.price}
                     onChange={this.onChange}
                   />
+
+                  {/* <VendorTypeAhead
+                    placeholder="Vendor"
+                    onClickHandler={this.props.Update_typeAhead}
+                  /> */}
+
+                  <TextFieldGroup
+                    placeholder="Vendor"
+                    name="vendor"
+                    value={this.state.vendor}
+                    onChange={this.onChange}
+                  />
+
                 </form>
               </div>
               <div className="col-2">
