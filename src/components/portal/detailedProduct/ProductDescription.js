@@ -63,7 +63,8 @@ class ProductDescription extends Component {
 
   handleCallbackPrice = event => {
     if (isNaN(parseInt(event.target.value))) {
-      event.target.value = this.state.product.price;
+      console.log(event.target);
+      event.target.value = this.state.price;
     } else {
       this.setState({
         isEditingPrice: !this.state.isEditingPrice,

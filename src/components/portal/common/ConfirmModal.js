@@ -7,10 +7,18 @@ class ConfirmModal extends Component {
         super(props);
         this.state = {
             modal: false,
+            popup: true
         };
 
         this.onToggle = this.onToggle.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.checkTrue();
+    }
+
+    checkTrue(){
+        if (this.props.popup!=undefined){
+            this.statepopup=this.propes.popup;
+        }
     }
 
     onToggle() {
