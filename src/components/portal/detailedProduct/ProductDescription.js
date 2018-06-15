@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import Button from "react-ions/lib/components/Button";
-import InlineEdit from "react-ions/lib/components/InlineEdit";
-import isEmpty from "../../../validation/is-empty";
-import unavailable from "../../../img/unavailable.png";
-import ImageUploader from "../products/ImageUploader";
+import React, { Component } from 'react';
+import Button from 'react-ions/lib/components/Button';
+import InlineEdit from 'react-ions/lib/components/InlineEdit';
+import isEmpty from '../../../validation/is-empty';
+import unavailable from '../../../img/unavailable.png';
+import { Carousel } from 'react-responsive-carousel';
 import { editProduct, reloadProducts } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 
@@ -62,6 +62,8 @@ class ProductDescription extends Component {
   };
 
   handleCallbackPrice = event => {
+    //DO NOT DELETE THE COMMENT BELOW
+    // eslint-disable-next-line
     if (isNaN(parseInt(event.target.value, 10))) {
       event.target.value = this.state.product.price;
     } else {
@@ -81,6 +83,17 @@ class ProductDescription extends Component {
     });
   };
 
+  showCarousel() {
+    const product = this.props.single;
+    if (!isEmpty(product.imageDTO)) {
+      return product.imageDTO.map((img, index) => (
+        <div id={index}>
+          <img src={img.base64Image} className="img-responsive" alt="" />
+        </div>
+      ));
+    }
+  }
+
   showImg() {
     const product = this.props.single;
     if (isEmpty(product.imageDTO)) {
@@ -88,13 +101,7 @@ class ProductDescription extends Component {
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
       );
     } else {
-      return (
-        <img
-          src={product.imageDTO.base64Image}
-          className="img-responsive"
-          alt={product.name}
-        />
-      );
+      return <Carousel>{this.showCarousel()}</Carousel>;
     }
   }
   onSubmit(e) {
@@ -104,7 +111,7 @@ class ProductDescription extends Component {
     for (i = 0; i < this.pictures.length; i++) {
       let img = {
         imgName: this.pictures[i].name,
-        base64Image: this.files[i].split(",")[1]
+        base64Image: this.files[i].split(',')[1]
       };
       imageData.push(img);
     }
@@ -128,7 +135,7 @@ class ProductDescription extends Component {
   }
 
   onCancel = event => {
-    this.props.history.push("/adminportal");
+    this.props.history.push('/adminportal');
   };
 
   render() {
@@ -147,7 +154,7 @@ class ProductDescription extends Component {
                     changeCallback={this.handleCallback}
                   />
                   <p className="d-inline dscrptnSize-9">
-                    {" by " + this.props.vendor.name}
+                    {' by ' + this.props.vendor.name}
                   </p>
                   <Button
                     className="d-inline btn far fa-edit d-inline"
@@ -160,9 +167,8 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            <div className="row align-items-end mt-3 parent-high">
-              <ImageUploader />
-            </div>
+
+            {this.showImg()}
           </div>
         </div>
 
@@ -170,13 +176,11 @@ class ProductDescription extends Component {
           <div className="container surround-parent parent-high">
             <div className="row align-items-start">
               <div className="col">
-                <div className="mb-3 mt-5">
-                  Product Description
-                  <Button
-                    className="d-inline btn far fa-edit d-inline"
-                    onClick={this.buttonCallbackDesc}
-                  />
-                </div>
+                Product Description
+                <Button
+                  className="d-inline btn far fa-edit d-inline"
+                  onClick={this.buttonCallbackDesc}
+                />
               </div>
             </div>
             <div className="row align-items-start parent-min-high">
@@ -198,7 +202,7 @@ class ProductDescription extends Component {
                   <InlineEdit
                     className="d-inline ml-0 mr-0"
                     name="price"
-                    placeholder={"" + this.state.price}
+                    placeholder={'' + this.state.price}
                     isEditing={this.state.isEditingPrice}
                     changeCallback={this.handleCallbackPrice}
                   />

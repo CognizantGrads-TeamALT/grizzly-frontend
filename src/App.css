@@ -53,7 +53,7 @@
   font-size: 0.9em;
 }
 
-.fnt-weight-300 { 
+.fnt-weight-300 {
   font-weight: 300;
 }
 
@@ -61,7 +61,7 @@
   font-weight: 400;
 }
 
-.fnt-weight-500 { 
+.fnt-weight-500 {
   font-weight: 500;
 }
 
@@ -265,7 +265,7 @@
 .profile-usertitle-info {
   text-transform: uppercase;
   color: black;
-  font-size: .7em;
+  font-size: 0.7em;
   margin-bottom: 15px;
 }
 

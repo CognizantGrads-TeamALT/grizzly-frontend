@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import VendorTab from "./VendorTab";
-import Profile from "./profile/Profile";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import VendorTab from './VendorTab';
+import Profile from './profile/Profile';
 class VendorPortal extends Component {
   render() {
     return (
       <div className="row">
         <div className="col-md-2">
-          <Profile />
+          <Profile userType="vendor" userId="1" />
         </div>
         <div className="col-md-10">
           <VendorTab />
