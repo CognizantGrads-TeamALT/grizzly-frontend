@@ -26,7 +26,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center">
+      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center pt-0">
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img
@@ -67,8 +67,8 @@ class Navbar extends Component {
               </div>
             </form>
 
-            <div className="navbar-buttons">
-              <ul className="navbar-nav ml-auto col-2">
+            <div className="navbar-buttons mx-auto col-2">
+              <ul className="navbar-nav pt-2">
                 <li className="nav-item">
                   <LoginModal
                     buttonLabel="Login"
