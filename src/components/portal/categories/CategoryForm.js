@@ -7,6 +7,8 @@ import TextAreaFieldGroup from "../../common/TextAreaFieldGroup";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { addCategory, editCategory } from "../../../actions/categoryActions";
 import isEmpty from "../../../validation/is-empty";
+import validator from "validator";
+import _ from "lodash";
 
 class CategoryForm extends Component {
   constructor(props) {
@@ -33,6 +35,9 @@ class CategoryForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+
+    let validationErrors = [];
+
     if (!isEmpty(this.props.category.categoryId)) {
       const newInfo = {
         categoryId: this.props.category.categoryId,
@@ -41,20 +46,74 @@ class CategoryForm extends Component {
         enabled: this.props.category.enabled
       };
 
-      this.props.editCategory(newInfo);
+      validationErrors = this.validateCategory(newInfo);
+
+      if (validationErrors.length > 0) {
+        // TODO: show modal with error messages. For now just logging to console
+        console.log("The category could not be created. Please amend the following issues:");
+        _(validationErrors).forEach(function(error) {
+          console.log(error.msg);
+          console.log("DEBUG: " + error.debug);
+        });
+      } 
+      // No validation errors found!
+      else {
+        this.props.editCategory(newInfo);
+      }
     } else {
       const newCat = {
         name: this.state.name,
         description: this.state.description
       };
 
-      this.props.addCategory(newCat);
+      validationErrors = this.validateCategory(newCat);
+
+      if (validationErrors.length > 0) {
+        // TODO: show modal with error messages. For now just logging to console
+        console.log("The category could not be created. Please amend the following issues:");
+        _(validationErrors).forEach(function(error) {
+          console.log(error.msg);
+          console.log("DEBUG: " + error.debug);
+        });
+      } 
+      // No validation errors found!
+      else {
+        this.props.addCategory(newCat);
+      }
     }
-    this.setState({
-      name: "",
-      description: ""
-    });
-    this.onToggle();
+
+    if (validationErrors.length === 0) {
+      this.setState({
+        name: "",
+        description: ""
+      });
+      this.onToggle();
+    }
+  }
+
+  /**
+   * Validates fields of a newly created category (where appropriate)
+   * @param cat, object representing a Category to be sent to back-end
+   * @returns array of validation issues (empty if no issues)
+   */
+  validateCategory(cat) {
+    let errors = [];
+
+    // empty field validation
+    if (validator.isEmpty(this.state.name) || 
+        validator.isEmpty(this.state.description)) {
+      _([{key: "name", value: this.state.name},
+          {key: "description", value: this.state.description}]).forEach(function(field) {
+        if (validator.isEmpty(field.value)) {
+          errors.push({
+            msg: "Invalid " + field.key + ". " + field.key + " cannot be empty.",
+            debug: "Invalid " + field.key + ": " + field.value
+          });
+        }
+      })
+    }
+
+    return errors;
   }
 
   render() {
