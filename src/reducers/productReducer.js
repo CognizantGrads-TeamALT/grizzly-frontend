@@ -6,6 +6,8 @@ const initialState = {
   product_category: null,
   product_vendor: null,
   hasMore: false,
+  loadingVendors: false,
+  loadingCategories: false,
   index: 0
 };
 
@@ -47,7 +49,9 @@ export default function(state = initialState, action) {
         ...state,
         products: newProducts,
         hasMore: hasMore,
-        index: index
+        index: index,
+        loadingVendors: true,
+        loadingCategories: true
       };
     case types.GET_PRODUCT:
       return {
@@ -65,7 +69,9 @@ export default function(state = initialState, action) {
         ...state,
         products: newProducts2,
         hasMore: hasMore2,
-        updateOnce: true
+        //updateOnce: true,
+        loadingVendors: true,
+        loadingCategories: true
       };
     case types.PRODUCTS_DELETING:
       return {
@@ -91,11 +97,12 @@ export default function(state = initialState, action) {
       const newProductVendor = isEmpty(action.payload)
         ? currentProductVendor
         : currentProductVendor.concat(action.payload);
-      const loadingNew = state.product_category == null;
+      const loadingNew = state.loadingCategories;
       return {
         ...state,
         product_vendor: newProductVendor,
-        loading: loadingNew
+        loading: loadingNew,
+        loadingVendors: false
       };
     case types.GET_PRODUCT_CATEGORY:
       const currentProductCat = isEmpty(state.product_category)
@@ -104,11 +111,12 @@ export default function(state = initialState, action) {
       const newProductCat = isEmpty(action.payload)
         ? currentProductCat
         : currentProductCat.concat(action.payload);
-      const loadingNew2 = state.product_vendor == null;
+      const loadingNew2 = state.loadingVendors;
       return {
         ...state,
         product_category: newProductCat,
-        loading: loadingNew2
+        loading: loadingNew2,
+        loadingCategories: false
       };
     case types.PRODUCTS_LOADED:
       return {
@@ -122,6 +130,8 @@ export default function(state = initialState, action) {
         products: null,
         product_category: null,
         product_vendor: null,
+        loadingCategories: null,
+        loadingVendors: null,
         index: 0
       };
     default:

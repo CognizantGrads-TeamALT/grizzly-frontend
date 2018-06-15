@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
-import { Row, Col, Nav, NavItem } from 'reactstrap';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import classnames from 'classnames';
-import Profile from '../profile/Profile';
-import ProductDescription from './ProductDescription';
-import ProductTitle from './ProductTitle';
-import PropTypes from 'prop-types';
-import Spinner from '../../common/Spinner';
-import isEmpty from '../../../validation/is-empty';
-import { getProductWithImgs } from '../../../actions/productsActions';
+import React, { Component } from "react";
+import { Row, Col, Nav, NavItem } from "reactstrap";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import classnames from "classnames";
+import Profile from "../profile/Profile";
+import ProductDescription from "./ProductDescription";
+import Spinner from "../../common/Spinner";
+import isEmpty from "../../../validation/is-empty";
+import {
+  getProductWithImgs,
+  getVendorBatch
+} from "../../../actions/productsActions";
+
 class DetailedProduct extends Component {
   constructor(props) {
     super(props);
@@ -20,24 +22,27 @@ class DetailedProduct extends Component {
   }
 
   show() {
-    const { single, loading } = this.props.product;
-    if (isEmpty(single) || loading) {
+    const { single, loading, product_vendor } = this.props.product;
+    if (isEmpty(single) || isEmpty(product_vendor) || loading) {
       return <Spinner />;
     } else {
+      const vendor = this.props.product.product_vendor.filter(
+        item => item.vendorId === single[0].vendorId
+      )[0];
       return (
-        <div className="row mt-4 parent-min-half-high">
-          <div className="col-5">
-            <ProductTitle single={single} />
-          </div>
-          <div className="col-7 parent-min-half-high">
-            <ProductDescription single={single} />
-          </div>
+        <div>
+          <ProductDescription
+            single={single[0]}
+            history={this.props.history}
+            vendor={vendor}
+          />
         </div>
       );
     }
   }
 
   render() {
+    const { single, loading } = this.props.product;
     return (
       <div className="row">
         <div className="col-2">
@@ -51,7 +56,7 @@ class DetailedProduct extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0',
+                      "nav-link btn-outline-success my-2 my-sm-0",
                       {
                         active: this.state.activeTab === 0
                       }
@@ -64,7 +69,7 @@ class DetailedProduct extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0'
+                      "nav-link btn-outline-success my-2 my-sm-0"
                     )}
                   >
                     VENDORS
@@ -74,7 +79,7 @@ class DetailedProduct extends Component {
                   <Link
                     to="/adminportal"
                     className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0'
+                      "nav-link btn-outline-success my-2 my-sm-0"
                     )}
                   >
                     CATEGORIES
@@ -83,7 +88,6 @@ class DetailedProduct extends Component {
               </Nav>
             </Col>
           </Row>
-
           {this.show()}
         </div>
       </div>
@@ -91,15 +95,11 @@ class DetailedProduct extends Component {
   }
 }
 
-DetailedProduct.propTypes = {
-  getProductWithImgs: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   product: state.product
 });
 
 export default connect(
   mapStateToProps,
-  { getProductWithImgs }
+  { getProductWithImgs, getVendorBatch }
 )(DetailedProduct);

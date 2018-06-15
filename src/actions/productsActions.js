@@ -12,47 +12,22 @@ export const getProducts = index => dispatch => {
   // Default the index to 0 if not given.
   index = index == null ? 0 : index;
 
-  dispatch(setProductLoading());
+  // getVendorBatch and getCategoryBatch set loading: true
+  // if either data is not loaded yet.
+  // if we set loading here, it will refresh the render too many times
+  // which results in losing the scroll wheel position...
+  //dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
     .then(res => {
-      dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
-      });
-      if (!isEmpty(res.data[0])) {
-        if (!isEmpty(res.data[0].productId)) {
-          let vendorIdArray = '';
-          res.data
-            .filter(prod => prod.vendorId !== 0)
-            .map(
-              prod =>
-                vendorIdArray === ''
-                  ? (vendorIdArray = prod.vendorId)
-                  : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
-            );
-          dispatch(getVendorBatch(vendorIdArray));
-
-          let categoryIdArray = '';
-          res.data
-            .filter(prod => prod.categoryId !== 0)
-            .map(
-              prod =>
-                categoryIdArray === ''
-                  ? (categoryIdArray = prod.categoryId)
-                  : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
-            );
-          dispatch(getCategoryBatch(categoryIdArray));
-        }
-      }
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
       // For development purposes. The micro-services take time to initialise.
       // This will keep requesting data if it gets a 500 or 403 error...
       // Should be removed once we actually implement a feature to error or retry x times.
-      if (index === 0)
-        dispatch(getProducts(index));
+      if (index === 0) dispatch(getProducts(index));
 
       dispatch({
         type: types.GET_ERRORS,
@@ -73,8 +48,10 @@ export const getProductWithImgs = productId => dispatch => {
       });
       if (!isEmpty(res.data[0])) {
         if (!isEmpty(res.data[0].productId)) {
-          dispatch(getVendorBatch(res.data[0].vendorId));
-          dispatch(getCategoryBatch(res.data[0].categoryId));
+          if(res.data[0].vendorId !== 0)
+            dispatch(getVendorBatch(res.data[0].vendorId));
+          if(res.data[0].categoryId !== 0)
+            dispatch(getCategoryBatch(res.data[0].categoryId));
         }
       }
       dispatch(setProductUpdated());
@@ -88,6 +65,8 @@ export const getProductWithImgs = productId => dispatch => {
     });
 };
 
+
+
 export const setProductAdding = () => {
   return {
     type: types.PRODUCT_ADDING
@@ -95,7 +74,11 @@ export const setProductAdding = () => {
 };
 
 export const addProduct = newProd => dispatch => {
-  dispatch(setProductLoading());
+  // again, also here...
+  // getVendorBatch and getCategoryBatch handle the loading state variable
+  // if we call it too early, due to state changes between other methods...
+  // the page reloads and shows the "spinning wheel" which causes loss in scroll position
+  //dispatch(setProductLoading());
   axios
     .put(PRODUCT_API_GATEWAY + '/add', newProd)
     .then(res => {
@@ -127,7 +110,7 @@ export const clearCurrentProducts = () => {
 export const reloadProducts = () => dispatch => {
   dispatch(clearCurrentProducts());
   dispatch(getProducts());
-}
+};
 
 // Delete Product
 export const deleteProduct = id => dispatch => {
@@ -223,6 +206,7 @@ export const setProductUpdated = () => {
   };
 };
 
+
 export const getVendorBatch = vendorIdArray => dispatch => {
   axios
     .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
@@ -262,15 +246,27 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 // Search Products
 export const searchProducts = keyword => dispatch => {
   dispatch(clearCurrentProducts());
-  dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
     .then(res => {
+      dispatch(refreshProductData(res.data))
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
+        type: types.GET_ERRORS,
+        payload: err.response.data
       });
-      dispatch(setProductLoaded());
+    });
+};
+
+// Sort products by @param
+export const sortProductsByParam = (index, param) => dispatch => {
+  dispatch(clearCurrentProducts());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
+    .then(res => {
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -284,18 +280,13 @@ export const searchProducts = keyword => dispatch => {
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
   dispatch(clearCurrentProducts());
-  dispatch(setProductLoading());
   axios
     .get(
       PRODUCT_API_GATEWAY +
         `/bycategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
-      dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
-      });
-      dispatch(setProductLoaded());
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -305,3 +296,35 @@ export const filterProductsByCategory = inputs => dispatch => {
       });
     });
 };
+
+export const refreshProductData = data => dispatch => {
+  dispatch({
+    type: types.GET_PRODUCTS,
+    payload: data
+  });
+  if (!isEmpty(data[0])) {
+    if (!isEmpty(data[0].productId)) {
+      let vendorIdArray = '';
+      data
+        .filter(prod => prod.vendorId !== 0)
+        .map(
+          prod =>
+            vendorIdArray === ''
+              ? (vendorIdArray = prod.vendorId)
+              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
+        );
+      dispatch(getVendorBatch(vendorIdArray));
+
+      let categoryIdArray = '';
+      data
+        .filter(prod => prod.categoryId !== 0)
+        .map(
+          prod =>
+            categoryIdArray === ''
+              ? (categoryIdArray = prod.categoryId)
+              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
+        );
+      dispatch(getCategoryBatch(categoryIdArray));
+    }
+  }
+}

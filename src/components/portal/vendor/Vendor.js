@@ -21,13 +21,16 @@ class Vendor extends Component {
     });
   }
 
-  shouldComponentUpdate() {
-    if (this.props.vendor.updateOnce) {
+  componentDidUpdate() {
+    if (this.props.vendor.updateOnce)
       this.props.setVendorUpdated();
-      return true;
-    }
+  }
 
-    return this.props.vendor.loading || false;
+  shouldComponentUpdate() {
+    if (this.props.vendor.updateOnce || this.props.vendor.loading)
+      return true;
+
+    return false;
   }
 
   loadMore() {
