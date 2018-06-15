@@ -4,7 +4,7 @@ import InlineEdit from "react-ions/lib/components/InlineEdit";
 import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import ImageUploader from "../products/ImageUploader";
-import { editProduct } from "../../../actions/productsActions";
+import { editProduct, reloadProducts } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 
 class ProductDescription extends Component {
@@ -62,7 +62,7 @@ class ProductDescription extends Component {
   };
 
   handleCallbackPrice = event => {
-    if (isNaN(parseInt(event.target.value))) {
+    if (isNaN(parseInt(event.target.value, 10))) {
       event.target.value = this.state.product.price;
     } else {
       this.setState({
@@ -122,6 +122,8 @@ class ProductDescription extends Component {
 
     if (this.state.changed) {
       this.props.editProduct(newProd);
+      this.onCancel();
+      this.props.reloadProducts();
     }
   }
 
@@ -236,5 +238,5 @@ class ProductDescription extends Component {
 
 export default connect(
   null,
-  { editProduct }
+  { editProduct, reloadProducts }
 )(ProductDescription);
