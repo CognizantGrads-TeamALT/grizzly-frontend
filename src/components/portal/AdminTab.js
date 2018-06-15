@@ -23,7 +23,7 @@ import {
   getProducts,
   clearCurrentProducts
 } from "../../actions/productsActions";
-
+import Inventory from "./inventory/Inventory";
 class AdminTab extends Component {
   constructor(props) {
     super(props);
@@ -35,11 +35,11 @@ class AdminTab extends Component {
 
   componentWillMount() {
     //this.clear();
-  
+
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();
-    
+
     this.setState({ activeTab: "1" });
   }
 
@@ -63,6 +63,7 @@ class AdminTab extends Component {
     }
   }
   render() {
+
     return (
       <Row>
         <Col>
@@ -83,7 +84,7 @@ class AdminTab extends Component {
                   PRODUCTS
                 </NavLink>
               </NavItem>
-              <NavItem>
+{this.props.userType === 'admin' ? (<NavItem>
                 <NavLink
                   className={classnames(
                     "nav-link btn-outline-success my-2 my-sm-0",
@@ -97,8 +98,10 @@ class AdminTab extends Component {
                 >
                   VENDORS
                 </NavLink>
-              </NavItem>
-              <NavItem>
+              </NavItem>) : (
+            <span />
+          )}
+             {this.props.userType === 'admin' ? ( <NavItem>
                 <NavLink
                   className={classnames(
                     "nav-link btn-outline-success my-2 my-sm-0",
@@ -112,7 +115,26 @@ class AdminTab extends Component {
                 >
                   CATEGORIES
                 </NavLink>
-              </NavItem>
+              </NavItem>) : (
+            <span />
+          )}
+          {this.props.userType === 'vendor' ? (              <NavItem>
+                <NavLink
+                  className={classnames(
+                    "nav-link btn-outline-success my-2 my-sm-0",
+                    {
+                      active: this.state.activeTab === "2"
+                    }
+                  )}
+                  onClick={() => {
+                    this.onToggle("2");
+                  }}
+                >
+                  INVENTORY
+                </NavLink>
+              </NavItem>) : (
+            <span />
+          )}
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
@@ -136,6 +158,13 @@ class AdminTab extends Component {
                   </Col>
                 </Row>
               </TabPane>
+              <TabPane tabId="4">
+                <Row>
+                  <Col sm="12">
+                    <Inventory />
+                  </Col>
+                </Row>
+              </TabPane>
             </TabContent>
           </div>
         </Col>
@@ -153,8 +182,12 @@ AdminTab.propTypes = {
   clearCurrentCategories: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+  userType: state.user.userType
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   {
     getCategories,
     clearCurrentCategories,

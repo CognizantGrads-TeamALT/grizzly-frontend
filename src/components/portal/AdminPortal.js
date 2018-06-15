@@ -9,9 +9,9 @@ class AdminPortal extends Component {
         <div className="col-md-2">
           <Profile userType="admin" userId="2" />
         </div>
-        <div className="col-md-10">
+        {/* <div className="col-md-10">
           <AdminTab />
-        </div>
+        </div> */}
       </div>
     );
   }

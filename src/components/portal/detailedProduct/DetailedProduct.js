@@ -47,48 +47,7 @@ class DetailedProduct extends Component {
         <div className="col-2">
           <Profile />
         </div>
-        <div className="col-10">
-          <Row>
-            <Col>
-              <Nav tabs>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0',
-                      {
-                        active: this.state.activeTab === 0
-                      }
-                    )}
-                  >
-                    PRODUCTS
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0'
-                    )}
-                  >
-                    VENDORS
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0'
-                    )}
-                  >
-                    CATEGORIES
-                  </Link>
-                </NavItem>
-              </Nav>
-            </Col>
-          </Row>
-          {this.show()}
-        </div>
+        <div className="col-10">{this.show()}</div>
       </div>
     );
   }

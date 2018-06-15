@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import VendorTab from './VendorTab';
+import AdminTab from './AdminTab';
 import Profile from './profile/Profile';
 class VendorPortal extends Component {
   render() {
@@ -9,9 +9,9 @@ class VendorPortal extends Component {
         <div className="col-md-2">
           <Profile userType="vendor" userId="1" />
         </div>
-        <div className="col-md-10">
-          <VendorTab />
-        </div>
+        {/* <div className="col-md-10">
+          <AdminTab />
+        </div> */}
       </div>
     );
   }
