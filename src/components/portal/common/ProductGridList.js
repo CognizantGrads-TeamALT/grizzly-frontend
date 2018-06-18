@@ -5,6 +5,7 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { getProductImageCustomer } from '../../../actions/productsActions';
 import { Link } from 'react-router-dom';
+import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   constructor(props) {
@@ -55,10 +56,11 @@ class ProductGridList extends Component {
       return prodArray.map(prod => (
         <div key={prod.productId} className="col-md-2 col-sm-4 imageGrid mt-5">
           <Link
-            to={`/detailedproduct/${prod.productId}`}
+            to={`/customerdetailedproduct/${prod.productId}`}
             className="img-thumbnail"
           >
             {this.showImg(prod)}
+
             <span>{prod.name}</span>
           </Link>
         </div>
