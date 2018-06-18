@@ -4,8 +4,8 @@ import InlineEdit from 'react-ions/lib/components/InlineEdit';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
-import { editProduct, reloadProducts } from "../../../actions/productsActions";
-import { connect } from "react-redux";
+import { editProduct, reloadProducts } from '../../../actions/productsActions';
+import { connect } from 'react-redux';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class ProductDescription extends Component {
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
     this.handleCallback = this.handleCallback.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   handleCallbackDesc = event => {
@@ -83,17 +84,15 @@ class ProductDescription extends Component {
     });
   };
 
-  showCarousel() {
-    const product = this.props.product.single;
-    if (!isEmpty(product.images)) {
-      return product.images.map((img, index) => (
-        // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        //<div id={index}>
-          <img key={index} src={img.base64Image} className="img-responsive" alt="" />
-        //</div>
-      ));
-    }
-  }
+  // showCarousel() {
+  //   const product = this.props.product.single;
+  //   if (!isEmpty(product.images)) {
+  //     return product.images.map((img, index) => (
+  //         // key={index}: stops complaining about "UNIQUE KEYS" THANKS REACT.
+  //         <img key={index} src={img.base64Image} className="img-responsive" alt="" />
+  //     ));
+  //   }
+  // }
 
   showImg() {
     const product = this.props.product.single;
@@ -102,7 +101,15 @@ class ProductDescription extends Component {
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
       );
     } else {
-      return <Carousel>{this.showCarousel()}</Carousel>;
+      return product.images.map((img, index) => (
+        // key={index}: stops complaining about "UNIQUE KEYS" THANKS REACT.
+        <img
+          key={index}
+          src={img.base64Image}
+          className="img-responsive"
+          alt=""
+        />
+      ));
     }
   }
 
@@ -131,13 +138,13 @@ class ProductDescription extends Component {
 
     if (this.state.changed) {
       this.props.editProduct(newProd);
-      this.onCancel();
       this.props.reloadProducts();
+      this.onCancel();
     }
   }
 
   onCancel = event => {
-    this.props.history.push('/adminportal');
+    this.props.history.goBack();
   };
 
   render() {
@@ -169,8 +176,7 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-
-            {this.showImg()}
+            <Carousel>{this.showImg()}</Carousel>
           </div>
         </div>
 

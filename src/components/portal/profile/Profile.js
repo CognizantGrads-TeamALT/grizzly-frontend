@@ -9,7 +9,9 @@ import { getUsers } from '../../../actions/userActions';
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.props.getUsers(this.props.userType, this.props.userId);
+    if (!isEmpty(this.props.userType) && !isEmpty(this.props.userId)) {
+      this.props.getUsers(this.props.userType, this.props.userId);
+    }
   }
 
   show() {
