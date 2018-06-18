@@ -4,8 +4,8 @@ import InlineEdit from 'react-ions/lib/components/InlineEdit';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
-import { editProduct, reloadProducts } from "../../../actions/productsActions";
-import { connect } from "react-redux";
+import { editProduct, reloadProducts } from '../../../actions/productsActions';
+import { connect } from 'react-redux';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class ProductDescription extends Component {
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
     this.handleCallback = this.handleCallback.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   handleCallbackDesc = event => {
@@ -130,13 +131,13 @@ class ProductDescription extends Component {
 
     if (this.state.changed) {
       this.props.editProduct(newProd);
-      this.onCancel();
       this.props.reloadProducts();
+      this.onCancel();
     }
   }
 
   onCancel = event => {
-    this.props.history.push('/adminportal');
+    this.props.history.goBack();
   };
 
   render() {
