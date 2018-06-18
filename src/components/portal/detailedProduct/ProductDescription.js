@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import Button from 'react-ions/lib/components/Button';
-import InlineEdit from 'react-ions/lib/components/InlineEdit';
-import isEmpty from '../../../validation/is-empty';
-import unavailable from '../../../img/unavailable.png';
-import { Carousel } from 'react-responsive-carousel';
+import React, { Component } from "react";
+import Button from "react-ions/lib/components/Button";
+import InlineEdit from "react-ions/lib/components/InlineEdit";
+import isEmpty from "../../../validation/is-empty";
+import unavailable from "../../../img/unavailable.png";
+import { Carousel } from "react-responsive-carousel";
 import { editProduct, reloadProducts } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 
@@ -64,12 +64,12 @@ class ProductDescription extends Component {
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
-    // this is un-successful at reverting the state value for the inline-edit - dan
-    let value = parseInt(event.target.value, 10);
-    if (!isNaN(value)) {
+    if (isNaN(parseInt(event.target.value, 10))) {
+      event.target.value = this.state.product.price;
+    } else {
       this.setState({
         isEditingPrice: !this.state.isEditingPrice,
-        [event.target.name]: value,
+        [event.target.name]: event.target.value,
         changed: true
       });
     }
@@ -85,8 +85,8 @@ class ProductDescription extends Component {
 
   showCarousel() {
     const product = this.props.single;
-    if (!isEmpty(product.images)) {
-      return product.images.map((img, index) => (
+    if (!isEmpty(product.imageDTO)) {
+      return product.imageDTO.map((img, index) => (
         <div id={index}>
           <img src={img.base64Image} className="img-responsive" alt="" />
         </div>
@@ -96,7 +96,7 @@ class ProductDescription extends Component {
 
   showImg() {
     const product = this.props.single;
-    if (isEmpty(product.images)) {
+    if (isEmpty(product.imageDTO)) {
       return (
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
       );
@@ -104,7 +104,6 @@ class ProductDescription extends Component {
       return <Carousel>{this.showCarousel()}</Carousel>;
     }
   }
-
   onSubmit(e) {
     e.preventDefault();
     let imageData = [];
@@ -112,7 +111,7 @@ class ProductDescription extends Component {
     for (i = 0; i < this.pictures.length; i++) {
       let img = {
         imgName: this.pictures[i].name,
-        base64Image: this.files[i].split(',')[1]
+        base64Image: this.files[i].split(",")[1]
       };
       imageData.push(img);
     }
@@ -125,7 +124,7 @@ class ProductDescription extends Component {
       rating: this.props.single.rating,
       enabled: this.props.single.enabled,
       vendorId: this.props.single.vendorId,
-      images: this.props.single.imageData
+      imageDTO: this.props.single.imageData
     };
 
     if (this.state.changed) {
@@ -136,7 +135,7 @@ class ProductDescription extends Component {
   }
 
   onCancel = event => {
-    this.props.history.push('/adminportal');
+    this.props.history.push("/adminportal");
   };
 
   render() {
@@ -155,7 +154,7 @@ class ProductDescription extends Component {
                     changeCallback={this.handleCallback}
                   />
                   <p className="d-inline dscrptnSize-9">
-                    {' by ' + this.props.vendor.name}
+                    {" by " + this.props.vendor.name}
                   </p>
                   <Button
                     className="d-inline btn far fa-edit d-inline"
@@ -203,7 +202,7 @@ class ProductDescription extends Component {
                   <InlineEdit
                     className="d-inline ml-0 mr-0"
                     name="price"
-                    placeholder={'' + this.state.price}
+                    placeholder={"" + this.state.price}
                     isEditing={this.state.isEditingPrice}
                     changeCallback={this.handleCallbackPrice}
                   />
@@ -220,7 +219,6 @@ class ProductDescription extends Component {
                       <Button
                         className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                         onClick={this.onSubmit}
-                        disabled={!this.state.changed}
                       >
                         Finish
                       </Button>
