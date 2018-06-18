@@ -27,6 +27,7 @@ class ProductCategoryRow extends Component {
                     <Link 
                     className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
                     to={`/productportal/category/${cat.name}`}
+                    categoryId={cat.categoryId}
                     >
                     {cat.name}
                     </Link>
@@ -34,6 +35,17 @@ class ProductCategoryRow extends Component {
             ));
         } else {
             return <Spinner />
+        }
+    }
+
+    displayAllCategories() {
+        const { categories, loading } = this.props.category;
+        if(!isEmpty(categories) && !loading) {
+            return categories.map(cat => (
+                <a className="dropdown-item more-rounded" href="#">{cat.name}</a>
+            ));
+        } else {
+            return <Spinner /> 
         }
     }
 
@@ -47,7 +59,7 @@ class ProductCategoryRow extends Component {
                             Shop by category
                             </button>
                             <div className="dropdown-menu" aria-labelledby="categoryDropDownMenu">
-                                <a className="dropdown-item more-rounded" href="#">Cameras</a>
+                                {this.displayAllCategories()}
                             </div>
                         </div>
                     </div>
