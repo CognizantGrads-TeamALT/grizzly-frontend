@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Button from 'react-ions/lib/components/Button';
-import InlineEdit from 'react-ions/lib/components/InlineEdit';
-import isEmpty from '../../../validation/is-empty';
-import unavailable from '../../../img/unavailable.png';
-import { Carousel } from 'react-responsive-carousel';
-import { editProduct, reloadProducts } from '../../../actions/productsActions';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import Button from "react-ions/lib/components/Button";
+import InlineEdit from "react-ions/lib/components/InlineEdit";
+import isEmpty from "../../../validation/is-empty";
+import unavailable from "../../../img/unavailable.png";
+import { Carousel } from "react-responsive-carousel";
+import { editProduct, reloadProducts } from "../../../actions/productsActions";
+import { connect } from "react-redux";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -102,8 +102,8 @@ class ProductDescription extends Component {
   }
 
   showImg() {
-    const product = this.props.single;
-    if (isEmpty(product.imageDTO)) {
+    const product = this.props.product.single;
+    if (isEmpty(product.images)) {
       return (
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
       );
