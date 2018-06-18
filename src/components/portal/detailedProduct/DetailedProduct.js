@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Nav, NavItem } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import classnames from 'classnames';
 import Profile from '../profile/Profile';
 import ProductDescription from './ProductDescription';
 import Spinner from '../../common/Spinner';
@@ -27,12 +24,12 @@ class DetailedProduct extends Component {
       return <Spinner />;
     } else {
       const vendor = this.props.product.product_vendor.filter(
-        item => item.vendorId === single[0].vendorId
+        item => item.vendorId === single.vendorId
       )[0];
       return (
         <div>
           <ProductDescription
-            single={single[0]}
+            single={single}
             history={this.props.history}
             vendor={vendor}
           />
@@ -47,48 +44,7 @@ class DetailedProduct extends Component {
         <div className="col-2">
           <Profile />
         </div>
-        <div className="col-10">
-          <Row>
-            <Col>
-              <Nav tabs>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0',
-                      {
-                        active: this.state.activeTab === 0
-                      }
-                    )}
-                  >
-                    PRODUCTS
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0'
-                    )}
-                  >
-                    VENDORS
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0'
-                    )}
-                  >
-                    CATEGORIES
-                  </Link>
-                </NavItem>
-              </Nav>
-            </Col>
-          </Row>
-          {this.show()}
-        </div>
+        <div className="col-10">{this.show()}</div>
       </div>
     );
   }
