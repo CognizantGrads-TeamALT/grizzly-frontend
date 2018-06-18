@@ -15,7 +15,8 @@ import {
 } from "reactstrap";
 import {
   getProducts,
-  clearCurrentProducts
+  clearCurrentProducts,
+  getVendorInventory
 } from "../../actions/productsActions";
 
 class VendorTab extends Component {
@@ -29,6 +30,14 @@ class VendorTab extends Component {
     this.clear();
     this.props.getProducts("0");
   }
+
+  componentWillMount() {
+    //this.clear();
+    this.props.getProducts();
+    this.props.getVendorInventory("1", "1")//replace second 1 with active Vendor ID
+    this.setState({ activeTab: "1" });
+  }
+
   clear() {
     this.props.clearCurrentProducts();
   }
@@ -109,10 +118,11 @@ class VendorTab extends Component {
 
 VendorTab.propTypes = {
   getProducts: PropTypes.func.isRequired,
+  getVendorInventory: PropTypes.func.isRequired,
   clearCurrentProducts: PropTypes.func.isRequired
 };
 
 export default connect(
   null,
-  { getProducts, clearCurrentProducts }
+  { getProducts, getVendorInventory, clearCurrentProducts }
 )(VendorTab);

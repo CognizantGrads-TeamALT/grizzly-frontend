@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
 import InventoryList from './InventoryList';
 import {
-  getProducts,
   setProductUpdated,
+  getVendorInventory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
 
@@ -39,21 +39,22 @@ class Inventory extends Component {
   }
 
   loadMore() {
-    if (this.props.product.hasMore) {
-      this.props.getProducts(this.props.product.index);
+    console.log("in load more");
+    if (this.props.product.vendorHasMore) {
+      this.props.getVendorInventory(this.props.product.index, "1");//TODO replace 1 with curr vendor ID
     }
   }
 
   show() {
     const {
-      products,
+      vendorInventory,
       loading
     } = this.props.product;
     if (
-      !isEmpty(products) &&
+      !isEmpty(vendorInventory) &&
       !loading
     ) {
-      return products.map(prod => (
+      return vendorInventory.map(prod => (
         <InventoryList
           key={prod.productId}
           product={prod}
@@ -98,9 +99,9 @@ class Inventory extends Component {
 }
 
 Inventory.propTypes = {
-  getProducts: PropTypes.func.isRequired,
+  getVendorInventory: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired,
+  //vendorInventory: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -109,5 +110,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated }
+  { getVendorInventory, setProductUpdated }
 )(Inventory);

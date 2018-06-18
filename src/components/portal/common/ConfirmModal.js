@@ -11,26 +11,16 @@ class ConfirmModal extends Component {
 
         this.onToggle = this.onToggle.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.toggleOff=this.toggleOff.bind(this);
     }
 
-    onToggle() {
-        if(this.props.popup == undefined){
-        this.setState({
-            modal: !this.state.modal
-        });}
-        else{
+    onToggle(e) {
+        if (this.props.shouldPopup != undefined && !this.props.shouldPopup) {
+            this.props.onSubmit();
+        } else {
             this.setState({
-                modal: this.props.popup
+                modal: !this.state.modal
             });
-            //TODO: if popup is false, run a new submit method to toggle editing
         }
-    }
-
-    toggleOff(){
-        this.setState(
-            {modal: false}
-        )
     }
 
     onSubmit() {
@@ -69,7 +59,8 @@ class ConfirmModal extends Component {
 
                         <Button
                             className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
-                            onClick={this.toggleOff}
+                            onClick={this.onToggle}
+                            name="cancel"
                         >
                             Cancel
                         </Button>

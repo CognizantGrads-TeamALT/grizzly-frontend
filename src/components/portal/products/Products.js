@@ -41,6 +41,7 @@ class Products extends Component {
   }
 
   loadMore() {
+    console.log("in product load more");
     if (this.props.product.hasMore) {
       this.props.getProducts(this.props.product.index);
     }
