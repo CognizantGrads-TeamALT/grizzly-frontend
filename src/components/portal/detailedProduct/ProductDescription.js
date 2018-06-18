@@ -84,15 +84,22 @@ class ProductDescription extends Component {
     });
   };
 
-  // showCarousel() {
-  //   const product = this.props.product.single;
-  //   if (!isEmpty(product.images)) {
-  //     return product.images.map((img, index) => (
-  //         // key={index}: stops complaining about "UNIQUE KEYS" THANKS REACT.
-  //         <img key={index} src={img.base64Image} className="img-responsive" alt="" />
-  //     ));
-  //   }
-  // }
+  showCarousel() {
+    const product = this.props.product.single;
+    if (!isEmpty(product.images)) {
+      return product.images.map((img, index) => (
+        // stops complaining about "UNIQUE KEYS" THANKS REACT.
+        //<div id={index}>
+        <img
+          key={index}
+          src={img.base64Image}
+          className="img-responsive"
+          alt=""
+        />
+        //</div>
+      ));
+    }
+  }
 
   showImg() {
     const product = this.props.product.single;
@@ -101,15 +108,7 @@ class ProductDescription extends Component {
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
       );
     } else {
-      return product.images.map((img, index) => (
-        // key={index}: stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <img
-          key={index}
-          src={img.base64Image}
-          className="img-responsive"
-          alt=""
-        />
-      ));
+      return <Carousel>{this.showCarousel()}</Carousel>;
     }
   }
 
@@ -176,7 +175,7 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            <Carousel>{this.showImg()}</Carousel>
+            {this.showImg()}
           </div>
         </div>
 
