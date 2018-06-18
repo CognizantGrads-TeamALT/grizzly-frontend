@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   searchCategories,
   sortCategoriesByParam
-} from "../../../actions/categoryActions";
-import CategoryForm from "../categories/CategoryForm";
+} from '../../../actions/categoryActions';
+import CategoryForm from '../categories/CategoryForm';
 
 class CategorySearchSort extends Component {
   constructor() {
@@ -24,8 +24,7 @@ class CategorySearchSort extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.disabled)
-      this.setState({ disabled: false });
+    if (this.state.disabled) this.setState({ disabled: false });
   }
 
   onChange(e) {
@@ -40,30 +39,31 @@ class CategorySearchSort extends Component {
   onSearch(e) {
     e.preventDefault();
     this.props.searchCategories(this.state.search);
+    this.setState({ search: '' });
   }
 
   onSortByName(e) {
     e.preventDefault();
-    this.props.sortCategoriesByParam("0", "name");
+    this.props.sortCategoriesByParam('0', 'name');
     this.setState({ search: '' });
   }
 
   onSortByDescription(e) {
     e.preventDefault();
-    this.props.sortCategoriesByParam("0", "description");
+    this.props.sortCategoriesByParam('0', 'description');
     this.setState({ search: '' });
   }
 
   onSortByCount(e) {
     e.preventDefault();
-    this.props.sortCategoriesByParam("0", "count");
+    this.props.sortCategoriesByParam('0', 'count');
     this.setState({ search: '' });
   }
 
   render() {
     const category = {
-      name: "",
-      description: ""
+      name: '',
+      description: ''
     };
     return (
       <div className="btn-group aligned-left mt-2 mb-2">
@@ -76,7 +76,7 @@ class CategorySearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
-              disabled = {(this.state.disabled)? "disabled" : ""}
+              disabled={this.state.disabled ? 'disabled' : ''}
             />
             <span className="input-group-append-more">
               <button
@@ -142,7 +142,10 @@ const mapStateToProps = state => ({
   category: state.category
 });
 
-export default connect(mapStateToProps, {
-  searchCategories,
-  sortCategoriesByParam
-})(CategorySearchSort);
+export default connect(
+  mapStateToProps,
+  {
+    searchCategories,
+    sortCategoriesByParam
+  }
+)(CategorySearchSort);

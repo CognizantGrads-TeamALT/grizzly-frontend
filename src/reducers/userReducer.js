@@ -19,7 +19,13 @@ export default function(state = initialState, action) {
         userType: action.userType,
         loading: false
       };
-
+    case types.CLEAR_CURRENT_USER:
+      return {
+        ...state,
+        user: null,
+        userType: null,
+        loading: false
+      };
     default:
       return state;
   }

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Nav, NavItem } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import classnames from 'classnames';
 import Profile from '../profile/Profile';
 import ProductDescription from './ProductDescription';
 import Spinner from '../../common/Spinner';

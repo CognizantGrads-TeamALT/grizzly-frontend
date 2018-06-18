@@ -13,8 +13,8 @@ class ProductList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      productId : this.props.location
-  }
+      productId: this.props.location
+    };
     this.onBlockClick = this.onBlockClick.bind(this);
   }
 
@@ -53,6 +53,21 @@ class ProductList extends Component {
     }
   }
 
+  showBlockButton(product) {
+    if (this.props.userType === 'admin')
+      return (
+        <ConfirmModal
+          buttonLabel={product.enabled ? 'Block' : 'Unblock'}
+          title="Block Product"
+          confirmText={
+            (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
+          }
+          buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
+          onSubmit={this.onBlockClick}
+        />
+      );
+  }
+
   render() {
     const { product } = this.props;
     return (
@@ -69,19 +84,7 @@ class ProductList extends Component {
           >
             View
           </Link>
-          {this.props.userType === 'admin' ? (
-            <ConfirmModal
-              buttonLabel={product.enabled ? 'Block' : 'Unblock'}
-              title="Block Product"
-              confirmText={
-                (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
-              }
-              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-              onSubmit={this.onBlockClick}
-            />
-          ) : (
-            <span />
-          )}
+          {this.showBlockButton(product)}
           <ConfirmModal
             buttonLabel="Delete"
             title="Delete Product"
