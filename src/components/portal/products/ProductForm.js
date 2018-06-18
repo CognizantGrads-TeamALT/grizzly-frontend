@@ -17,6 +17,7 @@ import CategoryTypeAhead from '../categories/CategoryTypeAhead';
 import ImageUploader from './ImageUploader';
 import validator from 'validator';
 import VendorTypeAhead from '../vendor/VendorTypeAhead';
+//import { searchVendors, Update_TypeAhead } from '../../../actions/vendorActions';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -247,17 +248,17 @@ class ProductForm extends Component {
                     onChange={this.onChange}
                   />
 
-                  {/* <VendorTypeAhead
+                  <VendorTypeAhead
                     placeholder="Vendor"
-                    onClickHandler={this.props.Update_typeAhead}
-                  /> */}
+                    onClickHandler={this.props.Update_TypeAhead}
+                  />
 
-                  <TextFieldGroup
+                  {/* <TextFieldGroup
                     placeholder="Vendor"
                     name="vendor"
                     value={this.state.vendor}
                     onChange={this.onChange}
-                  />
+                  /> */}
 
                 </form>
               </div>
