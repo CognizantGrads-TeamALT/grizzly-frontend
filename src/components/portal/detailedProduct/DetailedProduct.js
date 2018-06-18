@@ -24,12 +24,12 @@ class DetailedProduct extends Component {
       return <Spinner />;
     } else {
       const vendor = this.props.product.product_vendor.filter(
-        item => item.vendorId === single[0].vendorId
+        item => item.vendorId === single.vendorId
       )[0];
       return (
         <div>
           <ProductDescription
-            single={single[0]}
+            single={single}
             history={this.props.history}
             vendor={vendor}
           />

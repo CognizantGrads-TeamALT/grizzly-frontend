@@ -85,8 +85,8 @@ class ProductDescription extends Component {
 
   showCarousel() {
     const product = this.props.single;
-    if (!isEmpty(product.imageDTO)) {
-      return product.imageDTO.map((img, index) => (
+    if (!isEmpty(product.images)) {
+      return product.images.map((img, index) => (
         <div id={index}>
           <img src={img.base64Image} className="img-responsive" alt="" />
         </div>
@@ -96,7 +96,7 @@ class ProductDescription extends Component {
 
   showImg() {
     const product = this.props.single;
-    if (isEmpty(product.imageDTO)) {
+    if (isEmpty(product.images)) {
       return (
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
       );
@@ -104,6 +104,7 @@ class ProductDescription extends Component {
       return <Carousel>{this.showCarousel()}</Carousel>;
     }
   }
+
   onSubmit(e) {
     e.preventDefault();
     let imageData = [];
@@ -124,7 +125,7 @@ class ProductDescription extends Component {
       rating: this.props.single.rating,
       enabled: this.props.single.enabled,
       vendorId: this.props.single.vendorId,
-      imageDTO: this.props.single.imageData
+      images: this.props.single.imageData
     };
 
     if (this.state.changed) {
@@ -219,6 +220,7 @@ class ProductDescription extends Component {
                       <Button
                         className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                         onClick={this.onSubmit}
+                        disabled={!this.state.changed}
                       >
                         Finish
                       </Button>
