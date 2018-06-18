@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import Loading from "../common/Loading";
-import "../../App.css";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Loading from '../common/Loading';
+import '../../App.css';
 
 class Landing extends Component {
   render() {
@@ -14,19 +14,19 @@ class Landing extends Component {
         <Loading />
         <Link
           className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
-          to="/adminportal"
+          to={`/${'admin'}`}
         >
           Admin Portal Demo
         </Link>
         <Link
           className="btn btn-outline-success my-2 my-sm-0"
-          to="/vendorportal"
+          to={`/${'vendor'}`}
         >
           Vendor Portal Demo
         </Link>
         <Link
           className="btn btn-outline-success my-2 my-sm-0"
-          to="/customerportal"
+          to={`/${'customer'}`}
         >
           Customer Portal Demo
         </Link>
