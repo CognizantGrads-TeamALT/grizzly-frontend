@@ -54,10 +54,19 @@ export default function(state = initialState, action) {
         loadingCategories: true
       };
     case types.GET_PRODUCT:
+      action.payload.images = [];
       return {
         ...state,
         single: action.payload
       };
+    case types.GET_PRODUCT_IMAGE:
+      const product = action.product;
+      product.images = product.images.concat(action.payload);
+      return {
+        ...state,
+        single: product,
+        updateOnce: true
+      }
     case types.PRODUCT_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];
