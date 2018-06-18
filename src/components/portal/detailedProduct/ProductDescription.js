@@ -14,9 +14,9 @@ class ProductDescription extends Component {
       isEditing: false,
       isEditingPrice: false,
       isEditingDesc: false,
-      name: this.props.single.name,
-      desc: this.props.single.desc,
-      price: this.props.single.price,
+      name: this.props.product.single.name,
+      desc: this.props.product.single.desc,
+      price: this.props.product.single.price,
       changed: false
     };
 
@@ -116,8 +116,8 @@ class ProductDescription extends Component {
       imageData.push(img);
     }
     var newProd = {
-      productId: this.props.single.productId,
-      categoryId: this.props.single.categoryId,
+      productId: this.props.product.single.productId,
+      categoryId: this.props.product.single.categoryId,
       name: this.state.name,
       desc: this.state.desc,
       price: this.state.price,
