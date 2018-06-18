@@ -48,7 +48,6 @@ class ProductForm extends Component {
   }
 
   cancel() {
-    // this.props.history.push('/adminportal');
     this.props.onCancel();
   }
 
