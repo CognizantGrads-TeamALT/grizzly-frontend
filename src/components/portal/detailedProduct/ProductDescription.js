@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import Button from "react-ions/lib/components/Button";
-import InlineEdit from "react-ions/lib/components/InlineEdit";
-import isEmpty from "../../../validation/is-empty";
-import unavailable from "../../../img/unavailable.png";
-import { Carousel } from "react-responsive-carousel";
-import { editProduct, reloadProducts } from "../../../actions/productsActions";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import Button from 'react-ions/lib/components/Button';
+import InlineEdit from 'react-ions/lib/components/InlineEdit';
+import isEmpty from '../../../validation/is-empty';
+import unavailable from '../../../img/unavailable.png';
+import { Carousel } from 'react-responsive-carousel';
+import { editProduct, reloadProducts } from '../../../actions/productsActions';
+import { connect } from 'react-redux';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class ProductDescription extends Component {
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
     this.handleCallback = this.handleCallback.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   handleCallbackDesc = event => {
@@ -84,12 +85,18 @@ class ProductDescription extends Component {
   };
 
   showCarousel() {
-    const product = this.props.single;
-    if (!isEmpty(product.imageDTO)) {
-      return product.imageDTO.map((img, index) => (
-        <div id={index}>
-          <img src={img.base64Image} className="img-responsive" alt="" />
-        </div>
+    const product = this.props.product.single;
+    if (!isEmpty(product.images)) {
+      return product.images.map((img, index) => (
+        // stops complaining about "UNIQUE KEYS" THANKS REACT.
+        //<div id={index}>
+        <img
+          key={index}
+          src={img.base64Image}
+          className="img-responsive"
+          alt=""
+        />
+        //</div>
       ));
     }
   }
@@ -129,13 +136,13 @@ class ProductDescription extends Component {
 
     if (this.state.changed) {
       this.props.editProduct(newProd);
-      this.onCancel();
       this.props.reloadProducts();
+      this.onCancel();
     }
   }
 
   onCancel = event => {
-    this.props.history.push("/adminportal");
+    this.props.history.goBack();
   };
 
   render() {
@@ -167,7 +174,6 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-
             {this.showImg()}
           </div>
         </div>
