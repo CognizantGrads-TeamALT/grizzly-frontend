@@ -452,6 +452,12 @@ a:hover {
   border-color: #f0ca4d;
 }
 
+/* Product Images */
+
+.img-tmbnail-200px {
+  max-width: 200px;
+}
+
 .fileUploader {
   width: 100%;
 }

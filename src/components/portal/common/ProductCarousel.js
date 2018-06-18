@@ -14,7 +14,7 @@ class ProductCarousel extends Component {
       for (let i = 0; i < 18; i++) {
         prodArray.push(products[i]);
       }
-      return prodArray.map(prod => (
+      return prodArray.map((prod) => (
         <Link
           to={`/detailedproduct/${prod.productId}`}
           className="img-thumbnail"

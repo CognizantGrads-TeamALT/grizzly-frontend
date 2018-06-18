@@ -22,14 +22,16 @@ class ProductCategoryRow extends Component {
             for (let i = 0; i < 5; i++) {
                 categoryArray.push(categories[i]);
             }
-            return categoryArray.map(cat => (
+            return categoryArray.map((cat) => (
                 <div className="col">
-                    <Link 
-                    className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
-                    to={`/productportal/category/${cat.name}`}
-                    categoryId={cat.categoryId}
+                    <Link
+                        to={{
+                            pathname: `/productportal/category/${cat.name}`,
+                            state: {catId: cat.categoryId}
+                        }}
+                        className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
                     >
-                    {cat.name}
+                        {cat.name}
                     </Link>
                 </div>
             ));
@@ -41,8 +43,8 @@ class ProductCategoryRow extends Component {
     displayAllCategories() {
         const { categories, loading } = this.props.category;
         if(!isEmpty(categories) && !loading) {
-            return categories.map(cat => (
-                <a className="dropdown-item more-rounded" href="#">{cat.name}</a>
+            return categories.map((cat) => (
+                <a className="dropdown-item more-rounded" key={cat.categoryId} href="#">{cat.name}</a>
             ));
         } else {
             return <Spinner /> 
