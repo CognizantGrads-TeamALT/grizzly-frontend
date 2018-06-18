@@ -23,8 +23,7 @@ class ProductSearchSort extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.disabled)
-      this.setState({ disabled: false });
+    if (this.state.disabled) this.setState({ disabled: false });
   }
 
   onChange(e) {
@@ -58,6 +57,8 @@ class ProductSearchSort extends Component {
     e.preventDefault();
 
     this.props.searchProducts(this.state.search);
+
+    this.setState({ search: '' });
   }
 
   render() {
@@ -72,7 +73,7 @@ class ProductSearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
-              disabled = {(this.state.disabled)? "disabled" : ""}
+              disabled={this.state.disabled ? 'disabled' : ''}
             />
             <span className="input-group-append-more">
               <button

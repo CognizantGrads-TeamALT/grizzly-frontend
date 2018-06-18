@@ -1,16 +1,13 @@
-import React, { Component } from "react";
-import { Row, Col, Nav, NavItem } from "reactstrap";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import classnames from "classnames";
-import Profile from "../profile/Profile";
-import ProductDescription from "./ProductDescription";
-import Spinner from "../../common/Spinner";
-import isEmpty from "../../../validation/is-empty";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Profile from '../profile/Profile';
+import ProductDescription from './ProductDescription';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
 import {
   getProductWithImgs,
   getVendorBatch
-} from "../../../actions/productsActions";
+} from '../../../actions/productsActions';
 
 class DetailedProduct extends Component {
   constructor(props) {
@@ -18,6 +15,7 @@ class DetailedProduct extends Component {
     this.state = {
       activeTab: 0
     };
+
     this.props.getProductWithImgs(this.props.match.params.productId);
   }
 
@@ -27,12 +25,12 @@ class DetailedProduct extends Component {
       return <Spinner />;
     } else {
       const vendor = this.props.product.product_vendor.filter(
-        item => item.vendorId === single[0].vendorId
+        item => item.vendorId === single.vendorId
       )[0];
       return (
         <div>
           <ProductDescription
-            single={single[0]}
+            product={this.props.product}
             history={this.props.history}
             vendor={vendor}
           />
@@ -42,54 +40,12 @@ class DetailedProduct extends Component {
   }
 
   render() {
-    const { single, loading } = this.props.product;
     return (
       <div className="row">
         <div className="col-2">
           <Profile />
         </div>
-        <div className="col-10">
-          <Row>
-            <Col>
-              <Nav tabs>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      "nav-link btn-outline-success my-2 my-sm-0",
-                      {
-                        active: this.state.activeTab === 0
-                      }
-                    )}
-                  >
-                    PRODUCTS
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      "nav-link btn-outline-success my-2 my-sm-0"
-                    )}
-                  >
-                    VENDORS
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link
-                    to="/adminportal"
-                    className={classnames(
-                      "nav-link btn-outline-success my-2 my-sm-0"
-                    )}
-                  >
-                    CATEGORIES
-                  </Link>
-                </NavItem>
-              </Nav>
-            </Col>
-          </Row>
-          {this.show()}
-        </div>
+        <div className="col-10">{this.show()}</div>
       </div>
     );
   }

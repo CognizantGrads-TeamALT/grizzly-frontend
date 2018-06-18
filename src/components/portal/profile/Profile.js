@@ -9,11 +9,7 @@ import { getUsers } from '../../../actions/userActions';
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      userId: 2,
-      userType: 'admin'
-    };
-    this.props.getUsers(this.state.userType, this.state.userId);
+    this.props.getUsers(this.props.userType, this.props.userId);
   }
 
   show() {
@@ -23,11 +19,7 @@ class Profile extends Component {
     if (isEmpty(user) || loading) {
       return <Spinner />;
     } else {
-      return user.filter(
-        //DO NOT DELETE THE COMMENT BELOW
-        // eslint-disable-next-line
-        user => parseInt(user.userId) === parseInt(this.state.userId, 10)
-      )[0];
+      return user[0];
     }
   }
 

@@ -46,12 +46,18 @@ export const getProductWithImgs = productId => dispatch => {
         type: types.GET_PRODUCT,
         payload: res.data
       });
-      if (!isEmpty(res.data[0])) {
-        if (!isEmpty(res.data[0].productId)) {
-          if(res.data[0].vendorId !== 0)
-            dispatch(getVendorBatch(res.data[0].vendorId));
-          if(res.data[0].categoryId !== 0)
-            dispatch(getCategoryBatch(res.data[0].categoryId));
+      if (!isEmpty(res.data)) {
+        if (!isEmpty(res.data.productId)) {
+          if(res.data.vendorId !== 0)
+            dispatch(getVendorBatch(res.data.vendorId));
+          if(res.data.categoryId !== 0)
+            dispatch(getCategoryBatch(res.data.categoryId));
+        }
+
+        // Fetch images.
+        if (!isEmpty(res.data.imageDTO)) {
+          for (let image of res.data.imageDTO)
+            dispatch(getProductImage(res.data, image.imgName));
         }
       }
       dispatch(setProductUpdated());
@@ -65,7 +71,24 @@ export const getProductWithImgs = productId => dispatch => {
     });
 };
 
-
+export const getProductImage = (product, imageName) => dispatch => {
+  axios
+    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCT_IMAGE,
+        payload: res.data,
+        product: product
+      });
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+}
 
 export const setProductAdding = () => {
   return {
