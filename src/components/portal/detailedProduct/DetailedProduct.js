@@ -15,6 +15,7 @@ class DetailedProduct extends Component {
     this.state = {
       activeTab: 0
     };
+
     this.props.getProductWithImgs(this.props.match.params.productId);
   }
 
@@ -29,7 +30,7 @@ class DetailedProduct extends Component {
       return (
         <div>
           <ProductDescription
-            single={single}
+            product={this.props.product}
             history={this.props.history}
             vendor={vendor}
           />
