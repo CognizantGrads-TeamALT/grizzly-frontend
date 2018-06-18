@@ -42,3 +42,10 @@ export const setUserUpdated = () => {
     type: types.USER_UPDATED
   };
 };
+
+// Clear current user
+export const clearCurrentUser = () => {
+  return {
+    type: types.CLEAR_CURRENT_USER
+  };
+};

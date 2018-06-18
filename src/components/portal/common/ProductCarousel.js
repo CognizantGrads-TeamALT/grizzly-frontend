@@ -16,7 +16,7 @@ class ProductCarousel extends Component {
       }
       return prodArray.map(prod => (
         <Link
-          to={`/detailedproduct/${prod.productId}`}
+          to={`/customerdetailedproduct/${prod.productId}`}
           className="img-thumbnail"
         >
           <img
