@@ -90,6 +90,25 @@ export const getProductImage = (product, imageName) => dispatch => {
     });
 }
 
+export const getProductImageCustomer = (product, imageName) => dispatch => {
+  axios
+    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCT_IMAGE_CUSTOMER,
+        payload: res.data,
+        product: product
+      });
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+}
+
 export const setProductAdding = () => {
   return {
     type: types.PRODUCT_ADDING
