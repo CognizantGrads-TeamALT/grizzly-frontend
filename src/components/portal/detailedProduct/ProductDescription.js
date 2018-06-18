@@ -137,7 +137,7 @@ class ProductDescription extends Component {
   }
 
   onCancel = event => {
-    this.props.history.push('/adminportal');
+    this.props.history.push('/admin');
   };
 
   render() {
