@@ -33,6 +33,7 @@ class VendorTab extends Component {
 
   componentWillMount() {
     //this.clear();
+    console.log("vendor tab mounin'")
     this.props.getProducts();
     this.props.getVendorInventory("1", "1")//replace second 1 with active Vendor ID
     this.setState({ activeTab: "1" });
