@@ -14,9 +14,9 @@ class ProductDescription extends Component {
       isEditing: false,
       isEditingPrice: false,
       isEditingDesc: false,
-      name: this.props.single.name,
-      desc: this.props.single.desc,
-      price: this.props.single.price,
+      name: this.props.product.single.name,
+      desc: this.props.product.single.desc,
+      price: this.props.product.single.price,
       changed: false
     };
 
@@ -84,18 +84,19 @@ class ProductDescription extends Component {
   };
 
   showCarousel() {
-    const product = this.props.single;
+    const product = this.props.product.single;
     if (!isEmpty(product.images)) {
       return product.images.map((img, index) => (
-        <div id={index}>
-          <img src={img.base64Image} className="img-responsive" alt="" />
-        </div>
+        // stops complaining about "UNIQUE KEYS" THANKS REACT.
+        //<div id={index}>
+          <img key={index} src={img.base64Image} className="img-responsive" alt="" />
+        //</div>
       ));
     }
   }
 
   showImg() {
-    const product = this.props.single;
+    const product = this.props.product.single;
     if (isEmpty(product.images)) {
       return (
         <img src={unavailable} className="img-responsive" alt="Unavailable" />
@@ -117,15 +118,15 @@ class ProductDescription extends Component {
       imageData.push(img);
     }
     var newProd = {
-      productId: this.props.single.productId,
-      categoryId: this.props.single.categoryId,
+      productId: this.props.product.single.productId,
+      categoryId: this.props.product.single.categoryId,
       name: this.state.name,
       desc: this.state.desc,
       price: this.state.price,
-      rating: this.props.single.rating,
-      enabled: this.props.single.enabled,
-      vendorId: this.props.single.vendorId,
-      images: this.props.single.imageData
+      rating: this.props.product.single.rating,
+      enabled: this.props.product.single.enabled,
+      vendorId: this.props.product.single.vendorId,
+      images: this.props.product.single.imageData
     };
 
     if (this.state.changed) {
