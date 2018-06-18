@@ -41,11 +41,9 @@ class CustomerPortal extends Component {
       );
     } else {
       return (
-        <tr>
-          <td>
+        <div className="col-md-12">
             <Spinner />
-          </td>
-        </tr>
+        </div>
       );
     }
   }
