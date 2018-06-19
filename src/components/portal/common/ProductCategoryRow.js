@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
@@ -26,12 +26,12 @@ class ProductCategoryRow extends Component {
                 <div className="col">
                     <Link
                         to={{
-                            pathname: `/productportal/category/${cat.name}`,
+                            pathname: `/category/${cat.name}`,
                             state: {catId: cat.categoryId}
                         }}
                         className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
                     >
-                        {cat.name}
+                    {cat.name}
                     </Link>
                 </div>
             ));
@@ -83,6 +83,6 @@ const mapStateToProps = state => ({
   
 export default connect( mapStateToProps, { 
     sortCategoriesByParam, 
-    searchCategories 
+    searchCategories
 })(ProductCategoryRow);
   

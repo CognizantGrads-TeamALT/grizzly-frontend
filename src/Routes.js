@@ -7,6 +7,7 @@ import NotFound from "./components/not-found/NotFound";
 import CategoryForm from "./components/portal/categories/CategoryForm";
 import ProductForm from "./components/portal/products/ProductForm";
 import CustomerDetailedProduct from "./components/portal/detailedProduct/CustomerDetailedProduct";
+import CategoryGridList from "./components/portal/common/CategoryGridList"
 import { Switch } from "react-router-dom";
 import { Route } from "react-router-dom";
 import Landing from "./components/layout/Landing";
@@ -29,6 +30,11 @@ export default () => {
           component={CustomerDetailedProduct}
         />
         <Route exact path="/category/new" component={CategoryForm} />
+        <Route 
+          exact 
+          path="/:searchFilter/:searchParam"
+          component={CategoryGridList}
+        />
         <Route exact path="/product/new" component={ProductForm} />
         <Route component={NotFound} />
       </Switch>

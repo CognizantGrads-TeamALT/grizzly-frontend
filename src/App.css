@@ -11,6 +11,10 @@
   min-height: 50%;
 }
 
+.min-width-3em {
+  min-width: 3em;
+}
+
 .parent-high {
   height: 100%;
 }
@@ -48,6 +52,13 @@
 }
 
 /* Typography */
+.title-size-2em-inner, title-size-2em-inner > * {
+  font-size: 2m!important;
+}
+
+.title-size-2em {
+  font-size: 2m!important;
+}
 
 .dscrptnSize-7 {
   font-size: 0.7em;
