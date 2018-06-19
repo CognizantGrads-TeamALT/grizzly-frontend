@@ -8,20 +8,6 @@ import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
-  constructor(props) {
-    super(props);
-
-    const products = this.props.product.products;
-
-    // Loop through each product and fetch the image for it.
-    // This will update the state and change the IMG.
-    for (let product of products) {
-      if (!isEmpty(product.imageDTO)) {
-        this.props.getProductImageCustomer(product, product.imageDTO[0].imgName);
-      }
-    }
-  }
-
   getImg(product) {
     if (!isEmpty(product.images)) {
       let imgInfo = product.images[0];
@@ -46,9 +32,7 @@ class ProductGridList extends Component {
         );
       // We have image but its loading, so wait.
       } else {
-        return (
-          <Spinner size={'150px'} />
-        );
+        return (<Spinner size={'150px'} />);
       }
     // Return the loaded image.
     } else {
