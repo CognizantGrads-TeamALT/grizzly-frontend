@@ -49,17 +49,20 @@ class VendorTypeAhead extends Component {
             this.props.searchVendors(e.target.value);
             var list;
             setTimeout(() => {
+
                 if (
-                    !isEmpty(this.props.vendor.vendor) &&
-                    !this.props.vendor.loading) {
-                    const { vendor } = this.props.vendor;
-                    list = this.populate(vendor);
+                    !isEmpty(this.props.vendor.vendors) &&
+                    !this.props.vendor.loading) 
+                    {
+                        console.log("in the timed if statement");
+                    const { vendors } = this.props.vendor;
+                    list = this.populate(vendors);
                     this.setState(
                         {
                             vendorList: list.map(function (listItem) {
                                 return [
                                     <button
-                                        className="btn btn-outline-info btn-sm vendor-scroll-buttoon"
+                                        className="btn btn-outline-info btn-sm vendor-scroll-button"
                                         key={listItem.id}
                                         type="button"
                                         name={listItem.name}
@@ -109,15 +112,13 @@ class VendorTypeAhead extends Component {
                     name="vendor"
                     value={this.state.vendor}
                     onChange={event => {
-                       
-                        // eslint-disable-next-line
+                         // eslint-disable-next-line 
                         this.onChange(event, true), vendorSearch(event);
                     }}
                 />
             </div>
             <div className="floating-div bg-white">{this.state.vendorList}</div>
-        </div>
-        );
+        </div> );
     }
 }
 
