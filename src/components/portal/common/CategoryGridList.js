@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
 import { getProducts } from '../../../actions/productsActions';
 import ProductImage from "../detailedProduct/ProductImage";
+import Button from "react-ions/lib/components/Button";
 
 class CategoryGridList extends Component {
     constructor(props) {
@@ -16,6 +17,10 @@ class CategoryGridList extends Component {
             this.props.getProducts();
           }
     }
+
+    onCancel = event => {
+        this.props.history.goBack();
+    };
 
     show() {
         if (!isEmpty(this.props.product.products)) {
@@ -65,12 +70,12 @@ class CategoryGridList extends Component {
                         </h1>
                     </div>
                     <div className="col-3 my-auto">
-                        <Link
-                            to='/customer'
+                        <Button
+                            onClick={this.onCancel}
                             className="btn more-rounded hover-w-b btn-sm parent-wide-inner my-auto parent-wide"
                         >
                             Back
-                        </Link>
+                        </Button>
                     </div>
                 </div>
                 {this.show()}
