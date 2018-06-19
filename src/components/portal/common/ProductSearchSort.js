@@ -58,7 +58,7 @@ class ProductSearchSort extends Component {
 
     this.props.searchProducts(this.state.search, '0');
 
-    this.setState({ search: "watch" });
+    this.setState({ search: "" });
   }
 
   render() {
