@@ -28,7 +28,7 @@ class ProductCategoryRow extends Component {
                 </div>
             ));
         } else {
-            return <Spinner size={'50px'} />
+            return <Spinner />
         }
     }
 
