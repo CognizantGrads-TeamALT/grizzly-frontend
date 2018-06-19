@@ -6,7 +6,7 @@ import isEmpty from "../../../validation/is-empty";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
 
-class ProductCarousel extends Component {
+class VendorCarousel extends Component {
   show() {
     const { products, loading } = this.props.product;
     let prodArray = [];
@@ -46,7 +46,7 @@ class ProductCarousel extends Component {
   }
 }
 
-ProductCarousel.propTypes = {
+VendorCarousel.propTypes = {
   product: PropTypes.object.isRequired
 };
 
@@ -54,4 +54,4 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps)(ProductCarousel);
+export default connect(mapStateToProps)(VendorCarousel);

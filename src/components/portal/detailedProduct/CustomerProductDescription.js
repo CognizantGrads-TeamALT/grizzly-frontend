@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import Spinner from '../../common/Spinner';
-import isEmpty from '../../../validation/is-empty';
+import React, { Component } from "react";
+import Spinner from "../../common/Spinner";
+import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import { Carousel } from "react-responsive-carousel";
 import Button from "react-ions/lib/components/Button";
