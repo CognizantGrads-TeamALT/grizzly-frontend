@@ -52,13 +52,13 @@ class Navbar extends Component {
   showLinks() {
     if (isEmpty(this.props.user.user)) {
       return (
-        <ul className="navbar-nav pt-2">
+        <ul className="navbar-nav pt-2 my-auto">
           <li className="nav-item">
             <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
           </li>
           <li className="nav-item">
             <Link
-              className="btn more-rounded hover-w-b btn-sm mr-sm-2"
+              className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
               to="/signup"
             >
               Sign Up

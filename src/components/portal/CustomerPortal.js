@@ -1,14 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import ProductGridList from "./common/ProductGridList";
-import PropTypes from "prop-types";
-import {
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import ProductGridList from './common/ProductGridList';
+import PropTypes from 'prop-types';
+import { 
   getProducts,
   setProductUpdated,
   getProductImageCustomer
-} from "../../actions/productsActions";
-import ProductCarousel from "./common/ProductCarousel";
-import isEmpty from "../../validation/is-empty";
+ } from '../../actions/productsActions';
+import ProductCarousel from './common/ProductCarousel';
+import ProductCategoryRow from './common/ProductCategoryRow';
+import isEmpty from '../../validation/is-empty';
 import Spinner from "../common/Spinner";
 
 class CustomerPortal extends Component {
@@ -50,6 +51,7 @@ class CustomerPortal extends Component {
       this.getImages(products);
       return (
         <div className="col-md-12">
+          <ProductCategoryRow />
           <ProductCarousel />
           <ProductGridList />
         </div>
