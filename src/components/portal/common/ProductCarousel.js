@@ -11,24 +11,26 @@ class ProductCarousel extends Component {
     const { products, loading } = this.props.product;
     let prodArray = [];
     if (!isEmpty(products) && !loading) {
-      for (let i = 0; i < 18; i++) {
+      for (let i = 0; i < products.length; i++) {
         prodArray.push(products[i]);
       }
-      return prodArray.map(prod => (
-        <Link
-          key={prod.productId}
-          to={`/customerdetailedproduct/${prod.productId}`}
-          className="img-thumbnail"
-        >
-          <img
-            src="https://static.ebates.com/img/merchant_logo/14781/banner-1168x200_2.jpg"
-            alt=""
-          />
-          <span>{prod.name}</span>
-        </Link>
-      ));
-    } else {
-      return (<Spinner size={'150px'}/>);
+      if (!isEmpty(prodArray)) {
+        return prodArray.map(prod => (
+          <Link
+            key={prod.productId}
+            to={`/customerdetailedproduct/${prod.productId}`}
+            className="img-thumbnail"
+          >
+            <img
+              src="https://static.ebates.com/img/merchant_logo/14781/banner-1168x200_2.jpg"
+              alt=""
+            />
+            <span>{prod.name}</span>
+          </Link>
+        ));
+      } else {
+        return <Spinner size={"150px"} />;
+      }
     }
   }
 

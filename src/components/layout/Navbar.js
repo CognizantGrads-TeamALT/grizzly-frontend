@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import logo from '../../img/logo.png';
-import LoginModal from '../auth/LoginModal';
-import { clearCurrentUser } from '../../actions/userActions';
-import isEmpty from '../../validation/is-empty';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import logo from "../../img/logo.png";
+import LoginModal from "../auth/LoginModal";
+import { clearCurrentUser } from "../../actions/userActions";
+import isEmpty from "../../validation/is-empty";
+import { searchProducts } from "../../actions/productsActions";
+
 class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      search: ''
+      search: ""
     };
 
     this.onChange = this.onChange.bind(this);
@@ -25,13 +27,16 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.setState({ search: '' });
+    console.log(this.state);
+
+    this.props.searchProducts(this.state.search);
+    this.setState({ search: "" });
   }
 
   onLogout(e) {
     e.preventDefault();
     this.props.clearCurrentUser();
-    this.props.history.push('/');
+    this.props.history.push("/");
   }
 
   logOutBtn() {
@@ -65,7 +70,7 @@ class Navbar extends Component {
       );
     }
     if (!isEmpty(this.props.user.user)) {
-      if (this.props.user.userType === 'admin') {
+      if (this.props.user.userType === "admin") {
         return (
           <ul className="navbar-nav pt-2">
             <li className="nav-item">
@@ -76,7 +81,7 @@ class Navbar extends Component {
           </ul>
         );
       }
-      if (this.props.user.userType === 'vendor') {
+      if (this.props.user.userType === "vendor") {
         return (
           <ul className="navbar-nav pt-2">
             <li className="nav-item">
@@ -98,7 +103,7 @@ class Navbar extends Component {
             <img
               src={logo}
               alt="Grizzly"
-              style={{ width: '200px', margin: 'auto', display: 'block' }}
+              style={{ width: "200px", margin: "auto", display: "block" }}
             />
           </Link>
           <button
@@ -119,6 +124,7 @@ class Navbar extends Component {
                 <input
                   className="form-control left-rounded border-right-0 border col-8"
                   type="search"
+                  name="search"
                   placeholder="Search"
                   id="example-search-input"
                   defaultValue={this.state.search}
@@ -144,6 +150,7 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
+  searchProducts: PropTypes.func.isRequired,
   clearCurrentUser: PropTypes.func.isRequired
 };
 
@@ -153,5 +160,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { clearCurrentUser }
+  { searchProducts, clearCurrentUser }
 )(withRouter(Navbar));
