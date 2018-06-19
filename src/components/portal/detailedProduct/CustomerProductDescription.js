@@ -1,21 +1,47 @@
 import React, { Component } from 'react';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
+import unavailable from "../../../img/unavailable.png";
+import { Carousel } from "react-responsive-carousel";
+import Button from "react-ions/lib/components/Button";
 
 class CustomerProductDescription extends Component {
+  onCancel = event => {
+    this.props.history.goBack();
+  };
+
+  showCarousel() {
+    const product = this.props.product;
+    if (!isEmpty(product.images)) {
+      return product.images.map((img, index) => (
+        <img
+          key={index}
+          src={img.base64Image}
+          className="img-responsive"
+          alt=""
+          style={{ width: '100%' }}
+        />
+      ));
+    } else
+      return (
+        <img
+          src={unavailable}
+          className="img-responsive"
+          style={{ width: '150px', height: '150px' }}
+          alt="Unavailable"
+        />
+      );
+  }
+
   render() {
-    const product = this.props.single;
+    const product = this.props.product;
 
     return (
       <div className="container containerCustomerProductView">
         <div className="row">
           <div className="col-3 picCustomerDetailedProductCol mx-auto">
-            <img
-              style={{ width: '100%' }}
-              src="https://cdn.shopify.com/s/files/1/0377/2037/products/Mens36.Front_5a287144-63e8-4254-bef0-450a68ccd268_1024x.progressive.jpg?v=1510684704"
-              alt=""
-              className="picCustomerDetailedProduct"
-            />
+            <Carousel>{this.showCarousel()}</Carousel>
           </div>
-
           <div className="col-2 containerCustomerProductDesc">
             <div className="row">{product.name}</div>
             <div className="row">
@@ -27,13 +53,11 @@ class CustomerProductDescription extends Component {
               <p className="mb-0">${product.price}</p>
             </div>
           </div>
-
           <div className="col mx-auto CustomerDetailedRightCol">
             <div className="row">
               <button className="btn more-rounded btnPincodeCustomer">
                 Enter Pincode
               </button>
-
               <button className="btn more-rounded btnGoCustomer">Go</button>
             </div>
             <div className="row mt-2">
@@ -50,7 +74,6 @@ class CustomerProductDescription extends Component {
                 <button className="dropdown-item" type="button" />
               </div>
             </div>
-
             <div className="row mt-3">
               <button className="btn more-rounded btn-sm btnBuyNowCustomer">
                 Buy Now
@@ -60,6 +83,14 @@ class CustomerProductDescription extends Component {
               <button className="btn more-rounded btn-sm btnCartCustomer">
                 Add to Cart
               </button>
+            </div>
+            <div className="row mt-1">
+              <Button
+                className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent mt-2"
+                onClick={this.onCancel}
+              >
+                Cancel
+              </Button>
             </div>
           </div>
         </div>

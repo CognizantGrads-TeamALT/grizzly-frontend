@@ -31,7 +31,7 @@ export const getCategories = index => dispatch => {
       })
     });
 };
-
+//Category TypeAhead
 export const Update_TypeAhead = values => dispatch => {
     dispatch({
       type: types.CATEGORY_TYPEAHEAD_UPDATE,

@@ -8,8 +8,8 @@ import axios from 'axios';
 import isEmpty from '../validation/is-empty';
 
 // Caching
-import localforage from 'localforage'
-import { setup } from 'axios-cache-adapter'
+import localforage from 'localforage';
+import { setup } from 'axios-cache-adapter';
 
 const store = localforage.createInstance({
   // List of drivers used
@@ -307,10 +307,10 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 };
 
 // Search Products
-export const searchProducts = keyword => dispatch => {
+export const searchProducts = (keyword, index) => dispatch => {
   dispatch(clearCurrentProducts());
   axios
-    .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
+    .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
     .then(res => {
       dispatch(refreshProductData(res.data))
     })

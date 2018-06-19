@@ -32,6 +32,14 @@ export const getVendors = index => dispatch => {
     });
 };
 
+export const Vendor_Update_TypeAhead = values => dispatch => {
+  dispatch({
+    type: types.VENDOR_TYPEAHEAD_UPDATE,
+    payload: values
+  })
+
+}
+
 // Add Vendor
 export const addVendor = newVendor => dispatch => {
   dispatch(setVendorAdding());
