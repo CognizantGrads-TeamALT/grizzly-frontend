@@ -3,25 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
-import { getProductImageCustomer } from '../../../actions/productsActions';
 import { Link } from 'react-router-dom';
-//import Spinner from '../../common/Spinner';
+import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
-  constructor(props) {
-    super(props);
-
-    const products = this.props.product.products;
-
-    // Loop through each product and fetch the image for it.
-    // This will update the state and change the IMG.
-    for (let product of products) {
-      if (!isEmpty(product.imageDTO)) {
-        this.props.getProductImageCustomer(product, product.imageDTO[0].imgName);
-      }
-    }
-  }
-
   getImg(product) {
     if (!isEmpty(product.images)) {
       let imgInfo = product.images[0];
@@ -31,16 +16,25 @@ class ProductGridList extends Component {
           src={imgInfo.base64Image}
           className="img-responsive"
           alt=""
-          style={{"width": "150px", "height": "150px"}}
-        />);
+          style={{ width: '150px', height: '150px' }}
+        />
+      );
     }
   }
 
   showImg(product) {
+    // If we don't have any images.
     if (isEmpty(product.images)) {
-      return (
-        <img src={unavailable} className="img-responsive" style={{"width": "50px", "height": "50px"}} alt="Unavailable"/>
-      );
+      // If the product details literally has no images.
+      if (isEmpty(product.imageDTO)) {
+        return (
+          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
+        );
+      // We have image but its loading, so wait.
+      } else {
+        return (<Spinner size={'150px'} />);
+      }
+    // Return the loaded image.
     } else {
       return this.getImg(product);
     }
@@ -83,5 +77,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductImageCustomer }
+  {}
 )(ProductGridList);

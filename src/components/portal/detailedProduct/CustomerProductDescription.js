@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class CustomerProductDescription extends Component {
   render() {
@@ -9,7 +9,7 @@ class CustomerProductDescription extends Component {
         <div className="row">
           <div className="col-3 picCustomerDetailedProductCol mx-auto">
             <img
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               src="https://cdn.shopify.com/s/files/1/0377/2037/products/Mens36.Front_5a287144-63e8-4254-bef0-450a68ccd268_1024x.progressive.jpg?v=1510684704"
               alt=""
               className="picCustomerDetailedProduct"
@@ -17,7 +17,7 @@ class CustomerProductDescription extends Component {
           </div>
 
           <div className="col-2 containerCustomerProductDesc">
-            <div className="row">Product Description</div>
+            <div className="row">{product.name}</div>
             <div className="row">
               <div className="dscrptnSize-7 mb-5">
                 <p>{product.desc}</p>

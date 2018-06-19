@@ -19,7 +19,7 @@ class Profile extends Component {
     const { user } = this.props.user;
 
     if (isEmpty(user) || loading) {
-      return <Spinner />;
+      return (<Spinner size={'150px'}/>);
     } else {
       return user[0];
     }

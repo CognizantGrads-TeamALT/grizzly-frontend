@@ -6,6 +6,7 @@ import unavailable from "../../../img/unavailable.png";
 import { Carousel } from "react-responsive-carousel";
 import { editProduct, reloadProducts } from "../../../actions/productsActions";
 import { connect } from "react-redux";
+import Spinner from "../../common/Spinner";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -103,10 +104,18 @@ class ProductDescription extends Component {
 
   showImg() {
     const product = this.props.product.single;
+    // If we don't have any images.
     if (isEmpty(product.images)) {
-      return (
-        <img src={unavailable} className="img-responsive" alt="Unavailable" />
-      );
+      // If the product details literally has no images.
+      if (isEmpty(product.imageDTO)) {
+        return (
+          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
+        );
+      // We have image but its loading, so wait.
+      } else {
+        return (<Spinner size={'150px'} />);
+      }
+    // Return the loaded images.
     } else {
       return <Carousel>{this.showCarousel()}</Carousel>;
     }

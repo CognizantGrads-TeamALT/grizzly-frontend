@@ -65,13 +65,7 @@ class Products extends Component {
         />
       ));
     } else {
-      return (
-        <tr>
-          <td>
-            <Spinner />
-          </td>
-        </tr>
-      );
+      return (<Spinner size={'150px'}/>);
     }
   }
 

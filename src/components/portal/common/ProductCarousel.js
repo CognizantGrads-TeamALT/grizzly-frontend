@@ -28,7 +28,7 @@ class ProductCarousel extends Component {
         </Link>
       ));
     } else {
-      return <Spinner />;
+      return (<Spinner size={'150px'}/>);
     }
   }
 

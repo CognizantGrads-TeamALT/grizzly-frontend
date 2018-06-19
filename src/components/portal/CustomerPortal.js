@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductGridList from './common/ProductGridList';
 import PropTypes from 'prop-types';
-import { getProducts, setProductUpdated } from '../../actions/productsActions';
+import { getProducts, setProductUpdated, getProductImageCustomer } from '../../actions/productsActions';
 import ProductCarousel from './common/ProductCarousel';
 import isEmpty from '../../validation/is-empty';
 import Spinner from "../common/Spinner";
@@ -10,7 +10,10 @@ import Spinner from "../common/Spinner";
 class CustomerPortal extends Component {
   constructor(props) {
     super(props);
-    this.props.getProducts();
+
+    if (isEmpty(this.props.product.products)) {
+      this.props.getProducts();
+    }
   }
 
   componentDidUpdate() {
@@ -33,6 +36,13 @@ class CustomerPortal extends Component {
       !isEmpty(products) &&
       !loading
     ) {
+      // Loop through each product and fetch the image for it.
+      // This will update the state and change the IMG.
+      for (let product of products) {
+        if (!isEmpty(product.imageDTO)) {
+          this.props.getProductImageCustomer(product, product.imageDTO[0].imgName);
+        }
+      }
       return (
         <div className="col-md-12">
           <ProductCarousel />
@@ -42,7 +52,7 @@ class CustomerPortal extends Component {
     } else {
       return (
         <div className="col-md-12">
-            <Spinner />
+            <Spinner size={'150px'}/>
         </div>
       );
     }
@@ -60,5 +70,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated }
+  { getProducts, setProductUpdated, getProductImageCustomer }
 )(CustomerPortal);
