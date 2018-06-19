@@ -113,9 +113,7 @@ class ProductDescription extends Component {
         );
       // We have image but its loading, so wait.
       } else {
-        return (
-          <Spinner size={'150px'} />
-        );
+        return (<Spinner size={'150px'} />);
       }
     // Return the loaded images.
     } else {

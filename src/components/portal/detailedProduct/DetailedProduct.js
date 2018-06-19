@@ -22,7 +22,7 @@ class DetailedProduct extends Component {
   show() {
     const { single, loading, product_vendor } = this.props.product;
     if (isEmpty(single) || isEmpty(product_vendor) || loading) {
-      return <Spinner size={'150px'}/>;
+      return (<Spinner size={'150px'}/>);
     } else {
       const vendor = this.props.product.product_vendor.filter(
         item => item.vendorId === single.vendorId

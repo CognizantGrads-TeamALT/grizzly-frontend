@@ -22,13 +22,7 @@ class CustomerTab extends Component {
         </div>
       ));
     } else {
-      return (
-        <tr>
-          <td>
-            <Spinner size={'150px'}/>
-          </td>
-        </tr>
-      );
+      return (<Spinner size={'150px'}/>);
     }
   }
 
