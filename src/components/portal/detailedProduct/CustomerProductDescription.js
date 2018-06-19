@@ -10,8 +10,6 @@ class CustomerProductDescription extends Component {
     this.props.history.goBack();
   };
 
-
-
   showCarousel() {
     const product = this.props.product;
     if (!isEmpty(product.images)) {
@@ -44,7 +42,6 @@ class CustomerProductDescription extends Component {
           <div className="col-3 picCustomerDetailedProductCol mx-auto">
             <Carousel>{this.showCarousel()}</Carousel>
           </div>
-
           <div className="col-2 containerCustomerProductDesc">
             <div className="row">{product.name}</div>
             <div className="row">
@@ -56,13 +53,11 @@ class CustomerProductDescription extends Component {
               <p className="mb-0">${product.price}</p>
             </div>
           </div>
-
           <div className="col mx-auto CustomerDetailedRightCol">
             <div className="row">
               <button className="btn more-rounded btnPincodeCustomer">
                 Enter Pincode
               </button>
-
               <button className="btn more-rounded btnGoCustomer">Go</button>
             </div>
             <div className="row mt-2">
@@ -79,7 +74,6 @@ class CustomerProductDescription extends Component {
                 <button className="dropdown-item" type="button" />
               </div>
             </div>
-
             <div className="row mt-3">
               <button className="btn more-rounded btn-sm btnBuyNowCustomer">
                 Buy Now
