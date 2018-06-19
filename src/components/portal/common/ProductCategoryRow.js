@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
@@ -31,7 +31,7 @@ class ProductCategoryRow extends Component {
             return <Spinner />
         }
     }
-  }
+
     displayAllCategories() {
         const { categories, loading } = this.props.category;
         if(!isEmpty(categories) && !loading) {
@@ -48,10 +48,9 @@ class ProductCategoryRow extends Component {
                 </Link>
             ));
         } else {
-            return <Spinner /> 
+            return <Spinner />
         }
     }
-  }
 
     render() {
         return(
@@ -70,12 +69,8 @@ class ProductCategoryRow extends Component {
                     {this.show()}
                 </div>
             </div>
-          </div>
-          {this.show()}
-        </div>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 ProductCategoryRow.propTypes = {
@@ -83,10 +78,9 @@ ProductCategoryRow.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  category: state.category
+    category: state.category
 });
- 
+
 export default connect( mapStateToProps, {
     searchCategories
-  }
-)(ProductCategoryRow);
+})(ProductCategoryRow);
