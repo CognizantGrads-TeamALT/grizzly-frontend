@@ -1,6 +1,6 @@
-import React from "react";
-import classnames from "classnames";
-import PropTypes from "prop-types";
+import React from 'react';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 const TextFieldGroup = ({
   name,
@@ -17,14 +17,15 @@ const TextFieldGroup = ({
     <div className="form-group">
       <input
         type={type}
-        className={classnames("form-control", {
-          "is-invalid": error
+        className={classnames('form-control', {
+          'is-invalid': error
         })}
         placeholder={placeholder}
         name={name}
         value={value}
         onChange={onChange}
         disabled={disabled}
+        autoComplete='off'
       />
       {info && <small className="form-text text-muted">{info}</small>}
       {error && <div className="invalid-feedback">{error}</div>}
@@ -45,7 +46,7 @@ TextFieldGroup.propTypes = {
 };
 
 TextFieldGroup.defaultProps = {
-  type: "text"
+  type: 'text'
 };
 
 export default TextFieldGroup;

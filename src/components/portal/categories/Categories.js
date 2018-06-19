@@ -46,13 +46,7 @@ class Categories extends Component {
   show() {
     const { categories, loading } = this.props.category;
     if (isEmpty(categories) || loading) {
-      return (
-        <tr>
-          <td>
-            <Spinner />
-          </td>
-        </tr>
-      );
+      return (<Spinner size={'150px'}/>);
     } else {
       return categories.map(category => (
         <CategoriesList key={category.categoryId} category={category} />

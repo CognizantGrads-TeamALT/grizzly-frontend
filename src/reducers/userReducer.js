@@ -1,7 +1,9 @@
 import * as types from '../actions/types';
 
 const initialState = {
-  user: null
+  user: null,
+  userType: null,
+  isAuthenticated: false
 };
 
 export default function(state = initialState, action) {
@@ -15,9 +17,18 @@ export default function(state = initialState, action) {
       return {
         ...state,
         user: action.payload,
+        userType: action.userType,
+        isAuthenticated: true,
         loading: false
       };
-
+    case types.CLEAR_CURRENT_USER:
+      return {
+        ...state,
+        user: null,
+        userType: null,
+        isAuthenticated: false,
+        loading: false
+      };
     default:
       return state;
   }

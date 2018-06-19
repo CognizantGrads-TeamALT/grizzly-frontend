@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ProductSearchSort from '../common/ProductSearchSort';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
 import ProductList from './ProductList';
 import {
@@ -11,7 +9,6 @@ import {
   filterProductsByCategory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
-import CategoryTypeAhead from '../categories/CategoryTypeAhead';
 
 class Products extends Component {
   componentDidMount() {
@@ -29,8 +26,7 @@ class Products extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.product.updateOnce)
-      this.props.setProductUpdated();
+    if (this.props.product.updateOnce) this.props.setProductUpdated();
   }
 
   shouldComponentUpdate() {
@@ -65,50 +61,30 @@ class Products extends Component {
           product_category={product_category}
           product_vendor={product_vendor}
           product={prod}
+          userType={this.props.userType}
         />
       ));
     } else {
-      return (
-        <tr>
-          <td>
-            <Spinner />
-          </td>
-        </tr>
-      );
+      return (<Spinner size={'150px'}/>);
     }
   }
 
   render() {
     return (
-      <div>
-        <ProductSearchSort />
-        <CategoryTypeAhead
-          placeholder="Filter by category"
-          extraClassNames="btn-group mt-3 mr-2"
-          onClickHandler={this.props.filterProductsByCategory}
-          pageIndex={this.props.product.index}
-        />
-        <Link
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-          to="/product/new"
-        >
-          Add Product
-        </Link>
-        <div ref="myscroll" style={{ height: '500px', overflow: 'auto' }}>
-          <table className="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Products Name</th>
-                <th scope="col">Vendor</th>
-                <th scope="col">Category</th>
-                <th scope="col">Rating</th>
-                <th scope="col" />
-              </tr>
-            </thead>
-            <tbody>{this.show()}</tbody>
-          </table>
-        </div>
+      <div ref="myscroll" style={{ height: '500px', overflow: 'auto' }}>
+        <table className="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Products Name</th>
+              <th scope="col">Vendor</th>
+              <th scope="col">Category</th>
+              <th scope="col">Rating</th>
+              <th scope="col" />
+            </tr>
+          </thead>
+          <tbody>{this.show()}</tbody>
+        </table>
       </div>
     );
   }
@@ -122,7 +98,8 @@ Products.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  userType: state.user.userType
 });
 
 export default connect(

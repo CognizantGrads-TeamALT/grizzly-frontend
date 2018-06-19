@@ -1,17 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   searchVendors,
   sortVendorsByParam
-} from "../../../actions/vendorActions";
-import VendorForm from "../vendor/VendorForm";
+} from '../../../actions/vendorActions';
+import VendorForm from '../vendor/VendorForm';
 
 class VendorSearchSort extends Component {
   constructor() {
     super();
     this.state = {
-      search: ""
+      search: '',
+      disabled: true
     };
 
     this.onChange = this.onChange.bind(this);
@@ -22,34 +23,42 @@ class VendorSearchSort extends Component {
     this.onSortByWebsite = this.onSortByWebsite.bind(this);
   }
 
+  componentDidUpdate() {
+    if (this.state.disabled) this.setState({ disabled: false });
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ disabled: true });
   }
 
   onSearch(e) {
     e.preventDefault();
 
     this.props.searchVendors(this.state.search);
-    this.setState({ search: "" });
+    this.setState({ search: '' });
   }
 
   onSortById(e) {
     e.preventDefault();
-    this.props.sortVendorsByParam("0", "vendorId");
+    this.props.sortVendorsByParam('0', 'vendorId');
+    this.setState({ search: '' });
   }
 
   onSortByName(e) {
     e.preventDefault();
-    this.props.sortVendorsByParam("0", "name");
+    this.props.sortVendorsByParam('0', 'name');
+    this.setState({ search: '' });
   }
 
   onSortByWebsite(e) {
     e.preventDefault();
-    this.props.sortVendorsByParam("0", "website");
+    this.props.sortVendorsByParam('0', 'website');
+    this.setState({ search: '' });
   }
 
   render() {
@@ -64,6 +73,7 @@ class VendorSearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
+              disabled={this.state.disabled ? 'disabled' : ''}
             />
             <span className="input-group-append-more">
               <button
@@ -128,6 +138,7 @@ const mapStateToProps = state => ({
   vendor: state.vendor
 });
 
-export default connect(mapStateToProps, { searchVendors, sortVendorsByParam })(
-  VendorSearchSort
-);
+export default connect(
+  mapStateToProps,
+  { searchVendors, sortVendorsByParam }
+)(VendorSearchSort);

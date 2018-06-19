@@ -58,13 +58,7 @@ class CategoriesList extends Component {
         </tr>
       );
     } else {
-      return (
-        <tr>
-          <td>
-            <Spinner />
-          </td>
-        </tr>
-      );
+      return (<Spinner size={'150px'}/>);
     }
   }
 }

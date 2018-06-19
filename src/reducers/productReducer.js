@@ -54,10 +54,30 @@ export default function(state = initialState, action) {
         loadingCategories: true
       };
     case types.GET_PRODUCT:
+      action.payload.images = [];
       return {
         ...state,
         single: action.payload
       };
+    case types.GET_PRODUCT_IMAGE:
+      const product = action.product;
+      product.images = product.images.concat(action.payload);
+      return {
+        ...state,
+        single: product
+      }
+    case types.GET_PRODUCT_IMAGE_CUSTOMER:
+      const newProduct = action.product;
+      newProduct.images = [action.payload];
+      return {
+        ...state,
+        products: state.products.map(
+          product =>
+            product.productId === newProduct.productId
+              ? newProduct
+              : product
+        )
+      }
     case types.PRODUCT_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];
@@ -69,7 +89,6 @@ export default function(state = initialState, action) {
         ...state,
         products: newProducts2,
         hasMore: hasMore2,
-        //updateOnce: true,
         loadingVendors: true,
         loadingCategories: true
       };

@@ -7,6 +7,27 @@ import {
 import axios from 'axios';
 import isEmpty from '../validation/is-empty';
 
+// Caching
+import localforage from 'localforage'
+import { setup } from 'axios-cache-adapter'
+
+const store = localforage.createInstance({
+  // List of drivers used
+  driver: [
+    localforage.INDEXEDDB,
+    localforage.LOCALSTORAGE
+  ],
+  // Prefix all storage keys to prevent conflicts
+  name: 'grizzly-alt'
+})
+
+const cache = setup({
+  cache: {
+    maxAge: 30 * 60 * 1000, // 2 hours
+    store
+  }
+})
+
 // Get Product List
 export const getProducts = index => dispatch => {
   // Default the index to 0 if not given.
@@ -20,36 +41,7 @@ export const getProducts = index => dispatch => {
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
     .then(res => {
-      dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
-      });
-
-      if (!isEmpty(res.data[0])) {
-        if (!isEmpty(res.data[0].productId)) {
-          let vendorIdArray = '';
-          res.data
-            .filter(prod => prod.vendorId !== 0)
-            .map(
-              prod =>
-                vendorIdArray === ''
-                  ? (vendorIdArray = prod.vendorId)
-                  : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
-            );
-          dispatch(getVendorBatch(vendorIdArray));
-
-          let categoryIdArray = '';
-          res.data
-            .filter(prod => prod.categoryId !== 0)
-            .map(
-              prod =>
-                categoryIdArray === ''
-                  ? (categoryIdArray = prod.categoryId)
-                  : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
-            );
-          dispatch(getCategoryBatch(categoryIdArray));
-        }
-      }
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -75,6 +67,20 @@ export const getProductWithImgs = productId => dispatch => {
         type: types.GET_PRODUCT,
         payload: res.data
       });
+      if (!isEmpty(res.data)) {
+        if (!isEmpty(res.data.productId)) {
+          if(res.data.vendorId !== 0)
+            dispatch(getVendorBatch(res.data.vendorId));
+          if(res.data.categoryId !== 0)
+            dispatch(getCategoryBatch(res.data.categoryId));
+        }
+
+        // Fetch images.
+        if (!isEmpty(res.data.imageDTO)) {
+          for (let image of res.data.imageDTO)
+            dispatch(getProductImage(res.data, image.imgName));
+        }
+      }
       dispatch(setProductUpdated());
     })
     .catch(err => {
@@ -85,6 +91,44 @@ export const getProductWithImgs = productId => dispatch => {
       });
     });
 };
+
+export const getProductImage = (product, imageName) => dispatch => {
+  cache
+    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCT_IMAGE,
+        payload: res.data,
+        product: product
+      });
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+}
+
+export const getProductImageCustomer = (product, imageName) => dispatch => {
+  cache
+    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCT_IMAGE_CUSTOMER,
+        payload: res.data,
+        product: product
+      });
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+}
 
 export const setProductAdding = () => {
   return {
@@ -225,6 +269,7 @@ export const setProductUpdated = () => {
   };
 };
 
+
 export const getVendorBatch = vendorIdArray => dispatch => {
   axios
     .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
@@ -264,15 +309,27 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 // Search Products
 export const searchProducts = keyword => dispatch => {
   dispatch(clearCurrentProducts());
-  dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
     .then(res => {
+      dispatch(refreshProductData(res.data))
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
       dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
+        type: types.GET_ERRORS,
+        payload: err.response.data
       });
-      dispatch(setProductLoaded());
+    });
+};
+
+// Sort products by @param
+export const sortProductsByParam = (index, param) => dispatch => {
+  dispatch(clearCurrentProducts());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
+    .then(res => {
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -286,18 +343,13 @@ export const searchProducts = keyword => dispatch => {
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
   dispatch(clearCurrentProducts());
-  dispatch(setProductLoading());
   axios
     .get(
       PRODUCT_API_GATEWAY +
         `/bycategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
-      dispatch({
-        type: types.GET_PRODUCTS,
-        payload: res.data
-      });
-      dispatch(setProductLoaded());
+      dispatch(refreshProductData(res.data))
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -307,3 +359,35 @@ export const filterProductsByCategory = inputs => dispatch => {
       });
     });
 };
+
+export const refreshProductData = data => dispatch => {
+  dispatch({
+    type: types.GET_PRODUCTS,
+    payload: data
+  });
+  if (!isEmpty(data[0])) {
+    if (!isEmpty(data[0].productId)) {
+      let vendorIdArray = '';
+      data
+        .filter(prod => prod.vendorId !== 0)
+        .map(
+          prod =>
+            vendorIdArray === ''
+              ? (vendorIdArray = prod.vendorId)
+              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
+        );
+      dispatch(getVendorBatch(vendorIdArray));
+
+      let categoryIdArray = '';
+      data
+        .filter(prod => prod.categoryId !== 0)
+        .map(
+          prod =>
+            categoryIdArray === ''
+              ? (categoryIdArray = prod.categoryId)
+              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
+        );
+      dispatch(getCategoryBatch(categoryIdArray));
+    }
+  }
+}

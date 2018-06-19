@@ -1,35 +1,64 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
+import unavailable from '../../../img/unavailable.png';
 import { Link } from 'react-router-dom';
+import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
+  getImg(product) {
+    if (!isEmpty(product.images)) {
+      let imgInfo = product.images[0];
+      return (
+        <img
+          key={product.productId}
+          src={imgInfo.base64Image}
+          className="img-responsive"
+          alt=""
+          style={{ width: '150px', height: '150px' }}
+        />
+      );
+    }
+  }
+
+  showImg(product) {
+    // If we don't have any images.
+    if (isEmpty(product.images)) {
+      // If the product details literally has no images.
+      if (isEmpty(product.imageDTO)) {
+        return (
+          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
+        );
+      // We have image but its loading, so wait.
+      } else {
+        return (<Spinner size={'150px'} />);
+      }
+    // Return the loaded image.
+    } else {
+      return this.getImg(product);
+    }
+  }
+
   show() {
-    const { products, loading } = this.props.product;
+    const products = this.props.product.products;
     let prodArray = [];
-    if (!isEmpty(products) && !loading) {
+    if (!isEmpty(products)) {
       for (let i = 0; i < 18; i++) {
         prodArray.push(products[i]);
       }
       return prodArray.map(prod => (
-        <div className="col-md-2 col-sm-4 imageGrid mt-5">
+        <div key={prod.productId} className="col-md-2 col-sm-4 imageGrid mt-5">
           <Link
-            to={`/detailedproduct/${prod.productId}`}
+            to={`/customerdetailedproduct/${prod.productId}`}
             className="img-thumbnail"
           >
-            <img
-              style={{ width: '100%' }}
-              src="https://cdn.shopify.com/s/files/1/0377/2037/products/Mens36.Front_5a287144-63e8-4254-bef0-450a68ccd268_1024x.progressive.jpg?v=1510684704"
-              alt=""
-            />
+            {this.showImg(prod)}
+
             <span>{prod.name}</span>
           </Link>
         </div>
       ));
-    } else {
-      return <Spinner />;
     }
   }
 
@@ -46,4 +75,7 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps)(ProductGridList);
+export default connect(
+  mapStateToProps,
+  {}
+)(ProductGridList);

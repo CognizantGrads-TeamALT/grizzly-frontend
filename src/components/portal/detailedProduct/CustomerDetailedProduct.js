@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Profile from '../profile/Profile';
-import ProductDescription from './ProductDescription';
+import CustomerProductDescription from './CustomerProductDescription';
+import PropTypes from 'prop-types';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
-import {
-  getProductWithImgs,
-  getVendorBatch
-} from '../../../actions/productsActions';
-
-class DetailedProduct extends Component {
+import { getProductWithImgs } from '../../../actions/productsActions';
+class CustomerDetailedProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeTab: 0
     };
-
     this.props.getProductWithImgs(this.props.match.params.productId);
   }
 
@@ -29,8 +24,8 @@ class DetailedProduct extends Component {
       )[0];
       return (
         <div>
-          <ProductDescription
-            product={this.props.product}
+          <CustomerProductDescription
+            single={single}
             history={this.props.history}
             vendor={vendor}
           />
@@ -40,16 +35,13 @@ class DetailedProduct extends Component {
   }
 
   render() {
-    return (
-      <div className="row">
-        <div className="col-2">
-          <Profile />
-        </div>
-        <div className="col-10">{this.show()}</div>
-      </div>
-    );
+    return <div className="row">{this.show()}</div>;
   }
 }
+
+CustomerDetailedProduct.propTypes = {
+  getProductWithImgs: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
   product: state.product
@@ -57,5 +49,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductWithImgs, getVendorBatch }
-)(DetailedProduct);
+  { getProductWithImgs }
+)(CustomerDetailedProduct);

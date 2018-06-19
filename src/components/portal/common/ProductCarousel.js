@@ -16,7 +16,8 @@ class ProductCarousel extends Component {
       }
       return prodArray.map((prod) => (
         <Link
-          to={`/detailedproduct/${prod.productId}`}
+          key={prod.productId}
+          to={`/customerdetailedproduct/${prod.productId}`}
           className="img-thumbnail"
         >
           <img
@@ -27,7 +28,7 @@ class ProductCarousel extends Component {
         </Link>
       ));
     } else {
-      return <Spinner />;
+      return (<Spinner size={'150px'}/>);
     }
   }
 

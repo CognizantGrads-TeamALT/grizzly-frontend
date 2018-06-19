@@ -1,18 +1,29 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { searchProducts } from "../../../actions/productsActions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+  searchProducts,
+  sortProductsByParam
+} from '../../../actions/productsActions';
 
 class ProductSearchSort extends Component {
   constructor() {
     super();
     this.state = {
-      search: ""
+      search: '',
+      disabled: true
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.onSortById = this.onSortById.bind(this);
+    this.onSortByName = this.onSortByName.bind(this);
+    this.onSortByRating = this.onSortByRating.bind(this);
+  }
+
+  componentDidUpdate() {
+    if (this.state.disabled) this.setState({ disabled: false });
   }
 
   onChange(e) {
@@ -21,13 +32,33 @@ class ProductSearchSort extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ disabled: true });
+  }
+
+  onSortById(e) {
+    e.preventDefault();
+    this.props.sortProductsByParam('0', 'productId');
+    this.setState({ search: '' });
+  }
+
+  onSortByName(e) {
+    e.preventDefault();
+    this.props.sortProductsByParam('0', 'name');
+    this.setState({ search: '' });
+  }
+
+  onSortByRating(e) {
+    e.preventDefault();
+    this.props.sortProductsByParam('0', 'rating');
+    this.setState({ search: '' });
   }
 
   onSearch(e) {
     e.preventDefault();
 
     this.props.searchProducts(this.state.search);
-    this.setState({ search: "" });
+
+    this.setState({ search: '' });
   }
 
   render() {
@@ -42,6 +73,7 @@ class ProductSearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
+              disabled={this.state.disabled ? 'disabled' : ''}
             />
             <span className="input-group-append-more">
               <button
@@ -64,14 +96,26 @@ class ProductSearchSort extends Component {
           Sort By
         </button>
         <div className="dropdown-menu">
-          <button className="dropdown-item" type="button">
+          <button
+            className="dropdown-item"
+            type="button"
+            onClick={this.onSortById}
+          >
             ID
           </button>
-          <button className="dropdown-item" type="button">
+          <button
+            className="dropdown-item"
+            type="button"
+            onClick={this.onSortByName}
+          >
             Name
           </button>
-          <button className="dropdown-item" type="button">
-            Location
+          <button
+            className="dropdown-item"
+            type="button"
+            onClick={this.onSortByRating}
+          >
+            Rating
           </button>
         </div>
       </div>
@@ -81,6 +125,7 @@ class ProductSearchSort extends Component {
 
 ProductSearchSort.propTypes = {
   searchProducts: PropTypes.func.isRequired,
+  sortProductsByParam: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired
 };
 
@@ -90,5 +135,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { searchProducts }
+  { searchProducts, sortProductsByParam }
 )(ProductSearchSort);
