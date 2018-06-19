@@ -39,7 +39,7 @@ class CustomerPortal extends Component {
       // Loop through each product and fetch the image for it.
       // This will update the state and change the IMG.
       for (let product of products) {
-        if (!isEmpty(product.imageDTO)) {
+        if (!isEmpty(product.imageDTO) && isEmpty(product.images)) {
           this.props.getProductImageCustomer(product, product.imageDTO[0].imgName);
         }
       }
