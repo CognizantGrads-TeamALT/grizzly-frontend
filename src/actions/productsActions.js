@@ -8,8 +8,8 @@ import axios from 'axios';
 import isEmpty from '../validation/is-empty';
 
 // Caching
-import localforage from 'localforage'
-import { setup } from 'axios-cache-adapter'
+import localforage from 'localforage';
+import { setup } from 'axios-cache-adapter';
 
 const store = localforage.createInstance({
   // List of drivers used

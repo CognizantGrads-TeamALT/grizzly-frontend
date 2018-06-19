@@ -12,6 +12,8 @@ import _ from 'lodash';
 import CategoryTypeAhead from '../categories/CategoryTypeAhead';
 import ImageUploader from './ImageUploader';
 import validator from 'validator';
+import VendorTypeAhead from '../vendor/VendorTypeAhead';
+import { Vendor_Update_TypeAhead } from '../../../actions/vendorActions';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -204,6 +206,11 @@ class ProductForm extends Component {
               value={this.state.price}
               onChange={this.onChange}
             />
+
+            <VendorTypeAhead
+              placeholder="Vendor"
+              onClickHandler={this.props.Vendor_Update_TypeAhead}
+            />
           </form>
         </div>
         <div className="col-2">
@@ -237,5 +244,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead }
+  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead }
 )(withRouter(ProductForm));

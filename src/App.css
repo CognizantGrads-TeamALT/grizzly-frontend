@@ -191,6 +191,19 @@
   overflow: auto;
 }
 
+/*vendorscrolllist*/
+.vendor-scroll{
+  max-height: 7cm;
+  overflow: auto;
+  max-width: 250px; 
+}
+
+.vendor-scroll-button{
+  min-width: 200px;
+  max-width: 250px;
+  overflow: auto;
+}
+
 /* Profile sidebar */
 .profile-sidebar {
   padding-top: 0;
@@ -569,6 +582,11 @@ a:hover {
 .floating-div {
   position: absolute;
   top: 30px;
+}
+
+.floating-div-vendor {
+  position: absolute;
+  top: 220px;
 }
 
 .carousel .control-arrow,
