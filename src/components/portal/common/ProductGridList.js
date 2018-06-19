@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
-import { getProductImageCustomer } from '../../../actions/productsActions';
 import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
 
@@ -77,5 +76,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductImageCustomer }
+  {}
 )(ProductGridList);
