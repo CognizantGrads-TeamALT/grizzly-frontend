@@ -218,6 +218,25 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
     });
 };
 
+// Sort Vendor by @param
+// Throws anti-pattern errors if the original was called due to the other dispatch calls.
+export const sortCategoriesByParamCustomer = (index, param) => dispatch => {
+  axios
+    .get(CATEGORY_API_GATEWAY + `/get/${index}/${param}`)
+    .then(res =>
+      dispatch({
+        type: types.GET_CATEGORIES,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      })
+    });
+};
+
 // Clear Categories
 export const clearCurrentCategories = () => {
   return {

@@ -7,6 +7,7 @@ import {
   setProductUpdated,
   getProductImageCustomer
  } from '../../actions/productsActions';
+ import { sortCategoriesByParamCustomer } from "../../actions/categoryActions";
 import ProductCarousel from './common/ProductCarousel';
 import ProductCategoryRow from './common/ProductCategoryRow';
 import isEmpty from '../../validation/is-empty';
@@ -43,12 +44,23 @@ class CustomerPortal extends Component {
     }
   }
 
+  getCategories(categories, page, column) {
+    if (isEmpty(categories)) {
+      this.props.sortCategoriesByParamCustomer(page, column);
+    }
+  }
+
   render() {
     const { products, loading } = this.props.product;
-    if (!isEmpty(products) && !loading) {
+    const { categories, loading2 } = this.props.category;
+    if (!isEmpty(products) && !loading && !loading2) {
       // Loop through each product and fetch the image for it.
       // This will update the state and change the IMG.
       this.getImages(products);
+
+      // Grab categories for categoryrow
+      this.getCategories(categories, "0", "count");
+
       return (
         <div className="col-md-12">
           <ProductCategoryRow />
@@ -70,14 +82,17 @@ CustomerPortal.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
   getProductImageCustomer: PropTypes.func.isRequired,
+  sortCategoriesByParamCustomer: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  category: state.category
 });
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated, getProductImageCustomer }
+  { getProducts, setProductUpdated, getProductImageCustomer, sortCategoriesByParamCustomer }
 )(CustomerPortal);
