@@ -42,7 +42,13 @@ class Vendor extends Component {
   show() {
     const { vendors, loading } = this.props.vendor;
     if (isEmpty(vendors) || loading) {
-      return (<Spinner size={'150px'}/>);
+      return (
+        <tr>
+          <td>
+            <Spinner size={'150px'}/>
+          </td>
+        </tr>
+      );
     } else {
       return vendors.map(vendor => (
         <VendorList key={vendor.vendorId} vendor={vendor} />
