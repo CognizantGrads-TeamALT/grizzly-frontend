@@ -5,24 +5,33 @@ import PropTypes from 'prop-types';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import { getProductWithImgs, getProductImageCustomer } from '../../../actions/productsActions';
+
 class CustomerDetailedProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 0
+      single: null
     };
 
     // Only load data again if there is no data present.
     // Saves page load time & useless API calls :)
-    if (isEmpty(this.props.product.products)) {
-      this.props.getProductWithImgs(this.props.match.params.productId);
+    if (!isEmpty(this.props.product.products)) {
+      // params must be converted to integer.
+      const single = this.props.product.products.filter(
+        item => item.productId === parseInt( this.props.match.params.productId, 10 )
+      )[0];
+
+      // Must be = because inside the constructor.
+      this.state.single = single;
     } else {
-      this.props.product.single = this.props.product.products[ this.props.match.params.productId-1 ];
+      this.props.getProductWithImgs(this.props.match.params.productId);
     }
   }
 
   show() {
-    const { single, loading, product_vendor } = this.props.product;
+    // From state or from props.
+    const single = this.state.single || this.props.product.single;
+    const { loading, product_vendor } = this.props.product;
     if (isEmpty(single) || isEmpty(product_vendor) || loading) {
       return (<Spinner size={'150px'}/>);
     } else {

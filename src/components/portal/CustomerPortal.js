@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductGridList from './common/ProductGridList';
 import PropTypes from 'prop-types';
-import { getProducts, setProductUpdated, getProductImageCustomer } from '../../actions/productsActions';
+import { 
+  getProducts,
+  setProductUpdated,
+  getProductImageCustomer
+ } from '../../actions/productsActions';
 import ProductCarousel from './common/ProductCarousel';
 import ProductCategoryRow from './common/ProductCategoryRow';
 import isEmpty from '../../validation/is-empty';
@@ -28,22 +32,23 @@ class CustomerPortal extends Component {
     return false;
   }
 
+  getImages(products) {
+    for (let product of products) {
+      if (!isEmpty(product.imageDTO) && isEmpty(product.images)) {
+        this.props.getProductImageCustomer(
+          product,
+          product.imageDTO[0].imgName
+        );
+      }
+    }
+  }
+
   render() {
-    const {
-      products,
-      loading
-    } = this.props.product;
-    if (
-      !isEmpty(products) &&
-      !loading
-    ) {
+    const { products, loading } = this.props.product;
+    if (!isEmpty(products) && !loading) {
       // Loop through each product and fetch the image for it.
       // This will update the state and change the IMG.
-      for (let product of products) {
-        if (!isEmpty(product.imageDTO) && isEmpty(product.images)) {
-          this.props.getProductImageCustomer(product, product.imageDTO[0].imgName);
-        }
-      }
+      this.getImages(products);
       return (
         <div className="col-md-12">
           <ProductCategoryRow />
@@ -54,7 +59,7 @@ class CustomerPortal extends Component {
     } else {
       return (
         <div className="col-md-12">
-            <Spinner size={'150px'}/>
+          <Spinner size={"150px"} />
         </div>
       );
     }
@@ -63,6 +68,8 @@ class CustomerPortal extends Component {
 
 CustomerPortal.propTypes = {
   getProducts: PropTypes.func.isRequired,
+  setProductUpdated: PropTypes.func.isRequired,
+  getProductImageCustomer: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
 };
 
