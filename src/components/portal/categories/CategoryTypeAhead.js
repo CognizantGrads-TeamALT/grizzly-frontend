@@ -76,8 +76,17 @@ class CategoryTypeAhead extends Component {
             }, this)
           });
         }
-        else  {
-          this.setState(clearCurrentCategories);
+        else {
+          this.setState({ categoryList: [
+          <button
+              className="btn btn-sm btn-outline-info  cat-scroll-button"
+              key={0}
+              type="button"
+              name={"No Results"}
+              value={"No results found"}
+              onClick={0}>
+              {"No results found"}
+          </button> ]});
         }
       }, 1000);
     }

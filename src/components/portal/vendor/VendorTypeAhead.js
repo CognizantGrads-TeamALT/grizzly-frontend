@@ -84,8 +84,17 @@ class VendorTypeAhead extends Component {
                     );
                 }
                 else {
-                    this.setState({ vendorList: [] });
-                    this.props.clearCurrentVendors();
+                    this.setState({ vendorList: [
+                    <button
+                        className="btn btn-sm btn-outline-info  vendor-scroll-button"
+                        key={0}
+                        type="button"
+                        name={"No Results"}
+                        value={"No results found"}
+                        onClick={0}>
+                        {"No results found"}
+                    </button>, <br key={0 + 10000}/> ]});
+                    // this.props.clearCurrentVendors();
                 }
 
             }, 1000);
