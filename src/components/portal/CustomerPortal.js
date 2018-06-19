@@ -50,7 +50,11 @@ class CustomerPortal extends Component {
         </div>
       );
     } else {
-      return (<Spinner size={'150px'}/>);
+      return (
+        <div className="col-md-12">
+            <Spinner size={'150px'}/>
+        </div>
+      );
     }
   }
 }
