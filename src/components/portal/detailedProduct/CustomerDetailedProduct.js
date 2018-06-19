@@ -4,7 +4,7 @@ import CustomerProductDescription from './CustomerProductDescription';
 import PropTypes from 'prop-types';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
-import { getProductWithImgs } from '../../../actions/productsActions';
+import { getProductWithImgs, getProductImageCustomer } from '../../../actions/productsActions';
 class CustomerDetailedProduct extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +19,9 @@ class CustomerDetailedProduct extends Component {
     if (isEmpty(single) || isEmpty(product_vendor) || loading) {
       return (<Spinner size={'150px'}/>);
     } else {
+      if (!isEmpty(single.imageDTO)) {
+        this.props.getProductImageCustomer(single, single.imageDTO[0].imgName);
+      }
       const vendor = this.props.product.product_vendor.filter(
         item => item.vendorId === single.vendorId
       )[0];
@@ -49,5 +52,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductWithImgs }
+  { getProductWithImgs, getProductImageCustomer }
 )(CustomerDetailedProduct);

@@ -1,6 +1,51 @@
 import React, { Component } from 'react';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
+import unavailable from "../../../img/unavailable.png";
+import { Carousel } from "react-responsive-carousel";
+import Button from "react-ions/lib/components/Button";
 
 class CustomerProductDescription extends Component {
+  onCancel = event => {
+    this.props.history.goBack();
+  };
+
+  showCarousel() {
+    const product = this.props.single;
+    if (!isEmpty(product.images)) {
+      return product.images.map((img, index) => (
+        // stops complaining about "UNIQUE KEYS" THANKS REACT.
+        //<div id={index}>
+        <img
+          key={index}
+          src={img.base64Image}
+          className="img-responsive"
+          alt=""
+        />
+        //</div>
+      ));
+    }
+  }
+
+  showImg() {
+    const product = this.props.single;
+    // If we don't have any images.
+    if (isEmpty(product.images)) {
+      // If the product details literally has no images.
+      if (isEmpty(product.imageDTO)) {
+        return (
+          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
+        );
+      // We have image but its loading, so wait.
+      } else {
+        return (<Spinner size={'150px'} />);
+      }
+    // Return the loaded images.
+    } else {
+      return <Carousel>{this.showCarousel()}</Carousel>;
+    }
+  }
+
   render() {
     const product = this.props.single;
 
@@ -8,12 +53,7 @@ class CustomerProductDescription extends Component {
       <div className="container containerCustomerProductView">
         <div className="row">
           <div className="col-3 picCustomerDetailedProductCol mx-auto">
-            <img
-              style={{ width: '100%' }}
-              src="https://cdn.shopify.com/s/files/1/0377/2037/products/Mens36.Front_5a287144-63e8-4254-bef0-450a68ccd268_1024x.progressive.jpg?v=1510684704"
-              alt=""
-              className="picCustomerDetailedProduct"
-            />
+            {this.showImg()}
           </div>
 
           <div className="col-2 containerCustomerProductDesc">
@@ -60,6 +100,14 @@ class CustomerProductDescription extends Component {
               <button className="btn more-rounded btn-sm btnCartCustomer">
                 Add to Cart
               </button>
+            </div>
+            <div className="row mt-1">
+              <Button
+                className="btn more-rounded btn-sm btnCartCustomer"
+                onClick={this.onCancel}
+              >
+                Cancel
+              </Button>
             </div>
           </div>
         </div>
