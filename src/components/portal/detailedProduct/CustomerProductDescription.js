@@ -103,7 +103,7 @@ class CustomerProductDescription extends Component {
             </div>
             <div className="row mt-1">
               <Button
-                className="btn more-rounded btn-sm btnCartCustomer"
+                className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent mt-2"
                 onClick={this.onCancel}
               >
                 Cancel

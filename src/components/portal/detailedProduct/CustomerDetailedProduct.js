@@ -11,7 +11,14 @@ class CustomerDetailedProduct extends Component {
     this.state = {
       activeTab: 0
     };
-    this.props.getProductWithImgs(this.props.match.params.productId);
+
+    // Only load data again if there is no data present.
+    // Saves page load time & useless API calls :)
+    if (isEmpty(this.props.product.products)) {
+      this.props.getProductWithImgs(this.props.match.params.productId);
+    } else {
+      this.props.product.single = this.props.product.products[ this.props.match.params.productId-1 ];
+    }
   }
 
   show() {
@@ -19,7 +26,7 @@ class CustomerDetailedProduct extends Component {
     if (isEmpty(single) || isEmpty(product_vendor) || loading) {
       return (<Spinner size={'150px'}/>);
     } else {
-      if (!isEmpty(single.imageDTO)) {
+      if (!isEmpty(single.imageDTO) && isEmpty(single.images)) {
         this.props.getProductImageCustomer(single, single.imageDTO[0].imgName);
       }
       const vendor = this.props.product.product_vendor.filter(
@@ -43,7 +50,8 @@ class CustomerDetailedProduct extends Component {
 }
 
 CustomerDetailedProduct.propTypes = {
-  getProductWithImgs: PropTypes.func.isRequired
+  getProductWithImgs: PropTypes.func.isRequired,
+  getProductImageCustomer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
