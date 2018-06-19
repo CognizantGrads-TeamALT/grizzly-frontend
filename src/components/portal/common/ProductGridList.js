@@ -5,6 +5,7 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { getProductImageCustomer } from '../../../actions/productsActions';
 import { Link } from 'react-router-dom';
+import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   constructor(props) {
@@ -45,15 +46,18 @@ class ProductGridList extends Component {
       // If the product details literally has no images.
       if (isEmpty(product.imageDTO)) {
         return (
-          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
+          <img
+            src={unavailable}
+            className="img-responsive"
+            style={{ width: '150px', height: '150px' }}
+            alt="Unavailable"
+          />
         );
-      // We have image but its loading, so wait.
+        // We have image but its loading, so wait.
       } else {
-        return (
-          <Spinner size={'150px'} />
-        );
+        return <Spinner size={'150px'} />;
       }
-    // Return the loaded image.
+      // Return the loaded image.
     } else {
       return this.getImg(product);
     }
