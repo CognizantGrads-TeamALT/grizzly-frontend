@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import isEmpty from "../../../validation/is-empty";
-import unavailable from "../../../img/unavailable.png";
-import { Link } from "react-router-dom";
-import Spinner from "../../common/Spinner";
-import { getProductImageCustomer } from "../../../actions/productsActions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import isEmpty from '../../../validation/is-empty';
+import unavailable from '../../../img/unavailable.png';
+import { Link } from 'react-router-dom';
+import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   getImg(product) {
@@ -16,10 +15,9 @@ class ProductGridList extends Component {
         src={imgInfo.base64Image}
         className="img-responsive"
         alt=""
-        style={{ width: "150px", height: "150px" }}
+        style={{ width: '150px', height: '150px' }}
       />
     );
-    
   }
 
   showImg(product) {
@@ -31,13 +29,13 @@ class ProductGridList extends Component {
           <img
             src={unavailable}
             className="img-responsive"
-            style={{ width: "150px", height: "150px" }}
+            style={{ width: '150px', height: '150px' }}
             alt="Unavailable"
           />
         );
         // We have image but its loading, so wait.
       } else {
-        return <Spinner size={"150px"} />;
+        return <Spinner size={'150px'} />;
       }
       // Return the loaded image.
     } else {

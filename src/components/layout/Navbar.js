@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import logo from "../../img/logo.png";
-import LoginModal from "../auth/LoginModal";
-import { clearCurrentUser } from "../../actions/userActions";
-import isEmpty from "../../validation/is-empty";
-import { searchProducts } from "../../actions/productsActions";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import logo from '../../img/logo.png';
+import LoginModal from '../auth/LoginModal';
+import { clearCurrentUser } from '../../actions/userActions';
+import isEmpty from '../../validation/is-empty';
+import { searchProducts } from '../../actions/productsActions';
 
 class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      search: ""
+      search: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -27,14 +27,14 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.searchProducts(this.state.search, "0");
-    this.setState({ search: "" });
+    this.props.searchProducts(this.state.search, '0');
+    this.setState({ search: '' });
   }
 
   onLogout(e) {
     e.preventDefault();
     this.props.clearCurrentUser();
-    this.props.history.push("/");
+    this.props.history.push('/');
   }
 
   logOutBtn() {
@@ -68,7 +68,7 @@ class Navbar extends Component {
       );
     }
     if (!isEmpty(this.props.user.user)) {
-      if (this.props.user.userType === "admin") {
+      if (this.props.user.userType === 'admin') {
         return (
           <ul className="navbar-nav pt-2">
             <li className="nav-item">
@@ -79,11 +79,11 @@ class Navbar extends Component {
           </ul>
         );
       }
-      if (this.props.user.userType === "vendor") {
+      if (this.props.user.userType === 'vendor') {
         return (
           <ul className="navbar-nav pt-2">
             <li className="nav-item">
-              <i class="far fa-bell p-t-5 white" />
+              <i className="far fa-bell p-t-5 white" />
             </li>
             <span>{`Welcome, ${this.props.user.user[0].name} `}</span>
             <li className="nav-item">{this.logOutBtn()}</li>
@@ -101,7 +101,7 @@ class Navbar extends Component {
             <img
               src={logo}
               alt="Grizzly"
-              style={{ width: "200px", margin: "auto", display: "block" }}
+              style={{ width: '200px', margin: 'auto', display: 'block' }}
             />
           </Link>
           <button
