@@ -10,50 +10,39 @@ class CustomerProductDescription extends Component {
     this.props.history.goBack();
   };
 
+
+
   showCarousel() {
-    const product = this.props.single;
+    const product = this.props.product;
     if (!isEmpty(product.images)) {
       return product.images.map((img, index) => (
-        // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        //<div id={index}>
         <img
           key={index}
           src={img.base64Image}
           className="img-responsive"
           alt=""
+          style={{ width: '100%' }}
         />
-        //</div>
       ));
-    }
-  }
-
-  showImg() {
-    const product = this.props.single;
-    // If we don't have any images.
-    if (isEmpty(product.images)) {
-      // If the product details literally has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
-        );
-      // We have image but its loading, so wait.
-      } else {
-        return (<Spinner size={'150px'} />);
-      }
-    // Return the loaded images.
-    } else {
-      return <Carousel>{this.showCarousel()}</Carousel>;
-    }
+    } else
+      return (
+        <img
+          src={unavailable}
+          className="img-responsive"
+          style={{ width: '150px', height: '150px' }}
+          alt="Unavailable"
+        />
+      );
   }
 
   render() {
-    const product = this.props.single;
+    const product = this.props.product;
 
     return (
       <div className="container containerCustomerProductView">
         <div className="row">
           <div className="col-3 picCustomerDetailedProductCol mx-auto">
-            {this.showImg()}
+            <Carousel>{this.showCarousel()}</Carousel>
           </div>
 
           <div className="col-2 containerCustomerProductDesc">
