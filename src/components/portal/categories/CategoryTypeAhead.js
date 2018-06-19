@@ -69,7 +69,7 @@ class CategoryTypeAhead extends Component {
                   value={listItem.id}
                   onClick={this.setCategoryName}
                 >
-                  {listItem.name}
+                  {listItem.name} 
                 </button>,
                 <br key={listItem.id + 10000} />
               ];

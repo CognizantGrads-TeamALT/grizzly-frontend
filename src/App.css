@@ -584,6 +584,11 @@ a:hover {
   top: 30px;
 }
 
+.floating-div-vendor {
+  position: absolute;
+  top: 220px;
+}
+
 .carousel .control-arrow,
 .carousel.carousel-slider .control-arrow {
   -webkit-transition: all 0.25s ease-in;

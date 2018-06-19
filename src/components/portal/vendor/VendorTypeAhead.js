@@ -23,6 +23,7 @@ class VendorTypeAhead extends Component {
             };
             this.onChange = this.onChange.bind(this);
             this.setVendorName = this.setVendorName.bind(this);    
+        
     }
 
     populate(param){
@@ -59,19 +60,18 @@ class VendorTypeAhead extends Component {
                     list = this.populate(vendors);
                     this.setState(
                         {
-                            vendorList: list.map(function (listItem) {
+                            vendorList: list.map(function(listItem) {
                                 return [
                                     <button
-                                        className="btn btn-outline-info btn-sm vendor-scroll-button"
+                                        className="btn btn-sm btn-outline-info  vendor-scroll-button"
                                         key={listItem.id}
                                         type="button"
                                         name={listItem.name}
                                         value={listItem.id}
-                                        onClick={this.setVendorName}
-                                    >
-                                        {listItem.name}{' '}
-                                    </button>,
-                                    <br key={listItem.id + 10000} />
+                                        onClick={this.setVendorName}>
+                                        
+                                        {listItem.name}
+                                    </button>, <br key={listItem.id + 10000} />
 
                                 ];
                             }, this)
@@ -117,7 +117,7 @@ class VendorTypeAhead extends Component {
                     }}
                 />
             </div>
-            <div className="floating-div bg-white">{this.state.vendorList}</div>
+            <div className="floating-div-vendor bg-white">{this.state.vendorList}</div>
         </div> );
     }
 }

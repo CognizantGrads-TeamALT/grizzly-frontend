@@ -5,7 +5,7 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { getProductImageCustomer } from '../../../actions/productsActions';
 import { Link } from 'react-router-dom';
-import Spinner from '../../common/Spinner';
+//import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   constructor(props) {
