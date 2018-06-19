@@ -23,7 +23,7 @@ const store = localforage.createInstance({
 
 const cache = setup({
   cache: {
-    maxAge: 120 * 60 * 1000, // 2 hours
+    maxAge: 30 * 60 * 1000, // 2 hours
     store
   }
 })
