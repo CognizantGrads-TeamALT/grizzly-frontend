@@ -27,8 +27,6 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
-
     this.props.searchProducts(this.state.search, "0");
     this.setState({ search: "" });
   }
