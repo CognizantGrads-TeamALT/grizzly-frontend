@@ -289,7 +289,7 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 export const searchProducts = keyword => dispatch => {
   dispatch(clearCurrentProducts());
   axios
-    .get(PRODUCT_API_GATEWAY + `/search/${keyword}`)
+    .get(PRODUCT_API_GATEWAY + `/search/${keyword}/0`)
     .then(res => {
       dispatch(refreshProductData(res.data))
     })

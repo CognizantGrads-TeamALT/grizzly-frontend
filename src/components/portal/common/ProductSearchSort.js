@@ -56,7 +56,7 @@ class ProductSearchSort extends Component {
   onSearch(e) {
     e.preventDefault();
 
-    this.props.searchProducts(this.state.search);
+    this.props.searchProducts(this.state.search, '0');
 
     this.setState({ search: '' });
   }
