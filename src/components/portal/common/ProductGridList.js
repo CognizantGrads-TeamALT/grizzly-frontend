@@ -5,7 +5,6 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { getProductImageCustomer } from '../../../actions/productsActions';
 import { Link } from 'react-router-dom';
-import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   constructor(props) {
@@ -17,7 +16,10 @@ class ProductGridList extends Component {
     // This will update the state and change the IMG.
     for (let product of products) {
       if (!isEmpty(product.imageDTO)) {
-        this.props.getProductImageCustomer(product, product.imageDTO[0].imgName);
+        this.props.getProductImageCustomer(
+          product,
+          product.imageDTO[0].imgName
+        );
       }
     }
   }
@@ -31,8 +33,9 @@ class ProductGridList extends Component {
           src={imgInfo.base64Image}
           className="img-responsive"
           alt=""
-          style={{"width": "150px", "height": "150px"}}
-        />);
+          style={{ width: '150px', height: '150px' }}
+        />
+      );
     }
   }
 

@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import CustomerProductDescription from "./CustomerProductDescription";
-import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
-import isEmpty from "../../../validation/is-empty";
-import { getProductWithImgs } from "../../../actions/productsActions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import CustomerProductDescription from './CustomerProductDescription';
+import PropTypes from 'prop-types';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
+import { getProductWithImgs } from '../../../actions/productsActions';
 class CustomerDetailedProduct extends Component {
   constructor(props) {
     super(props);
