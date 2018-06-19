@@ -74,7 +74,7 @@ class Navbar extends Component {
         return (
           <ul className="navbar-nav pt-2">
             <li className="nav-item">
-              <i class="far fa-bell p-t-5 white" />
+              <i className="far fa-bell p-t-5 white" />
             </li>
             <span>{`Welcome, Admin <${this.props.user.user[0].name}> `}</span>
             <li className="nav-item">{this.logOutBtn()}</li>
