@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import _ from 'lodash';
-import { searchVendors, Update_TypeAhead } from '../../../actions/vendorActions';
+import { searchVendors, Vendor_Update_TypeAhead } from '../../../actions/vendorActions';
 import isEmpty from '../../../validation/is-empty';
 import { addProduct} from '../../../actions/productsActions';
 import { setTimeout } from 'timers';
@@ -40,7 +40,7 @@ class VendorTypeAhead extends Component {
     }
     searchVend(e) {
         this.setState({ valid_vendor: false });
-        this.props.Update_TypeAhead({
+        this.props.Vendor_Update_TypeAhead({
             cur_id: '',
             valid_vendor: false
         });
@@ -141,7 +141,7 @@ const mapStateToProps = state => ({
 });
 export default connect(
     mapStateToProps,
-    { addProduct, searchVendors, Update_TypeAhead }
+    { addProduct, searchVendors, Vendor_Update_TypeAhead }
   )(withRouter(VendorTypeAhead));
   
 

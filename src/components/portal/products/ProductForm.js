@@ -13,7 +13,7 @@ import CategoryTypeAhead from '../categories/CategoryTypeAhead';
 import ImageUploader from './ImageUploader';
 import validator from 'validator';
 import VendorTypeAhead from '../vendor/VendorTypeAhead';
-//import { searchVendors, Update_TypeAhead } from '../../../actions/vendorActions';
+import { Vendor_Update_TypeAhead } from '../../../actions/vendorActions';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -209,7 +209,7 @@ class ProductForm extends Component {
 
             <VendorTypeAhead
               placeholder="Vendor"
-              onClickHandler={this.props.Update_TypeAhead}
+              onClickHandler={this.props.Vendor_Update_TypeAhead}
             />
           </form>
         </div>
@@ -244,5 +244,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead }
+  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead }
 )(withRouter(ProductForm));

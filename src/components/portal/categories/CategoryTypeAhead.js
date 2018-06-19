@@ -41,6 +41,7 @@ class CategoryTypeAhead extends Component {
   }
 
   searchCat(e) {
+    console.log("from SEARCHCAT");
     this.setState({ valid_cat: false });
     this.props.Update_TypeAhead({
       cur_id: '',
