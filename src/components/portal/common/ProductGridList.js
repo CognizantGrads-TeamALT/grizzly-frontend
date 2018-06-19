@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Link } from 'react-router-dom';
+import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   getImg(product) {
