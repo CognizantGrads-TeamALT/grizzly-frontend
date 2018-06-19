@@ -120,6 +120,7 @@ class ProductDescription extends Component {
       return <Carousel>{this.showCarousel()}</Carousel>;
     }
   }
+
   onSubmit(e) {
     e.preventDefault();
     let imageData = [];
