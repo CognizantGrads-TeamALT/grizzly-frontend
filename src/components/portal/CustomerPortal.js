@@ -61,6 +61,8 @@ class CustomerPortal extends Component {
 
 CustomerPortal.propTypes = {
   getProducts: PropTypes.func.isRequired,
+  setProductUpdated: PropTypes.func.isRequired,
+  getProductImageCustomer: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
 };
 

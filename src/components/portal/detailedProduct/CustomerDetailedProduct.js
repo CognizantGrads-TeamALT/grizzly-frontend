@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import { getProductWithImgs, getProductImageCustomer } from '../../../actions/productsActions';
+
 class CustomerDetailedProduct extends Component {
   constructor(props) {
     super(props);
