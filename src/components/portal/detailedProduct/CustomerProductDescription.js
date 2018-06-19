@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import Spinner from '../../common/Spinner';
-import isEmpty from '../../../validation/is-empty';
+import React, { Component } from "react";
+import Spinner from "../../common/Spinner";
+import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import { Carousel } from "react-responsive-carousel";
 import Button from "react-ions/lib/components/Button";
@@ -11,7 +11,7 @@ class CustomerProductDescription extends Component {
   };
 
   showCarousel() {
-    const product = this.props.product;
+    const product = this.props.product.single;
     if (!isEmpty(product.images)) {
       return product.images.map((img, index) => (
         <img
@@ -19,7 +19,7 @@ class CustomerProductDescription extends Component {
           src={img.base64Image}
           className="img-responsive"
           alt=""
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
       ));
     } else
@@ -27,7 +27,7 @@ class CustomerProductDescription extends Component {
         <img
           src={unavailable}
           className="img-responsive"
-          style={{ width: '150px', height: '150px' }}
+          style={{ width: "150px", height: "150px" }}
           alt="Unavailable"
         />
       );

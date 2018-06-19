@@ -5,27 +5,40 @@ import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner";
+import { getProductImageCustomer } from "../../../actions/productsActions";
 
 class ProductGridList extends Component {
   getImg(product) {
-    if (!isEmpty(product.images)) {
-      let imgInfo = product.images[0];
-      return (
-        <img
-          key={product.productId}
-          src={imgInfo.base64Image}
-          className="img-responsive"
-          alt=""
-          style={{ width: "150px", height: "150px" }}
-        />
-      );
-    }
+    // if (!isEmpty(product.images)) {
+    let imgInfo = product.images[0];
+    return (
+      <img
+        key={product.productId}
+        src={imgInfo.base64Image}
+        className="img-responsive"
+        alt=""
+        style={{ width: "150px", height: "150px" }}
+      />
+    );
+    // } else {
+    //   let imgInfo = getProductImageCustomer(
+    //     product,
+    //     product.imageDTO[0].imgName
+    //   );
+    //   <img
+    //     key={product.productId}
+    //     src={imgInfo.base64Image}
+    //     className="img-responsive"
+    //     alt=""
+    //     style={{ width: "150px", height: "150px" }}
+    //   />;
+    // }
   }
 
   showImg(product) {
     // If we don't have any images.
     if (isEmpty(product.images)) {
-      // If the product details literally has no images.
+      // If the product details has no images.
       if (isEmpty(product.imageDTO)) {
         return (
           <img

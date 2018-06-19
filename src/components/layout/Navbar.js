@@ -29,7 +29,7 @@ class Navbar extends Component {
     e.preventDefault();
     console.log(this.state);
 
-    this.props.searchProducts(this.state.search);
+    this.props.searchProducts(this.state.search, "0");
     this.setState({ search: "" });
   }
 
