@@ -167,6 +167,7 @@
 .show > .btn-outline-success.dropdown-toggle {
   background-color: #46b29d;
   border-color: #46b29d;
+  color: white;
 }
 
 /* Nav Bar */
@@ -186,16 +187,6 @@
 .min-navbar-button-width {
   min-width: 9em;
 }
-
-/* @media screen and (max-width: 760px) {
-  .navbar-collapse > form {
-    display: none;
-  }
-
-  .form-control {
-    display: none;
-  }
-} */
 
 /* Profile container */
 .profile {
@@ -414,6 +405,54 @@ a:hover {
   color: #46b29d;
   background-color: white;
   border-color: #45b29d;
+}
+
+.plain-b {
+  color: rgb(167, 167, 167);
+  background-color: #324D5C;
+  border-color: #324D5C;
+}
+
+.plain-b:hover {
+  color: #324D5C;
+  background-color:white;
+  border-color: #324D5C;
+}
+
+.red-b {
+  color: white;
+  background-color: #DE5B49;
+  border-color: #DE5B49;;
+}
+
+.red-b:hover {
+  color: #DE5B49;
+  background-color:white;
+  border-color: #DE5B49;
+}
+
+.blue-b {
+  color: white;
+  background-color: #324D5C;
+  border-color: #324D5C;
+}
+
+.blue-b:hover {
+  color: #324D5C;
+  background-color:white;
+  border-color: #324D5C;
+}
+
+.orange-b {
+  color: white;
+  background-color: #E37B40;
+  border-color: #E37B40;
+}
+
+.orange-b:hover {
+  color: #E37B40;
+  background-color:white;
+  border-color: #E37B40;
 }
 
 .hover-def-plain-b {

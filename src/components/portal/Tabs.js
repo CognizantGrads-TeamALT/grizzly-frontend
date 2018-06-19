@@ -100,7 +100,7 @@ class Tabs extends Component {
         <Col>
           <div>
             <Nav tabs>
-              <NavItem>
+              <NavItem className="col pl-0 pr-0">
                 <NavLink
                   className={classnames(
                     'nav-link btn-outline-success my-2 my-sm-0',
@@ -116,7 +116,7 @@ class Tabs extends Component {
                 </NavLink>
               </NavItem>
               {this.props.userType === 'admin' && (
-                <NavItem>
+                <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
                       'nav-link btn-outline-success my-2 my-sm-0',
@@ -133,7 +133,7 @@ class Tabs extends Component {
                 </NavItem>
               )}
               {this.props.userType === 'admin' && (
-                <NavItem>
+                <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
                       'nav-link btn-outline-success my-2 my-sm-0',
