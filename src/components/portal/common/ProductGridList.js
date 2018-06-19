@@ -9,7 +9,6 @@ import { getProductImageCustomer } from "../../../actions/productsActions";
 
 class ProductGridList extends Component {
   getImg(product) {
-    // if (!isEmpty(product.images)) {
     let imgInfo = product.images[0];
     return (
       <img
@@ -20,19 +19,7 @@ class ProductGridList extends Component {
         style={{ width: "150px", height: "150px" }}
       />
     );
-    // } else {
-    //   let imgInfo = getProductImageCustomer(
-    //     product,
-    //     product.imageDTO[0].imgName
-    //   );
-    //   <img
-    //     key={product.productId}
-    //     src={imgInfo.base64Image}
-    //     className="img-responsive"
-    //     alt=""
-    //     style={{ width: "150px", height: "150px" }}
-    //   />;
-    // }
+    
   }
 
   showImg(product) {
