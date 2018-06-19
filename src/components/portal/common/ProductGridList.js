@@ -37,10 +37,20 @@ class ProductGridList extends Component {
   }
 
   showImg(product) {
+    // If we don't have any images.
     if (isEmpty(product.images)) {
-      return (
-        <img src={unavailable} className="img-responsive" style={{"width": "50px", "height": "50px"}} alt="Unavailable"/>
-      );
+      // If the product details literally has no images.
+      if (isEmpty(product.imageDTO)) {
+        return (
+          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
+        );
+      // We have image but its loading, so wait.
+      } else {
+        return (
+          <Spinner size={'150px'} />
+        );
+      }
+    // Return the loaded image.
     } else {
       return this.getImg(product);
     }

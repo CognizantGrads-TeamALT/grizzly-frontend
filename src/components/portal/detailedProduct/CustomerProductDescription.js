@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 class CustomerProductDescription extends Component {
   render() {
@@ -18,7 +17,7 @@ class CustomerProductDescription extends Component {
           </div>
 
           <div className="col-2 containerCustomerProductDesc">
-            <div className="row">Product Description</div>
+            <div className="row">{product.name}</div>
             <div className="row">
               <div className="dscrptnSize-7 mb-5">
                 <p>{product.desc}</p>
