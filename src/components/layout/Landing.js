@@ -3,8 +3,22 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../common/Loading';
 import '../../App.css';
+import { withRouter } from 'react-router-dom';
 
 class Landing extends Component {
+  componentDidMount() {
+    if (this.props.user.isAuthenticated) {
+      this.props.history.push(`/${this.props.user.userType}`);
+    }
+  }
+
+  // FOR FUTURE LOGIN FUNC
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.auth.isAuthenticated) {
+  //     this.props.history.push(`/${this.props.user.userType}`);
+  //   }
+  // }
+
   render() {
     return (
       <div className="landingpage">
@@ -35,4 +49,8 @@ class Landing extends Component {
   }
 }
 
-export default connect(null)(Landing);
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(withRouter(Landing));

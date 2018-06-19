@@ -82,7 +82,7 @@ class CategoryTypeAhead extends Component {
 
   setCategoryName(e) {
     this.setState({
-      category: '',
+      category: e.target.name,
       cur_id: e.target.value,
       valid_cat: true,
       categoryList: []
