@@ -1,9 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, Nav, NavItem } from "reactstrap";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import classnames from "classnames";
-import Profile from "../profile/Profile";
 import CustomerProductDescription from "./CustomerProductDescription";
 import PropTypes from "prop-types";
 import Spinner from "../../common/Spinner";
@@ -21,7 +17,7 @@ class CustomerDetailedProduct extends Component {
   show() {
     const { single, loading, product_vendor } = this.props.product;
     if (isEmpty(single) || isEmpty(product_vendor) || loading) {
-      return <Spinner />;
+      return <Spinner size={'150px'}/>;
     } else {
       const vendor = this.props.product.product_vendor.filter(
         item => item.vendorId === single.vendorId
