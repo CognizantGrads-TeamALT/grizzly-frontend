@@ -4,17 +4,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
-import {
-    searchCategories,
-    sortCategoriesByParam
-  } from "../../../actions/categoryActions";
+import { searchCategories, } from "../../../actions/categoryActions";
 
 class ProductCategoryRow extends Component {
-    constructor(props) {
-        super(props);
-        this.props.sortCategoriesByParam("0", "count")
-    }
-
     show() {
         const { categories, loading } = this.props.category;
         let categoryArray = [];
@@ -23,7 +15,7 @@ class ProductCategoryRow extends Component {
                 categoryArray.push(categories[i]);
             }
             return categoryArray.map((cat) => (
-                <div className="col">
+                <div className="col" key={cat.categoryId}>
                     <Link
                         to={{
                             pathname: `/category/${cat.name}`,
@@ -44,7 +36,16 @@ class ProductCategoryRow extends Component {
         const { categories, loading } = this.props.category;
         if(!isEmpty(categories) && !loading) {
             return categories.map((cat) => (
-                <a className="dropdown-item more-rounded" key={cat.categoryId} href="#">{cat.name}</a>
+                <Link
+                    key={cat.categoryId}
+                    to={{
+                        pathname: `/category/${cat.name}`,
+                        state: {catId: cat.categoryId}
+                    }}
+                    className="dropdown-item more-rounded"
+                >
+                {cat.name}
+                </Link>
             ));
         } else {
             return <Spinner /> 
@@ -58,7 +59,7 @@ class ProductCategoryRow extends Component {
                     <div className="col">
                         <div className="dropdown">
                             <button className="btn dropdown-toggle more-rounded parent-wide hover-w-b btn-sm my-2 my-sm-0 mr-sm-2" type="button" id="categoryDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Shop by category
+                            Shop by Category
                             </button>
                             <div className="dropdown-menu" aria-labelledby="categoryDropDownMenu">
                                 {this.displayAllCategories()}
@@ -74,15 +75,13 @@ class ProductCategoryRow extends Component {
 
 ProductCategoryRow.propTypes = {
     searchCategories: PropTypes.func.isRequired,
-    sortCategoriesByParam: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
     category: state.category
 });
   
-export default connect( mapStateToProps, { 
-    sortCategoriesByParam, 
+export default connect( mapStateToProps, {
     searchCategories
 })(ProductCategoryRow);
   

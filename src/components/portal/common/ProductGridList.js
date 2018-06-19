@@ -5,7 +5,6 @@ import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import { Link } from "react-router-dom";
 import Spinner from "../../common/Spinner";
-import { getProductImageCustomer } from "../../../actions/productsActions";
 
 class ProductGridList extends Component {
   getImg(product) {
@@ -19,7 +18,6 @@ class ProductGridList extends Component {
         style={{ width: "150px", height: "150px" }}
       />
     );
-    
   }
 
   showImg(product) {
