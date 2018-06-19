@@ -26,6 +26,7 @@ export default function(state = initialState, action) {
         loading: false
       };
     case types.GET_VENDORS:
+    console.log(action.payload);
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
           ? false
@@ -77,7 +78,7 @@ export default function(state = initialState, action) {
         )
       };
     case types.CLEAR_CURRENT_VENDORS:
-      return {
+          return {
         ...state,
         hasMore: true,
         vendors: null

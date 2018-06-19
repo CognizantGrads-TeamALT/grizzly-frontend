@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { addProduct } from '../../../actions/productsActions';
 import {
   searchCategories,
-  Update_TypeAhead
+  Update_TypeAhead, clearCurrentCategories
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
 import { setTimeout } from 'timers';
@@ -76,6 +76,9 @@ class CategoryTypeAhead extends Component {
             }, this)
           });
         }
+        else  {
+          this.setState(clearCurrentCategories);
+        }
       }, 1000);
     }
   }
@@ -98,7 +101,7 @@ class CategoryTypeAhead extends Component {
   render() {
     const catSearch = _.debounce(e => {
       this.searchCat(e);
-    }, 200);
+    }, 500);
     return (
       <div className={this.props.extraClassNames}>
         <div className="cat-scroll">

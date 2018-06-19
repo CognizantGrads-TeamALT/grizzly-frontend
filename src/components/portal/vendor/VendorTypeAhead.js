@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import _ from 'lodash';
-import { searchVendors, Vendor_Update_TypeAhead } from '../../../actions/vendorActions';
+import { searchVendors, Vendor_Update_TypeAhead, clearCurrentVendors } from '../../../actions/vendorActions';
 import isEmpty from '../../../validation/is-empty';
 import { addProduct} from '../../../actions/productsActions';
 import { setTimeout } from 'timers';
@@ -19,7 +19,7 @@ class VendorTypeAhead extends Component {
                 vendor: '',
                 vendorList: [],
                 cur_id: '',
-                valid_vendor: false
+                valid_vendor: false,
             };
             this.onChange = this.onChange.bind(this);
             this.setVendorName = this.setVendorName.bind(this);    
@@ -46,6 +46,14 @@ class VendorTypeAhead extends Component {
 
         if (isEmpty(e.target.value)) {
             this.setState({ vendorList: [] });
+            this.props.clearCurrentVendors();
+            // this.setState(
+            //     <div className="floating-div-vendor bg-white"
+            //     type="button">
+            //     no results
+            //     </div>
+            // );
+
         } else {
             this.props.searchVendors(e.target.value);
             var list;
@@ -67,7 +75,6 @@ class VendorTypeAhead extends Component {
                                         name={listItem.name}
                                         value={listItem.id}
                                         onClick={this.setVendorName}>
-                                        
                                         {listItem.name}
                                     </button>, <br key={listItem.id + 10000} />
 
@@ -76,9 +83,10 @@ class VendorTypeAhead extends Component {
                         }
                     );
                 }
-                // else {
-                // //     //this.setState();
-                // }
+                else {
+                    this.setState({ vendorList: [] });
+                    this.props.clearCurrentVendors();
+                }
 
             }, 1000);
         }
@@ -103,27 +111,21 @@ class VendorTypeAhead extends Component {
     render() {
         const vendorSearch = _.debounce(e => {
             this.searchVend(e);
-        }, 200);
+        }, 400);
         return (<div className={this.props.extraClassNames}>
             <div className="vendor-scroll">
                 <TextFieldGroup
                     placeholder={this.props.placeholder}
                     name="vendor"
                     value={this.state.vendor}
+                    
                     onChange={event => {
                          // eslint-disable-next-line 
                         this.onChange(event, true), vendorSearch(event);
                     }}
                 />
             </div>
-            <div className="floating-div-vendor bg-white">{this.state.vendorList}</div>
-
-            {/*if (!isEmpty{this.props.TextFieldGroup.value}){
-             <div className="floating-div-vendor bg-white">{this.state.vendorList}</div>   
-            }else {
-                <div className="floating-div-vendor bg-white"> Sorry,No results</div>
-            }*/}
-            
+            <div className="floating-div-vendor bg-white">{this.state.vendorList}</div>          
             
         </div> );
     }
@@ -148,7 +150,7 @@ const mapStateToProps = state => ({
 });
 export default connect(
     mapStateToProps,
-    { addProduct, searchVendors, Vendor_Update_TypeAhead }
+    { addProduct, searchVendors, Vendor_Update_TypeAhead, clearCurrentVendors }
   )(withRouter(VendorTypeAhead));
   
 

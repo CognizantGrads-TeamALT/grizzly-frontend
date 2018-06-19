@@ -99,6 +99,10 @@ export const searchVendors = keyword => dispatch => {
         type: types.GET_ERRORS,
         payload: err.response.data
       })
+      dispatch({
+        type: types.GET_VENDORS,
+        payload: []
+      })
     });
 };
 

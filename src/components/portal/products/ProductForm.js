@@ -209,7 +209,9 @@ class ProductForm extends Component {
 
             <VendorTypeAhead
               placeholder="Vendor"
+              isExact='true'
               onClickHandler={this.props.Vendor_Update_TypeAhead}
+              
             />
           </form>
         </div>
