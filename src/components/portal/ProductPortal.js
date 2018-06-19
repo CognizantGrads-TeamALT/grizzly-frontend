@@ -20,52 +20,49 @@ class ProductPortal extends Component {
             searchFilter: this.props.match.params.searchFilter
         }
         const { catId } = props.location.state
-        this.props.searchCategories(this.state.searchId);
+        // this.props.searchCategories(this.state.searchId);
         this.props.filterProductsByCategory({
             cur_id: catId,
             index: 0
         });
-        this.state = {
-            prods: this.props.product
-        }
+        console.log('props')
+        console.log(this.props)
+        console.log('state')
+        console.log(this.state)
     }
 
     show() {
         if (this.props.match.params.searchFilter == "category") {
-            const { products, loading } = this.state.prods
+            const { products, loading } = this.props.product
             if(!isEmpty(products) && !loading) {
                 return products.map((prod) => (
-                <div className="card text-center" key={prod.productId}>
+                <div className="card text-left mb-2" key={prod.productId}>
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-9">
-                                <div className="row align-items-start">
-                                    <div className="col pl-0">
-                                        <div className="productTitle">
-                                        <b className="d-inline">{prod.name}</b>
-                                        <p className="d-inline dscrptnSize-9"> by {prod.vendorId}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row align-items-end mt-3 mx-auto parent-high">
+                                <div className="col-3">
                                     <ProductCard prodid={prod.productId}/>
                                 </div>
-                            </div>
-
-                            <div className="col-3">
-                                ${prod.price}
-                                <a href="#" className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-">View</a>
-                            </div>
+                                <div className="col-5">
+                                    <div className="productTitle">
+                                        <b className="d-inline">{prod.name}</b>
+                                        <p className="d-inline dscrptnSize-9"> by {prod.vendorId}</p>
+                                    </div>
+                                </div>
+                                <div className="col-2">
+                                    ${prod.price}
+                                </div>
+                                <div className="col-2">
+                                    <a href="#" className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide">View</a>
+                                </div>
                         </div>
+
                     </div>
                 </div>
                 ));
             } else {
-                console.log("wait why you here")
                 return <Spinner />
             }
         }
-
     }
 
 
@@ -79,17 +76,14 @@ class ProductPortal extends Component {
 }
 
 ProductPortal.propTypes = {
-    searchCategories: PropTypes.func.isRequired,
     filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    category: state.category,
     product: state.product
 });
   
 export default connect( mapStateToProps, { 
-    searchCategories,
     filterProductsByCategory
 })(ProductPortal);
   
