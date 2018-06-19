@@ -135,7 +135,7 @@ class Navbar extends Component {
                 </span>
               </div>
             </form>
-            <div className="navbar-buttons">{this.showLinks()}</div>
+            <div className="navbar-buttons mx-auto col-2">{this.showLinks()}</div>
           </div>
         </div>
       </nav>
