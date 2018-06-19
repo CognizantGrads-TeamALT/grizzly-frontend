@@ -68,7 +68,7 @@ class Products extends Component {
       return (
         <tr>
           <td>
-            <Spinner />
+            <Spinner size={'150px'}/>
           </td>
         </tr>
       );
