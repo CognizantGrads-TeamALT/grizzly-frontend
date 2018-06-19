@@ -25,7 +25,6 @@ class VendorTypeAhead extends Component {
             this.setVendorName = this.setVendorName.bind(this);    
         
     }
-
     populate(param){
         var options = param.map(vendor => ({
             id: vendor.vendorId,
@@ -44,18 +43,17 @@ class VendorTypeAhead extends Component {
             cur_id: '',
             valid_vendor: false
         });
-        if (isEmpty(e)) {
+
+        if (isEmpty(e.target.value)) {
             this.setState({ vendorList: [] });
         } else {
             this.props.searchVendors(e.target.value);
             var list;
             setTimeout(() => {
 
-                if (
-                    !isEmpty(this.props.vendor.vendors) &&
+                if (!isEmpty(this.props.vendor.vendors) &&
                     !this.props.vendor.loading) 
                     {
-                        console.log("in the timed if statement");
                     const { vendors } = this.props.vendor;
                     list = this.populate(vendors);
                     this.setState(
@@ -78,6 +76,9 @@ class VendorTypeAhead extends Component {
                         }
                     );
                 }
+                // else {
+                // //     //this.setState();
+                // }
 
             }, 1000);
         }
@@ -99,8 +100,6 @@ class VendorTypeAhead extends Component {
             index: 0
         });
     }
-
-
     render() {
         const vendorSearch = _.debounce(e => {
             this.searchVend(e);
@@ -118,6 +117,14 @@ class VendorTypeAhead extends Component {
                 />
             </div>
             <div className="floating-div-vendor bg-white">{this.state.vendorList}</div>
+
+            {/*if (!isEmpty{this.props.TextFieldGroup.value}){
+             <div className="floating-div-vendor bg-white">{this.state.vendorList}</div>   
+            }else {
+                <div className="floating-div-vendor bg-white"> Sorry,No results</div>
+            }*/}
+            
+            
         </div> );
     }
 }

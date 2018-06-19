@@ -46,7 +46,7 @@ class CategoryTypeAhead extends Component {
       cur_id: '',
       valid_cat: false
     });
-    if (isEmpty(e)) {
+    if (isEmpty(e.target.value)) {
       this.setState({ categoryList: [] });
     } else {
       this.props.searchCategories(e.target.value);
