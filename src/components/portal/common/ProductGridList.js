@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Link } from 'react-router-dom';
-import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   getImg(product) {
@@ -16,8 +15,9 @@ class ProductGridList extends Component {
           src={imgInfo.base64Image}
           className="img-responsive"
           alt=""
-          style={{"width": "150px", "height": "150px"}}
-        />);
+          style={{ width: '150px', height: '150px' }}
+        />
+      );
     }
   }
 
