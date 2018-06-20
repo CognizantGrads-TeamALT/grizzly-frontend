@@ -119,7 +119,7 @@ class Tabs extends Component {
                 <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0',
+                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
                       {
                         active: this.state.activeTab === '2'
                       }
@@ -136,7 +136,7 @@ class Tabs extends Component {
                 <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0',
+                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
                       {
                         active: this.state.activeTab === '3'
                       }
@@ -153,7 +153,7 @@ class Tabs extends Component {
                 <NavItem>
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success my-2 my-sm-0',
+                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
                       {
                         active: this.state.activeTab === '4'
                       }
@@ -174,7 +174,7 @@ class Tabs extends Component {
                     <ProductSearchSort />
                     <CategoryTypeAhead
                       placeholder="Filter by category"
-                      extraClassNames="btn-group mt-3 mr-2"
+                      extraClassNames="btn-group mr-2"
                       onClickHandler={this.props.filterProductsByCategory}
                       pageIndex={this.props.product.index}
                     />
@@ -191,28 +191,28 @@ class Tabs extends Component {
               </TabPane>
               <TabPane tabId="2">
                 <Row>
-                  <Col sm="12">
+                  <Col sm="12 pt-2">
                     <Vendor />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="3">
                 <Row>
-                  <Col sm="12">
+                  <Col sm="12 pt-2">
                     <Categories />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="4">
                 <Row>
-                  <Col sm="12">
+                  <Col sm="12 pt-2">
                     <Inventory />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="addProduct">
                 <Row>
-                  <Col sm="12">
+                  <Col sm="12 pt-2">
                     <ProductForm onCancel={this.onAddProductCancel} />
                   </Col>
                 </Row>

@@ -41,7 +41,7 @@ class InventorySearchSort extends Component {
 
   render() {
     return (
-      <div className="btn-group aligned-left mt-2 mb-2">
+      <div className="btn-group aligned-left mt-2 mb-3">
         <form className="form-inline ml-0 mr-1">
           <div className="search-form-custom">
             <input

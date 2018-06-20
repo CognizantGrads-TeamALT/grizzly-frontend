@@ -101,7 +101,7 @@ class CategoryTypeAhead extends Component {
     }, 200);
     return (
       <div className={this.props.extraClassNames}>
-        <div className="cat-scroll">
+        <div className="cat-scroll pt-3 inner-rounded-corners">
           <TextFieldGroup
             placeholder={this.props.placeholder}
             name="category"
