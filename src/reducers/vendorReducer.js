@@ -26,7 +26,6 @@ export default function (state = initialState, action) {
         loading: false
       };
     case types.GET_VENDORS:
-      console.log(action.payload);
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
           ? false
