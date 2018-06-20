@@ -150,7 +150,7 @@ class Tabs extends Component {
                 </NavItem>
               )}
               {this.props.userType === 'vendor' && (
-                <NavItem>
+                <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
                       'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',

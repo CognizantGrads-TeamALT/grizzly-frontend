@@ -52,7 +52,7 @@ class Navbar extends Component {
   showLinks() {
     if (isEmpty(this.props.user.user)) {
       return (
-        <ul className="navbar-nav pl-2">
+        <ul className="navbar-nav pl-2 pt-2">
           <li className="nav-item">
             <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
           </li>
