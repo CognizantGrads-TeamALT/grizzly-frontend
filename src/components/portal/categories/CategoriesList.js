@@ -39,6 +39,7 @@ class CategoriesList extends Component {
               buttonLabel="Edit"
               title="Edit Category"
               actionLabel="Edit"
+              buttonClass="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
             />
             <ConfirmModal
               buttonLabel={category.enabled ? "Block" : "Unblock"}

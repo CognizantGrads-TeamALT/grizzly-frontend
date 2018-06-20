@@ -224,10 +224,10 @@ class ProductForm extends Component {
               value={this.state.price}
               onChange={this.onChange}
             />
-
             {this.props.user.userType === 'admin' && (
               <VendorTypeAhead
                 placeholder="Vendor"
+                isExact='true'
                 onClickHandler={this.props.Vendor_Update_TypeAhead}
               />
             )}

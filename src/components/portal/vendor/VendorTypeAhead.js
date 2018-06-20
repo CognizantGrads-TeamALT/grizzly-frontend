@@ -6,7 +6,8 @@ import TextFieldGroup from '../../common/TextFieldGroup';
 import _ from 'lodash';
 import {
   searchVendors,
-  Vendor_Update_TypeAhead
+  Vendor_Update_TypeAhead,
+  clearCurrentVendors
 } from '../../../actions/vendorActions';
 import isEmpty from '../../../validation/is-empty';
 import { addProduct } from '../../../actions/productsActions';
@@ -26,7 +27,6 @@ class VendorTypeAhead extends Component {
     this.onChange = this.onChange.bind(this);
     this.setVendorName = this.setVendorName.bind(this);
   }
-
   populate(param) {
     var options = param.map(vendor => ({
       id: vendor.vendorId,
@@ -44,14 +44,15 @@ class VendorTypeAhead extends Component {
       cur_id: '',
       valid_vendor: false
     });
-    if (isEmpty(e)) {
+
+    if (isEmpty(e.target.value)) {
       this.setState({ vendorList: [] });
+      this.props.clearCurrentVendors();
     } else {
       this.props.searchVendors(e.target.value);
       var list;
       setTimeout(() => {
         if (!isEmpty(this.props.vendor.vendors) && !this.props.vendor.loading) {
-          console.log('in the timed if statement');
           const { vendors } = this.props.vendor;
           list = this.populate(vendors);
           this.setState({
@@ -71,6 +72,23 @@ class VendorTypeAhead extends Component {
               ];
             }, this)
           });
+        } else {
+          this.setState({
+            vendorList: [
+              <button
+                className="btn btn-sm btn-outline-info  vendor-scroll-button"
+                key={0}
+                type="button"
+                name={'No Results'}
+                value={'No results found'}
+                onClick={0}
+              >
+                {'No results found'}
+              </button>,
+              <br key={0 + 10000} />
+            ]
+          });
+          this.props.clearCurrentVendors();
         }
       }, 1000);
     }
@@ -90,11 +108,10 @@ class VendorTypeAhead extends Component {
       index: 0
     });
   }
-
   render() {
     const vendorSearch = _.debounce(e => {
       this.searchVend(e);
-    }, 200);
+    }, 900);
     return (
       <div className={this.props.extraClassNames}>
         <div className="vendor-scroll">
@@ -135,5 +152,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { addProduct, searchVendors, Vendor_Update_TypeAhead }
+  { addProduct, searchVendors, Vendor_Update_TypeAhead, clearCurrentVendors }
 )(withRouter(VendorTypeAhead));
