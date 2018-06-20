@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { addProduct } from '../../../actions/productsActions';
 import {
   searchCategories,
-  Update_TypeAhead
+  Update_TypeAhead, clearCurrentCategories
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
 import { setTimeout } from 'timers';
@@ -46,7 +46,7 @@ class CategoryTypeAhead extends Component {
       cur_id: '',
       valid_cat: false
     });
-    if (isEmpty(e)) {
+    if (isEmpty(e.target.value)) {
       this.setState({ categoryList: [] });
     } else {
       this.props.searchCategories(e.target.value);
@@ -76,6 +76,18 @@ class CategoryTypeAhead extends Component {
             }, this)
           });
         }
+        else {
+          this.setState({ categoryList: [
+          <button
+              className="btn btn-sm btn-outline-info  cat-scroll-button"
+              key={0}
+              type="button"
+              name={"No Results"}
+              value={"No results found"}
+              onClick={0}>
+              {"No results found"}
+          </button> ]});
+        }
       }, 1000);
     }
   }
@@ -98,7 +110,7 @@ class CategoryTypeAhead extends Component {
   render() {
     const catSearch = _.debounce(e => {
       this.searchCat(e);
-    }, 200);
+    }, 600);
     return (
       <div className={this.props.extraClassNames}>
         <div className="cat-scroll pt-3 inner-rounded-corners">

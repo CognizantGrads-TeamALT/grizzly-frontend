@@ -37,7 +37,6 @@ export const Vendor_Update_TypeAhead = values => dispatch => {
     type: types.VENDOR_TYPEAHEAD_UPDATE,
     payload: values
   })
-
 }
 
 // Add Vendor
@@ -98,6 +97,10 @@ export const searchVendors = keyword => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
+      })
+      dispatch({
+        type: types.GET_VENDORS,
+        payload: []
       })
     });
 };
