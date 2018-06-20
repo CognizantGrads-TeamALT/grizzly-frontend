@@ -7,7 +7,7 @@ const initialState = {
   index: 0
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case types.VENDOR_LOADING:
       return {
@@ -26,7 +26,7 @@ export default function(state = initialState, action) {
         loading: false
       };
     case types.GET_VENDORS:
-    console.log(action.payload);
+      console.log(action.payload);
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
           ? false
@@ -36,10 +36,10 @@ export default function(state = initialState, action) {
       const newVendors = isEmpty(action.payload)
         ? currentVendors
         : [
-            ...new Map(
-              currentVendors.concat(action.payload).map(o => [o["vendorId"], o])
-            ).values()
-          ];
+          ...new Map(
+            currentVendors.concat(action.payload).map(o => [o["vendorId"], o])
+          ).values()
+        ];
       return {
         ...state,
         vendors: newVendors,
@@ -78,7 +78,7 @@ export default function(state = initialState, action) {
         )
       };
     case types.CLEAR_CURRENT_VENDORS:
-          return {
+      return {
         ...state,
         hasMore: true,
         vendors: null

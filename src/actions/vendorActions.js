@@ -37,7 +37,6 @@ export const Vendor_Update_TypeAhead = values => dispatch => {
     type: types.VENDOR_TYPEAHEAD_UPDATE,
     payload: values
   })
-
 }
 
 // Add Vendor

@@ -110,7 +110,7 @@ class CategoryTypeAhead extends Component {
   render() {
     const catSearch = _.debounce(e => {
       this.searchCat(e);
-    }, 500);
+    }, 600);
     return (
       <div className={this.props.extraClassNames}>
         <div className="cat-scroll">
