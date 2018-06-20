@@ -33,7 +33,7 @@ class Inventory extends Component {
               <td>5</td>
               <td>
                 <button
-                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
+                  className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
                   type="button"
                 >
                   Edit
@@ -51,7 +51,7 @@ class Inventory extends Component {
               <td>5</td>
               <td>
                 <button
-                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
+                  className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
                   type="button"
                 >
                   Edit
@@ -69,7 +69,7 @@ class Inventory extends Component {
               <td>5</td>
               <td>
                 <button
-                  className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
+                  className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
                   type="button"
                 >
                   Edit

@@ -63,7 +63,7 @@ class ProductSearchSort extends Component {
 
   render() {
     return (
-      <div className="btn-group aligned-left mt-2 mb-2">
+      <div className="btn-group aligned-left">
         <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
           <div className="search-form-custom">
             <input

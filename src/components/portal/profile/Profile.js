@@ -27,7 +27,7 @@ class Profile extends Component {
 
   render() {
     return (
-      <div className="text-center profile-sidebar">
+      <div className="text-center profile-sidebar surround-parent w-100 h-100">
         <div className="profile-header">
           <div className="profile-header-text">
             Profile

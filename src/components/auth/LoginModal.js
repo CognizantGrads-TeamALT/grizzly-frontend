@@ -52,7 +52,7 @@ class LoginModal extends Component {
 
   render() {
     return (
-      <div className="form-group mr-2">
+      <div className="form-group mr-2 my-auto">
         <input
           type="button"
           value="Login"
