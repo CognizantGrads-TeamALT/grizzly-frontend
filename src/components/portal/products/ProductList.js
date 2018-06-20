@@ -23,6 +23,10 @@ class ProductList extends Component {
     this.onViewClick = this.onViewClick.bind(this);
   }
 
+  componentDidMount() {
+    this.showBlockButton();
+  }
+
   onDeleteClick(id) {
     this.props.deleteProduct(id);
   }
@@ -64,19 +68,17 @@ class ProductList extends Component {
     }
   }
 
-  showBlockButton(product) {
-    if (this.props.userType === 'admin')
-      return (
-        <ConfirmModal
-          buttonLabel={product.enabled ? 'Block' : 'Unblock'}
-          title="Block Product"
-          confirmText={
-            (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
-          }
-          buttonClass="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
-          onSubmit={this.onBlockClick}
-        />
-      );
+  showBlockButton() {
+    var blockButton = document.getElementById('collapsable-block-appearance');
+    if (this.props.userType === 'admin') {
+      console.log('admin');
+      blockButton.style.display='inline';
+    }
+    else {
+      console.log('VENDOR');
+      document.getElementById("collapsable-block-appearance").style.display = 'none';
+      // blockButton.style.display='none';
+    }
   }
 
   render() {
@@ -90,7 +92,7 @@ class ProductList extends Component {
         <td>{product.rating}</td>
         <td>
           <div className="row">
-            <div className="col pl-2 pr-0">
+            <div className="col pr-0">
                 <Button
                 onClick={this.onViewClick}
                 className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
@@ -98,8 +100,16 @@ class ProductList extends Component {
                 View
               </Button>
             </div>
-            <div className="col p-0">
-              {this.showBlockButton(product)}
+            <div className="col p-0" id="collapsable-block-appearance">
+              <ConfirmModal
+                buttonLabel={product.enabled ? 'Block' : 'Unblock'}
+                title="Block Product"
+                confirmText={
+                  (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
+                }
+                buttonClass="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
+                onSubmit={this.onBlockClick}
+              />
             </div>
             <div className="col p-0">
               <ConfirmModal

@@ -187,6 +187,12 @@
   min-width: 9em;
 }
 
+.nav-bar-bottom-border {
+  border-bottom: rgba(51, 51, 51, 0.1);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
 /* Profile container */
 .profile {
   margin: 20px 0;
@@ -211,6 +217,11 @@
   min-width: 200px;
   max-width: 250px;
   overflow: auto;
+}
+
+/* Vendor Portal */
+.collapsable-block-appearance > .collapsable-block-trigger:parent {
+  display: none;
 }
 
 /*vendorscrolllist*/

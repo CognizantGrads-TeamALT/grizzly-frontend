@@ -33,7 +33,7 @@ class VendorList extends Component {
         <td>{vendor.contactNum}</td>
         <td>
         <div className="row">
-            <div className="col pl-2 pr-0">
+            <div className="col pr-0">
               <button
                 className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
                 type="button"
