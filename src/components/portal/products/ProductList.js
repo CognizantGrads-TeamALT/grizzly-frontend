@@ -69,15 +69,17 @@ class ProductList extends Component {
   }
 
   showBlockButton() {
-    var blockButton = document.getElementById('collapsable-block-appearance');
+    var blockButtons = document.getElementsByClassName('col p-0 collapsable-block-appearance');
+    var i;
     if (this.props.userType === 'admin') {
-      console.log('admin');
-      blockButton.style.display='inline';
+      for (i = 0; i < blockButtons.length; i++) {
+        blockButtons[i].style.display = 'inline';
+      }
     }
     else {
-      console.log('VENDOR');
-      document.getElementById("collapsable-block-appearance").style.display = 'none';
-      // blockButton.style.display='none';
+      for (i = 0; i < blockButtons.length; i++) {
+        blockButtons[i].style.display = 'none';
+      }    
     }
   }
 
@@ -92,7 +94,7 @@ class ProductList extends Component {
         <td>{product.rating}</td>
         <td>
           <div className="row">
-            <div className="col pr-0">
+            <div className="col p-0">
                 <Button
                 onClick={this.onViewClick}
                 className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
@@ -100,7 +102,7 @@ class ProductList extends Component {
                 View
               </Button>
             </div>
-            <div className="col p-0" id="collapsable-block-appearance">
+            <div className="col p-0 collapsable-block-appearance">
               <ConfirmModal
                 buttonLabel={product.enabled ? 'Block' : 'Unblock'}
                 title="Block Product"

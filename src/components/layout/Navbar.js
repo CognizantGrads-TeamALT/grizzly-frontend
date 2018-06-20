@@ -40,7 +40,7 @@ class Navbar extends Component {
   logOutBtn() {
     return (
       <button
-        className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
+        className="btn more-rounded ml-2 hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
         type="button"
         onClick={this.onLogout}
       >
@@ -52,11 +52,11 @@ class Navbar extends Component {
   showLinks() {
     if (isEmpty(this.props.user.user)) {
       return (
-        <ul className="navbar-nav pl-2 pt-2">
-          <li className="nav-item">
+        <ul className="navbar-nav pl-2">
+          <li className="nav-item mr-1 my-auto">
             <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
           </li>
-          <li className="nav-item">
+          <li className="nav-item mr-1 my-auto">
             <Link
               className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
               to="/signup"
@@ -71,10 +71,10 @@ class Navbar extends Component {
       if (this.props.user.userType === 'admin') {
         return (
           <ul className="navbar-nav pl-2">
-            <li className="nav-item mr-1">
+            <li className="nav-item mr-1 my-auto">
               <i className="far fa-bell p-t-5 white" />
             </li>
-            <li className="nav-item mr-1">
+            <li className="nav-item mr-1 my-auto">
               <span>{`Welcome, Admin <${this.props.user.user[0].name}> `}</span>
             </li>
            
@@ -85,10 +85,10 @@ class Navbar extends Component {
       if (this.props.user.userType === 'vendor') {
         return (
           <ul className="navbar-nav pl-2">
-            <li className="nav-item">
+            <li className="nav-item mr-1 my-auto">
               <i className="far fa-bell p-t-5 white" />
             </li>
-            <li className="nav-item mr-1">
+            <li className="nav-item mr-1 my-auto">
               <span>{`Welcome, ${this.props.user.user[0].name} `}</span>
             </li>
             <li className="nav-item">{this.logOutBtn()}</li>
@@ -145,7 +145,7 @@ class Navbar extends Component {
                 </span>
               </div>
             </form>
-            <div className="navbar-buttons ml-2 search-form-custom">{this.showLinks()}</div>
+            <div className="ml-2 search-form-custom nav justify-content-end">{this.showLinks()}</div>
           </div>
         </div>
       </nav>
