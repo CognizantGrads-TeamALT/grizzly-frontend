@@ -122,7 +122,7 @@ class CategoryForm extends Component {
         <input
           type="button"
           value={this.props.buttonLabel}
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+          className={this.props.buttonClass}
           onClick={this.onToggle}
         />
         <Modal
