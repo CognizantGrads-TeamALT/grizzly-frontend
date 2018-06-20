@@ -28,7 +28,8 @@ class ProductForm extends Component {
       rating: 0,
       categoryList: [],
       cur_id: '',
-      valid_cat: false
+      valid_cat: false,
+      valid_vendor: false
     };
     this.pictures = [];
     this.files = [];
@@ -72,7 +73,10 @@ class ProductForm extends Component {
       price: this.state.price,
       rating: this.state.rating,
       enabled: true,
-      vendorId: 1,
+      vendorId:
+        this.props.user.userType === 'admin'
+          ? this.props.vendor.cur_id
+          : this.props.user.user[0].userId,
       imageDTO: imageData
     };
 
@@ -92,11 +96,16 @@ class ProductForm extends Component {
     else {
       this.props.addProduct(newProd);
       this.setState({
+        modal: false,
         category: '',
         name: '',
+        desc: '',
         price: '',
         rating: 0,
-        desc: ''
+        categoryList: [],
+        cur_id: '',
+        valid_cat: false,
+        valid_vendor: false
       });
       this.cancel();
     }
@@ -116,6 +125,15 @@ class ProductForm extends Component {
         msg:
           "Invalid category. Please select one from the category field's search results.",
         debug: 'Invalid catId: ' + this.props.category.cur_id
+      });
+    }
+
+    // vendor ID is populated from typeahead
+    if (!this.props.vendor.valid_vendor) {
+      errors.push({
+        msg:
+          "Invalid vendor. Please select one from the vendor field's search results.",
+        debug: 'Invalid vendorId: ' + this.props.vendor.cur_id
       });
     }
 
@@ -207,10 +225,12 @@ class ProductForm extends Component {
               onChange={this.onChange}
             />
 
-            <VendorTypeAhead
-              placeholder="Vendor"
-              onClickHandler={this.props.Vendor_Update_TypeAhead}
-            />
+            {this.props.user.userType === 'admin' && (
+              <VendorTypeAhead
+                placeholder="Vendor"
+                onClickHandler={this.props.Vendor_Update_TypeAhead}
+              />
+            )}
           </form>
         </div>
         <div className="col-2">
@@ -239,7 +259,9 @@ ProductForm.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  category: state.category
+  category: state.category,
+  vendor: state.vendor,
+  user: state.user
 });
 
 export default connect(
