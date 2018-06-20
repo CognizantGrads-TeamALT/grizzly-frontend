@@ -1,5 +1,5 @@
-import * as types from "../actions/types";
-import isEmpty from "../validation/is-empty";
+import * as types from '../actions/types';
+import isEmpty from '../validation/is-empty';
 
 const initialState = {
   vendors: null,
@@ -36,16 +36,22 @@ export default function (state = initialState, action) {
       const newVendors = isEmpty(action.payload)
         ? currentVendors
         : [
-          ...new Map(
-            currentVendors.concat(action.payload).map(o => [o["vendorId"], o])
-          ).values()
-        ];
+            ...new Map(
+              currentVendors.concat(action.payload).map(o => [o['vendorId'], o])
+            ).values()
+          ];
       return {
         ...state,
         vendors: newVendors,
         hasMore: hasMore,
         index: index,
         loading: false
+      };
+    case types.VENDOR_TYPEAHEAD_UPDATE:
+      return {
+        ...state,
+        cur_id: action.payload.cur_id,
+        valid_vendor: action.payload.valid_vendor
       };
     case types.VENDOR_ADDING:
       const currentVendors2 = isEmpty(state.vendors) ? [] : state.vendors;

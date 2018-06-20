@@ -1,5 +1,5 @@
-import * as types from "../actions/types";
-import isEmpty from "../validation/is-empty";
+import * as types from '../actions/types';
+import isEmpty from '../validation/is-empty';
 
 const initialState = {
   categories: null,
@@ -36,7 +36,7 @@ export default function(state = initialState, action) {
         ? currentCats
         : [
             ...new Map(
-              currentCats.concat(action.payload).map(o => [o["categoryId"], o])
+              currentCats.concat(action.payload).map(o => [o['categoryId'], o])
             ).values()
           ];
       return {
@@ -47,13 +47,11 @@ export default function(state = initialState, action) {
         loading: false
       };
     case types.CATEGORY_TYPEAHEAD_UPDATE:
-      const current_id = action.payload.cur_id;
-      const valid_category = action.payload.valid_cat;
-      return{
+      return {
         ...state,
-        cur_id: current_id,
-        valid_cat: valid_category
-      }
+        cur_id: action.payload.cur_id,
+        valid_cat: action.payload.valid_cat
+      };
 
     case types.CATEGORY_ADDING:
       const currentCats2 = isEmpty(state.categories) ? [] : state.categories;

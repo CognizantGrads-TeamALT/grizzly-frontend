@@ -67,7 +67,7 @@ class ProductDescription extends Component {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
     if (isNaN(parseInt(event.target.value, 10))) {
-      event.target.value = this.state.product.price;
+      event.target.value = this.state.price;
     } else {
       this.setState({
         isEditingPrice: !this.state.isEditingPrice,
@@ -120,6 +120,7 @@ class ProductDescription extends Component {
       return <Carousel>{this.showCarousel()}</Carousel>;
     }
   }
+
   onSubmit(e) {
     e.preventDefault();
     let imageData = [];
@@ -137,10 +138,10 @@ class ProductDescription extends Component {
       name: this.state.name,
       desc: this.state.desc,
       price: this.state.price,
-      rating: this.props.single.rating,
-      enabled: this.props.single.enabled,
-      vendorId: this.props.single.vendorId,
-      imageDTO: this.props.single.imageData
+      rating: this.props.product.single.rating,
+      enabled: this.props.product.single.enabled,
+      vendorId: this.props.product.single.vendorId,
+      imageDTO: this.props.product.single.imageData
     };
 
     if (this.state.changed) {
@@ -234,6 +235,7 @@ class ProductDescription extends Component {
                       <Button
                         className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                         onClick={this.onSubmit}
+                        disabled={!this.state.changed}
                       >
                         Finish
                       </Button>

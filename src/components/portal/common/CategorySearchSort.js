@@ -126,6 +126,7 @@ class CategorySearchSort extends Component {
           title="Add Category"
           buttonLabel="Add Category"
           actionLabel="Add Category"
+          buttonClass="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
         />
       </div>
     );

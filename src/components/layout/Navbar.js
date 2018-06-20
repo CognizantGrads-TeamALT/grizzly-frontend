@@ -7,6 +7,8 @@ import logo from '../../img/logo.png';
 import LoginModal from '../auth/LoginModal';
 import { clearCurrentUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
+import { searchProducts } from '../../actions/productsActions';
+
 class Navbar extends Component {
   constructor() {
     super();
@@ -25,6 +27,7 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.props.searchProducts(this.state.search, '0');
     this.setState({ search: '' });
   }
 
@@ -49,13 +52,13 @@ class Navbar extends Component {
   showLinks() {
     if (isEmpty(this.props.user.user)) {
       return (
-        <ul className="navbar-nav pt-2">
+        <ul className="navbar-nav pt-2 my-auto">
           <li className="nav-item">
             <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
           </li>
           <li className="nav-item">
             <Link
-              className="btn more-rounded hover-w-b btn-sm mr-sm-2"
+              className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
               to="/signup"
             >
               Sign Up
@@ -69,7 +72,7 @@ class Navbar extends Component {
         return (
           <ul className="navbar-nav pt-2">
             <li className="nav-item">
-              <i class="far fa-bell p-t-5 white" />
+              <i className="far fa-bell p-t-5 white" />
             </li>
             <span>{`Welcome, Admin <${this.props.user.user[0].name}> `}</span>
             <li className="nav-item">{this.logOutBtn()}</li>
@@ -80,7 +83,7 @@ class Navbar extends Component {
         return (
           <ul className="navbar-nav pt-2">
             <li className="nav-item">
-              <i class="far fa-bell p-t-5 white" />
+              <i className="far fa-bell p-t-5 white" />
             </li>
             <span>{`Welcome, ${this.props.user.user[0].name} `}</span>
             <li className="nav-item">{this.logOutBtn()}</li>
@@ -119,6 +122,7 @@ class Navbar extends Component {
                 <input
                   className="form-control left-rounded border-right-0 border col-8"
                   type="search"
+                  name="search"
                   placeholder="Search"
                   id="example-search-input"
                   defaultValue={this.state.search}
@@ -144,6 +148,7 @@ class Navbar extends Component {
 }
 
 Navbar.propTypes = {
+  searchProducts: PropTypes.func.isRequired,
   clearCurrentUser: PropTypes.func.isRequired
 };
 
@@ -153,5 +158,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { clearCurrentUser }
+  { searchProducts, clearCurrentUser }
 )(withRouter(Navbar));
