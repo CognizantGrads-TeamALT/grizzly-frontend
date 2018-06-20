@@ -19,7 +19,7 @@ class VendorTypeAhead extends Component {
                 vendor: '',
                 vendorList: [],
                 cur_id: '',
-                valid_vendor: false,
+                valid_vendor: false
             };
         this.onChange = this.onChange.bind(this);
         this.setVendorName = this.setVendorName.bind(this);
