@@ -90,14 +90,15 @@ class ProductDescription extends Component {
     if (!isEmpty(product.images)) {
       return product.images.map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        //<div id={index}>
-        <img
-          key={index}
-          src={img.base64Image}
-          className="img-responsive"
-          alt=""
-        />
-        //</div>
+        <div className="img-wrap">
+          <span className="img-delete">&times;</span>
+          <img
+            key={index}
+            src={img.base64Image}
+            className="img-responsive"
+            alt=""
+          />
+        </div>
       ));
     }
   }
