@@ -96,14 +96,14 @@ class Tabs extends Component {
 
   render() {
     return (
-      <Row>
+      <Row className="griz-portal">
         <Col>
-          <div>
+          <div className="griz-portal">
             <Nav tabs>
-              <NavItem className="col pl-0 pr-0">
+              <NavItem className="col pl-0 pr-0 h-">
                 <NavLink
                   className={classnames(
-                    'nav-link btn-outline-success my-2 my-sm-0',
+                    'nav-link my-auto btn-outline-success',
                     {
                       active: this.state.activeTab === '1'
                     }
@@ -119,7 +119,7 @@ class Tabs extends Component {
                 <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
+                      'nav-link my-auto btn-outline-success griz-t-color-hover',
                       {
                         active: this.state.activeTab === '2'
                       }
@@ -136,7 +136,7 @@ class Tabs extends Component {
                 <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
+                      'nav-link my-auto btn-outline-success griz-t-color-hover',
                       {
                         active: this.state.activeTab === '3'
                       }
@@ -153,7 +153,7 @@ class Tabs extends Component {
                 <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
+                      'nav-link my-auto btn-outline-success griz-t-color-hover',
                       {
                         active: this.state.activeTab === '4'
                       }
@@ -167,24 +167,26 @@ class Tabs extends Component {
                 </NavItem>
               )}
             </Nav>
-            <TabContent activeTab={this.state.activeTab}>
+            <TabContent activeTab={this.state.activeTab} className="parent-high-inner surround-parent">
               <TabPane tabId="1">
                 <Row>
                   <Col sm="12">
-                    <ProductSearchSort />
-                    <CategoryTypeAhead
-                      placeholder="Filter by category"
-                      extraClassNames="btn-group mr-2"
-                      onClickHandler={this.props.filterProductsByCategory}
-                      pageIndex={this.props.product.index}
-                    />
-                    <button
-                      className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-                      onClick={this.onAddProduct}
-                      // to="/product/new"
-                    >
-                      Add Product
-                    </button>
+                    <div className="mt-3 mb-3">
+                      <ProductSearchSort />
+                      <CategoryTypeAhead
+                        placeholder="Filter by category"
+                        extraClassNames="btn-group mr-2"
+                        onClickHandler={this.props.filterProductsByCategory}
+                        pageIndex={this.props.product.index}
+                      />
+                      <button
+                        className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+                        onClick={this.onAddProduct}
+                        // to="/product/new"
+                      >
+                        Add Product
+                      </button>
+                    </div>
                     <Products />
                   </Col>
                 </Row>

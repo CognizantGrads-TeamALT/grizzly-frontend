@@ -100,8 +100,8 @@ class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center pt-0 nav-bar-bottom-border">
-        <div className="container">
+      <nav className="navbar navbar-light navbar-expand-sm text-center nav-bar-bottom-border">
+        <div className="ml-0 mr-0 container parent-wide">
           <Link className="navbar-brand" to="/">
             <img
               src={logo}

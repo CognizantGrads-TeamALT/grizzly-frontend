@@ -15,8 +15,8 @@ class Portal extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-2">
+      <div className="griz-portal row">
+        <div className="col-2 griz-dark-blue-bg p-3">
           {this.props.match.params.portal === 'admin' && (
             <Profile userType="admin" userId="2" />
           )}
@@ -24,7 +24,7 @@ class Portal extends Component {
             <Profile userType="vendor" userId="1" />
           )}
         </div>
-        <div className="col-md-10">
+        <div className="col-10 pl-0">
           {(this.props.userType === 'admin' ||
             this.props.userType === 'vendor') && <Tabs />}
         </div>

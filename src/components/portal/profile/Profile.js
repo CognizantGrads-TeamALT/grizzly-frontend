@@ -27,29 +27,24 @@ class Profile extends Component {
 
   render() {
     return (
-      <div className="text-center profile-sidebar surround-parent w-100 h-100">
-        <div className="profile-header">
-          <div className="profile-header-text">
-            Profile
-            <button
-              type="button"
-              className="btn btn-link hover-def-plain-b profile-header-button"
-            >
-              Edit
-            </button>
-          </div>
-        </div>
-        <div className="smaller-profile-box">
-          <div className="profile-userpic">
+      <div className="text-left profile-blue-color ml-3">
+          <div className="profile-usermenu white-text mt-4">
+            <div className="profile-header">
+                <div className="profile-usertitle-title d-inline fnt-weight-500">
+                  {this.show().name}
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-link d-inline p-1 my-auto profile-blue-color profile-small-link float-right"
+                >
+                  Edit
+                </button>
+            </div>
+            <div className="profile-userpic p-4">
             <img src={photoID} className="img-responsive" alt="" />
           </div>
-
-          <div className="profile-usertitle">
-            <div className="profile-usertitle-name" />
-          </div>
-          <div className="profile-usermenu">
-            <div className="profile-usertitle-title fnt-weight-500">
-              {this.show().name}
+            <div className="profile-small-subtitle mt-2">
+              {this.props.userType}
             </div>
             <div className="fnt-weight-400">Contact Number</div>
             <div className="profile-usertitle-info fnt-weight-300">
@@ -60,7 +55,6 @@ class Profile extends Component {
               {this.show().email}
             </div>
           </div>
-        </div>
       </div>
     );
   }

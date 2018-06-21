@@ -125,7 +125,7 @@ class VendorTypeAhead extends Component {
             }}
           />
         </div>
-        <div className="floating-div-vendor bg-white">
+        <div className="d-absolute bg-white">
           {this.state.vendorList}
         </div>
       </div>
