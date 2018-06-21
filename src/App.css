@@ -994,10 +994,11 @@ a:hover {
 }
 
 .btnBuyNowCustomer {
-  margin-left: 35%;
+  margin-left: 33.5%;
   background-color: #e37b40;
   border-color: #e37b40;
   color: #fff;
+  min-width: 9em;
 }
 
 .btnBuyNowCustomer:hover {
@@ -1009,6 +1010,7 @@ a:hover {
   background-color: #f0ca4d;
   border-color: #f0ca4d;
   color: #fff;
+  min-width: 9em;
 }
 .btnCartCustomer:hover {
   color: #020000;
