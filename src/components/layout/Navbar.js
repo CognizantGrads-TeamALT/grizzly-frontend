@@ -1,18 +1,24 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import logo from "../../img/logo.png";
-import LoginModal from "../auth/LoginModal";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import logo from '../../img/logo.png';
+import LoginModal from '../auth/LoginModal';
+import { clearCurrentUser } from '../../actions/userActions';
+import isEmpty from '../../validation/is-empty';
+import { searchProducts } from '../../actions/productsActions';
 
 class Navbar extends Component {
   constructor() {
     super();
     this.state = {
-      search: ""
+      search: ''
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onLogout = this.onLogout.bind(this);
   }
 
   onChange(e) {
@@ -21,18 +27,85 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.setState({ search: "" });
+    const term = this.state.search;
+    this.setState({ search: '' });
+    this.props.searchProducts(term, '0');
+  }
+
+  onLogout(e) {
+    e.preventDefault();
+    this.props.clearCurrentUser();
+    this.props.history.push('/');
+  }
+
+  logOutBtn() {
+    return (
+      <button
+        className="btn more-rounded ml-2 hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
+        type="button"
+        onClick={this.onLogout}
+      >
+        Log out
+      </button>
+    );
+  }
+
+  showLinks() {
+    if (!isEmpty(this.props.user.user)) {
+      if (this.props.user.userType === 'admin') {
+        return (
+          <ul className="navbar-nav pl-2">
+            <li className="nav-item mr-1 my-auto">
+              <i className="far fa-bell p-t-5 white" />
+            </li>
+            <li className="nav-item mr-1 my-auto">
+              <span>{`Welcome, Admin <${this.props.user.user[0].name}> `}</span>
+            </li>
+
+            <li className="nav-item">{this.logOutBtn()}</li>
+          </ul>
+        );
+      }
+      if (this.props.user.userType === 'vendor') {
+        return (
+          <ul className="navbar-nav pl-2">
+            <li className="nav-item mr-1 my-auto">
+              <i className="far fa-bell p-t-5 white" />
+            </li>
+            <li className="nav-item mr-1 my-auto">
+              <span>{`Welcome, ${this.props.user.user[0].name} `}</span>
+            </li>
+            <li className="nav-item">{this.logOutBtn()}</li>
+          </ul>
+        );
+      }
+    } else
+      return (
+        <ul className="navbar-nav pl-2">
+          <li className="nav-item mr-1 my-auto">
+            <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
+          </li>
+          <li className="nav-item mr-1 my-auto">
+            <Link
+              className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
+              to="/signup"
+            >
+              Sign Up
+            </Link>
+          </li>
+        </ul>
+      );
   }
 
   render() {
     return (
-      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center pt-0">
+      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center pt-0 nav-bar-bottom-border">
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img
               src={logo}
               alt="Grizzly"
-              style={{ width: "200px", margin: "auto", display: "block" }}
+              style={{ width: '200px', margin: 'auto', display: 'block' }}
             />
           </Link>
           <button
@@ -44,15 +117,18 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          <div className="collapse navbar-collapse" id="mobile-nav">
-            <form className="form-inline mx-auto col-8">
-              <div className="search-form-custom row">
+          <div
+            className="collapse navbar-collapse mx-auto align-center"
+            id="mobile-nav"
+          >
+            <form onSubmit={this.onSubmit} className="form-inline">
+              <div className="search-form-custom">
                 <input
-                  className="form-control left-rounded border-right-0 border col-6"
+                  className="form-control left-rounded border-right-0 border col-8"
                   type="search"
+                  name="search"
                   placeholder="Search"
-                  id="example-search-input"
-                  defaultValue={this.state.search}
+                  value={this.state.search}
                   onChange={this.onChange}
                 />
                 <span className="input-group-append-more">
@@ -66,25 +142,8 @@ class Navbar extends Component {
                 </span>
               </div>
             </form>
-
-            <div className="navbar-buttons mx-auto col-2">
-              <ul className="navbar-nav pt-2">
-                <li className="nav-item">
-                  <LoginModal
-                    buttonLabel="Login"
-                    title="Login"
-                    actionLabel="Login"
-                  />
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-                    to="/signup"
-                  >
-                    Sign Up
-                  </Link>
-                </li>
-              </ul>
+            <div className="ml-2 search-form-custom nav justify-content-end">
+              {this.showLinks()}
             </div>
           </div>
         </div>
@@ -93,4 +152,16 @@ class Navbar extends Component {
   }
 }
 
-export default connect(null)(Navbar);
+Navbar.propTypes = {
+  searchProducts: PropTypes.func.isRequired,
+  clearCurrentUser: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(
+  mapStateToProps,
+  { searchProducts, clearCurrentUser }
+)(withRouter(Navbar));

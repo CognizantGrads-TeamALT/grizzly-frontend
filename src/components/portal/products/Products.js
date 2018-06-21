@@ -56,20 +56,38 @@ class Products extends Component {
       !isEmpty(product_vendor) &&
       !loading
     ) {
-      return products.map(prod => (
-        <ProductList
-          key={prod.productId}
-          product_category={product_category}
-          product_vendor={product_vendor}
-          product={prod}
-          userType={this.props.userType}
-        />
-      ));
+      if (this.props.user.userType === 'admin') {
+        return products.map(prod => (
+          <ProductList
+            key={prod.productId}
+            product_category={product_category}
+            product_vendor={product_vendor}
+            product={prod}
+            userType={this.props.user.userType}
+          />
+        ));
+      }
+      if (this.props.user.userType === 'vendor') {
+        return products
+          .filter(
+            prod =>
+              prod.vendorId === parseInt(this.props.user.user[0].userId, 10)
+          )
+          .map(prod => (
+            <ProductList
+              key={prod.productId}
+              product_category={product_category}
+              product_vendor={product_vendor}
+              product={prod}
+              userType={this.props.user.userType}
+            />
+          ));
+      }
     } else {
       return (
         <tr>
           <td>
-            <Spinner />
+            <Spinner size={'150px'} />
           </td>
         </tr>
       );
@@ -106,7 +124,7 @@ Products.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  userType: state.user.userType
+  user: state.user
 });
 
 export default connect(

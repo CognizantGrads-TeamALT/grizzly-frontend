@@ -5,6 +5,7 @@ const initialState = {
   products: null,
   product_category: null,
   product_vendor: null,
+  random_products: null,
   hasMore: false,
   loadingVendors: false,
   loadingCategories: false,
@@ -54,6 +55,7 @@ export default function(state = initialState, action) {
         loadingCategories: true
       };
     case types.GET_VENDOR_INVENTORY:
+    console.log("in get vendor inv")
       const VendorhasMore =
       action.payload.length < 25 || isEmpty(action.payload.length)
         ? false
@@ -69,11 +71,12 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
+          console.log("got out of get vend inv");
     return {
       ...state,
       vendorInventory: newVendorProducts,
       vendorHasMore: VendorhasMore,
-      vedorIndex: VendorIndex,
+      vendorIndex: VendorIndex,
     };
     case types.GET_PRODUCT:
       action.payload.images = [];
@@ -81,14 +84,41 @@ export default function(state = initialState, action) {
         ...state,
         single: action.payload
       };
+    case types.GET_RANDOM_PRODUCTS:
+      return {
+        ...state,
+        random_products:
+          action.payload.length > 12
+            ? action.payload.slice(0, 12)
+            : action.payload
+      };
     case types.GET_PRODUCT_IMAGE:
       const product = action.product;
       product.images = product.images.concat(action.payload);
       return {
         ...state,
-        single: product,
-        updateOnce: true
-      }
+        single: product
+      };
+    case types.GET_PRODUCT_IMAGE_CUSTOMER:
+      const newProduct = action.product;
+      newProduct.images = [action.payload];
+      return {
+        ...state,
+        products: state.products.map(
+          product =>
+            product.productId === newProduct.productId ? newProduct : product
+        )
+      };
+    case types.GET_PRODUCTS_IMAGE_RANDOM:
+      const randProds = action.product;
+      randProds.images = [action.payload];
+      return {
+        ...state,
+        random_products: state.random_products.map(
+          product =>
+            product.productId === randProds.productId ? randProds : product
+        )
+      };
     case types.PRODUCT_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];
@@ -100,7 +130,6 @@ export default function(state = initialState, action) {
         ...state,
         products: newProducts2,
         hasMore: hasMore2,
-        //updateOnce: true,
         loadingVendors: true,
         loadingCategories: true
       };

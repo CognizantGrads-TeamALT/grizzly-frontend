@@ -1,73 +1,70 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TextFieldGroup from '../../common/TextFieldGroup';
-import isEmpty from '../../../validation/is-empty';
-import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { addProduct } from '../../../actions/productsActions';
-import {
-  searchCategories,
-  Update_TypeAhead
-} from '../../../actions/categoryActions';
+import PropTypes from 'prop-types';
+import TextFieldGroup from '../../common/TextFieldGroup';
 import _ from 'lodash';
+import {
+  searchVendors,
+  Vendor_Update_TypeAhead,
+  clearCurrentVendors
+} from '../../../actions/vendorActions';
+import isEmpty from '../../../validation/is-empty';
+import { addProduct } from '../../../actions/productsActions';
 import { setTimeout } from 'timers';
 
-class CategoryTypeAhead extends Component {
+class VendorTypeAhead extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       modal: false,
-      category: '',
-      categoryList: [],
+      vendor: '',
+      vendorList: [],
       cur_id: '',
-      valid_cat: false
+      valid_vendor: false
     };
     this.onChange = this.onChange.bind(this);
-    this.setCategoryName = this.setCategoryName.bind(this);
+    this.setVendorName = this.setVendorName.bind(this);
   }
-
   populate(param) {
-    var options = param.map(category => ({
-      id: category.categoryId,
-      name: category.name
+    var options = param.map(vendor => ({
+      id: vendor.vendorId,
+      name: vendor.name
     }));
     return options;
   }
-
   onChange(e, persist = false) {
     this.setState({ [e.target.name]: e.target.value });
     if (persist) e.persist();
   }
-
-  searchCat(e) {
-    this.setState({ valid_cat: false });
-    this.props.Update_TypeAhead({
+  searchVend(e) {
+    this.setState({ valid_vendor: false });
+    this.props.Vendor_Update_TypeAhead({
       cur_id: '',
-      valid_cat: false
+      valid_vendor: false
     });
+
     if (isEmpty(e.target.value)) {
-      this.setState({ categoryList: [] });
+      this.setState({ vendorList: [] });
+      this.props.clearCurrentVendors();
     } else {
-      this.props.searchCategories(e.target.value);
+      this.props.searchVendors(e.target.value);
       var list;
       setTimeout(() => {
-        if (
-          !isEmpty(this.props.category.categories) &&
-          !this.props.category.loading
-        ) {
-          const { categories } = this.props.category;
-          list = this.populate(categories);
+        if (!isEmpty(this.props.vendor.vendors) && !this.props.vendor.loading) {
+          const { vendors } = this.props.vendor;
+          list = this.populate(vendors);
           this.setState({
-            categoryList: list.map(function(listItem) {
+            vendorList: list.map(function(listItem) {
               return [
                 <button
-                  className="btn btn-outline-info btn-sm cat-scroll-button"
+                  className="btn btn-sm btn-outline-info  vendor-scroll-button"
                   key={listItem.id}
                   type="button"
                   name={listItem.name}
                   value={listItem.id}
-                  onClick={this.setCategoryName}
+                  onClick={this.setVendorName}
                 >
                   {listItem.name}
                 </button>,
@@ -77,71 +74,72 @@ class CategoryTypeAhead extends Component {
           });
         } else {
           this.setState({
-            categoryList: [
+            vendorList: [
               <button
-                className="btn btn-sm btn-outline-info  cat-scroll-button"
+                className="btn btn-sm btn-outline-info vendor-scroll-button"
                 key={0}
                 type="button"
                 name={'No Results'}
-                value={'No results found'}
-                onClick={0}
+                value={0}
+                onClick={this.setVendorName}
               >
                 {'No results found'}
-              </button>
+              </button>,
+              <br key={0 + 10000} />
             ]
           });
+          this.props.clearCurrentVendors();
         }
       }, 1000);
     }
   }
 
-  setCategoryName(e) {
+  setVendorName(e) {
     this.setState({
-      category: e.target.name,
+      vendor: e.target.name,
       cur_id: e.target.value,
-      valid_cat: true,
-      categoryList: []
+      value_vendor: true,
+      vendorList: []
     });
 
     this.props.onClickHandler({
       cur_id: e.target.value,
-      valid_cat: true,
+      valid_vendor: true,
       index: 0
-    }); //this.props.pageIndex});
+    });
   }
-
   render() {
-    const catSearch = _.debounce(e => {
-      this.searchCat(e);
-    }, 600);
+    const vendorSearch = _.debounce(e => {
+      this.searchVend(e);
+    }, 900);
     return (
       <div className={this.props.extraClassNames}>
-        <div className="cat-scroll pt-3 inner-rounded-corners">
+        <div className="vendor-scroll">
           <TextFieldGroup
             placeholder={this.props.placeholder}
-            name="category"
-            value={this.state.category}
-            autocomplete="off"
+            name="vendor"
+            value={this.state.vendor}
             onChange={event => {
-              // DO NOT DELETE THE COMMENT BELOW
               // eslint-disable-next-line
-              this.onChange(event, true), catSearch(event);
+              this.onChange(event, true), vendorSearch(event);
             }}
           />
         </div>
-        <div className="floating-div bg-white">{this.state.categoryList}</div>
+        <div className="floating-div-vendor bg-white">
+          {this.state.vendorList}
+        </div>
       </div>
     );
   }
 }
 
-CategoryTypeAhead.defaultProps = {
+VendorTypeAhead.defaultProps = {
   placeholder: '',
   extraClassNames: '',
   pageIndex: 0
 };
 
-CategoryTypeAhead.propTypes = {
+VendorTypeAhead.prototypes = {
   placeholder: PropTypes.string,
   extraClassNames: PropTypes.string,
   onClickHandler: PropTypes.func.isRequired,
@@ -150,10 +148,9 @@ CategoryTypeAhead.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  category: state.category
+  vendor: state.vendor
 });
-
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead }
-)(withRouter(CategoryTypeAhead));
+  { addProduct, searchVendors, Vendor_Update_TypeAhead, clearCurrentVendors }
+)(withRouter(VendorTypeAhead));

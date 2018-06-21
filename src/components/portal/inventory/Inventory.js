@@ -41,7 +41,7 @@ class Inventory extends Component {
   loadMore() {
     console.log("in load more");
     if (this.props.product.vendorHasMore) {
-      this.props.getVendorInventory(this.props.product.index, "1");//TODO replace 1 with curr vendor ID
+      this.props.getVendorInventory(this.props.product.vendorIndex, "1");//TODO replace 1 with curr vendor ID
     }
   }
 

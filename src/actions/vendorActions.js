@@ -32,6 +32,13 @@ export const getVendors = index => dispatch => {
     });
 };
 
+export const Vendor_Update_TypeAhead = values => dispatch => {
+  dispatch({
+    type: types.VENDOR_TYPEAHEAD_UPDATE,
+    payload: values
+  })
+}
+
 // Add Vendor
 export const addVendor = newVendor => dispatch => {
   dispatch(setVendorAdding());
@@ -90,6 +97,10 @@ export const searchVendors = keyword => dispatch => {
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data
+      })
+      dispatch({
+        type: types.GET_VENDORS,
+        payload: []
       })
     });
 };

@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import {
   searchProducts,
   sortProductsByParam
-} from '../../../actions/productsActions';
+} from "../../../actions/productsActions";
 
 class ProductSearchSort extends Component {
   constructor() {
     super();
     this.state = {
-      search: '',
+      search: "",
       disabled: true
     };
 
@@ -37,33 +37,33 @@ class ProductSearchSort extends Component {
 
   onSortById(e) {
     e.preventDefault();
-    this.props.sortProductsByParam('0', 'productId');
-    this.setState({ search: '' });
+    this.props.sortProductsByParam("0", "productId");
+    this.setState({ search: "" });
   }
 
   onSortByName(e) {
     e.preventDefault();
-    this.props.sortProductsByParam('0', 'name');
-    this.setState({ search: '' });
+    this.props.sortProductsByParam("0", "name");
+    this.setState({ search: "" });
   }
 
   onSortByRating(e) {
     e.preventDefault();
-    this.props.sortProductsByParam('0', 'rating');
-    this.setState({ search: '' });
+    this.props.sortProductsByParam("0", "rating");
+    this.setState({ search: "" });
   }
 
   onSearch(e) {
     e.preventDefault();
 
-    this.props.searchProducts(this.state.search);
+    this.props.searchProducts(this.state.search, '0');
 
-    this.setState({ search: '' });
+    this.setState({ search: "" });
   }
 
   render() {
     return (
-      <div className="btn-group aligned-left mt-2 mb-2">
+      <div className="btn-group aligned-left">
         <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
           <div className="search-form-custom">
             <input
@@ -73,7 +73,7 @@ class ProductSearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
-              disabled={this.state.disabled ? 'disabled' : ''}
+              disabled={this.state.disabled ? "disabled" : ""}
             />
             <span className="input-group-append-more">
               <button

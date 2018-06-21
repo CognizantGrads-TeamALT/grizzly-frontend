@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { getRandomProducts } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
-import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
-
-class ProductGridList extends Component {
+class RandomProduct extends Component {
   getImg(product) {
-    let imgInfo = product.images[0];
     return (
       <img
         key={product.productId}
-        src={imgInfo.base64Image}
+        src={product.images[0].base64Image}
         className="img-responsive"
         alt=""
         style={{ width: '150px', height: '150px' }}
@@ -43,42 +42,35 @@ class ProductGridList extends Component {
     }
   }
 
-  show() {
-    const products = this.props.product.products;
-    let prodArray = [];
-    if (!isEmpty(products)) {
-      for (let i = 0; i < products.length; i++) {
-        prodArray.push(products[i]);
-      }
-      return prodArray.map(prod => (
-        <div key={prod.productId} className="col-md-2 col-sm-4 imageGrid mt-5">
-          <Link
-            to={`/customerdetailedproduct/${prod.productId}`}
-            className="img-thumbnail"
+  showProducts() {
+    if (!isEmpty(this.props.product.random_products)) {
+      return this.props.product.random_products
+        .filter(item => item.productId !== this.props.productId)
+        .map(prod => (
+          <div
+            key={prod.productId}
+            className="col-md-2 col-sm-4 imageGrid mt-2"
           >
-            {this.showImg(prod)}
-
-            <span>{prod.name}</span>
-          </Link>
-        </div>
-      ));
+            <Link
+              to={`/customerdetailedproduct/${prod.productId}`}
+              className="img-thumbnail"
+            >
+              {this.showImg(prod)}
+              <span>{prod.name}</span>
+            </Link>
+          </div>
+        ));
     }
   }
 
   render() {
-    return <div className="row">{this.show()}</div>;
+    return <div className="row">{this.showProducts()}</div>;
   }
 }
-
-ProductGridList.propTypes = {
-  product: PropTypes.object.isRequired
-};
-
 const mapStateToProps = state => ({
   product: state.product
 });
-
 export default connect(
   mapStateToProps,
-  {}
-)(ProductGridList);
+  { getRandomProducts }
+)(withRouter(RandomProduct));

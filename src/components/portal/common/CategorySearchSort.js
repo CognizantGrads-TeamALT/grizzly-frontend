@@ -66,7 +66,7 @@ class CategorySearchSort extends Component {
       description: ''
     };
     return (
-      <div className="btn-group aligned-left mt-2 mb-2">
+      <div className="btn-group aligned-left mt-2 mb-3">
         <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
           <div className="search-form-custom">
             <input
@@ -126,6 +126,7 @@ class CategorySearchSort extends Component {
           title="Add Category"
           buttonLabel="Add Category"
           actionLabel="Add Category"
+          buttonClass="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
         />
       </div>
     );

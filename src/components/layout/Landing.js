@@ -3,8 +3,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../common/Loading';
 import '../../App.css';
+import { withRouter } from 'react-router-dom';
 
 class Landing extends Component {
+  componentDidMount() {
+    if (this.props.user.isAuthenticated) {
+      this.props.history.push(`/${this.props.user.userType}`);
+    }
+  }
+
   render() {
     return (
       <div className="landingpage">
@@ -12,22 +19,13 @@ class Landing extends Component {
           <h3>Welcome to Grizzly</h3>
         </header>
         <Loading />
-        <Link
-          className="btn btn-outline-success my-2 my-sm-0 mr-sm-2"
-          to={`/${'admin'}`}
-        >
+        <Link className="btn btn-outline-success mr-sm-2" to={`/${'admin'}`}>
           Admin Portal Demo
         </Link>
-        <Link
-          className="btn btn-outline-success my-2 my-sm-0"
-          to={`/${'vendor'}`}
-        >
+        <Link className="btn btn-outline-success mr-sm-2" to={`/${'vendor'}`}>
           Vendor Portal Demo
         </Link>
-        <Link
-          className="btn btn-outline-success my-2 my-sm-0"
-          to={`/${'customer'}`}
-        >
+        <Link className="btn btn-outline-success" to="/customer">
           Customer Portal Demo
         </Link>
       </div>
@@ -35,4 +33,8 @@ class Landing extends Component {
   }
 }
 
-export default connect(null)(Landing);
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(withRouter(Landing));
