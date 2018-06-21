@@ -27,8 +27,9 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.searchProducts(this.state.search, '0');
+    const term = this.state.search;
     this.setState({ search: '' });
+    this.props.searchProducts(term, '0');
   }
 
   onLogout(e) {
@@ -50,23 +51,6 @@ class Navbar extends Component {
   }
 
   showLinks() {
-    if (isEmpty(this.props.user.user)) {
-      return (
-        <ul className="navbar-nav pl-2">
-          <li className="nav-item mr-1 my-auto">
-            <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
-          </li>
-          <li className="nav-item mr-1 my-auto">
-            <Link
-              className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
-              to="/signup"
-            >
-              Sign Up
-            </Link>
-          </li>
-        </ul>
-      );
-    }
     if (!isEmpty(this.props.user.user)) {
       if (this.props.user.userType === 'admin') {
         return (
@@ -77,7 +61,7 @@ class Navbar extends Component {
             <li className="nav-item mr-1 my-auto">
               <span>{`Welcome, Admin <${this.props.user.user[0].name}> `}</span>
             </li>
-           
+
             <li className="nav-item">{this.logOutBtn()}</li>
           </ul>
         );
@@ -95,7 +79,22 @@ class Navbar extends Component {
           </ul>
         );
       }
-    }
+    } else
+      return (
+        <ul className="navbar-nav pl-2">
+          <li className="nav-item mr-1 my-auto">
+            <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
+          </li>
+          <li className="nav-item mr-1 my-auto">
+            <Link
+              className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
+              to="/signup"
+            >
+              Sign Up
+            </Link>
+          </li>
+        </ul>
+      );
   }
 
   render() {
@@ -122,7 +121,6 @@ class Navbar extends Component {
             className="collapse navbar-collapse mx-auto align-center"
             id="mobile-nav"
           >
-            
             <form onSubmit={this.onSubmit} className="form-inline">
               <div className="search-form-custom">
                 <input
@@ -130,8 +128,7 @@ class Navbar extends Component {
                   type="search"
                   name="search"
                   placeholder="Search"
-                  id="example-search-input"
-                  defaultValue={this.state.search}
+                  value={this.state.search}
                   onChange={this.onChange}
                 />
                 <span className="input-group-append-more">
@@ -145,7 +142,9 @@ class Navbar extends Component {
                 </span>
               </div>
             </form>
-            <div className="ml-2 search-form-custom nav justify-content-end">{this.showLinks()}</div>
+            <div className="ml-2 search-form-custom nav justify-content-end">
+              {this.showLinks()}
+            </div>
           </div>
         </div>
       </nav>
