@@ -55,12 +55,11 @@ export default function(state = initialState, action) {
         loadingCategories: true
       };
     case types.GET_VENDOR_INVENTORY:
-    console.log("in get vendor inv")
       const VendorhasMore =
       action.payload.length < 25 || isEmpty(action.payload.length)
         ? false
         : true;
-      const currentVendorProducts = isEmpty(state.products) ? [] : state.products;
+      const currentVendorProducts = isEmpty(state.vendorInventory) ? [] : state.vendorInventory;
       const VendorIndex = isEmpty(state.products) ? 1 : state.vendorIndex + 1;
       const newVendorProducts = isEmpty(action.payload)
         ? currentVendorProducts
@@ -71,7 +70,6 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
-          console.log("got out of get vend inv");
     return {
       ...state,
       vendorInventory: newVendorProducts,

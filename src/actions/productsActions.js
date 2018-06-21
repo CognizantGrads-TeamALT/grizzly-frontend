@@ -374,8 +374,6 @@ export const sortProductsByParam = (index, param) => dispatch => {
 };
 // get all products beloning to a vendor, and get their inventory details
 export const getVendorInventory = (index, VendorID) => dispatch => {
-  console.log("in get Vendor inventory")
-  console.log(VendorID);
   index = index == null ? 0 : index;
   // getVendorBatch and getCategoryBatch set loading: true
   // if either data is not loaded yet.

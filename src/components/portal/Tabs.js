@@ -46,7 +46,6 @@ class Tabs extends Component {
 
   componentWillMount() {
     //this.clear();
-    console.log("in tabs mounting");
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();

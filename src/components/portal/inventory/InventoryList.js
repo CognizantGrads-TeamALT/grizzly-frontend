@@ -14,11 +14,11 @@ class InventoryList extends Component {
       productId : this.props.product.productId,
       editing: false,
       name: this.props.product.name,
-      stock: Math.floor((Math.random() * 100) + 1) + "",
-      req:Math.floor((Math.random() * 100) + 1) + "",
-    buffer:Math.floor((Math.random() * 100) + 1) + "",
+      stock: this.props.product.stock + "",
+      req:this.props.product.req + "",
+    buffer:this.props.product.buffer + "",
     price:	this.props.product.price + "",
-    pending:Math.floor((Math.random() * 100) + 1) + '',
+    pending:this.props.product.pending+ '',
     rating:this.props.product.rating + "",
     togglestate: false
   }
@@ -54,7 +54,6 @@ class InventoryList extends Component {
   render() {
     const { product } = this.props;
     if(!this.state.editing){
-        console.log(this.state.editing + " in not editing");
     return (
       <tr>
         <th scope="row">{this.state.productId}</th>
