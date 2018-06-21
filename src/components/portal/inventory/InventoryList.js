@@ -21,14 +21,15 @@ class InventoryList extends Component {
     price:	this.props.product.price + "",
     pending:this.props.product.pending+ '',
     rating:this.props.product.rating + "",
-    togglestate: false
+    togglestate: false,
+    changed: false
   }
     this.onEditClick = this.onEditClick.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
   onEditClick = (e) => {
-      if(this.state.editing){
+      if(this.state.editing && this.state.changed){
           //edit the product with values
           const upProd = {
             productId:this.state.productId,
@@ -40,18 +41,20 @@ class InventoryList extends Component {
             price:this.state.price,
             rating:this.state.rating
           };
-          console.log(upProd);
 
           this.props.editProductInventory(upProd);
+          var req = this.state.buffer-this.state.stock;
+          this.setState({req: req <0 ? 0 : req})
+
 
       }
-    this.setState({editing: !this.state.editing});
+    this.setState({editing: !this.state.editing, changed: false});
     this.setState({togglestate: !this.state.togglestate});
 
   }
 
   onChange(e){
-      this.setState({[e.target.name]: [e.target.value]+ ""});
+      this.setState({[e.target.name]: [e.target.value]+ "", changed: true});
   }
   
   render() {
