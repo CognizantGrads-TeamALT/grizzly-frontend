@@ -34,27 +34,35 @@ class CategoriesList extends Component {
           <td>{category.description}</td>
           <td>{category.productCount}</td>
           <td>
-            <CategoryForm
-              category={category}
-              buttonLabel="Edit"
-              title="Edit Category"
-              actionLabel="Edit"
-              buttonClass="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
-            />
-            <ConfirmModal
-              buttonLabel={category.enabled ? "Block" : "Unblock"}
-              title="Block Category"
-              confirmText={(category.enabled ? "Block" : "Unblock") + " " + category.name}
-              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-              onSubmit={this.onBlockClick}
-            />
-          <ConfirmModal
-              buttonLabel="Delete"
-              title="Delete Category"
-              confirmText={"Delete " + category.name}
-              buttonClass="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-              onSubmit={this.onDeleteClick.bind(this, category.categoryId)}
-            />
+            <div className="row">
+              <div className="col pr-0">
+                <CategoryForm
+                  category={category}
+                  buttonLabel="Edit"
+                  title="Edit Category"
+                  actionLabel="Edit"
+                  buttonClass="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
+                />
+              </div>
+            <div className="col p-0">
+                <ConfirmModal
+                  buttonLabel={category.enabled ? "Block" : "Unblock"}
+                  title="Block Category"
+                  confirmText={(category.enabled ? "Block" : "Unblock") + " " + category.name}
+                  buttonClass="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
+                  onSubmit={this.onBlockClick}
+                />
+            </div>
+            <div className="col p-0">
+              <ConfirmModal
+                  buttonLabel="Delete"
+                  title="Delete Category"
+                  confirmText={"Delete " + category.name}
+                  buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
+                  onSubmit={this.onDeleteClick.bind(this, category.categoryId)}
+                />
+            </div>
+          </div>
           </td>
         </tr>
       );

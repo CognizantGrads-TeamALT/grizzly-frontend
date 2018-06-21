@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ConfirmModal from '../common/ConfirmModal';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -16,6 +17,7 @@ class ProductList extends Component {
       productId: this.props.location
     };
     this.onBlockClick = this.onBlockClick.bind(this);
+    this.onViewClick = this.onViewClick.bind(this);
   }
 
   onDeleteClick(id) {
@@ -26,6 +28,12 @@ class ProductList extends Component {
     const { product } = this.props;
     product.enabled = !product.enabled;
     this.props.toggleBlockProduct(product);
+  }
+
+  onViewClick() {
+    const { product } = this.props;
+
+    this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
   showCatName(product) {
@@ -53,21 +61,6 @@ class ProductList extends Component {
     }
   }
 
-  showBlockButton(product) {
-    if (this.props.userType === 'admin')
-      return (
-        <ConfirmModal
-          buttonLabel={product.enabled ? 'Block' : 'Unblock'}
-          title="Block Product"
-          confirmText={
-            (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
-          }
-          buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
-          onSubmit={this.onBlockClick}
-        />
-      );
-  }
-
   render() {
     const { product } = this.props;
     return (
@@ -78,20 +71,38 @@ class ProductList extends Component {
         <td>{this.showCatName(product)}</td>
         <td>{product.rating}</td>
         <td>
-          <Link
-            to={`/detailedproduct/${product.productId}`}
-            className="btn btn-outline-info btn-sm my-2 my-sm-0 mr-sm-2"
-          >
-            View
-          </Link>
-          {this.showBlockButton(product)}
-          <ConfirmModal
-            buttonLabel="Delete"
-            title="Delete Product"
-            confirmText={'Delete ' + product.name}
-            buttonClass="btn btn-outline-danger btn-sm my-2 my-sm-0 mr-sm-2"
-            onSubmit={this.onDeleteClick.bind(this, product.productId)}
-          />
+          <div className="row">
+            <div className="col p-0">
+              <Button
+                onClick={this.onViewClick}
+                className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
+              >
+                View
+              </Button>
+            </div>
+            {this.props.userType === 'admin' && (
+              <div className="col p-0 collapsable-block-appearance">
+                <ConfirmModal
+                  buttonLabel={product.enabled ? 'Block' : 'Unblock'}
+                  title="Block Product"
+                  confirmText={
+                    (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
+                  }
+                  buttonClass="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
+                  onSubmit={this.onBlockClick}
+                />
+              </div>
+            )}
+            <div className="col p-0">
+              <ConfirmModal
+                buttonLabel="Delete"
+                title="Delete Product"
+                confirmText={'Delete ' + product.name}
+                buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
+                onSubmit={this.onDeleteClick.bind(this, product.productId)}
+              />
+            </div>
+          </div>
         </td>
       </tr>
     );
@@ -106,4 +117,4 @@ ProductList.propTypes = {
 export default connect(
   null,
   { toggleBlockProduct, deleteProduct }
-)(ProductList);
+)(withRouter(ProductList));

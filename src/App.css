@@ -90,10 +90,9 @@
 .btn-group > .btn:not(:first-child),
 .btn-group > .btn-group:not(:first-child) > .btn,
 .btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+.inner-rounded-corners > * > .form-control, 
 .more-rounded {
   border-radius: 4em;
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
 }
 
 .navbar-collapse > .form-inline {
@@ -167,6 +166,7 @@
 .show > .btn-outline-success.dropdown-toggle {
   background-color: #46b29d;
   border-color: #46b29d;
+  color: white;
 }
 
 /* Nav Bar */
@@ -187,15 +187,11 @@
   min-width: 9em;
 }
 
-/* @media screen and (max-width: 760px) {
-  .navbar-collapse > form {
-    display: none;
-  }
-
-  .form-control {
-    display: none;
-  }
-} */
+.nav-bar-bottom-border {
+  border-bottom: rgba(51, 51, 51, 0.1);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
 
 /* Profile container */
 .profile {
@@ -221,6 +217,11 @@
   min-width: 200px;
   max-width: 250px;
   overflow: auto;
+}
+
+/* Vendor Portal */
+.collapsable-block-appearance > .collapsable-block-trigger:parent {
+  display: none;
 }
 
 /*vendorscrolllist*/
@@ -416,6 +417,54 @@ a:hover {
   border-color: #45b29d;
 }
 
+.plain-b {
+  color: rgb(167, 167, 167);
+  background-color: #324D5C;
+  border-color: #324D5C;
+}
+
+.plain-b:hover {
+  color: #324D5C;
+  background-color:white;
+  border-color: #324D5C;
+}
+
+.red-b {
+  color: white;
+  background-color: #DE5B49;
+  border-color: #DE5B49;;
+}
+
+.red-b:hover {
+  color: #DE5B49;
+  background-color:white;
+  border-color: #DE5B49;
+}
+
+.blue-b {
+  color: white;
+  background-color: #324D5C;
+  border-color: #324D5C;
+}
+
+.blue-b:hover {
+  color: #324D5C;
+  background-color:white;
+  border-color: #324D5C;
+}
+
+.orange-b {
+  color: white;
+  background-color: #E37B40;
+  border-color: #E37B40;
+}
+
+.orange-b:hover {
+  color: #E37B40;
+  background-color:white;
+  border-color: #E37B40;
+}
+
 .hover-def-plain-b {
   color: black;
 }
@@ -425,6 +474,10 @@ a:hover {
 }
 
 .griz-t-color {
+  color: #46b29d;
+}
+
+.griz-t-color-hover:hover {
   color: #46b29d;
 }
 
@@ -975,3 +1028,10 @@ a:hover {
   margin-top: 3%;
   margin-left: 2%;
 }
+
+.vendor-Price-Offer{
+  
+  font-size: 12px;
+  font-style: italic; 
+}
+

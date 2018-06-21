@@ -27,8 +27,9 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.searchProducts(this.state.search, '0');
+    const term = this.state.search;
     this.setState({ search: '' });
+    this.props.searchProducts(term, '0');
   }
 
   onLogout(e) {
@@ -40,23 +41,51 @@ class Navbar extends Component {
   logOutBtn() {
     return (
       <button
-        className="btn more-rounded hover-w-b btn-sm mr-sm-2"
+        className="btn more-rounded ml-2 hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
         type="button"
         onClick={this.onLogout}
       >
-        LogOut
+        Log out
       </button>
     );
   }
 
   showLinks() {
-    if (isEmpty(this.props.user.user)) {
+    if (!isEmpty(this.props.user.user)) {
+      if (this.props.user.userType === 'admin') {
+        return (
+          <ul className="navbar-nav pl-2">
+            <li className="nav-item mr-1 my-auto">
+              <i className="far fa-bell p-t-5 white" />
+            </li>
+            <li className="nav-item mr-1 my-auto">
+              <span>{`Welcome, Admin <${this.props.user.user[0].name}> `}</span>
+            </li>
+
+            <li className="nav-item">{this.logOutBtn()}</li>
+          </ul>
+        );
+      }
+      if (this.props.user.userType === 'vendor') {
+        return (
+          <ul className="navbar-nav pl-2">
+            <li className="nav-item mr-1 my-auto">
+              <i className="far fa-bell p-t-5 white" />
+            </li>
+            <li className="nav-item mr-1 my-auto">
+              <span>{`Welcome, ${this.props.user.user[0].name} `}</span>
+            </li>
+            <li className="nav-item">{this.logOutBtn()}</li>
+          </ul>
+        );
+      }
+    } else
       return (
-        <ul className="navbar-nav pt-2 my-auto">
-          <li className="nav-item">
+        <ul className="navbar-nav pl-2">
+          <li className="nav-item mr-1 my-auto">
             <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
           </li>
-          <li className="nav-item">
+          <li className="nav-item mr-1 my-auto">
             <Link
               className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
               to="/signup"
@@ -66,36 +95,11 @@ class Navbar extends Component {
           </li>
         </ul>
       );
-    }
-    if (!isEmpty(this.props.user.user)) {
-      if (this.props.user.userType === 'admin') {
-        return (
-          <ul className="navbar-nav pt-2">
-            <li className="nav-item">
-              <i className="far fa-bell p-t-5 white" />
-            </li>
-            <span>{`Welcome, Admin <${this.props.user.user[0].name}> `}</span>
-            <li className="nav-item">{this.logOutBtn()}</li>
-          </ul>
-        );
-      }
-      if (this.props.user.userType === 'vendor') {
-        return (
-          <ul className="navbar-nav pt-2">
-            <li className="nav-item">
-              <i className="far fa-bell p-t-5 white" />
-            </li>
-            <span>{`Welcome, ${this.props.user.user[0].name} `}</span>
-            <li className="nav-item">{this.logOutBtn()}</li>
-          </ul>
-        );
-      }
-    }
   }
 
   render() {
     return (
-      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center pt-0">
+      <nav className="navbar navbar-light navbar-expand-sm mb-4 text-center pt-0 nav-bar-bottom-border">
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img
@@ -124,8 +128,7 @@ class Navbar extends Component {
                   type="search"
                   name="search"
                   placeholder="Search"
-                  id="example-search-input"
-                  defaultValue={this.state.search}
+                  value={this.state.search}
                   onChange={this.onChange}
                 />
                 <span className="input-group-append-more">
@@ -139,7 +142,9 @@ class Navbar extends Component {
                 </span>
               </div>
             </form>
-            <div className="navbar-buttons">{this.showLinks()}</div>
+            <div className="ml-2 search-form-custom nav justify-content-end">
+              {this.showLinks()}
+            </div>
           </div>
         </div>
       </nav>

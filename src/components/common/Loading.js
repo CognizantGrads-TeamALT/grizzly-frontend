@@ -1,5 +1,5 @@
-import React from "react";
-import loading from "./spinningdog.svg";
+import React from 'react';
+import loading from './shopping.svg';
 
 export default () => {
   return (
@@ -7,7 +7,7 @@ export default () => {
       <img
         src={loading}
         alt="Loading..."
-        style={{ width: "200px", margin: "auto", display: "block" }}
+        style={{ width: '200px', margin: 'auto', display: 'block' }}
       />
     </div>
   );
