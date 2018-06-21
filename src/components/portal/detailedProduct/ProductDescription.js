@@ -4,9 +4,15 @@ import InlineEdit from "react-ions/lib/components/InlineEdit";
 import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import { Carousel } from "react-responsive-carousel";
-import { editProduct, reloadProducts } from "../../../actions/productsActions";
+import {
+  editProduct,
+  reloadProducts,
+  getProducts,
+  setProductUpdated
+} from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
+import { clearCurrentUser } from '../../../actions/userActions';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -109,13 +115,13 @@ class ProductDescription extends Component {
       // If the product details literally has no images.
       if (isEmpty(product.imageDTO)) {
         return (
-          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
+          <img src={unavailable} className="img-responsive" style={{ "width": "150px", "height": "150px" }} alt="Unavailable" />
         );
-      // We have image but its loading, so wait.
+        // We have image but its loading, so wait.
       } else {
         return (<Spinner size={'150px'} />);
       }
-    // Return the loaded images.
+      // Return the loaded images.
     } else {
       return <Carousel>{this.showCarousel()}</Carousel>;
     }
@@ -163,20 +169,22 @@ class ProductDescription extends Component {
             <div className="row align-items-start">
               <div className="col pl-0">
                 <div className="productTitle d-inline d-inner-inline">
-                  <InlineEdit
+                  {/* if statement for admin */}
+                  {this.props.user.userType === 'admin' ? (<InlineEdit
                     className="d-inline"
                     name="name"
                     value={this.state.name}
                     isEditing={this.state.isEditing}
                     changeCallback={this.handleCallback}
-                  />
+                  />) : (<span>{this.state.name}</span>)}
                   <p className="d-inline dscrptnSize-9">
                     {" by " + this.props.vendor.name}
                   </p>
-                  <Button
+
+                  {this.props.user.userType === 'admin' && (<Button
                     className="d-inline btn far fa-edit d-inline"
                     onClick={this.buttonCallback}
-                  />
+                  />) }
                 </div>
                 <div className="productRating ">
                   <i className="d-inline fas fa-star fa-xs mr-1" />
@@ -193,58 +201,66 @@ class ProductDescription extends Component {
             <div className="row align-items-start">
               <div className="col">
                 Product Description
-                <Button
+                {this.props.user.userType === 'admin' && (<Button
                   className="d-inline btn far fa-edit d-inline"
                   onClick={this.buttonCallbackDesc}
-                />
+                />) }
               </div>
             </div>
             <div className="row align-items-start parent-min-high">
               <div className="col-8">
                 <div className="dscrptnSize-7">
-                  <InlineEdit
+                  {this.props.user.userType === 'admin' ? (<InlineEdit
                     name="desc"
                     className="d-inline"
                     value={this.state.desc}
                     isEditing={this.state.isEditingDesc}
                     changeCallback={this.handleCallbackDesc}
-                  />
+                  />) : (<span>{this.state.desc}</span>)}
                 </div>
               </div>
             </div>
             <div className="row align-items-end">
               <div className="col d-inline">
                 <div className="d-inline d-inner-inline">
-                  <InlineEdit
+                  {this.props.user.userType === 'admin' ? (<InlineEdit
                     className="d-inline ml-0 mr-0"
                     name="price"
                     placeholder={"" + this.state.price}
                     isEditing={this.state.isEditingPrice}
                     changeCallback={this.handleCallbackPrice}
-                  />
-                  <Button
+                  />) : (<span>${"" + this.state.price}</span>)}
+                  {this.props.user.userType === 'admin' ? (<Button
                     className="d-inline btn far fa-edit d-inline"
                     onClick={this.buttonCallbackPrice}
-                  />
+                  />) : (<span className=" vendor-Price-Offer"> 15% off </span>)}
+                    {/* if statement to display Edit offers button in vendor only */}
+                  {this.props.user.userType === 'vendor' &&
+                    (<button className="btn-sm more-rounded btn-light m-0" disabled> Edit Offers</button>)
+                    }
                 </div>
               </div>
               <div className="col">
                 <div className="col surround-parent parent-wide">
                   <div className="row surround-parent parent-wide">
                     <div className="col align-self-end surround-parent parent-wide">
-                      <Button
+                      {this.props.user.userType === 'admin'&& (<Button
                         className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                         onClick={this.onSubmit}
-                        disabled={!this.state.changed}
-                      >
+                        disabled={!this.state.changed}>
                         Finish
-                      </Button>
-                      <Button
+                      </Button>) }
+                      {this.props.user.userType === 'admin' ? (<Button
                         className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent parent-wide mt-2"
                         onClick={this.onCancel}
                       >
                         Cancel
-                      </Button>
+                      </Button>) : (<Button
+                          className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent parent-wide mt-2"
+                          onClick={this.onCancel}
+                        >
+                          Done
+                      </Button>)}
                     </div>
                   </div>
                 </div>
@@ -253,11 +269,15 @@ class ProductDescription extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
+const mapStateToProps = state => ({
+  user: state.user
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { editProduct, reloadProducts }
 )(ProductDescription);
