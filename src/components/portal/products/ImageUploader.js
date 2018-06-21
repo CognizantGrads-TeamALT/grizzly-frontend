@@ -8,7 +8,7 @@ class ImageUploader extends Component {
     super(props);
     this.state = {
       pictures: this.props.startingImages,
-      files: [],
+      files: this.props.startingFiles,
       notAcceptedFileType: [],
       notAcceptedFileSize: []
     };
@@ -81,6 +81,8 @@ class ImageUploader extends Component {
               _this.props.onChange(_this.state.files, _this.state.pictures);
             });
           }
+          console.log(this.state.pictures);
+          console.log(this.state.files);
         };
       })(f);
       reader.readAsDataURL(f);
@@ -260,14 +262,14 @@ ImageUploader.defaultProps = {
   singleImage: false,
   onChange: () => {},
   defaultImage: '',
-  startingImages: []
+  startingImages: [],
+  startingFiles: []
 };
 
 ImageUploader.propTypes = {
   style: PropTypes.object,
   className: PropTypes.string,
   onChange: PropTypes.func,
-  onDelete: PropTypes.func,
   buttonClassName: PropTypes.string,
   buttonStyles: PropTypes.object,
   buttonType: PropTypes.string,
@@ -288,7 +290,8 @@ ImageUploader.propTypes = {
   errorStyle: PropTypes.object,
   singleImage: PropTypes.bool,
   defaultImage: PropTypes.string,
-  startingImages: PropTypes.array
+  startingImages: PropTypes.array,
+  startingFiles: PropTypes.array
 };
 
 export default ImageUploader;

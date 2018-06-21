@@ -39,6 +39,8 @@ class ProductDescription extends Component {
   onDrop(pictureFiles, pictureDataURLs) {
     this.pictures = pictureFiles;
     this.files = pictureDataURLs;
+    // console.log(this.pictures);
+    // console.log(this.files);
   }
 
   handleCallbackDesc = event => {
@@ -108,9 +110,24 @@ class ProductDescription extends Component {
   };
 
   showCarousel() {
-    const product = this.props.product.single;
-    if (!isEmpty(product.images)) {
-      return product.images.map((img, index) => (
+    // if we don't have any images yet, use the incoming product's
+    let images;
+    console.log(this.props.product.single.images);
+    console.log(this.pictures);
+    if (this.pictures.length === 0) {
+      images = this.props.product.single.images;
+    } else {
+      // otherwise just use our local pictures in the redux format
+      // (this means the images have been edited)
+      images = this.pictures.map((pic, index) => {
+        return {"imgName": pic.name,
+                "base64Image": this.files[index]
+        };
+      });
+    }
+    
+    if (!isEmpty(images)) {
+      return images.map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
         <img
           key={index}
@@ -146,6 +163,9 @@ class ProductDescription extends Component {
     const imageData = product.images.map((img) => {
       return img.base64Image;
     });
+    const imageNames = product.images.map((img) => {
+      return {"name": img.imgName};
+    });
     return (<ImageUploader
               withIcon={true}
               withPreview={true}
@@ -154,6 +174,7 @@ class ProductDescription extends Component {
               imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
               maxFileSize={262144}
               startingImages={imageData}
+              startingFiles={imageNames}
             />);
   }
 
