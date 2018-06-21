@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import isEmpty from '../../../validation/is-empty';
 import TextFieldGroup from '../../common/TextFieldGroup';
+import { editProductInventory } from "../../../actions/productsActions";
 
 
 class InventoryList extends Component {
@@ -35,11 +36,13 @@ class InventoryList extends Component {
             stock:this.state.stock,
             req:this.state.req,
             buffer:this.state.buffer,
-            price:this.state.price,
             pending:this.state.pending,
+            price:this.state.price,
             rating:this.state.rating
           };
           console.log(upProd);
+
+          this.props.editProductInventory(upProd);
 
       }
     this.setState({editing: !this.state.editing});
@@ -99,14 +102,7 @@ class InventoryList extends Component {
             type="number"
             onChange={this.onChange}
             /></td>
-            <td><TextFieldGroup
-            placeholder={this.props.placeholder}
-            name="req"
-            value={this.state.req}
-            autocomplete="off"
-            type="number"
-            onChange={this.onChange}
-            /></td>
+            <td>{this.state.req}</td>
             <td><TextFieldGroup
             placeholder={this.props.placeholder}
             name="buffer"
@@ -156,5 +152,5 @@ InventoryList.propTypes = {
 
 export default connect(
   null,
-  { }
+  { editProductInventory }
 )(InventoryList);

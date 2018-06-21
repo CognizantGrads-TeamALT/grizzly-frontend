@@ -405,7 +405,7 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
 export const editProductInventory = newInfo => dispatch => {
   dispatch(setProductEditing());
   axios
-    .post(PRODUCT_API_GATEWAY + `/editInventory/${newInfo.productId}`, newInfo)
+    .post(PRODUCT_API_GATEWAY + `/editInventory/`, newInfo)
     .then(res =>
       dispatch({
         type: types.PRODUCT_INVENTORY_EDITED,
