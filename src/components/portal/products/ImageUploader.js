@@ -7,7 +7,7 @@ class ImageUploader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pictures: [],
+      pictures: this.props.startingImages,
       files: [],
       notAcceptedFileType: [],
       notAcceptedFileSize: []
@@ -187,6 +187,7 @@ class ImageUploader extends Component {
   }
 
   renderPreviewPictures() {
+    //console.log(this.state.pictures);
     return this.state.pictures.map((picture, index) => {
       return (
         <div key={index} className="uploadPictureContainer">
@@ -258,7 +259,8 @@ ImageUploader.defaultProps = {
   errorStyle: {},
   singleImage: false,
   onChange: () => {},
-  defaultImage: ''
+  defaultImage: '',
+  startingImages: []
 };
 
 ImageUploader.propTypes = {
@@ -285,7 +287,8 @@ ImageUploader.propTypes = {
   errorClass: PropTypes.string,
   errorStyle: PropTypes.object,
   singleImage: PropTypes.bool,
-  defaultImage: PropTypes.string
+  defaultImage: PropTypes.string,
+  startingImages: PropTypes.array
 };
 
 export default ImageUploader;

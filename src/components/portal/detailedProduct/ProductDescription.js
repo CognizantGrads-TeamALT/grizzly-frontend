@@ -7,6 +7,7 @@ import { Carousel } from "react-responsive-carousel";
 import { editProduct, reloadProducts } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
+import ImageUploader from "../products/ImageUploader";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class ProductDescription extends Component {
       isEditing: false,
       isEditingPrice: false,
       isEditingDesc: false,
+      isEditingImg: false,
       name: this.props.product.single.name,
       desc: this.props.product.single.desc,
       price: this.props.product.single.price,
@@ -22,13 +24,21 @@ class ProductDescription extends Component {
     };
 
     this.pictures = [];
+    this.files = [];
     this.handleCallbackDesc = this.handleCallbackDesc.bind(this);
     this.buttonCallbackDesc = this.buttonCallbackDesc.bind(this);
     this.handleCallbackPrice = this.handleCallbackPrice.bind(this);
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
+    this.buttonCallbackImg = this.buttonCallbackImg.bind(this);
     this.handleCallback = this.handleCallback.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+  }
+
+  onDrop(pictureFiles, pictureDataURLs) {
+    this.pictures = pictureFiles;
+    this.files = pictureDataURLs;
   }
 
   handleCallbackDesc = event => {
@@ -43,7 +53,17 @@ class ProductDescription extends Component {
     this.setState({
       isEditingDesc: true,
       isEditingPrice: false,
-      isEditing: false
+      isEditing: false,
+      isEditingImg: false
+    });
+  };
+
+  buttonCallbackImg = event => {
+    this.setState({
+      isEditingDesc: false,
+      isEditingPrice: false,
+      isEditing: false,
+      isEditingImg: true
     });
   };
 
@@ -59,7 +79,8 @@ class ProductDescription extends Component {
     this.setState({
       isEditing: true,
       isEditingDesc: false,
-      isEditingPrice: false
+      isEditingPrice: false,
+      isEditingImg: false
     });
   };
 
@@ -81,7 +102,8 @@ class ProductDescription extends Component {
     this.setState({
       isEditingPrice: true,
       isEditing: false,
-      isEditingDesc: false
+      isEditingDesc: false,
+      isEditingImg: false
     });
   };
 
@@ -90,15 +112,12 @@ class ProductDescription extends Component {
     if (!isEmpty(product.images)) {
       return product.images.map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <div className="img-wrap">
-          <span className="img-delete">&times;</span>
-          <img
-            key={index}
-            src={img.base64Image}
-            className="img-responsive"
-            alt=""
-          />
-        </div>
+        <img
+          key={index}
+          src={img.base64Image}
+          className="img-responsive"
+          alt=""
+        />
       ));
     }
   }
@@ -120,6 +139,22 @@ class ProductDescription extends Component {
     } else {
       return <Carousel>{this.showCarousel()}</Carousel>;
     }
+  }
+
+  showImgEditor() {
+    const product = this.props.product.single;
+    const imageData = product.images.map((img) => {
+      return img.base64Image;
+    });
+    return (<ImageUploader
+              withIcon={true}
+              withPreview={true}
+              buttonText="Upload new image"
+              onChange={this.onDrop}
+              imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
+              maxFileSize={262144}
+              startingImages={imageData}
+            />);
   }
 
   onSubmit(e) {
@@ -185,7 +220,12 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            {this.showImg()}
+            {!this.state.isEditingImg && this.showImg()}
+            {this.state.isEditingImg && this.showImgEditor()}
+            <Button
+              className="d-inline btn far fa-edit d-inline"
+              onClick={this.buttonCallbackImg}
+            />
           </div>
         </div>
 
