@@ -66,7 +66,7 @@ class CustomerPortal extends Component {
 
       return (
         <div className="col-md-12">
-          <ProductCategoryRow />
+          {!isEmpty(this.props.product.products) && <ProductCategoryRow />}
           <ProductCarousel />
           <ProductGridList />
         </div>

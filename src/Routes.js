@@ -34,7 +34,7 @@ export default () => {
         <Route exact path="/category/new" component={CategoryForm} />
         <Route
           exact
-          path="/:searchFilter/:searchParam"
+          path="/category/:searchParam/:catId"
           component={CategoryGridList}
         />
         <Route exact path="/product/new" component={ProductForm} />
