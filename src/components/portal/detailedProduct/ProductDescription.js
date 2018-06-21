@@ -12,11 +12,8 @@ import {
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
-<<<<<<< HEAD
 import ImageUploader from "../products/ImageUploader";
-=======
 import { clearCurrentUser } from '../../../actions/userActions';
->>>>>>> development
 
 class ProductDescription extends Component {
   constructor(props) {
