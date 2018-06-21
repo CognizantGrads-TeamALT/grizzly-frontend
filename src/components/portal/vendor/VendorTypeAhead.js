@@ -76,12 +76,12 @@ class VendorTypeAhead extends Component {
           this.setState({
             vendorList: [
               <button
-                className="btn btn-sm btn-outline-info  vendor-scroll-button"
+                className="btn btn-sm btn-outline-info vendor-scroll-button"
                 key={0}
                 type="button"
                 name={'No Results'}
-                value={'No results found'}
-                onClick={0}
+                value={0}
+                onClick={this.setVendorName}
               >
                 {'No results found'}
               </button>,

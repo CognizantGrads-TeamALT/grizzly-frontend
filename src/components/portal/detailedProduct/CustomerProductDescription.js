@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-import Spinner from "../../common/Spinner";
-import isEmpty from "../../../validation/is-empty";
-import unavailable from "../../../img/unavailable.png";
-import { Carousel } from "react-responsive-carousel";
-import Button from "react-ions/lib/components/Button";
-
+import React, { Component } from 'react';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
+import unavailable from '../../../img/unavailable.png';
+import { Carousel } from 'react-responsive-carousel';
+import RandomProduct from './RandomProduct';
 class CustomerProductDescription extends Component {
   onCancel = event => {
     this.props.history.goBack();
@@ -34,13 +33,18 @@ class CustomerProductDescription extends Component {
       // If the product details literally has no images.
       if (isEmpty(product.imageDTO)) {
         return (
-          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
+          <img
+            src={unavailable}
+            className="img-responsive"
+            style={{ width: '150px', height: '150px' }}
+            alt="Unavailable"
+          />
         );
-      // We have image but its loading, so wait.
+        // We have image but its loading, so wait.
       } else {
-        return (<Spinner size={'150px'} />);
+        return <Spinner size={'150px'} />;
       }
-    // Return the loaded images.
+      // Return the loaded images.
     } else {
       return <Carousel>{this.showCarousel()}</Carousel>;
     }
@@ -50,67 +54,72 @@ class CustomerProductDescription extends Component {
     const product = this.props.single;
 
     return (
-      <div className="container containerCustomerProductView">
-        <div className="row">
-          <div className="col-3 picCustomerDetailedProductCol mx-auto">
-            {this.showImg()}
-          </div>
+      <div>
+        <button
+          className="btn btn-outline-dark left-rounded"
+          onClick={this.onCancel}
+        >
+          Back
+        </button>
+        <div className="container containerCustomerProductView">
+          <div className="row">
+            <div className="col-3 picCustomerDetailedProductCol mx-auto">
+              {this.showImg()}
+            </div>
 
-          <div className="col-2 containerCustomerProductDesc">
-            <div className="row">{product.name}</div>
-            <div className="row">
-              <div className="dscrptnSize-7 mb-5">
-                <p>{product.desc}</p>
+            <div className="col-2 containerCustomerProductDesc">
+              <div className="row">{product.name}</div>
+              <div className="row">
+                <div className="dscrptnSize-7 mb-5">
+                  <p>{product.desc}</p>
+                </div>
               </div>
-            </div>
-            <div className="row CustomerDetailedProductPrice mt-5">
-              <p className="mb-0">${product.price}</p>
-            </div>
-          </div>
-
-          <div className="col mx-auto CustomerDetailedRightCol">
-            <div className="row">
-              <button className="btn more-rounded btnPincodeCustomer">
-                Enter Pincode
-              </button>
-
-              <button className="btn more-rounded btnGoCustomer">Go</button>
-            </div>
-            <div className="row mt-2">
-              <button
-                type="button"
-                className="btn btnOfferVendorsCustomer"
-                // data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Vendors (With Offers)
-              </button>
-              <div className="dropdown-menu">
-                <button className="dropdown-item" type="button" />
+              <div className="row CustomerDetailedProductPrice mt-5">
+                <p className="mb-0">${product.price}</p>
               </div>
             </div>
 
-            <div className="row mt-3">
-              <button className="btn more-rounded btn-sm btnBuyNowCustomer">
-                Buy Now
-              </button>
-            </div>
-            <div className="row mt-1">
-              <button className="btn more-rounded btn-sm btnCartCustomer">
-                Add to Cart
-              </button>
-            </div>
-            <div className="row mt-1">
-              <Button
-                className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent mt-2"
-                onClick={this.onCancel}
-              >
-                Cancel
-              </Button>
+            <div className="col mx-auto CustomerDetailedRightCol">
+              <div className="row">
+                <button className="btn more-rounded btnPincodeCustomer">
+                  Enter Pincode
+                </button>
+
+                <button className="btn more-rounded btnGoCustomer">Go</button>
+              </div>
+              <div className="row mt-2">
+                <button
+                  type="button"
+                  className="btn btnOfferVendorsCustomer"
+                  // data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  Vendors (With Offers)
+                </button>
+                <div className="dropdown-menu">
+                  <button className="dropdown-item" type="button" />
+                </div>
+              </div>
+
+              <div className="row mt-3">
+                <button className="btn more-rounded btn-sm btnBuyNowCustomer">
+                  Buy Now
+                </button>
+              </div>
+              <div className="row mt-1">
+                <button className="btn more-rounded btn-sm btnCartCustomer">
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </div>
         </div>
+        <br />
+        <span className="btn btn-info right-rounded">
+          People also searched for
+        </span>
+        <RandomProduct productId={product.productId} />
       </div>
     );
   }

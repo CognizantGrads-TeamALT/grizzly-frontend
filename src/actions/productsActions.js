@@ -13,20 +13,17 @@ import { setup } from 'axios-cache-adapter';
 
 const store = localforage.createInstance({
   // List of drivers used
-  driver: [
-    localforage.INDEXEDDB,
-    localforage.LOCALSTORAGE
-  ],
+  driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE],
   // Prefix all storage keys to prevent conflicts
   name: 'grizzly-alt'
-})
+});
 
 const cache = setup({
   cache: {
     maxAge: 30 * 60 * 1000, // 2 hours
     store
   }
-})
+});
 
 // Get Product List
 export const getProducts = index => dispatch => {
@@ -41,7 +38,7 @@ export const getProducts = index => dispatch => {
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/default`)
     .then(res => {
-      dispatch(refreshProductData(res.data))
+      dispatch(refreshProductData(res.data));
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -69,9 +66,9 @@ export const getProductWithImgs = productId => dispatch => {
       });
       if (!isEmpty(res.data)) {
         if (!isEmpty(res.data.productId)) {
-          if(res.data.vendorId !== 0)
+          if (res.data.vendorId !== 0)
             dispatch(getVendorBatch(res.data.vendorId));
-          if(res.data.categoryId !== 0)
+          if (res.data.categoryId !== 0)
             dispatch(getCategoryBatch(res.data.categoryId));
         }
 
@@ -109,7 +106,25 @@ export const getProductImage = (product, imageName) => dispatch => {
         payload: err.response.data
       });
     });
-}
+};
+export const getProductsImageRandom = (product, imageName) => dispatch => {
+  cache
+    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCTS_IMAGE_RANDOM,
+        payload: res.data,
+        product: product
+      });
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
 
 export const getProductImageCustomer = (product, imageName) => dispatch => {
   cache
@@ -128,7 +143,7 @@ export const getProductImageCustomer = (product, imageName) => dispatch => {
         payload: err.response.data
       });
     });
-}
+};
 
 export const setProductAdding = () => {
   return {
@@ -269,7 +284,6 @@ export const setProductUpdated = () => {
   };
 };
 
-
 export const getVendorBatch = vendorIdArray => dispatch => {
   axios
     .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
@@ -312,7 +326,26 @@ export const searchProducts = (keyword, index) => dispatch => {
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
     .then(res => {
-      dispatch(refreshProductData(res.data))
+      dispatch(refreshProductData(res.data));
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Search Products
+export const getRandomProducts = (keyword, index) => dispatch => {
+  axios
+    .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_RANDOM_PRODUCTS,
+        payload: res.data
+      });
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -329,7 +362,7 @@ export const sortProductsByParam = (index, param) => dispatch => {
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
     .then(res => {
-      dispatch(refreshProductData(res.data))
+      dispatch(refreshProductData(res.data));
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -349,7 +382,7 @@ export const filterProductsByCategory = inputs => dispatch => {
         `/bycategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
-      dispatch(refreshProductData(res.data))
+      dispatch(refreshProductData(res.data));
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -390,4 +423,4 @@ export const refreshProductData = data => dispatch => {
       dispatch(getCategoryBatch(categoryIdArray));
     }
   }
-}
+};

@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { addProduct } from '../../../actions/productsActions';
 import {
   searchCategories,
-  Update_TypeAhead, clearCurrentCategories
+  Update_TypeAhead
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
 import { setTimeout } from 'timers';
@@ -69,24 +69,27 @@ class CategoryTypeAhead extends Component {
                   value={listItem.id}
                   onClick={this.setCategoryName}
                 >
-                  {listItem.name} 
+                  {listItem.name}
                 </button>,
                 <br key={listItem.id + 10000} />
               ];
             }, this)
           });
-        }
-        else {
-          this.setState({ categoryList: [
-          <button
-              className="btn btn-sm btn-outline-info  cat-scroll-button"
-              key={0}
-              type="button"
-              name={"No Results"}
-              value={"No results found"}
-              onClick={0}>
-              {"No results found"}
-          </button> ]});
+        } else {
+          this.setState({
+            categoryList: [
+              <button
+                className="btn btn-sm btn-outline-info  cat-scroll-button"
+                key={0}
+                type="button"
+                name={'No Results'}
+                value={'No results found'}
+                onClick={0}
+              >
+                {'No results found'}
+              </button>
+            ]
+          });
         }
       }, 1000);
     }
