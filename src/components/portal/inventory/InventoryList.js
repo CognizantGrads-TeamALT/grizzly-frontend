@@ -54,7 +54,13 @@ class InventoryList extends Component {
   }
 
   onChange(e){
-      this.setState({[e.target.name]: [e.target.value]+ "", changed: true});
+      this.setState({[e.target.name]: [e.target.value]+ "",
+       changed: true });
+      if(e.target.name == "stock" || e.target.name == "buffer"){
+        var req = this.state.buffer-this.state.stock;
+        this.setState({req: req <0 ? 0 : req})
+      }
+
   }
   
   render() {
