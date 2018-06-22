@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import ConfirmModal from '../common/ConfirmModal';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import isEmpty from '../../../validation/is-empty';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import { editProductInventory } from "../../../actions/productsActions";
 import validator from 'validator';
@@ -81,7 +79,7 @@ class InventoryList extends Component {
   validateInventory(inv){
     var valid = true;
     console.log(inv);
-    if(inv.name == "" || inv.name == undefined)
+    if(inv.name === "" || inv.name === undefined)
       valid=false;
     return valid;
     
@@ -119,11 +117,10 @@ class InventoryList extends Component {
       var req = this.state.buffer-e.target.value;
       this.setState({req: req <0 ? 0 : req,
         bgcol: req>0 ? "bg-lightGrey" : "" })
-    }
-    if(e.target.name === "buffer"){
-      var req = e.target.value-this.state.stock;
-      this.setState({req: req <0 ? 0 : req,
-        bgcol: req>0 ? "bg-lightGrey" : "" })
+    } else if(e.target.name === "buffer"){
+      var req2 = e.target.value-this.state.stock;
+      this.setState({req: req2 <0 ? 0 : req2,
+        bgcol: req2>0 ? "bg-lightGrey" : "" })
     }
 }
 
@@ -226,6 +223,7 @@ class InventoryList extends Component {
 }
 
 InventoryList.propTypes = {
+  editProductInventory: PropTypes.func.isRequired
 };
 
 export default connect(
