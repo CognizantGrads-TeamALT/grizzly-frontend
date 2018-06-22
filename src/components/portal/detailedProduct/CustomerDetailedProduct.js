@@ -17,7 +17,7 @@ class CustomerDetailedProduct extends Component {
     super(props);
     this.state = {
       single: null,
-      id: this.props.match.params.productId
+      id: null
     };
   }
 
@@ -49,7 +49,6 @@ class CustomerDetailedProduct extends Component {
         item => item.productId === parseInt(id, 10)
       );
       if (!isEmpty(single)) {
-        // Must be = because inside the constructor.
         this.setState({ single: single[0] });
         name = single[0].name;
       } else {
@@ -58,12 +57,11 @@ class CustomerDetailedProduct extends Component {
     } else {
       this.props.getProductWithImgs(id);
     }
-    this.props.getRandomProducts(name.split(' ').pop(), '0');
+    let searchTerm = name.split(' ').pop();
+    if (!isEmpty(searchTerm)) {
+      this.props.getRandomProducts(searchTerm, '0');
+    }
   }
-
-  // componentWillReceiveProps(newProps) {
-  //   this.loadData(newProps.params.productId);
-  // }
 
   getImages(products) {
     for (let product of products) {
@@ -76,31 +74,34 @@ class CustomerDetailedProduct extends Component {
   show() {
     // From state or from props.
     const single = this.state.single || this.props.product.single;
-    const { loading, product_vendor, random_products } = this.props.product;
-    if (
-      isEmpty(single) ||
-      isEmpty(product_vendor) ||
-      isEmpty(random_products) ||
-      loading
-    ) {
+    const { loading, product_vendor } = this.props.product;
+    if (isEmpty(single) || isEmpty(product_vendor) || loading) {
       return <Spinner size={'150px'} />;
     } else {
-      this.getImages(random_products);
-      if (!isEmpty(single.imageDTO) && isEmpty(single.images)) {
-        this.props.getProductImageCustomer(single, single.imageDTO[0].imgName);
+      const { random_products } = this.props.product;
+      if (isEmpty(random_products)) {
+        this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+      } else {
+        this.getImages(random_products);
+        if (!isEmpty(single.imageDTO) && isEmpty(single.images)) {
+          this.props.getProductImageCustomer(
+            single,
+            single.imageDTO[0].imgName
+          );
+        }
+        const vendor = this.props.product.product_vendor.filter(
+          item => item.vendorId === single.vendorId
+        )[0];
+        return (
+          <div>
+            <CustomerProductDescription
+              single={single}
+              history={this.props.history}
+              vendor={vendor}
+            />
+          </div>
+        );
       }
-      const vendor = this.props.product.product_vendor.filter(
-        item => item.vendorId === single.vendorId
-      )[0];
-      return (
-        <div>
-          <CustomerProductDescription
-            single={single}
-            history={this.props.history}
-            vendor={vendor}
-          />
-        </div>
-      );
     }
   }
 
@@ -116,7 +117,9 @@ class CustomerDetailedProduct extends Component {
 
 CustomerDetailedProduct.propTypes = {
   getProductWithImgs: PropTypes.func.isRequired,
-  getProductImageCustomer: PropTypes.func.isRequired
+  getProductImageCustomer: PropTypes.func.isRequired,
+  getRandomProducts: PropTypes.func.isRequired,
+  getProductsImageRandom: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
