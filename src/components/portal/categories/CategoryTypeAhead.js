@@ -121,8 +121,9 @@ class CategoryTypeAhead extends Component {
             placeholder={this.props.placeholder}
             name="category"
             value={this.state.category}
+            autocomplete="off"
             onChange={event => {
-              //DO NOT DELETE THE COMMENT BELOW
+              // DO NOT DELETE THE COMMENT BELOW
               // eslint-disable-next-line
               this.onChange(event, true), catSearch(event);
             }}
