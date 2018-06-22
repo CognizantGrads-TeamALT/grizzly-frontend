@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
-import Button from 'react-ions/lib/components/Button';
-import InlineEdit from 'react-ions/lib/components/InlineEdit';
-import isEmpty from '../../../validation/is-empty';
-import unavailable from '../../../img/unavailable.png';
-import { Carousel } from 'react-responsive-carousel';
-import { editProduct, reloadProducts } from '../../../actions/productsActions';
-import { connect } from 'react-redux';
-import Spinner from '../../common/Spinner';
+import React, { Component } from "react";
+import Button from "react-ions/lib/components/Button";
+import InlineEdit from "react-ions/lib/components/InlineEdit";
+import isEmpty from "../../../validation/is-empty";
+import unavailable from "../../../img/unavailable.png";
+import { Carousel } from "react-responsive-carousel";
+import {
+  editProduct,
+  reloadProducts
+} from "../../../actions/productsActions";
+import { connect } from "react-redux";
+import Spinner from "../../common/Spinner";
+import ImageUploader from "../products/ImageUploader";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -15,6 +19,7 @@ class ProductDescription extends Component {
       isEditing: false,
       isEditingPrice: false,
       isEditingDesc: false,
+      isEditingImg: false,
       name: this.props.product.single.name,
       desc: this.props.product.single.desc,
       price: this.props.product.single.price,
@@ -22,13 +27,23 @@ class ProductDescription extends Component {
     };
 
     this.pictures = [];
+    this.files = [];
     this.handleCallbackDesc = this.handleCallbackDesc.bind(this);
     this.buttonCallbackDesc = this.buttonCallbackDesc.bind(this);
     this.handleCallbackPrice = this.handleCallbackPrice.bind(this);
     this.buttonCallbackPrice = this.buttonCallbackPrice.bind(this);
+    this.buttonCallbackImg = this.buttonCallbackImg.bind(this);
     this.handleCallback = this.handleCallback.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+  }
+
+  onDrop(pictureDataURLs, pictureFiles) {
+    this.pictures = pictureDataURLs;
+    this.files = pictureFiles;
+    console.log(this.pictures);
+    console.log(this.files);
   }
 
   handleCallbackDesc = event => {
@@ -43,7 +58,25 @@ class ProductDescription extends Component {
     this.setState({
       isEditingDesc: true,
       isEditingPrice: false,
-      isEditing: false
+      isEditing: false,
+      isEditingImg: false
+    });
+  };
+
+  buttonCallbackImg = event => {
+    this.setState({
+      isEditingDesc: false,
+      isEditingPrice: false,
+      isEditing: false,
+      isEditingImg: true
+    });
+  };
+
+  handleCallbackImg = event => {
+    this.setState({
+      isEditingImg: false,
+      [event.target.name]: event.target.value,
+      changed: true
     });
   };
 
@@ -59,7 +92,8 @@ class ProductDescription extends Component {
     this.setState({
       isEditing: true,
       isEditingDesc: false,
-      isEditingPrice: false
+      isEditingPrice: false,
+      isEditingImg: false
     });
   };
 
@@ -81,23 +115,37 @@ class ProductDescription extends Component {
     this.setState({
       isEditingPrice: true,
       isEditing: false,
-      isEditingDesc: false
+      isEditingDesc: false,
+      isEditingImg: false
     });
   };
 
   showCarousel() {
-    const product = this.props.product.single;
-    if (!isEmpty(product.images)) {
-      return product.images.map((img, index) => (
+    // if we don't have any images yet, use the incoming product's
+    let images;
+    if (this.files.length === 0) {
+      images = this.props.product.single.images;
+    } else {
+      // console.log(this.pictures);
+      // console.log(this.files);
+      // otherwise just use our local pictures in the redux format
+      // (this means the images have been edited)
+      images = this.files.map((pic, index) => {
+        return {"imgName": pic.name,
+                "base64Image": this.pictures[index]
+        };
+      });
+    }
+    
+    if (!isEmpty(images)) {
+      return images.map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        //<div id={index}>
         <img
           key={index}
           src={img.base64Image}
           className="img-responsive"
           alt=""
         />
-        //</div>
       ));
     }
   }
@@ -126,16 +174,52 @@ class ProductDescription extends Component {
     }
   }
 
+  showImgEditor() {
+    // if we haven't edited the images, just use the product's originals
+    let imageData;
+    let imageNames;
+    if (this.files.length === 0) {
+      const product = this.props.product.single;
+      imageData = product.images.map((img) => {
+        return img.base64Image;
+      });
+      imageNames = product.images.map((img) => {
+        return {"name": img.imgName};
+      });
+    } else {
+      imageData = this.pictures;
+      imageNames = this.files.map((img) => {
+        return {"name": img.name};
+      });
+    }
+    
+    return (<ImageUploader
+              withIcon={true}
+              withPreview={true}
+              buttonText="Upload new image"
+              onChange={this.onDrop}
+              imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
+              maxFileSize={262144}
+              startingImages={imageData}
+              startingFiles={imageNames}
+            />);
+  }
+
   onSubmit(e) {
     e.preventDefault();
     let imageData = [];
     let i;
-    for (i = 0; i < this.pictures.length; i++) {
-      let img = {
-        imgName: this.pictures[i].name,
-        base64Image: this.files[i].split(',')[1]
-      };
-      imageData.push(img);
+    // if we haven't edited any images
+    if (this.files.length === 0) {
+      imageData = this.props.product.single.imageData;
+    } else { // we have edited images
+      for (i = 0; i < this.files.length; i++) {
+        let img = {
+          imgName: this.files[i].name,
+          base64Image: this.pictures[i].split(",")[1]
+        };
+        imageData.push(img);
+      }
     }
     var newProd = {
       productId: this.props.product.single.productId,
@@ -146,7 +230,7 @@ class ProductDescription extends Component {
       rating: this.props.product.single.rating,
       enabled: this.props.product.single.enabled,
       vendorId: this.props.product.single.vendorId,
-      imageDTO: this.props.product.single.imageData
+      imageDTO: imageData
     };
 
     if (this.state.changed) {
@@ -164,7 +248,7 @@ class ProductDescription extends Component {
     return (
       <div className="row mt-4 parent-min-half-high">
         <div className="col-6">
-          <div className="container parent-high">
+          <div className="container">
             <div className="row align-items-start">
               <div className="col pl-0">
                 <div className="productTitle d-inline d-inner-inline">
@@ -197,7 +281,18 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            {this.showImg()}
+            {!this.state.isEditingImg && this.showImg()}
+            {this.state.isEditingImg && this.showImgEditor()}
+            {this.props.user.userType === 'admin' && !this.state.isEditingImg && (<Button
+              className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
+              onClick={this.buttonCallbackImg}>
+              Add or remove images
+            </Button>) }
+            {this.props.user.userType === 'admin' && this.state.isEditingImg && (<Button
+              className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
+              onClick={this.handleCallbackImg}>
+              Save changes
+            </Button>) }
           </div>
         </div>
 
