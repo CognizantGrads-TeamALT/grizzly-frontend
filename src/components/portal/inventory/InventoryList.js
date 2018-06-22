@@ -50,13 +50,18 @@ class InventoryList extends Component {
             price:this.state.price,
             rating:this.state.rating
           };
-
-          this.props.editProductInventory(upProd);
+          if(this.validateInventory(upProd))
+            this.props.editProductInventory(upProd);
+          else{
+            console.log("Invalid name. name field cannot be empty." + 
+                ' Invalid name: ' + this.state.name);
+                this.shouldCancel=true;
+                this.onCancel();
+          }
           var req = parseInt(this.state.buffer, 10) - parseInt(this.state.stock, 10);
           this.setState({req: req <0 ? 0 : req});
       }
       else{
-        console.log("updating old vals");
         this.setState({oldvals: {
           productId:this.state.productId,
             name:this.state.name,
@@ -72,6 +77,15 @@ class InventoryList extends Component {
     this.setState({togglestate: !this.state.togglestate});
 
   }
+
+  validateInventory(inv){
+    var valid = true;
+    console.log(inv);
+    if(inv.name == "" || inv.name == undefined)
+      valid=false;
+    return valid;
+    
+  }
   //TODO seperate onchange events for strings and ints, check and ensure ints are not less than 0
   onChangeName(e){
       this.setState({[e.target.name]: [e.target.value]+ "",
@@ -79,7 +93,6 @@ class InventoryList extends Component {
   }
 
   onCancel(e){
-    console.log(this.shouldCancel);
     if(this.shouldCancel){
     this.setState({
       productId:this.state.oldvals.productId,
@@ -182,7 +195,7 @@ class InventoryList extends Component {
             value={this.state.price}
             autocomplete="off"
             type="number"
-            onChange={this.onChange}
+            onChange={this.onChangePrice}
             /></td>
             <td><TextFieldGroup
             placeholder={this.props.placeholder}
