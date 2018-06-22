@@ -14,7 +14,11 @@ class ProductCategoryRow extends Component {
     if (isEmpty(this.props.product.products)) {
       this.props.getProducts();
     }
+    if (isEmpty(this.props.category.categories)) {
+      this.props.sortCategoriesByParamCustomer('0', 'count');
+    }
   }
+
   show() {
     const { categories, loading } = this.props.category;
     let categoryArray = [];
@@ -32,9 +36,6 @@ class ProductCategoryRow extends Component {
           </Link>
         </div>
       ));
-    } else {
-      // return <Spinner />
-      this.props.sortCategoriesByParamCustomer('0', 'count');
     }
   }
 
@@ -50,9 +51,6 @@ class ProductCategoryRow extends Component {
           {cat.name}
         </Link>
       ));
-    } else {
-      // return <Spinner />
-      this.props.sortCategoriesByParamCustomer('0', 'count');
     }
   }
 
@@ -95,7 +93,8 @@ ProductCategoryRow.propTypes = {
 
 const mapStateToProps = state => ({
   category: state.category,
-  product: state.product
+  product: state.product,
+  vendor: state.vendor
 });
 
 export default connect(
