@@ -2,10 +2,10 @@ import * as types from '../actions/types';
 import isEmpty from '../validation/is-empty';
 
 const initialState = {
-  products: null,
-  product_category: null,
-  product_vendor: null,
-  random_products: null,
+  products: [],
+  product_category: [],
+  product_vendor: [],
+  random_products: [],
   hasMore: false,
   loadingVendors: false,
   loadingCategories: false,
@@ -73,7 +73,12 @@ export default function(state = initialState, action) {
       product.images = product.images.concat(action.payload);
       return {
         ...state,
-        single: product
+        single: product,
+        products: isEmpty(
+          state.products.filter(prod => prod.productId === product.productId)
+        )
+          ? state.products.concat(product)
+          : state.products
       };
     case types.GET_PRODUCT_IMAGE_CUSTOMER:
       const newProduct = action.product;
@@ -86,14 +91,20 @@ export default function(state = initialState, action) {
         )
       };
     case types.GET_PRODUCTS_IMAGE_RANDOM:
-      const randProds = action.product;
-      randProds.images = [action.payload];
+      const randProd = action.product;
+      randProd.images = [action.payload];
       return {
         ...state,
         random_products: state.random_products.map(
           product =>
-            product.productId === randProds.productId ? randProds : product
+            product.productId === randProd.productId ? randProd : product
         )
+        // ,
+        // products: isEmpty(
+        //   state.products.filter(prod => prod.productId === randProd.productId)
+        // )
+        //   ? state.products.concat(product)
+        //   : state.products
       };
     case types.PRODUCT_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;

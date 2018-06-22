@@ -88,7 +88,9 @@ CategoryGridList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  category: state.category,
+  product: state.product,
+  vendor: state.vendor
 });
 
 export default connect(
