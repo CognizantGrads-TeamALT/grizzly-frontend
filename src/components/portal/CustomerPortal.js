@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductGridList from './common/ProductGridList';
 import PropTypes from 'prop-types';
-import { 
+import {
   getProducts,
   setProductUpdated,
   getProductImageCustomer
- } from '../../actions/productsActions';
- import { sortCategoriesByParamCustomer } from "../../actions/categoryActions";
+} from '../../actions/productsActions';
+import { sortCategoriesByParamCustomer } from '../../actions/categoryActions';
 import ProductCarousel from './common/ProductCarousel';
 import ProductCategoryRow from './common/ProductCategoryRow';
 import isEmpty from '../../validation/is-empty';
-import Spinner from "../common/Spinner";
+import Spinner from '../common/Spinner';
 
 class CustomerPortal extends Component {
   constructor(props) {
     super(props);
 
-    if (isEmpty(this.props.product.products)) {
+    if (
+      isEmpty(this.props.product.products) ||
+      this.props.product.products.length < 20 // Quantity reduced after search, need to load more/again. TODO: Fix this.
+    ) {
       this.props.getProducts();
     }
   }
@@ -59,11 +62,11 @@ class CustomerPortal extends Component {
       this.getImages(products);
 
       // Grab categories for categoryrow
-      this.getCategories(categories, "0", "count");
+      this.getCategories(categories, '0', 'count');
 
       return (
         <div className="col-md-12">
-          <ProductCategoryRow />
+          {!isEmpty(this.props.product.products) && <ProductCategoryRow />}
           <ProductCarousel />
           <ProductGridList />
         </div>
@@ -71,7 +74,7 @@ class CustomerPortal extends Component {
     } else {
       return (
         <div className="col-md-12">
-          <Spinner size={"150px"} />
+          <Spinner size={'150px'} />
         </div>
       );
     }
@@ -94,5 +97,10 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated, getProductImageCustomer, sortCategoriesByParamCustomer }
+  {
+    getProducts,
+    setProductUpdated,
+    getProductImageCustomer,
+    sortCategoriesByParamCustomer
+  }
 )(CustomerPortal);

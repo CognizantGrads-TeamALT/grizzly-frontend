@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import ConfirmModal from '../common/ConfirmModal';
-import { withRouter } from "react-router-dom";
-
-import { Link } from 'react-router-dom';
-import { Button  } from "reactstrap";
-
+import { withRouter } from 'react-router-dom';
+import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -23,10 +20,6 @@ class ProductList extends Component {
     this.onViewClick = this.onViewClick.bind(this);
   }
 
-  componentDidMount() {
-    this.showBlockButton();
-  }
-
   onDeleteClick(id) {
     this.props.deleteProduct(id);
   }
@@ -39,7 +32,7 @@ class ProductList extends Component {
 
   onViewClick() {
     const { product } = this.props;
- 
+
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
@@ -68,21 +61,6 @@ class ProductList extends Component {
     }
   }
 
-  showBlockButton() {
-    var blockButtons = document.getElementsByClassName('col p-0 collapsable-block-appearance');
-    var i;
-    if (this.props.userType === 'admin') {
-      for (i = 0; i < blockButtons.length; i++) {
-        blockButtons[i].style.display = 'inline';
-      }
-    }
-    else {
-      for (i = 0; i < blockButtons.length; i++) {
-        blockButtons[i].style.display = 'none';
-      }    
-    }
-  }
-
   render() {
     const { product } = this.props;
     return (
@@ -95,31 +73,33 @@ class ProductList extends Component {
         <td>
           <div className="row">
             <div className="col p-0">
-                <Button
+              <Button
                 onClick={this.onViewClick}
                 className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
               >
                 View
               </Button>
             </div>
-            <div className="col p-0 collapsable-block-appearance">
-              <ConfirmModal
-                buttonLabel={product.enabled ? 'Block' : 'Unblock'}
-                title="Block Product"
-                confirmText={
-                  (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
-                }
-                buttonClass="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
-                onSubmit={this.onBlockClick}
-              />
-            </div>
+            {this.props.userType === 'admin' && (
+              <div className="col p-0 collapsable-block-appearance">
+                <ConfirmModal
+                  buttonLabel={product.enabled ? 'Block' : 'Unblock'}
+                  title="Block Product"
+                  confirmText={
+                    (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
+                  }
+                  buttonClass="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
+                  onSubmit={this.onBlockClick}
+                />
+              </div>
+            )}
             <div className="col p-0">
               <ConfirmModal
-              buttonLabel="Delete"
-              title="Delete Product"
-              confirmText={'Delete ' + product.name}
-              buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
-              onSubmit={this.onDeleteClick.bind(this, product.productId)}
+                buttonLabel="Delete"
+                title="Delete Product"
+                confirmText={'Delete ' + product.name}
+                buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
+                onSubmit={this.onDeleteClick.bind(this, product.productId)}
               />
             </div>
           </div>
