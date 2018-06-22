@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+
 class LoginModal extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +52,10 @@ class LoginModal extends Component {
   //   }
   // }
 
+  responseGoogle(response) {
+    console.log(response);
+  }
+
   render() {
     return (
       <div className="form-group mr-2 my-auto">
@@ -66,27 +72,20 @@ class LoginModal extends Component {
         >
           <ModalHeader toggle={this.onToggle}>Login</ModalHeader>
           <ModalBody>
-            <form onSubmit={this.onSubmit}>
-              <input
-                className="form-control"
-                name="username"
-                placeholder="Username"
-                onChange={this.onChange}
-              />
-              <br />
-              <input
-                className="form-control"
-                name="password"
-                type="password"
-                placeholder="Password"
-                onChange={this.onChange}
-              />
-            </form>
+            <GoogleLogin
+              clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
+              buttonText="Login with Google"
+              onSuccess={this.responseGoogle}
+              onFailure={this.responseGoogle}
+              className="btn more-rounded parent-wide min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0"
+            />
+            <GoogleLogout
+              buttonText="Logout"
+              onLogoutSuccess={this.responseGoogle}
+              className="btn more-rounded parent-wide min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0"
+            />
           </ModalBody>
           <ModalFooter>
-            <Button color="outline-success" onClick={this.onSubmit}>
-              Login
-            </Button>
             <Button color="outline-secondary" onClick={this.onToggle}>
               Cancel
             </Button>

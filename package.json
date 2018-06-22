@@ -17,6 +17,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-flip-move": "^3.0.2",
+    "react-google-login": "^3.2.1",
     "react-inline-editing": "^1.0.10",
     "react-ions": "^5.0.5",
     "react-label": "0.0.6",
