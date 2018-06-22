@@ -127,6 +127,7 @@ export const getProductsImageRandom = (product, imageName) => dispatch => {
 };
 
 export const getProductImageCustomer = (product, imageName) => dispatch => {
+  dispatch(setProductLoading());
   cache
     .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
     .then(res => {
@@ -135,6 +136,7 @@ export const getProductImageCustomer = (product, imageName) => dispatch => {
         payload: res.data,
         product: product
       });
+      dispatch(setProductUpdated());
     })
     .catch(err => {
       dispatch(setProductUpdated());
