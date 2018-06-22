@@ -45,6 +45,7 @@
 .landingpage {
   text-align: center;
 }
+
 .grid {
   display: flex;
   flex-wrap: wrap;
@@ -56,6 +57,14 @@
 .d-inner-inline > * > * > *,
 .d-inner-inline > * > * > * > * {
   display: inline;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 .inner-m-0 > * {
@@ -224,17 +233,46 @@
 
 .nav-bar-bottom-border {
   box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.08);
-  /* border-bottom: rgba(51, 51, 51, 0.1);
-  border-bottom-width: 1px;
-  border-bottom-style: solid; */
 }
 
 .navbar { 
-  position: fixed; top: 0; min-width: 100%; background: white; z-index: 1; 
-}  
+  position: fixed; 
+  top: 0; 
+  min-width: 100%; 
+  background: white; 
+  z-index: 1; 
+}
+
+.navbar-inner-height > * > * > *{
+  margin-top: 0.7em;
+  margin-bottom: 0.7em;
+}
+
+.nav-link {
+  border-left: 0!important;
+  border-top: 0!important;
+  border-right: 1px solid rgba(0, 0, 0, 0.08)!important;
+  border-top-left-radius: 0rem!important;
+  border-top-right-radius: 0rem!important;
+}
+.nav-link:hover {
+  border-bottom: 4px solid #E37B40;
+}
 
 .griz-real-body { 
   margin-top: 80px; 
+}
+
+a:not([href]):not([tabindex]).active {
+  text-decoration: none;
+  border-bottom: 4px solid #46b29d;
+}
+
+a:not([href]):not([tabindex]) {
+  text-decoration: none;
+}
+
+.tabs-styling > * {
 }
 
 /*categoryscrolllist*/

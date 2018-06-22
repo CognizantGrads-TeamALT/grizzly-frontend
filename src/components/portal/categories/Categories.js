@@ -64,7 +64,7 @@ class Categories extends Component {
     return (
       <div>
         <CategorySearchSort />
-        <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
+        <div ref="myscroll" style={{ overflow: "auto" }}>
           <table className="table table-sm table-hover">
             <thead>
               <tr>

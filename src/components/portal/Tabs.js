@@ -96,14 +96,14 @@ class Tabs extends Component {
 
   render() {
     return (
-      <Row className="griz-portal">
-        <Col>
-          <div className="griz-portal">
+      <Row className="griz-portal ml-0 mr-0 w-100">
+        <Col className="w-100 pl-0 pr-0">
+          <div className="griz-portal navbar-inner-height parent-wide-inner">
             <Nav tabs>
-              <NavItem className="col pl-0 pr-0 h-">
+              <NavItem className="col pl-0 pr-0 tabs-a-underline">
                 <NavLink
                   className={classnames(
-                    'nav-link my-auto btn-outline-success',
+                    'nav-link my-auto',
                     {
                       active: this.state.activeTab === '1'
                     }
@@ -119,7 +119,7 @@ class Tabs extends Component {
                 <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link my-auto btn-outline-success griz-t-color-hover',
+                      'nav-link my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '2'
                       }
@@ -136,7 +136,7 @@ class Tabs extends Component {
                 <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link my-auto btn-outline-success griz-t-color-hover',
+                      'nav-link my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '3'
                       }
@@ -153,7 +153,7 @@ class Tabs extends Component {
                 <NavItem className="col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link my-auto btn-outline-success griz-t-color-hover',
+                      'nav-link my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '4'
                       }

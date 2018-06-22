@@ -95,7 +95,7 @@ class Products extends Component {
 
   render() {
     return (
-      <div ref="myscroll" style={{ height: '500px', overflow: 'auto' }}>
+      <div ref="myscroll" style={{ overflow: 'auto' }}>
         <table className="table table-sm table-hover">
           <thead>
             <tr>

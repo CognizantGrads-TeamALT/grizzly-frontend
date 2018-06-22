@@ -15,20 +15,24 @@ class Portal extends Component {
 
   render() {
     return (
-      <div className="griz-portal row">
-        <div className="col-2 griz-dark-blue-bg p-3">
-          {this.props.match.params.portal === 'admin' && (
-            <Profile userType="admin" userId="2" />
-          )}
-          {this.props.match.params.portal === 'vendor' && (
-            <Profile userType="vendor" userId="1" />
-          )}
+      <div className="griz-portal overflow-hidden">
+        <div className="row d-absolute position-fixed w-100">
+          <div className="col-2 griz-dark-blue-bg p-3">
+            {this.props.match.params.portal === 'admin' && (
+              <Profile userType="admin" userId="2" />
+            )}
+            {this.props.match.params.portal === 'vendor' && (
+              <Profile userType="vendor" userId="1" />
+            )}
+          </div>
+          <div className="col-10 pl-0 pr-0 h-100 w-100">
+            {(this.props.userType === 'admin' ||
+              this.props.userType === 'vendor') && <Tabs />}
+          </div>
         </div>
-        <div className="col-10 pl-0">
-          {(this.props.userType === 'admin' ||
-            this.props.userType === 'vendor') && <Tabs />}
+        <div className="overflow-auto">
+          {this.props.match.params.portal === 'customer' && <CustomerPortal />}
         </div>
-        {this.props.match.params.portal === 'customer' && <CustomerPortal />}
       </div>
     );
   }
