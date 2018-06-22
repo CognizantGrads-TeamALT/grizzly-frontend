@@ -17,6 +17,9 @@ class ConfirmModal extends Component {
         if (this.props.shouldPopup != undefined && !this.props.shouldPopup) {
             this.props.onSubmit();
         } else {
+            if(this.props.onCancel != undefined && this.state.modal){
+                this.props.onCancel();
+            }
             this.setState({
                 modal: !this.state.modal
             });

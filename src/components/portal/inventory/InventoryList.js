@@ -9,6 +9,7 @@ import { editProductInventory } from "../../../actions/productsActions";
 import validator from 'validator';
 
 
+
 class InventoryList extends Component {
   constructor(props) {
     super(props);
@@ -24,15 +25,20 @@ class InventoryList extends Component {
     rating:this.props.product.rating + "",
     togglestate: false,
     changed: false,
-    oldvals: {}
+    oldvals: {},
+    bgcol: this.props.product.req > 0 ? "bg-lightGrey" : ""
   }
+    this.shouldCancel = true;
     this.onEditClick = this.onEditClick.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onChangeName = this.onChangeName.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   onEditClick = (e) => {
+      
       if(this.state.editing && this.state.changed){
+        this.shouldCancel=  false;
           //edit the product with values
           const upProd = {
             productId:this.state.productId,
@@ -73,6 +79,8 @@ class InventoryList extends Component {
   }
 
   onCancel(e){
+    console.log(this.shouldCancel);
+    if(this.shouldCancel){
     this.setState({
       productId:this.state.oldvals.productId,
       name:this.state.oldvals.name,
@@ -85,6 +93,10 @@ class InventoryList extends Component {
       editing: false
     })
   }
+  else{
+    this.shouldCancel  = true;
+  }
+  }
 
   onChange(e){
     if(!validator.isInt(e.target.value)) e.target.value = 0;
@@ -92,13 +104,14 @@ class InventoryList extends Component {
     changed: true });
     if(e.target.name === "stock"){
       var req = this.state.buffer-e.target.value;
-      this.setState({req: req <0 ? 0 : req})
+      this.setState({req: req <0 ? 0 : req,
+        bgcol: req>0 ? "bg-lightGrey" : "" })
     }
     if(e.target.name === "buffer"){
       var req = e.target.value-this.state.stock;
-      this.setState({req: req <0 ? 0 : req})
+      this.setState({req: req <0 ? 0 : req,
+        bgcol: req>0 ? "bg-lightGrey" : "" })
     }
-    //this.setState({togglestate: !this.state.togglestate});
 }
 
   onChangePrice(e){
@@ -114,8 +127,8 @@ class InventoryList extends Component {
       <tr>
         <th scope="row">{this.state.productId}</th>
         <td>{this.state.name}</td>
-        <td>{this.state.stock}</td>
-        <td>{this.state.req}</td>
+        <td className={this.state.bgcol}>{this.state.stock}</td>
+        <td className={this.state.bgcol}>{this.state.req}</td>
         <td>{this.state.buffer}</td>
         <td>{this.state.price}</td>
         <td>{this.state.pending}</td>
@@ -137,7 +150,6 @@ class InventoryList extends Component {
     );
 }
     else{
-        console.log(this.state.editing + " in editing");
         return(<tr>
             <th scope="row">{this.state.productId}</th>
             <td><TextFieldGroup
