@@ -88,14 +88,17 @@ class InventoryList extends Component {
 
   onChange(e){
     if(!validator.isInt(e.target.value)) e.target.value = 0;
-
-    if(e.target.name === "stock" || e.target.name === "buffer"){
-      console.log("OK")
-      var req = this.state.buffer-this.state.stock;
+    this.setState({[e.target.name]: [e.target.value]+ "",
+    changed: true });
+    if(e.target.name === "stock"){
+      var req = this.state.buffer-e.target.value;
       this.setState({req: req <0 ? 0 : req})
-      this.setState({[e.target.name]: [e.target.value]+ "",
-      changed: true });
     }
+    if(e.target.name === "buffer"){
+      var req = e.target.value-this.state.stock;
+      this.setState({req: req <0 ? 0 : req})
+    }
+    //this.setState({togglestate: !this.state.togglestate});
 }
 
   onChangePrice(e){
