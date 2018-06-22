@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import isEmpty from '../../../validation/is-empty';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import { editProductInventory } from "../../../actions/productsActions";
+import validator from 'validator';
 
 
 class InventoryList extends Component {
@@ -26,6 +27,7 @@ class InventoryList extends Component {
   }
     this.onEditClick = this.onEditClick.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
   }
 
   onEditClick = (e) => {
@@ -45,23 +47,26 @@ class InventoryList extends Component {
           this.props.editProductInventory(upProd);
           var req = this.state.buffer-this.state.stock;
           this.setState({req: req <0 ? 0 : req})
-
-
       }
     this.setState({editing: !this.state.editing, changed: false});
     this.setState({togglestate: !this.state.togglestate});
 
   }
-
-  onChange(e){
+  //TODO seperate onchange events for strings and ints, check and ensure ints are not less than 0
+  onChangeName(e){
       this.setState({[e.target.name]: [e.target.value]+ "",
        changed: true });
-      if(e.target.name == "stock" || e.target.name == "buffer"){
-        var req = this.state.buffer-this.state.stock;
-        this.setState({req: req <0 ? 0 : req})
-      }
-
   }
+
+  onChange(e){
+    if(!validator.isInt(e.target.value)) e.target.value = 0;
+    this.setState({[e.target.name]: [e.target.value]+ "",
+     changed: true });
+    if(e.target.name == "stock" || e.target.name == "buffer"){
+      var req = this.state.buffer-this.state.stock;
+      this.setState({req: req <0 ? 0 : req})
+    }
+}
   
   render() {
     const { product } = this.props;
@@ -101,7 +106,7 @@ class InventoryList extends Component {
             name="name"
             value={this.state.name}
             autocomplete="off"
-            onChange={this.onChange}
+            onChange={this.onChangeName}
             /></td>
             <td><TextFieldGroup
             placeholder={this.props.placeholder}
