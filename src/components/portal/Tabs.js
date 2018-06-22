@@ -100,7 +100,7 @@ class Tabs extends Component {
         <Col className="w-100 pl-0 pr-0">
           <div className="griz-portal navbar-inner-height parent-wide-inner">
             <Nav tabs>
-              <NavItem className="col pl-0 pr-0 tabs-a-underline">
+              <NavItem className="nav-bar-singular-tab col pl-0 pr-0 tabs-a-underline">
                 <NavLink
                   className={classnames(
                     'nav-link my-auto',
@@ -116,7 +116,7 @@ class Tabs extends Component {
                 </NavLink>
               </NavItem>
               {this.props.userType === 'admin' && (
-                <NavItem className="col pl-0 pr-0">
+                <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
                       'nav-link my-auto griz-t-color-hover',
@@ -133,7 +133,7 @@ class Tabs extends Component {
                 </NavItem>
               )}
               {this.props.userType === 'admin' && (
-                <NavItem className="col pl-0 pr-0">
+                <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
                       'nav-link my-auto griz-t-color-hover',
@@ -150,7 +150,7 @@ class Tabs extends Component {
                 </NavItem>
               )}
               {this.props.userType === 'vendor' && (
-                <NavItem className="col pl-0 pr-0">
+                <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
                       'nav-link my-auto griz-t-color-hover',
@@ -171,21 +171,27 @@ class Tabs extends Component {
               <TabPane tabId="1">
                 <Row>
                   <Col sm="12">
-                    <div className="mt-3 mb-3">
-                      <ProductSearchSort />
+                    <div className="m-3 row">
+                      <div className="col">
+                        <ProductSearchSort />
+                      </div>
+                      <div className="col">
                       <CategoryTypeAhead
                         placeholder="Filter by category"
-                        extraClassNames="btn-group mr-2"
+                        extraClassNames="btn-group mr-2 surround-parent w-100"
                         onClickHandler={this.props.filterProductsByCategory}
                         pageIndex={this.props.product.index}
                       />
+                      </div>
+                      <div className="col text-right">
                       <button
-                        className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+                        className="btn more-rounded hover-w-b btn-sm mx-auto w-75"
                         onClick={this.onAddProduct}
                         // to="/product/new"
                       >
                         Add Product
                       </button>
+                      </div>
                     </div>
                     <Products />
                   </Col>

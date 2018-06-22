@@ -113,7 +113,7 @@ class VendorForm extends Component {
         <input
           type="button"
           value="Add Vendor"
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+          className="btn more-rounded hover-w-b btn-sm mx-auto w-75 my-2 my-sm-0"
           onClick={this.onToggle}
         />
         <Modal

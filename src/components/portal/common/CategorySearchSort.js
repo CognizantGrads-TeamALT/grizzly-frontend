@@ -66,68 +66,74 @@ class CategorySearchSort extends Component {
       description: ''
     };
     return (
-      <div className="btn-group aligned-left mt-2 mb-3">
-        <form onSubmit={this.onSearch} className="form-inline ml-0 mr-1">
-          <div className="search-form-custom">
-            <input
-              className="form-control left-rounded border-right-0 border"
-              type="search"
-              name="search"
-              placeholder="Search"
-              value={this.state.search}
-              onChange={this.onChange}
-              disabled={this.state.disabled ? 'disabled' : ''}
-            />
-            <span className="input-group-append-more">
-              <button
-                onClick={this.onSearch}
-                className="btn btn-outline-success btn-sm right-rounded border-left-0 border"
-                type="button"
-              >
-                <i className="fa fa-search" />
-              </button>
-            </span>
+      <div className="mt-2 mb-3 row w-100">
+        <div className="col text-center">
+          <form onSubmit={this.onSearch} className="btn-group form-inline ml-0 mr-1">
+            <div className="search-form-custom">
+              <input
+                className="form-control left-rounded border-right-0 border"
+                type="search"
+                name="search"
+                placeholder="Search"
+                value={this.state.search}
+                onChange={this.onChange}
+                disabled={this.state.disabled ? 'disabled' : ''}
+              />
+              <span className="input-group-append-more">
+                <button
+                  onClick={this.onSearch}
+                  className="btn btn-outline-success btn-sm right-rounded border-left-0 border"
+                  type="button"
+                >
+                  <i className="fa fa-search" />
+                </button>
+              </span>
+            </div>
+          </form>
+          <button
+            type="button"
+            className="btn-group btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Sort By
+          </button>
+          <div className="dropdown-menu">
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={this.onSortByName}
+            >
+              Name
+            </button>
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={this.onSortByDescription}
+            >
+              Description
+            </button>
+            <button
+              className="dropdown-item"
+              type="button"
+              onClick={this.onSortByCount}
+            >
+              Product Count
+            </button>
           </div>
-        </form>
-        <button
-          type="button"
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Sort By
-        </button>
-        <div className="dropdown-menu">
-          <button
-            className="dropdown-item"
-            type="button"
-            onClick={this.onSortByName}
-          >
-            Name
-          </button>
-          <button
-            className="dropdown-item"
-            type="button"
-            onClick={this.onSortByDescription}
-          >
-            Description
-          </button>
-          <button
-            className="dropdown-item"
-            type="button"
-            onClick={this.onSortByCount}
-          >
-            Product Count
-          </button>
         </div>
-        <CategoryForm
-          category={category}
-          title="Add Category"
-          buttonLabel="Add Category"
-          actionLabel="Add Category"
-          buttonClass="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-        />
+        <div className="col">
+        </div>
+        <div className="col text-right">
+          <CategoryForm
+            category={category}
+            title="Add Category"
+            buttonLabel="Add Category"
+            actionLabel="Add Category"
+            buttonClass="btn more-rounded hover-w-b btn-sm mx-auto w-75 surround-parent my-2 my-sm-0"
+          />
+        </div>
       </div>
     );
   }

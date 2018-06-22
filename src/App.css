@@ -244,9 +244,8 @@
   z-index: 1; 
 }
 
-.navbar-inner-height > * > * {
+.navbar-inner-height > * > .nav-bar-singular-tab {
   margin-top: 0.7em;
-  margin-bottom: 0.7em;
 }
 
 .nav-link {
@@ -280,7 +279,6 @@ a:not([href]):not([tabindex]) {
 .cat-scroll {
   max-height: 7cm;
   overflow: auto;
-  max-width: 250px;
 }
 
 .cat-scroll-button {

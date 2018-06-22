@@ -113,7 +113,7 @@ class CategoryTypeAhead extends Component {
     }, 600);
     return (
       <div className={this.props.extraClassNames}>
-        <div className="d-inline-block">
+        <div className="d-inline-block w-100">
           <div className="cat-scroll z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
             <TextFieldGroup
               placeholder={this.props.placeholder}
