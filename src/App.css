@@ -63,8 +63,9 @@
   overflow: hidden;
 }
 
-.overflow-auto {
-  overflow: auto;
+.overflow-normal-page {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .inner-m-0 > * {
@@ -243,7 +244,7 @@
   z-index: 1; 
 }
 
-.navbar-inner-height > * > * > *{
+.navbar-inner-height > * > * {
   margin-top: 0.7em;
   margin-bottom: 0.7em;
 }
@@ -260,7 +261,7 @@
 }
 
 .griz-real-body { 
-  margin-top: 80px; 
+  margin-top: 5%; 
 }
 
 a:not([href]):not([tabindex]).active {
@@ -491,10 +492,6 @@ a:hover {
   color: #46b29d;
   background-color: white;
   border-color: #45b29d;
-}
-
-.bg-white {
-  background-color: white;
 }
 
 .plain-b {

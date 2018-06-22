@@ -54,7 +54,7 @@ class ProductCategoryRow extends Component {
 
     render() {
         return(
-            <div className="container mb-4">
+            <div className="mb-4">
                 <div className="row">
                     <div className="col">
                         <div className="dropdown">

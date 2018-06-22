@@ -9,7 +9,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App h-100">
           <Navbar />
-          <div className="griz-real-body griz-portal h-100 surround-parent">
+          <div className="griz-real-body griz-portal-parent h-100 surround-parent">
             <Routes />
           </div>
         </div>
