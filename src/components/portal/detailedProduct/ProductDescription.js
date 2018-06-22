@@ -42,8 +42,6 @@ class ProductDescription extends Component {
   onDrop(pictureDataURLs, pictureFiles) {
     this.pictures = pictureDataURLs;
     this.files = pictureFiles;
-    console.log(this.pictures);
-    console.log(this.files);
   }
 
   handleCallbackDesc = event => {
@@ -126,8 +124,6 @@ class ProductDescription extends Component {
     if (this.files.length === 0) {
       images = this.props.product.single.images;
     } else {
-      // console.log(this.pictures);
-      // console.log(this.files);
       // otherwise just use our local pictures in the redux format
       // (this means the images have been edited)
       images = this.files.map((pic, index) => {

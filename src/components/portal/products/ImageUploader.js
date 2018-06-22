@@ -187,8 +187,6 @@ class ImageUploader extends Component {
   }
 
   renderPreviewPictures() {
-    // console.log(this.state.pictures);
-    // console.log(this.state.files);
     return this.state.pictures.map((picture, index) => {
       return (
         <div key={index} className="uploadPictureContainer">
