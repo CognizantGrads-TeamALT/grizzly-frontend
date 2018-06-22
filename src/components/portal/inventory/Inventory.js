@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductSearchSort from '../common/ProductSearchSort';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Spinner from '../../common/Spinner';
 import InventoryList from './InventoryList';
 import {

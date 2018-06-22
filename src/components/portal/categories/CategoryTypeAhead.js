@@ -78,14 +78,15 @@ class CategoryTypeAhead extends Component {
         } else {
           this.setState({
             categoryList: [
-              className='btn btn-sm btn-outline-info z-index-5000 d-absolute cat-scroll-button'
-              key={0}
-              type="button"
-              name={"No Results"}
-              value={0}
-              onClick={0}
+              <button
+                className='btn btn-sm btn-outline-info z-index-5000 d-absolute cat-scroll-button'
+                key={0}
+                type="button"
+                name={"No Results"}
+                value={0}
+                onClick={0}
               >
-              {'No results found'}
+                {'No results found'}
               </button>
             ]
           });

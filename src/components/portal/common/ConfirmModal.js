@@ -14,10 +14,10 @@ class ConfirmModal extends Component {
     }
 
     onToggle(e) {
-        if (this.props.shouldPopup != undefined && !this.props.shouldPopup) {
+        if (this.props.shouldPopup !== undefined && !this.props.shouldPopup) {
             this.props.onSubmit();
         } else {
-            if(this.props.onCancel != undefined && this.state.modal){
+            if(this.props.onCancel !== undefined && this.state.modal){
                 this.props.onCancel();
             }
             this.setState({
