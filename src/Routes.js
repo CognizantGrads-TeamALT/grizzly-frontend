@@ -14,7 +14,7 @@ import { Route } from 'react-router-dom';
 import Landing from './components/layout/Landing';
 export default () => {
   return (
-    <div>
+    <div className="surround-parent h-100 griz-portal">
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route exact path="/signup" component={SignUp} />
