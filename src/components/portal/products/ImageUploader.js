@@ -78,11 +78,9 @@ class ImageUploader extends Component {
             newFiles.push(f);
 
             _this.setState({ pictures: newArray, files: newFiles }, () => {
-              _this.props.onChange(_this.state.files, _this.state.pictures);
+              _this.props.onChange(_this.state.pictures, _this.state.files);
             });
           }
-          console.log(this.state.pictures);
-          console.log(this.state.files);
         };
       })(f);
       reader.readAsDataURL(f);
@@ -133,7 +131,7 @@ class ImageUploader extends Component {
     );
 
     this.setState({ pictures: filteredPictures, files: filteredFiles }, () => {
-      this.props.onChange(this.state.files, this.state.pictures);
+      this.props.onChange(this.state.pictures, this.state.files);
     });
   }
 
@@ -189,7 +187,8 @@ class ImageUploader extends Component {
   }
 
   renderPreviewPictures() {
-    //console.log(this.state.pictures);
+    // console.log(this.state.pictures);
+    // console.log(this.state.files);
     return this.state.pictures.map((picture, index) => {
       return (
         <div key={index} className="uploadPictureContainer">

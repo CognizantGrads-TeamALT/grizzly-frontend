@@ -42,11 +42,11 @@ class ProductDescription extends Component {
     this.onDrop = this.onDrop.bind(this);
   }
 
-  onDrop(pictureFiles, pictureDataURLs) {
-    this.pictures = pictureFiles;
-    this.files = pictureDataURLs;
-    // console.log(this.pictures);
-    // console.log(this.files);
+  onDrop(pictureDataURLs, pictureFiles) {
+    this.pictures = pictureDataURLs;
+    this.files = pictureFiles;
+    console.log(this.pictures);
+    console.log(this.files);
   }
 
   handleCallbackDesc = event => {
@@ -72,6 +72,14 @@ class ProductDescription extends Component {
       isEditingPrice: false,
       isEditing: false,
       isEditingImg: true
+    });
+  };
+
+  handleCallbackImg = event => {
+    this.setState({
+      isEditingImg: false,
+      [event.target.name]: event.target.value,
+      changed: true
     });
   };
 
@@ -118,16 +126,16 @@ class ProductDescription extends Component {
   showCarousel() {
     // if we don't have any images yet, use the incoming product's
     let images;
-    console.log(this.props.product.single.images);
-    console.log(this.pictures);
-    if (this.pictures.length === 0) {
+    if (this.files.length === 0) {
       images = this.props.product.single.images;
     } else {
+      // console.log(this.pictures);
+      // console.log(this.files);
       // otherwise just use our local pictures in the redux format
       // (this means the images have been edited)
-      images = this.pictures.map((pic, index) => {
+      images = this.files.map((pic, index) => {
         return {"imgName": pic.name,
-                "base64Image": this.files[index]
+                "base64Image": this.pictures[index]
         };
       });
     }
@@ -165,13 +173,24 @@ class ProductDescription extends Component {
   }
 
   showImgEditor() {
-    const product = this.props.product.single;
-    const imageData = product.images.map((img) => {
-      return img.base64Image;
-    });
-    const imageNames = product.images.map((img) => {
-      return {"name": img.imgName};
-    });
+    // if we haven't edited the images, just use the product's originals
+    let imageData;
+    let imageNames;
+    if (this.files.length === 0) {
+      const product = this.props.product.single;
+      imageData = product.images.map((img) => {
+        return img.base64Image;
+      });
+      imageNames = product.images.map((img) => {
+        return {"name": img.imgName};
+      });
+    } else {
+      imageData = this.pictures;
+      imageNames = this.files.map((img) => {
+        return {"name": img.name};
+      });
+    }
+    
     return (<ImageUploader
               withIcon={true}
               withPreview={true}
@@ -188,12 +207,17 @@ class ProductDescription extends Component {
     e.preventDefault();
     let imageData = [];
     let i;
-    for (i = 0; i < this.pictures.length; i++) {
-      let img = {
-        imgName: this.pictures[i].name,
-        base64Image: this.files[i].split(",")[1]
-      };
-      imageData.push(img);
+    // if we haven't edited any images
+    if (this.files.length === 0) {
+      imageData = this.props.product.single.imageData;
+    } else { // we have edited images
+      for (i = 0; i < this.files.length; i++) {
+        let img = {
+          imgName: this.files[i].name,
+          base64Image: this.pictures[i].split(",")[1]
+        };
+        imageData.push(img);
+      }
     }
     var newProd = {
       productId: this.props.product.single.productId,
@@ -204,7 +228,7 @@ class ProductDescription extends Component {
       rating: this.props.product.single.rating,
       enabled: this.props.product.single.enabled,
       vendorId: this.props.product.single.vendorId,
-      imageDTO: this.props.product.single.imageData
+      imageDTO: imageData
     };
 
     if (this.state.changed) {
@@ -222,7 +246,7 @@ class ProductDescription extends Component {
     return (
       <div className="row mt-4 parent-min-half-high">
         <div className="col-6">
-          <div className="container parent-high">
+          <div className="container">
             <div className="row align-items-start">
               <div className="col pl-0">
                 <div className="productTitle d-inline d-inner-inline">
@@ -251,10 +275,16 @@ class ProductDescription extends Component {
             </div>
             {!this.state.isEditingImg && this.showImg()}
             {this.state.isEditingImg && this.showImgEditor()}
-            <Button
-              className="d-inline btn far fa-edit d-inline"
-              onClick={this.buttonCallbackImg}
-            />
+            {this.props.user.userType === 'admin' && !this.state.isEditingImg && (<Button
+              className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
+              onClick={this.buttonCallbackImg}>
+              Add or remove images
+            </Button>) }
+            {this.props.user.userType === 'admin' && this.state.isEditingImg && (<Button
+              className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
+              onClick={this.handleCallbackImg}>
+              Save changes
+            </Button>) }
           </div>
         </div>
 
