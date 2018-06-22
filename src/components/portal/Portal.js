@@ -13,10 +13,26 @@ class Portal extends Component {
     this.props.clearCurrentUser();
   }
 
+  componentDidMount() {
+    this.hideAdminVendorPortal();
+
+  }
+
+  hideAdminVendorPortal() {
+    var showAdminVendorPortal = document.getElementsByClassName('row d-absolute position-fixed w-100 toggle-portal-appearance');
+    var i;
+    if (this.props.match.params.portal === 'customer'){
+      for (i = 0; i < showAdminVendorPortal.length; i++) {
+        showAdminVendorPortal[i].style.display = 'none';
+      }
+    }
+  }
+
+
   render() {
     return (
       <div className="griz-portal overflow-hidden">
-        <div className="row d-absolute position-fixed w-100">
+        <div className="row d-absolute position-fixed w-100 toggle-portal-appearance">
           <div className="col-2 griz-dark-blue-bg p-3">
             {this.props.match.params.portal === 'admin' && (
               <Profile userType="admin" userId="2" />
@@ -30,7 +46,7 @@ class Portal extends Component {
               this.props.userType === 'vendor') && <Tabs />}
           </div>
         </div>
-        <div className="overflow-auto">
+        <div className="overflow-auto bg-white">
           {this.props.match.params.portal === 'customer' && <CustomerPortal />}
         </div>
       </div>

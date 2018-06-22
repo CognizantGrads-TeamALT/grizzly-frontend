@@ -288,8 +288,12 @@ a:not([href]):not([tabindex]) {
   overflow: auto;
 }
 
-/* Vendor Portal */
+/* Admin/Vendor Portal */
 .collapsable-block-appearance > .collapsable-block-trigger:parent {
+  display: none;
+}
+
+.toggle-portal-appearance > .toggle-portal-trigger:parent {
   display: none;
 }
 
@@ -487,6 +491,10 @@ a:hover {
   color: #46b29d;
   background-color: white;
   border-color: #45b29d;
+}
+
+.bg-white {
+  background-color: white;
 }
 
 .plain-b {
