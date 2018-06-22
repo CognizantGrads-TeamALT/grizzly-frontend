@@ -7,8 +7,8 @@ class ImageUploader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pictures: [],
-      files: [],
+      pictures: this.props.startingImages,
+      files: this.props.startingFiles,
       notAcceptedFileType: [],
       notAcceptedFileSize: []
     };
@@ -78,7 +78,7 @@ class ImageUploader extends Component {
             newFiles.push(f);
 
             _this.setState({ pictures: newArray, files: newFiles }, () => {
-              _this.props.onChange(_this.state.files, _this.state.pictures);
+              _this.props.onChange(_this.state.pictures, _this.state.files);
             });
           }
         };
@@ -131,7 +131,7 @@ class ImageUploader extends Component {
     );
 
     this.setState({ pictures: filteredPictures, files: filteredFiles }, () => {
-      this.props.onChange(this.state.files, this.state.pictures);
+      this.props.onChange(this.state.pictures, this.state.files);
     });
   }
 
@@ -187,6 +187,8 @@ class ImageUploader extends Component {
   }
 
   renderPreviewPictures() {
+    // console.log(this.state.pictures);
+    // console.log(this.state.files);
     return this.state.pictures.map((picture, index) => {
       return (
         <div key={index} className="uploadPictureContainer">
@@ -258,14 +260,15 @@ ImageUploader.defaultProps = {
   errorStyle: {},
   singleImage: false,
   onChange: () => {},
-  defaultImage: ''
+  defaultImage: '',
+  startingImages: [],
+  startingFiles: []
 };
 
 ImageUploader.propTypes = {
   style: PropTypes.object,
   className: PropTypes.string,
   onChange: PropTypes.func,
-  onDelete: PropTypes.func,
   buttonClassName: PropTypes.string,
   buttonStyles: PropTypes.object,
   buttonType: PropTypes.string,
@@ -285,7 +288,9 @@ ImageUploader.propTypes = {
   errorClass: PropTypes.string,
   errorStyle: PropTypes.object,
   singleImage: PropTypes.bool,
-  defaultImage: PropTypes.string
+  defaultImage: PropTypes.string,
+  startingImages: PropTypes.array,
+  startingFiles: PropTypes.array
 };
 
 export default ImageUploader;
