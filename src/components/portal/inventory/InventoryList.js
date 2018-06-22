@@ -23,7 +23,8 @@ class InventoryList extends Component {
     pending:this.props.product.pending+ '',
     rating:this.props.product.rating + "",
     togglestate: false,
-    changed: false
+    changed: false,
+    oldvals: {}
   }
     this.onEditClick = this.onEditClick.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -45,8 +46,21 @@ class InventoryList extends Component {
           };
 
           this.props.editProductInventory(upProd);
-          var req = this.state.buffer-this.state.stock;
-          this.setState({req: req <0 ? 0 : req})
+          var req = parseInt(this.state.buffer, 10) - parseInt(this.state.stock, 10);
+          this.setState({req: req <0 ? 0 : req});
+      }
+      else{
+        console.log("updating old vals");
+        this.setState({oldvals: {
+          productId:this.state.productId,
+            name:this.state.name,
+            stock:this.state.stock,
+            req:this.state.req,
+            buffer:this.state.buffer,
+            pending:this.state.pending,
+            price:this.state.price,
+            rating:this.state.rating
+        }})
       }
     this.setState({editing: !this.state.editing, changed: false});
     this.setState({togglestate: !this.state.togglestate});
@@ -58,14 +72,36 @@ class InventoryList extends Component {
        changed: true });
   }
 
+  onCancel(e){
+    this.setState({
+      productId:this.state.oldvals.productId,
+      name:this.state.oldvals.name,
+      stock:this.state.oldvals.stock,
+      req:this.state.oldvals.req,
+      buffer:this.state.oldvals.buffer,
+      pending:this.state.oldvals.pending,
+      price:this.state.oldvals.price,
+      rating:this.state.oldvals.rating,
+      editing: false
+    })
+  }
+
   onChange(e){
     if(!validator.isInt(e.target.value)) e.target.value = 0;
-    this.setState({[e.target.name]: [e.target.value]+ "",
-     changed: true });
-    if(e.target.name == "stock" || e.target.name == "buffer"){
+
+    if(e.target.name === "stock" || e.target.name === "buffer"){
+      console.log("OK")
       var req = this.state.buffer-this.state.stock;
       this.setState({req: req <0 ? 0 : req})
+      this.setState({[e.target.name]: [e.target.value]+ "",
+      changed: true });
     }
+}
+
+  onChangePrice(e){
+    if(!validator.isFloat(e.target.value)) e.target.value = 0;
+    this.setState({[e.target.name]: [e.target.value]+ "",
+     changed: true });
 }
   
   render() {

@@ -410,7 +410,7 @@ export const editProductInventory = newInfo => dispatch => {
       dispatch({
         type: types.PRODUCT_INVENTORY_EDITED,
         payload: newInfo
-      })
+      }),
     )
     .catch(err => {
       dispatch(setProductUpdated());
