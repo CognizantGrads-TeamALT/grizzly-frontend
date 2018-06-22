@@ -21,7 +21,8 @@ import { getVendors, clearCurrentVendors } from '../../actions/vendorActions';
 import Products from './products/Products';
 import {
   getProducts,
-  clearCurrentProducts
+  clearCurrentProducts,
+  getVendorInventory
 } from '../../actions/productsActions';
 import Inventory from './inventory/Inventory';
 import ProductSearchSort from '../portal/common/ProductSearchSort';
@@ -45,11 +46,10 @@ class Tabs extends Component {
 
   componentWillMount() {
     //this.clear();
-
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();
-
+    this.props.getVendorInventory("0", "1");
     this.setState({ activeTab: '1' });
   }
 
@@ -244,6 +244,7 @@ Tabs.propTypes = {
 
   setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
+  getVendorInventory: PropTypes.func.isRequired,
   filterProductsByCategory: PropTypes.func.isRequired
 };
 
@@ -262,6 +263,7 @@ export default connect(
     getProducts,
     clearCurrentProducts,
     setProductUpdated,
-    filterProductsByCategory
+    filterProductsByCategory,
+    getVendorInventory
   }
 )(Tabs);

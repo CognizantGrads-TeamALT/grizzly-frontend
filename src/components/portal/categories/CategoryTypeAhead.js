@@ -117,16 +117,17 @@ class CategoryTypeAhead extends Component {
       <div className={this.props.extraClassNames}>
         <div className="d-inline-block w-100">
           <div className="cat-scroll z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-            <TextFieldGroup
-              placeholder={this.props.placeholder}
-              name="category"
-              value={this.state.category}
-              onChange={event => {
-                //DO NOT DELETE THE COMMENT BELOW
-                // eslint-disable-next-line
-                this.onChange(event, true), catSearch(event);
-              }}
-            />
+          <TextFieldGroup
+            placeholder={this.props.placeholder}
+            name="category"
+            value={this.state.category}
+            autocomplete="off"
+            onChange={event => {
+              // DO NOT DELETE THE COMMENT BELOW
+              // eslint-disable-next-line
+              this.onChange(event, true), catSearch(event);
+            }}
+          />
           </div>
         <div className="d-absolute bg-white">{this.state.categoryList}</div>
         </div>

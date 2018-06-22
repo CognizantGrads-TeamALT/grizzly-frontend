@@ -54,6 +54,28 @@ export default function(state = initialState, action) {
         loadingVendors: true,
         loadingCategories: true
       };
+    case types.GET_VENDOR_INVENTORY:
+      const VendorhasMore =
+      action.payload.length < 25 || isEmpty(action.payload.length)
+        ? false
+        : true;
+      const currentVendorProducts = isEmpty(state.vendorInventory) ? [] : state.vendorInventory;
+      const VendorIndex = isEmpty(state.products) ? 1 : state.vendorIndex + 1;
+      const newVendorProducts = isEmpty(action.payload)
+        ? currentVendorProducts
+        : [
+            ...new Map(
+              currentVendorProducts
+                .concat(action.payload)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
+    return {
+      ...state,
+      vendorInventory: newVendorProducts,
+      vendorHasMore: VendorhasMore,
+      vendorIndex: VendorIndex,
+    };
     case types.GET_PRODUCT:
       action.payload.images = [];
       return {
