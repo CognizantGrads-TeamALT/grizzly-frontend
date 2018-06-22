@@ -242,7 +242,7 @@ Tabs.propTypes = {
 
 const mapStateToProps = state => ({
   userType: state.user.userType,
-  product: state.product,
+  product: state.product
 });
 
 export default connect(
