@@ -60,7 +60,8 @@ class Vendor extends Component {
     return (
       <div>
         <VendorSearchSort />
-        <div ref="myscroll" style={{ height: "500px", overflow: "auto" }}>
+        <div ref="myscroll" style={{ height: '555px', overflowX: 'hidden', overflowY: 'auto' }}>
+        <div className="overflow-normal-page">
           <table className="table table-sm table-hover">
             <thead>
               <tr>
@@ -73,6 +74,7 @@ class Vendor extends Component {
             </thead>
             <tbody>{this.show()}</tbody>
           </table>
+        </div>
         </div>
       </div>
     );

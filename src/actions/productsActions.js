@@ -372,6 +372,55 @@ export const sortProductsByParam = (index, param) => dispatch => {
       });
     });
 };
+// get all products beloning to a vendor, and get their inventory details
+export const getVendorInventory = (index, VendorID) => dispatch => {
+  index = index == null ? 0 : index;
+  // getVendorBatch and getCategoryBatch set loading: true
+  // if either data is not loaded yet.
+  // if we set loading here, it will refresh the render too many times
+  // which results in losing the scroll wheel position...
+  //dispatch(setProductLoading());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/getInventory/${index}/${VendorID}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_VENDOR_INVENTORY,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      if (index === 0) dispatch(getVendorInventory(index, VendorID));
+
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+  };
+// edit the inventory of a single product.
+export const editProductInventory = newInfo => dispatch => {
+  dispatch(setProductEditing());
+  axios
+    .post(PRODUCT_API_GATEWAY + `/editInventory/`, newInfo)
+    .then(res =>
+      dispatch({
+        type: types.PRODUCT_INVENTORY_EDITED,
+        payload: newInfo
+      }),
+    )
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
@@ -424,3 +473,5 @@ export const refreshProductData = data => dispatch => {
     }
   }
 };
+
+

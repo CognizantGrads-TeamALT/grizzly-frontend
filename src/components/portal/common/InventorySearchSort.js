@@ -41,48 +41,52 @@ class InventorySearchSort extends Component {
 
   render() {
     return (
-      <div className="btn-group aligned-left mt-2 mb-3">
-        <form className="form-inline ml-0 mr-1">
-          <div className="search-form-custom">
-            <input
-              className="form-control left-rounded border-right-0 border"
-              type="search"
-              name="search"
-              placeholder="Search"
-              value={this.state.search}
-              onChange={this.onChange}
-              disabled = {(this.state.disabled)? "disabled" : ""}
-            />
-            <span className="input-group-append-more">
-              <button
-                onClick={this.onSearch}
-                className="btn btn-outline-success btn-sm right-rounded border-left-0 border"
-                type="button"
-              >
-                <i className="fa fa-search" />
-              </button>
-            </span>
+      <div className="mt-2 mb-3 ml-3 mr-3 w-100 row">
+        <div className="col">
+          <form className="btn-group form-inline ml-0 mr-1">
+            <div className="search-form-custom">
+              <input
+                className="form-control left-rounded border-right-0 border"
+                type="search"
+                name="search"
+                placeholder="Search"
+                value={this.state.search}
+                onChange={this.onChange}
+                disabled = {(this.state.disabled)? "disabled" : ""}
+              />
+              <span className="input-group-append-more">
+                <button
+                  onClick={this.onSearch}
+                  className="btn btn-outline-success btn-sm right-rounded border-left-0 border"
+                  type="button"
+                >
+                  <i className="fa fa-search" />
+                </button>
+              </span>
+            </div>
+          </form>
+          <button
+            type="button"
+            className="btn-group btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Sort By
+          </button>
+          <div className="dropdown-menu">
+            <button className="dropdown-item" type="button">
+              ID
+            </button>
+            <button className="dropdown-item" type="button">
+              Name
+            </button>
+            <button className="dropdown-item" type="button">
+              Location
+            </button>
           </div>
-        </form>
-        <button
-          type="button"
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Sort By
-        </button>
-        <div className="dropdown-menu">
-          <button className="dropdown-item" type="button">
-            ID
-          </button>
-          <button className="dropdown-item" type="button">
-            Name
-          </button>
-          <button className="dropdown-item" type="button">
-            Location
-          </button>
+        </div>
+        <div className="col">
         </div>
       </div>
     );

@@ -164,14 +164,14 @@ class CategoryForm extends Component {
           <ModalFooter>
             <div>
               <Button
-                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
+                className="btn more-rounded plain-b btn-sm mr-sm-2 d-inline"
                 onClick={this.onSubmit}
               >
                 Submit
               </Button>
 
               <Button
-                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
+                className="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
                 onClick={this.onToggle}
               >
                 Cancel

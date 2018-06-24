@@ -21,7 +21,8 @@ import { getVendors, clearCurrentVendors } from '../../actions/vendorActions';
 import Products from './products/Products';
 import {
   getProducts,
-  clearCurrentProducts
+  clearCurrentProducts,
+  getVendorInventory
 } from '../../actions/productsActions';
 import Inventory from './inventory/Inventory';
 import ProductSearchSort from '../portal/common/ProductSearchSort';
@@ -45,11 +46,10 @@ class Tabs extends Component {
 
   componentWillMount() {
     //this.clear();
-
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();
-
+    this.props.getVendorInventory("0", "1");
     this.setState({ activeTab: '1' });
   }
 
@@ -96,14 +96,14 @@ class Tabs extends Component {
 
   render() {
     return (
-      <Row>
-        <Col>
-          <div>
+      <Row className="griz-portal ml-0 mr-0 w-100">
+        <Col className="w-100 pl-0 pr-0">
+          <div className="griz-portal navbar-inner-height parent-wide-inner">
             <Nav tabs>
-              <NavItem className="col pl-0 pr-0">
+              <NavItem className="nav-bar-singular-tab col pl-0 pr-0 tabs-a-underline">
                 <NavLink
                   className={classnames(
-                    'nav-link btn-outline-success my-2 my-sm-0',
+                    'nav-link my-auto',
                     {
                       active: this.state.activeTab === '1'
                     }
@@ -116,10 +116,10 @@ class Tabs extends Component {
                 </NavLink>
               </NavItem>
               {this.props.userType === 'admin' && (
-                <NavItem className="col pl-0 pr-0">
+                <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
+                      'nav-link my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '2'
                       }
@@ -133,10 +133,10 @@ class Tabs extends Component {
                 </NavItem>
               )}
               {this.props.userType === 'admin' && (
-                <NavItem className="col pl-0 pr-0">
+                <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
+                      'nav-link my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '3'
                       }
@@ -150,10 +150,10 @@ class Tabs extends Component {
                 </NavItem>
               )}
               {this.props.userType === 'vendor' && (
-                <NavItem className="col pl-0 pr-0">
+                <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link btn-outline-success griz-t-color-hover my-2 my-sm-0',
+                      'nav-link my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '4'
                       }
@@ -167,24 +167,32 @@ class Tabs extends Component {
                 </NavItem>
               )}
             </Nav>
-            <TabContent activeTab={this.state.activeTab}>
+            <TabContent activeTab={this.state.activeTab} className="parent-high-inner surround-parent">
               <TabPane tabId="1">
                 <Row>
                   <Col sm="12">
-                    <ProductSearchSort />
-                    <CategoryTypeAhead
-                      placeholder="Filter by category"
-                      extraClassNames="btn-group mr-2"
-                      onClickHandler={this.props.filterProductsByCategory}
-                      pageIndex={this.props.product.index}
-                    />
-                    <button
-                      className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-                      onClick={this.onAddProduct}
-                      // to="/product/new"
-                    >
-                      Add Product
-                    </button>
+                    <div className="m-3 row">
+                      <div className="col">
+                        <ProductSearchSort />
+                      </div>
+                      <div className="col">
+                      <CategoryTypeAhead
+                        placeholder="Filter by category"
+                        extraClassNames="btn-group mr-2 surround-parent w-100"
+                        onClickHandler={this.props.filterProductsByCategory}
+                        pageIndex={this.props.product.index}
+                      />
+                      </div>
+                      <div className="col text-right">
+                      <button
+                        className="btn more-rounded hover-w-b btn-sm mx-auto w-75"
+                        onClick={this.onAddProduct}
+                        // to="/product/new"
+                      >
+                        Add Product
+                      </button>
+                      </div>
+                    </div>
                     <Products />
                   </Col>
                 </Row>
@@ -236,6 +244,7 @@ Tabs.propTypes = {
 
   setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
+  getVendorInventory: PropTypes.func.isRequired,
   filterProductsByCategory: PropTypes.func.isRequired
 };
 
@@ -254,6 +263,7 @@ export default connect(
     getProducts,
     clearCurrentProducts,
     setProductUpdated,
-    filterProductsByCategory
+    filterProductsByCategory,
+    getVendorInventory
   }
 )(Tabs);

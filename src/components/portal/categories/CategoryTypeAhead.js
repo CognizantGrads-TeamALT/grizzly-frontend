@@ -62,7 +62,7 @@ class CategoryTypeAhead extends Component {
             categoryList: list.map(function(listItem) {
               return [
                 <button
-                  className="btn btn-outline-info btn-sm cat-scroll-button"
+                  className="btn btn-outline-info z-index-5000 d-absolute btn-sm cat-scroll-button"
                   key={listItem.id}
                   type="button"
                   name={listItem.name}
@@ -79,11 +79,11 @@ class CategoryTypeAhead extends Component {
           this.setState({
             categoryList: [
               <button
-                className="btn btn-sm btn-outline-info  cat-scroll-button"
+                className='btn btn-sm btn-outline-info z-index-5000 d-absolute cat-scroll-button'
                 key={0}
                 type="button"
-                name={'No Results'}
-                value={'No results found'}
+                name={"No Results"}
+                value={0}
                 onClick={0}
               >
                 {'No results found'}
@@ -116,19 +116,22 @@ class CategoryTypeAhead extends Component {
     }, 600);
     return (
       <div className={this.props.extraClassNames}>
-        <div className="cat-scroll pt-3 inner-rounded-corners">
+        <div className="d-inline-block w-100">
+          <div className="cat-scroll z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
           <TextFieldGroup
             placeholder={this.props.placeholder}
             name="category"
             value={this.state.category}
+            autocomplete="off"
             onChange={event => {
-              //DO NOT DELETE THE COMMENT BELOW
+              // DO NOT DELETE THE COMMENT BELOW
               // eslint-disable-next-line
               this.onChange(event, true), catSearch(event);
             }}
           />
+          </div>
+        <div className="d-absolute bg-white">{this.state.categoryList}</div>
         </div>
-        <div className="floating-div bg-white">{this.state.categoryList}</div>
       </div>
     );
   }

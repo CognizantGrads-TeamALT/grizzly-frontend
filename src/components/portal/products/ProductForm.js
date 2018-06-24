@@ -42,8 +42,6 @@ class ProductForm extends Component {
   onDrop(pictureDataURLs, pictureFiles) {
     this.pictures = pictureDataURLs;
     this.files = pictureFiles;
-    // console.log(this.pictures);
-    // console.log(this.files);
   }
 
   onToggle() {

@@ -13,22 +13,48 @@ class Portal extends Component {
     this.props.clearCurrentUser();
   }
 
+  componentDidMount() {
+    this.hideAdminVendorPortal();
+
+  }
+
+  hideAdminVendorPortal() {
+    var showAdminVendorPortal = document.getElementsByClassName('row d-absolute position-fixed w-100 toggle-portal-appearance');
+    var showCustomerPortal = document.getElementsByClassName('overflow-normal-page p-5 customer-portal-toggle');
+    var i;
+    if (this.props.match.params.portal === 'customer'){
+      for (i = 0; i < showAdminVendorPortal.length; i++) {
+        showAdminVendorPortal[i].style.display = 'none';
+      }
+    }
+    else if (this.props.userType === 'admin' ||
+    this.props.userType === 'vendor') {
+      for (i = 0; i < showCustomerPortal.length; i++) {
+        showCustomerPortal[i].style.display = 'none';
+      }
+    }
+  }
+
   render() {
     return (
-      <div className="row">
-        <div className="col-md-2">
-          {this.props.match.params.portal === 'admin' && (
-            <Profile userType="admin" userId="2" />
-          )}
-          {this.props.match.params.portal === 'vendor' && (
-            <Profile userType="vendor" userId="1" />
-          )}
+      <div className="griz-portal ">
+        <div className="row d-absolute position-fixed w-100 toggle-portal-appearance">
+          <div className="col-2 position-static griz-dark-blue-bg h-95 p-3">
+            {this.props.match.params.portal === 'admin' && (
+              <Profile userType="admin" userId="2" />
+            )}
+            {this.props.match.params.portal === 'vendor' && (
+              <Profile userType="vendor" userId="1" />
+            )}
+          </div>
+          <div className="col-10 position-inherit overflow-normal-page pl-0 pr-0 h-100 w-100">
+            {(this.props.userType === 'admin' ||
+              this.props.userType === 'vendor') && <Tabs />}
+          </div>
         </div>
-        <div className="col-md-10">
-          {(this.props.userType === 'admin' ||
-            this.props.userType === 'vendor') && <Tabs />}
+        <div className="overflow-normal-page p-5 customer-portal-toggle">
+          {this.props.match.params.portal === 'customer' && <CustomerPortal />}
         </div>
-        {this.props.match.params.portal === 'customer' && <CustomerPortal />}
       </div>
     );
   }
