@@ -7,6 +7,7 @@
     "axios-cache-adapter": "^2.0.0",
     "bootstrap": "^4.1.1",
     "classnames": "^2.2.6",
+    "cross-env": "^5.2.0",
     "jquery": "^3.3.1",
     "jwt-decode": "^2.2.0",
     "localforage": "^1.7.2",
@@ -35,8 +36,9 @@
     "validator": "^10.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env REACT_APP_ENV=production react-scripts start",
+    "local": "cross-env REACT_APP_ENV=development react-scripts start",
+    "build": "cross-env REACT_APP_ENV=production react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
