@@ -14,7 +14,8 @@ class CategoryGridList extends Component {
       if (!isEmpty(product.imageDTO) && isEmpty(product.images)) {
         this.props.getProductImageCustomer(
           product,
-          product.imageDTO[0].imgName
+          product.imageDTO[0].imgName,
+          true
         );
       }
     }
@@ -36,10 +37,10 @@ class CategoryGridList extends Component {
     if (
       !this.props.product.loadingVendors &&
       !this.props.product.loading &&
-      !isEmpty(this.props.product.products) &&
+      !isEmpty(this.props.product.products_filtered) &&
       !isEmpty(this.props.product.product_vendor)
     ) {
-      const filteredProducts = this.props.product.products;
+      const filteredProducts = this.props.product.products_filtered;
       this.getImages(filteredProducts);
       return filteredProducts.map(prod => (
         <div className="card text-left mb-2" key={prod.productId}>

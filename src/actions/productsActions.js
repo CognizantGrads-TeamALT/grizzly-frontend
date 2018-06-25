@@ -126,19 +126,21 @@ export const getProductsImageRandom = (product, imageName) => dispatch => {
     });
 };
 
-export const getProductImageCustomer = (product, imageName) => dispatch => {
+export const getProductImageCustomer = (product, imageName, filtered) => dispatch => {
   cache
     .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT_IMAGE_CUSTOMER,
         payload: res.data,
-        product: product
+        product: product,
+        filtered: filtered
       });
     })
     .catch(err => {
       dispatch(setProductUpdated());
       console.log("Err: " + product.productId);
+      console.log(err);
       // dispatch({
       //   type: types.GET_ERRORS,
       //   payload: err.response.data
@@ -434,7 +436,8 @@ export const filterProductsByCategory = inputs => dispatch => {
         `/bycategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
-      dispatch(refreshProductData(res.data));
+      console.log(res.data);
+      dispatch(refreshProductData(res.data, true));
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -445,11 +448,18 @@ export const filterProductsByCategory = inputs => dispatch => {
     });
 };
 
-export const refreshProductData = data => dispatch => {
-  dispatch({
-    type: types.GET_PRODUCTS,
-    payload: data
-  });
+export const refreshProductData = (data, filtered) => dispatch => {
+  if (filtered) {
+    dispatch({
+      type: types.GET_FILTERED_PRODUCTS,
+      payload: data
+    })
+  } else {
+    dispatch({
+      type: types.GET_PRODUCTS,
+      payload: data
+    });
+  }
   if (!isEmpty(data[0])) {
     if (!isEmpty(data[0].productId)) {
       let vendorIdArray = '';
