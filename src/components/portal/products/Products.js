@@ -9,6 +9,7 @@ import {
   filterProductsByCategory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
+import ErrorComponent from "../../common/ErrorComponent"
 
 class Products extends Component {
   componentDidMount() {
@@ -82,7 +83,15 @@ class Products extends Component {
             />
           ));
       }
-    } else {
+    } else if (
+    !isEmpty(products) &&
+    !isEmpty(product_category) &&
+    !isEmpty(product_vendor)){
+        //not loading, products still empty
+        return(<ErrorComponent/>);
+    }
+    
+    else {
       return (
         <tr>
           <td>

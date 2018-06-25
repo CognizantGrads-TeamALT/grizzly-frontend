@@ -86,17 +86,17 @@ export const searchCategories = keyword => dispatch => {
   dispatch(setCategoryLoading());
   axios
     .get(CATEGORY_API_GATEWAY + `/search/${keyword}`)
-    .then(res =>
+    .then(res =>{
       dispatch({
         type: types.GET_CATEGORIES,
         payload: res.data
       })
-    )
+    })
     .catch(err => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
