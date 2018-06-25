@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
 import { filterProductsByCategory, getProductImageCustomer } from '../../../actions/productsActions';
-import ProductImage from '../detailedProduct/ProductImage';
 import Button from 'react-ions/lib/components/Button';
 import Spinner from '../../common/Spinner';
 import unavailable from '../../../img/unavailable.png';
