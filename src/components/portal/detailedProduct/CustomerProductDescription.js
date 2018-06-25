@@ -81,9 +81,14 @@ class CustomerProductDescription extends Component {
                 {this.showImg()}
               </div>
             </div>
-
             <div className="col-5 containerCustomerProductDesc text-left">
               <div className="row fnt-weight-600 title-size-2em">{product.name}</div>
+              <div className="row fnt-weight-400 title-size-1em CustomerDetailedProductPrice">
+                {product.vendorId === 0
+                  ? ''
+                  : ' by ' +
+                    this.props.vendor.name}
+              </div>
               <div className="row fnt-weight-600 title-size-1-5em CustomerDetailedProductPrice">
                 <p className="mb-0">${product.price}</p>
               </div>
