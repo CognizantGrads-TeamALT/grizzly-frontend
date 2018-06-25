@@ -424,7 +424,9 @@ export const editProductInventory = newInfo => dispatch => {
 
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
+  dispatch(setProductLoading());
   dispatch(clearCurrentProducts());
+  
   axios
     .get(
       PRODUCT_API_GATEWAY +
