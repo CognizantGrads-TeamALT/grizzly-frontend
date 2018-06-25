@@ -12,6 +12,7 @@ import CategoryGridList from './components/portal/common/CategoryGridList';
 import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import Landing from './components/layout/Landing';
+import ShoppingCart from './components/portal/customer/ShoppingCart';
 export default () => {
   return (
     <div>
@@ -19,6 +20,7 @@ export default () => {
         <Route exact path="/" component={Landing} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/shoppingcart" component={ShoppingCart}/>
         <Route exact path="/:portal" component={Portal} />
         <Route exact path="/customer" component={CustomerPortal} />
         <Route

@@ -1032,8 +1032,11 @@ a:hover {
 }
 
 .vendor-Price-Offer{
-  
   font-size: 12px;
   font-style: italic; 
+}
+
+.item-quantity-box{
+  width: 50px;
 }
 
