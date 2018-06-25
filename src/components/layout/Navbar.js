@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import logo from '../../img/logo.png';
 import LoginModal from '../auth/LoginModal';
-import { clearCurrentUser } from '../../actions/userActions';
+import { logoutUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
 import { searchProducts } from '../../actions/productsActions';
 
@@ -34,8 +34,8 @@ class Navbar extends Component {
 
   onLogout(e) {
     e.preventDefault();
-    this.props.clearCurrentUser();
-    this.props.history.push('/');
+    this.props.logoutUser();
+    this.props.history.push('/customer');
   }
 
   logOutBtn() {
@@ -79,6 +79,21 @@ class Navbar extends Component {
           </ul>
         );
       }
+    } else if (!isEmpty(this.props.user.googleProfile)) {
+      return (
+        <ul className="navbar-nav pl-2">
+          <li className="nav-item mr-1 my-auto">
+            <i className="far fa-bell p-t-5 white" />
+          </li>
+          <li className="nav-item mr-1 my-auto">
+            <span>{`Welcome, <${
+              this.props.user.googleProfile.given_name
+            }> `}</span>
+          </li>
+
+          <li className="nav-item">{this.logOutBtn()}</li>
+        </ul>
+      );
     } else
       return (
         <ul className="navbar-nav pl-2">
@@ -154,7 +169,7 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   searchProducts: PropTypes.func.isRequired,
-  clearCurrentUser: PropTypes.func.isRequired
+  logoutUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -163,5 +178,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { searchProducts, clearCurrentUser }
+  { searchProducts, logoutUser }
 )(withRouter(Navbar));

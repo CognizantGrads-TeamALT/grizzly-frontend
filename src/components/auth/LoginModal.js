@@ -1,23 +1,26 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { loginUser, logoutUser } from '../../actions/userActions';
+import { GoogleLogin } from 'react-google-login';
+import isEmpty from '../../validation/is-empty';
 
 class LoginModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      username: "",
-      password: ""
+      username: '',
+      password: ''
     };
 
     this.onToggle = this.onToggle.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   onToggle() {
@@ -38,22 +41,31 @@ class LoginModal extends Component {
     this.onToggle();
   }
 
-  // componentDidMount() {
-  // // If already logged, redirect to portal
-  //   if (this.props.auth.isAuthenticated) {
-  //     this.props.history.push("/portal");
-  //   }
-  // }
+  componentDidMount() {
+    // If already logged, redirect to portal
+    if (!isEmpty(this.props.user)) {
+      if (this.props.user.isAuthenticated) {
+        this.props.history.push(`/${this.props.user.userType}`);
+      }
+    }
+  }
 
-  // componentWillReceiveProps(nextProps) {
-  // // If already logged, redirect to portal
-  //   if (nextProps.auth.isAuthenticated) {
-  //     this.props.history.push("/portal");
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    // If already logged, redirect to portal
+    if (nextProps.user.isAuthenticated) {
+      this.props.history.push(`/${this.props.user.userType}`);
+    }
+  }
 
-  responseGoogle(response) {
-    console.log(response);
+  login(response) {
+    if (isEmpty(response.error) && !isEmpty(response.tokenId)) {
+      this.props.loginUser(response);
+      // this.props.history.push(`/${this.props.user.userType}`);
+    }
+  }
+
+  logout() {
+    this.props.logoutUser();
   }
 
   render() {
@@ -75,13 +87,8 @@ class LoginModal extends Component {
             <GoogleLogin
               clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
               buttonText="Login with Google"
-              onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
-              className="btn more-rounded parent-wide min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0"
-            />
-            <GoogleLogout
-              buttonText="Logout"
-              onLogoutSuccess={this.responseGoogle}
+              onSuccess={this.login}
+              onFailure={this.login}
               className="btn more-rounded parent-wide min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0"
             />
           </ModalBody>
@@ -97,11 +104,16 @@ class LoginModal extends Component {
 }
 
 LoginModal.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps)(withRouter(LoginModal));
+export default connect(
+  mapStateToProps,
+  { loginUser, logoutUser }
+)(withRouter(LoginModal));
