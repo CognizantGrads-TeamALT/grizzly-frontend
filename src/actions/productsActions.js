@@ -138,10 +138,11 @@ export const getProductImageCustomer = (product, imageName) => dispatch => {
     })
     .catch(err => {
       dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
-      });
+      console.log("Err: " + product.productId);
+      // dispatch({
+      //   type: types.GET_ERRORS,
+      //   payload: err.response.data
+      // });
     });
 };
 
