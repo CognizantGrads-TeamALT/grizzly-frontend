@@ -39,9 +39,9 @@ class ProductForm extends Component {
     this.validateProduct = this.validateProduct.bind(this);
   }
 
-  onDrop(pictureFiles, pictureDataURLs) {
-    this.pictures = pictureFiles;
-    this.files = pictureDataURLs;
+  onDrop(pictureDataURLs, pictureFiles) {
+    this.pictures = pictureDataURLs;
+    this.files = pictureFiles;
   }
 
   onToggle() {
@@ -58,10 +58,10 @@ class ProductForm extends Component {
     e.preventDefault();
     let imageData = [];
     let i;
-    for (i = 0; i < this.pictures.length; i++) {
+    for (i = 0; i < this.files.length; i++) {
       let img = {
-        imgName: this.pictures[i].name,
-        base64Image: this.files[i].split(',')[1]
+        imgName: this.files[i].name,
+        base64Image: this.pictures[i].split(',')[1]
       };
       imageData.push(img);
     }
@@ -167,10 +167,10 @@ class ProductForm extends Component {
     }
 
     // image data is not empty
-    if (this.pictures.length === 0) {
+    if (this.files.length === 0) {
       errors.push({
         msg: 'Invalid images. At least one image must be uploaded.',
-        debug: 'Invalid images: ' + this.pictures
+        debug: 'Invalid images: ' + this.files
       });
     }
 

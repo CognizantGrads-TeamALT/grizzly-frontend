@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
 import { connect } from 'react-redux';
 import Routes from './Routes';
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="App">
+        <div className="App h-100">
           <Navbar />
-          <div className="container">
+          <div className="griz-real-body griz-portal-parent h-100 surround-parent">
             <Routes />
           </div>
-          <Footer />
         </div>
       </BrowserRouter>
     );

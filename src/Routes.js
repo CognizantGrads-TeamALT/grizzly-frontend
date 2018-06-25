@@ -15,7 +15,7 @@ import Landing from './components/layout/Landing';
 import ShoppingCart from './components/portal/customer/ShoppingCart';
 export default () => {
   return (
-    <div>
+    <div className="surround-parent h-100 griz-portal">
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route exact path="/signup" component={SignUp} />
@@ -36,7 +36,7 @@ export default () => {
         <Route exact path="/category/new" component={CategoryForm} />
         <Route
           exact
-          path="/:searchFilter/:searchParam"
+          path="/category/:searchParam/:catId"
           component={CategoryGridList}
         />
         <Route exact path="/product/new" component={ProductForm} />

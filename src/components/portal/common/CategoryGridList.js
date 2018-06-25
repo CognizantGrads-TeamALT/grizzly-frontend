@@ -8,58 +8,54 @@ import ProductImage from '../detailedProduct/ProductImage';
 import Button from 'react-ions/lib/components/Button';
 
 class CategoryGridList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      catId: props.location.state
-    };
-    if (isEmpty(this.props.product.products)) {
-      this.props.getProducts();
-    }
-  }
-
   onCancel = event => {
+    event.preventDefault();
     this.props.history.goBack();
   };
 
   show() {
-    if (!isEmpty(this.props.product.products)) {
+    if (
+      !isEmpty(this.props.product.products) &&
+      !isEmpty(this.props.product.product_vendor)
+    ) {
       const filteredProducts = this.props.product.products.filter(
-        item => item.categoryId === this.state.catId.catId
+        item => item.categoryId === parseInt(this.props.match.params.catId, 10)
       );
-      return filteredProducts.map(prod => (
-        <div className="card text-left mb-2" key={prod.productId}>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-3">
-                <ProductImage prod={prod} />
-              </div>
-              <div className="col-5">
-                <div className="productTitle">
-                  <b className="d-inline">{prod.name}</b>
-                  <p className="d-inline dscrptnSize-9">
-                    {prod.vendorId === 0
-                      ? ''
-                      : ' by ' +
-                        this.props.product.product_vendor.filter(
-                          item => item.vendorId === prod.vendorId
-                        )[0].name}
-                  </p>
+      if (!isEmpty(filteredProducts)) {
+        return filteredProducts.map(prod => (
+          <div className="card text-left mb-2" key={prod.productId}>
+            <div className="card-body">
+              <div className="row">
+                <div className="col-3">
+                  <ProductImage prod={prod} />
                 </div>
-              </div>
-              <div className="col-2">${prod.price}</div>
-              <div className="col-2">
-                <Link
-                  to={`/customerdetailedproduct/${prod.productId}`}
-                  className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide"
-                >
-                  View
-                </Link>
+                <div className="col-5">
+                  <div className="productTitle">
+                    <b className="d-inline">{prod.name}</b>
+                    <p className="d-inline dscrptnSize-9">
+                      {prod.vendorId === 0
+                        ? ''
+                        : ' by ' +
+                          this.props.product.product_vendor.filter(
+                            item => item.vendorId === prod.vendorId
+                          )[0].name}
+                    </p>
+                  </div>
+                </div>
+                <div className="col-2">${prod.price}</div>
+                <div className="col-2">
+                  <Link
+                    to={`/customerdetailedproduct/${prod.productId}`}
+                    className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide"
+                  >
+                    View
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ));
+        ));
+      }
     }
   }
 
@@ -92,7 +88,9 @@ CategoryGridList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  category: state.category,
+  product: state.product,
+  vendor: state.vendor
 });
 
 export default connect(

@@ -113,7 +113,7 @@ class VendorForm extends Component {
         <input
           type="button"
           value="Add Vendor"
-          className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+          className="btn more-rounded hover-w-b btn-sm mx-auto w-75 my-2 my-sm-0"
           onClick={this.onToggle}
         />
         <Modal
@@ -168,14 +168,14 @@ class VendorForm extends Component {
           <ModalFooter>
             <div>
               <Button
-                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
+                className="btn more-rounded plain-b btn-sm mr-sm-2 d-inline"
                 onClick={this.onSubmit}
               >
                 Submit
               </Button>
 
               <Button
-                className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
+                className="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
                 onClick={this.onToggle}
               >
                 Cancel

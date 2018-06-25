@@ -27,8 +27,11 @@ npm install
 
 ```sh
 npm start
-``` 
+```
 
+```sh
+npm run local
+``` 
 
 Find the output at:
 ```sh
