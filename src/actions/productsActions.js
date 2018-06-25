@@ -139,12 +139,10 @@ export const getProductImageCustomer = (product, imageName, filtered) => dispatc
     })
     .catch(err => {
       dispatch(setProductUpdated());
-      console.log("Err: " + product.productId);
-      console.log(err);
-      // dispatch({
-      //   type: types.GET_ERRORS,
-      //   payload: err.response.data
-      // });
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
     });
 };
 
@@ -436,7 +434,6 @@ export const filterProductsByCategory = inputs => dispatch => {
         `/bycategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
-      console.log(res.data);
       dispatch(refreshProductData(res.data, true));
     })
     .catch(err => {
