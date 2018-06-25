@@ -42,7 +42,7 @@ class VendorCarousel extends Component {
       slidesToShow: 1,
       slidesToScroll: 1
     };
-    return <Slider {...settings}>{this.show()}</Slider>;
+    return <Slider className="mb-5" {...settings}>{this.show()}</Slider>;
   }
 }
 
