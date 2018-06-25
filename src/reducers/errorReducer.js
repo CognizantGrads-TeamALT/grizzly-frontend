@@ -1,23 +1,25 @@
 import * as types from "../actions/types";
 
-const initialState = {errorMessage : "Undefined Error",
-errorDebug: ""};
+
+const initialState = {
+
+  };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case types.GET_ERRORS:
-    //TODO: Get rid of Try Catch statement once all api calls have been fixed to pass on error data correctly (payload : err.request.responce)
     var errdata
     try{
     errdata = JSON.parse(action.payload);
     }
     catch(err){
-      errdata = { message: "undefined error", debug : err}
+      errdata = { message: "undefined error", debugMessage : err}
     }
       return {errorMessage : errdata.message,
-      errorDebug: errdata.debug};
+      errorDebug: errdata.debugMessage};
     case types.CLEAR_ERRORS:
-      return {errorData : "Undefined Error"};
+      return {errorMessage : "",
+  errorDebug: ""};
     default:
       return state;
   }

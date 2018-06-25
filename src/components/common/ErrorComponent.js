@@ -2,21 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-class CategoryForm extends Component {
+class ErrorComponent extends Component {
 
 
-    Render(){
+    render(){
         return (
-            <div className="align-left">
-                <p>{this.props.error.errorData.message}</p>
-            </div>
+            <tr className="align-left">
+                {console.log(this.props)}
+                <td className="text-danger">{this.props.errors.errorMessage}</td>
+            </tr>
         )
 
     }
     
-    
 }
+
+const mapStateToProps = state => ({
+    errors: state.errors
+  });
+
 export default connect(
-    null,
-    {  }
-  )(withRouter(CategoryForm));
+    mapStateToProps,
+    {}
+  )(withRouter(ErrorComponent));

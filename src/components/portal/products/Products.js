@@ -50,6 +50,8 @@ class Products extends Component {
       product_category,
       loading
     } = this.props.product;
+    const { errorMessage } = this.props.errors;
+    console.log(errorMessage + " in show");
     if (
       !isEmpty(products) &&
       !isEmpty(product_category) &&
@@ -84,12 +86,11 @@ class Products extends Component {
           ));
       }
     } else if (
-    !isEmpty(products) &&
-    !isEmpty(product_category) &&
-    !isEmpty(product_vendor)){
+    this.props.errorMessage !== undefined || this.props.errorMessage !== ""){
         //not loading, products still empty
+        console.log("in the error")
         return(<ErrorComponent/>);
-    }
+      }
     
     else {
       return (
@@ -129,12 +130,13 @@ Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired
+  filterProductsByCategory: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   product: state.product,
-  user: state.user
+  user: state.user,
+  errors: state.errors
 });
 
 export default connect(

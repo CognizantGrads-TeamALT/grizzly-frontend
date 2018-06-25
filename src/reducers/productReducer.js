@@ -25,6 +25,7 @@ export default function(state = initialState, action) {
         updateOnce: true
       };
     case types.PRODUCTS_UPDATED:
+      console.log("product upated");
       return {
         ...state,
         updateOnce: false,
