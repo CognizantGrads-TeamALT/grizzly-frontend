@@ -68,12 +68,35 @@ class CustomerPortal extends Component {
         <div className="col-md-12">
           {!isEmpty(this.props.product.products) && <ProductCategoryRow />}
           <ProductCarousel />
+          <div className="pt-3 mb-5 mock-description">
+            <div className="row">
+              <div className="col d-inline surround-parent w-50">
+                <div className="text-center">
+                  <i className="fab fa-ethereum mr-1 griz-t-color"></i> <div className="fnt-weight-400">Run on Ethereum.</div>
+                  <div className="fnt-weight-300">Number #1 E-commerce website run on the blockchain. </div>
+                </div>
+              </div>
+              <div className="col d-inline surround-parent w-50">
+                <div className="text-center">
+                  <i className="fab fa-paypal mr-1 griz-t-color"></i> <div className="fnt-weight-400">We use PayPal!</div>
+                  <div className="fnt-weight-300">Your security is our priority. </div>
+                </div>
+              </div>
+              <div className="col d-inline surround-parent w-50">
+                <div className="text-center">
+                  <i className="fab fa-bitcoin mr-1 griz-t-color"></i> <div className="fnt-weight-400">Ahead of the game.</div>
+                  <div className="fnt-weight-300">We also accept Bitcoin. </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="fnt-weight-400 text-center title-size-1-5em mb-2">Browse our latest products</div>
           <ProductGridList />
         </div>
       );
     } else {
       return (
-        <div className="col-md-12">
+        <div className="text-center">
           <Spinner size={'150px'} />
         </div>
       );
