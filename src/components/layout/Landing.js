@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loading from '../common/Loading';
+import UserSettings from '../portal/customer/UserSettings';
 import '../../App.css';
 import { withRouter } from 'react-router-dom';
 
@@ -32,6 +33,9 @@ class Landing extends Component {
         </Link>
         <Link className="btn btn-outline-success" to="/customer">
           Customer Portal Demo
+        </Link>
+        <Link className="btn btn-outline-success" to="/settings">
+          Profile           
         </Link>
       </div>
     );
