@@ -80,7 +80,7 @@ class ProductGridList extends Component {
   }
 
   render() {
-    return <div className="row">{this.show()}</div>;
+    return <div className="row straight-grid">{this.show()}</div>;
   }
 }
 

@@ -269,6 +269,10 @@
   margin-top: 0.7em;
 }
 
+.profile-nav.nav-tabs {
+  border: none;
+}
+
 .nav-link {
   border-left: 0!important;
   border-top: 0!important;
@@ -278,6 +282,20 @@
 }
 .nav-link:hover {
   border-bottom: 4px solid #E37B40;
+}
+
+.nav-link.profile-nav {
+  color: #324D5C !important;
+}
+
+.nav-link.profile-nav:hover {
+  color: #46b29d !important;
+}
+
+.active.nav-link.profile-nav {
+  color: white !important;
+  background-color: #324D5C !important;
+  border-radius: 3px !important;
 }
 
 .griz-real-body { 
@@ -346,6 +364,16 @@ a:not([href]):not([tabindex]) {
   display: flex;
   flex-flow: wrap;
   object-fit: cover;
+}
+
+.straight-grid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .nav-bar-profile-img {
