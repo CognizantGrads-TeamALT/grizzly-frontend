@@ -13,14 +13,16 @@ export default function(state = initialState, action) {
     errdata = JSON.parse(action.payload);
     }
     catch(err){
-      errdata = { message: "undefined error", debugMessage : err}
+      errdata = { message: "Connection error, servers may be down", debugMessage : err}
     }
       return {errorMessage : errdata.message,
       errorDebug: errdata.debugMessage};
     case types.CLEAR_ERRORS:
       return {errorMessage : "",
-  errorDebug: ""};
+              errorDebug: ""};
     default:
       return state;
   }
+  
 }
+

@@ -27,6 +27,7 @@ const cache = setup({
 
 // Get Product List
 export const getProducts = index => dispatch => {
+  dispatch(clearErrors());
   // Default the index to 0 if not given.
   index = index == null ? 0 : index;
 
@@ -41,21 +42,24 @@ export const getProducts = index => dispatch => {
       dispatch(refreshProductData(res.data));
     })
     .catch(err => {
-      dispatch(setProductUpdated());
-      // For development purposes. The micro-services take time to initialise.
-      // This will keep requesting data if it gets a 500 or 403 error...
-      // Should be removed once we actually implement a feature to error or retry x times.
-      //if (index === 0) dispatch(getProducts(index));
       dispatch({
         type: types.GET_ERRORS,
         payload: err.request.response
       });
+      dispatch(setProductUpdated());
+      dispatch(setProductPosted());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      //if (index === 0) dispatch(getProducts(index));
+      
 
     });
 };
 
 // Get Product with Imgs
 export const getProductWithImgs = productId => dispatch => {
+  dispatch(clearErrors());
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
@@ -84,12 +88,13 @@ export const getProductWithImgs = productId => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 export const getProductImage = (product, imageName) => dispatch => {
+  dispatch(clearErrors());
   cache
     .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
     .then(res => {
@@ -103,11 +108,12 @@ export const getProductImage = (product, imageName) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 export const getProductsImageRandom = (product, imageName) => dispatch => {
+  dispatch(clearErrors());
   cache
     .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
     .then(res => {
@@ -121,12 +127,13 @@ export const getProductsImageRandom = (product, imageName) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 export const getProductImageCustomer = (product, imageName) => dispatch => {
+  dispatch(clearErrors());
   cache
     .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
     .then(res => {
@@ -140,7 +147,7 @@ export const getProductImageCustomer = (product, imageName) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
@@ -152,6 +159,7 @@ export const setProductAdding = () => {
 };
 
 export const addProduct = newProd => dispatch => {
+  dispatch(clearErrors(true));
   // again, also here...
   // getVendorBatch and getCategoryBatch handle the loading state variable
   // if we call it too early, due to state changes between other methods...
@@ -167,13 +175,15 @@ export const addProduct = newProd => dispatch => {
 
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
+      dispatch(setProductPosted());
     })
     .catch(err => {
-      dispatch(setProductUpdated());
+      
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
+      dispatch(setProductPosted());
     });
 };
 
@@ -192,6 +202,7 @@ export const reloadProducts = () => dispatch => {
 
 // Delete Product
 export const deleteProduct = id => dispatch => {
+  dispatch(clearErrors());
   dispatch(setProductUpdateOnce());
   axios
     .delete(PRODUCT_API_GATEWAY + `/delete/${id}`)
@@ -205,50 +216,73 @@ export const deleteProduct = id => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Block/unlock Product
 export const toggleBlockProduct = product => dispatch => {
+  dispatch(clearErrors(true));
   dispatch(setProductUpdateOnce());
   axios
     .post(PRODUCT_API_GATEWAY + `/setBlock/${product.productId}`, product)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.PRODUCTS_TOGGLEBLOCK,
         payload: res.data
       })
+      dispatch(setProductPosted());}
     )
     .catch(err => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Edit Product
 export const editProduct = newInfo => dispatch => {
-  dispatch(setProductEditing());
+  dispatch(clearErrors(true));
   axios
     .post(PRODUCT_API_GATEWAY + `/edit/${newInfo.productId}`, newInfo)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.PRODUCT_EDITED,
         payload: newInfo
       })
+      dispatch(setProductPosted());}
     )
     .catch(err => {
-      dispatch(setProductUpdated());
+      dispatch(setProductLoading());
+      dispatch(setProductPosted());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
+
+//clearing errors
+export const clearErrors = values => dispatch => {
+  dispatch({
+    type: types.CLEAR_ERRORS
+  })
+  if(values === true){
+    dispatch({
+      type: types.PRODUCT_PUSHING
+    })
+  }
+}
+
+  export const setProductPosted = () => {
+    return{
+      type: types.PRODUCT_PUSHED
+    }
+  }
+
 
 // Product Editing
 export const setProductEditing = () => {
@@ -285,6 +319,7 @@ export const setProductUpdated = () => {
 };
 
 export const getVendorBatch = vendorIdArray => dispatch => {
+  dispatch(clearErrors());
   axios
     .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
     .then(res => {
@@ -297,12 +332,13 @@ export const getVendorBatch = vendorIdArray => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 export const getCategoryBatch = categoryIdArray => dispatch => {
+  dispatch(clearErrors());
   axios
     .get(CATEGORY_API_GATEWAY + `/batchFetch/${categoryIdArray}`)
     .then(res =>
@@ -315,13 +351,14 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Search Products
 export const searchProducts = (keyword, index) => dispatch => {
+  dispatch(clearErrors());
   dispatch(clearCurrentProducts());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
@@ -332,13 +369,14 @@ export const searchProducts = (keyword, index) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Search Products
 export const getRandomProducts = (keyword, index) => dispatch => {
+  dispatch(clearErrors());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
     .then(res => {
@@ -351,13 +389,14 @@ export const getRandomProducts = (keyword, index) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Sort products by @param
 export const sortProductsByParam = (index, param) => dispatch => {
+  dispatch(clearErrors());
   dispatch(clearCurrentProducts());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
@@ -368,12 +407,13 @@ export const sortProductsByParam = (index, param) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 // get all products beloning to a vendor, and get their inventory details
 export const getVendorInventory = (index, VendorID) => dispatch => {
+  dispatch(clearErrors());
   index = index == null ? 0 : index;
   // getVendorBatch and getCategoryBatch set loading: true
   // if either data is not loaded yet.
@@ -397,13 +437,13 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
 
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
   };
 // edit the inventory of a single product.
 export const editProductInventory = newInfo => dispatch => {
-  dispatch(setProductEditing());
+  dispatch(clearErrors(true));
   axios
     .post(PRODUCT_API_GATEWAY + `/editInventory/`, newInfo)
     .then(res =>
@@ -413,10 +453,10 @@ export const editProductInventory = newInfo => dispatch => {
       }),
     )
     .catch(err => {
-      dispatch(setProductUpdated());
+      dispatch(setProductPosted());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
@@ -424,6 +464,7 @@ export const editProductInventory = newInfo => dispatch => {
 
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
+  dispatch(clearErrors());
   dispatch(clearCurrentProducts());
   axios
     .get(
@@ -437,7 +478,7 @@ export const filterProductsByCategory = inputs => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
@@ -474,4 +515,19 @@ export const refreshProductData = data => dispatch => {
   }
 };
 
+export const waitForResponce = (successfunc, failfunc, props) => {
+  console.log(props);
+  console.log("waiting for responce " + props.product.pushingProduct + " errors: " + props.errors.errorMessage);
+
+  if(props.product.pushingProduct === false && props.errors.errorMessage === ""){
+    successfunc();
+  }
+  else if(this.props.errors.errorMessage != "" && !this.props.product.pushingProduct){
+    //product has been pushed, error has been thrown
+    failfunc();
+  }
+  // else{
+  //   //product waiting to be pushed
+  // }
+}
 

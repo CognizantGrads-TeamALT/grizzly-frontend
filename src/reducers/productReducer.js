@@ -9,11 +9,17 @@ const initialState = {
   hasMore: false,
   loadingVendors: false,
   loadingCategories: false,
+  pushingProduct: false,
   index: 0
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case types.PRODUCT_PUSHING:
+      return{
+        ...state,
+        pushingProduct: true
+      }
     case types.PRODUCTS_LOADING:
       return {
         ...state,
@@ -25,12 +31,16 @@ export default function(state = initialState, action) {
         updateOnce: true
       };
     case types.PRODUCTS_UPDATED:
-      console.log("product upated");
       return {
         ...state,
         updateOnce: false,
         loading: false
       };
+    case types.PRODUCT_PUSHED:
+      return{
+        ...state,
+        pushingProduct: false
+      }
     case types.GET_PRODUCTS:
       const hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)

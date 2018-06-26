@@ -27,7 +27,7 @@ export const getCategories = index => dispatch => {
 
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -37,7 +37,6 @@ export const Update_TypeAhead = values => dispatch => {
       type: types.CATEGORY_TYPEAHEAD_UPDATE,
       payload: values
     })
-  
 }
 
 // Add Category
@@ -55,7 +54,7 @@ export const addCategory = newCat => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -75,7 +74,7 @@ export const editCategory = newInfo => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -157,7 +156,7 @@ export const deleteCategory = id => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -177,7 +176,7 @@ export const toggleBlockCategory = category => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -192,7 +191,7 @@ export const disableCategoryProducts = id => dispatch => {
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 }
@@ -213,7 +212,7 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -232,7 +231,7 @@ export const sortCategoriesByParamCustomer = (index, param) => dispatch => {
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };

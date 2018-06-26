@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { addProduct } from '../../../actions/productsActions';
+import { addProduct, clearErrors } from '../../../actions/productsActions';
 import {
   searchCategories,
   Update_TypeAhead
@@ -14,6 +14,7 @@ import ImageUploader from './ImageUploader';
 import validator from 'validator';
 import VendorTypeAhead from '../vendor/VendorTypeAhead';
 import { Vendor_Update_TypeAhead } from '../../../actions/vendorActions';
+import ErrorComponent from '../../common/ErrorComponent';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -29,7 +30,10 @@ class ProductForm extends Component {
       categoryList: [],
       cur_id: '',
       valid_cat: false,
-      valid_vendor: false
+      valid_vendor: false,
+      display_error: false,
+      intervalID: "",
+      errors: []
     };
     this.pictures = [];
     this.files = [];
@@ -37,6 +41,7 @@ class ProductForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.validateProduct = this.validateProduct.bind(this);
+    this.waitForResponce = this.waitForResponce.bind(this);
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -56,6 +61,7 @@ class ProductForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    this.props.clearErrors();
     let imageData = [];
     let i;
     for (i = 0; i < this.files.length; i++) {
@@ -83,18 +89,21 @@ class ProductForm extends Component {
     // Validate new product
     let validationErrors = this.validateProduct(newProd);
     if (validationErrors.length > 0) {
-      // TODO: show modal with error messages. For now just logging to console
-      console.log(
-        'The product could not be created. Please amend the following issues:'
-      );
-      _(validationErrors).forEach(function(error) {
-        console.log(error.msg);
-        console.log('DEBUG: ' + error.debug);
-      });
+      this.setState({errors: validationErrors})
     }
     // No validation errors found!
     else {
       this.props.addProduct(newProd);
+      this.setState({intervalID: setInterval(this.waitForResponce, 10)})
+    }
+  }
+
+  waitForResponce(){
+    //console.log("waiting for responce " + this.props.product.pushingProduct + " errors: " + this.props.errors.errorMessage);
+
+    if(this.props.product.pushingProduct === false && this.props.errors.errorMessage === ""){
+      clearInterval(this.state.intervalID);
+      //product has been pushed, no error thrown
       this.setState({
         modal: false,
         category: '',
@@ -107,8 +116,18 @@ class ProductForm extends Component {
         valid_cat: false,
         valid_vendor: false
       });
+      
       this.cancel();
     }
+    else if(this.props.errors.errorMessage != "" && !this.props.product.pushingProduct){
+      //product has been pushed, error has been thrown
+      this.setState({errors: [{msg: this.props.errors.errorMessage,
+                                          errorDebug: this.props.errors.debug}]});
+      clearInterval(this.state.intervalID);
+    }
+    // else{
+    //   //product waiting to be pushed
+    // }
   }
 
   /**
@@ -175,6 +194,13 @@ class ProductForm extends Component {
     }
 
     return errors;
+  }
+
+  showErrors(){
+    if(this.state.errors.length !=0){
+
+      return(<ErrorComponent errormsg={this.state.errors[0].msg} />)
+    }
   }
 
   onChange(e, persist) {
@@ -246,6 +272,7 @@ class ProductForm extends Component {
           >
             Cancel
           </button>
+          {this.showErrors()}
         </div>
       </div>
     );
@@ -261,10 +288,11 @@ const mapStateToProps = state => ({
   product: state.product,
   category: state.category,
   vendor: state.vendor,
-  user: state.user
+  user: state.user,
+  errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead }
+  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead, clearErrors }
 )(withRouter(ProductForm));

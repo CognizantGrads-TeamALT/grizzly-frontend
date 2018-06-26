@@ -31,7 +31,7 @@ class Products extends Component {
   }
 
   shouldComponentUpdate() {
-    if (this.props.product.updateOnce || this.props.product.loading)
+    if (this.props.product.updateOnce || this.props.product.loading || this.props.errors.errorMessage !== "")
       return true;
 
     return false;
@@ -51,7 +51,6 @@ class Products extends Component {
       loading
     } = this.props.product;
     const { errorMessage } = this.props.errors;
-    console.log(errorMessage + " in show");
     if (
       !isEmpty(products) &&
       !isEmpty(product_category) &&
@@ -86,10 +85,9 @@ class Products extends Component {
           ));
       }
     } else if (
-    this.props.errorMessage !== undefined || this.props.errorMessage !== ""){
+    errorMessage !== undefined && errorMessage !== ""){
         //not loading, products still empty
-        console.log("in the error")
-        return(<ErrorComponent/>);
+        return(<tr><td><ErrorComponent errormsg={this.props.errors.errorMessage} /></td></tr>);
       }
     
     else {

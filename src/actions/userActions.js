@@ -18,7 +18,7 @@ export const getUsers = (userType, id) => dispatch => {
       dispatch(setUserUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };

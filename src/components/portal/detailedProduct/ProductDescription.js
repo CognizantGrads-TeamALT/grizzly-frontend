@@ -6,7 +6,8 @@ import unavailable from "../../../img/unavailable.png";
 import { Carousel } from "react-responsive-carousel";
 import {
   editProduct,
-  reloadProducts
+  reloadProducts,
+  waitForResponce
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
@@ -23,7 +24,8 @@ class ProductDescription extends Component {
       name: this.props.product.single.name,
       desc: this.props.product.single.desc,
       price: this.props.product.single.price,
-      changed: false
+      changed: false,
+      intervalId: null
     };
 
     this.pictures = [];
@@ -37,6 +39,7 @@ class ProductDescription extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onDrop = this.onDrop.bind(this);
+    this.waitForResponce = this.waitForResponce.bind(this);
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -231,9 +234,28 @@ class ProductDescription extends Component {
 
     if (this.state.changed) {
       this.props.editProduct(newProd);
+      this.setState({intervalId: setInterval(this.waitForResponce, 20)})
+      //this.onCancel();
+    }
+  }
+
+  waitForResponce(){
+    console.log(this.props.product.pushingProduct + " " + this.props.errors.errorMessage);
+    if(this.props.product.pushingProduct === false && this.props.errors.errorMessage === ""){
+      clearInterval(this.state.intervalId);
+      //product has been pushed, no error thrown
       this.props.reloadProducts();
       this.onCancel();
     }
+    else if(this.props.errors.errorMessage != "" && !this.props.product.pushingProduct){
+      //product has been pushed, error has been thrown
+      this.setState({errors: [{msg: this.props.errors.errorMessage,
+                                          errorDebug: this.props.errors.debug}]});
+      clearInterval(this.state.intervalId);
+    }
+    // else{
+    //   //product waiting to be pushed
+    // }
   }
 
   onCancel = event => {
@@ -397,10 +419,12 @@ class ProductDescription extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  product: state.product,
+  user: state.user,
+  errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts }
+  { editProduct, reloadProducts, waitForResponce }
 )(ProductDescription);

@@ -7,21 +7,17 @@ class ErrorComponent extends Component {
 
     render(){
         return (
-            <tr className="align-left">
-                {console.log(this.props)}
-                <td className="text-danger">{this.props.errors.errorMessage}</td>
-            </tr>
+            <div className="align-left">
+                <p className="text-danger">{this.props.errormsg}</p>
+            </div>
         )
 
     }
     
 }
 
-const mapStateToProps = state => ({
-    errors: state.errors
-  });
 
 export default connect(
-    mapStateToProps,
+null,
     {}
   )(withRouter(ErrorComponent));

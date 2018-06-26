@@ -27,7 +27,7 @@ export const getVendors = index => dispatch => {
 
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -54,7 +54,7 @@ export const addVendor = newVendor => dispatch => {
       dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -75,7 +75,7 @@ export const sortVendorsByParam = (index, param) => dispatch => {
       dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -96,7 +96,7 @@ export const searchVendors = keyword => dispatch => {
       dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
       dispatch({
         type: types.GET_VENDORS,
@@ -154,7 +154,7 @@ export const deleteVendor = id => dispatch => {
       dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -174,7 +174,7 @@ export const toggleBlockVendor = vendor => dispatch => {
       dispatch(setVendorUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -189,7 +189,7 @@ export const disableVendorProducts = id => dispatch => {
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 }
