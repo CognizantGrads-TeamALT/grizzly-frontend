@@ -13,15 +13,18 @@ import {
   } from 'reactstrap';
 
 class UserSettings extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.toggle = this.toggle.bind(this);
         this.state = {
-            activeTab: '1'
+            activeTab: this.props.location.state.tabId
         }
-        console.log(
-        'ef'
-        )
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.location.state.tabId !== this.props.location.state.tabId) {
+            this.setState({ activeTab: this.props.location.state.tabId });
+        }
     }
 
     toggle(tab) {
@@ -32,8 +35,7 @@ class UserSettings extends Component {
         }
       }
 
-
-  render() {
+    render() {
     return (
         <div className="row m-5 pt-5 griz-portal-parent">
             <Col sm="3">
@@ -69,16 +71,6 @@ class UserSettings extends Component {
                         Order History
                         </NavLink>
                     </NavItem>
-                    <NavItem className="tabs-a-underline">
-                        <NavLink
-                        className={classnames(
-                            'nav-link profile-nav',
-                            { active: this.state.activeTab === '4' })}
-                        onClick={() => { this.toggle('4'); }}
-                        >
-                        Settings
-                        </NavLink>
-                    </NavItem>
                 </Nav>
             </Col>
             <Col sm="9">
@@ -95,9 +87,9 @@ class UserSettings extends Component {
                     </TabPane>
                 </TabContent>
             </Col>
-      </div>
+        </div>
     );
-  }
+    }
 }
 
 export default connect(null)(UserSettings); 
