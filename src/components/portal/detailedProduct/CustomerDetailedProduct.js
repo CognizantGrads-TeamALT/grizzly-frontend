@@ -56,6 +56,7 @@ class CustomerDetailedProduct extends Component {
     } else {
       this.props.getProductWithImgs(id);
     }
+
     let searchTerm = name.split(' ').pop();
     if (!isEmpty(searchTerm)) {
       this.props.getRandomProducts(searchTerm, '0');

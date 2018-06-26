@@ -19,6 +19,14 @@ class DetailedProduct extends Component {
     this.props.getProductWithImgs(this.props.match.params.productId);
   }
 
+  // This fixes the following error:
+  // Warning: Can't call setState (or forceUpdate) on an unmounted component.
+  // This is a no-op, but it indicates a memory leak in your application.
+  // To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.
+  componentWillUnmount() {
+    this.props.product.single = null;
+  }
+
   show() {
     const { single, loading, product_vendor } = this.props.product;
     if (isEmpty(single) || isEmpty(product_vendor) || loading) {
