@@ -19,6 +19,20 @@ class ShoppingCart extends Component {
         }
         this.onChange = this.onChange.bind(this);
     }
+    getImg(product) {
+        let imgInfo = this.props.product.images[product.productId][0];
+        console.log("inside getimg");
+    
+        return (
+          <img
+            key={product.productId}
+            src={imgInfo.base64Image}
+            className="img-responsive"
+            alt=""
+            style={{ width: '150px', height: '150px' }}
+          />
+        );
+      }
 
      
   onChange(e) {
@@ -48,8 +62,10 @@ class ShoppingCart extends Component {
             return <Spinner size={'150px'} />;
           }
           // Return the loaded image.
-        } 
+        } else {
+            return this.getImg(product);
       }
+    }
     render() {
         console.log(this.state.cart);
 
@@ -64,9 +80,9 @@ class ShoppingCart extends Component {
            
             <div className="row-8 d-inline products-information">
                     <div key={prod.productId} className="col-3 ml-5 d-inline products-image">
-                    <Link
+                    <Link  className="align-content-center"
                      to={`/customerdetailedproduct/${prod.productId}`}
-                        className="img-thumbnail ml-4 h-10 w-20" >
+                        > {this.showImg(prod)}
                         </Link>
                         {/* <img  alt="Product" width="10" height="150"></img> */}
                     </div>
@@ -102,7 +118,7 @@ class ShoppingCart extends Component {
 }
 
 ShoppingCart.propTypes = {
-    getProductWithImgs: PropTypes.func.isRequired,
+    getProductWithImgs: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     product: state.product,
