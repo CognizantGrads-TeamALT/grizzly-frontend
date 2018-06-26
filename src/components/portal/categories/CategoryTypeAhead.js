@@ -84,7 +84,7 @@ class CategoryTypeAhead extends Component {
                 type="button"
                 name={"No Results"}
                 value={0}
-                onClick={0}
+                onClick={() => {return;}}
               >
                 {'No results found'}
               </button>

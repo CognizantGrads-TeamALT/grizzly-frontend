@@ -1,20 +1,20 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import TextFieldGroup from "../common/TextFieldGroup";
-import grizzlyimg from "../../img/grizzly.png";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import TextFieldGroup from '../common/TextFieldGroup';
+import grizzlyimg from '../../img/grizzly.png';
 
 class SignUp extends Component {
   constructor() {
     super();
 
     this.state = {
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-      password2: ""
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+      password2: ''
     };
 
     this.onChange = this.onChange.bind(this);
@@ -44,7 +44,7 @@ class SignUp extends Component {
               <img
                 src={grizzlyimg}
                 alt="Grizzly"
-                style={{ width: "300px", margin: "auto", display: "block" }}
+                style={{ width: '300px', margin: 'auto', display: 'block' }}
               />
               <p className="lead text-center">Create your Grizzly account</p>
               <form onSubmit={this.onSubmit}>
@@ -97,11 +97,11 @@ class SignUp extends Component {
 }
 
 SignUp.propTypes = {
-  auth: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  user: state.user
 });
 
 export default connect(mapStateToProps)(withRouter(SignUp));

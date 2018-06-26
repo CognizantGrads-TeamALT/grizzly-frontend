@@ -1,6 +1,9 @@
 import * as types from './types';
 import { USER_API_GATEWAY } from './microservices';
+import setAuthToken from '../utils/setAuthToken';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import isEmpty from '../validation/is-empty';
 
 // Get Admins List
 export const getUsers = (userType, id) => dispatch => {
@@ -43,9 +46,48 @@ export const setUserUpdated = () => {
   };
 };
 
+// Log user in
+export const loginUser = googleResponse => dispatch => {
+  // Save to localStorage
+  const { tokenId } = googleResponse;
+  // Set token to localStorage
+  localStorage.setItem('GrizzGoogleToken', tokenId);
+  // Set token to Auth header
+  setAuthToken(tokenId);
+  // Decode Token to get User Data from tokenId, not from tokenObj
+  const decoded = jwt_decode(tokenId);
+  // Set current user
+  dispatch(setCurrentUser(decoded));
+};
+
+// Set logged in user
+export const setCurrentUser = googleProfile => {
+  return {
+    type: types.SET_CURRENT_USER,
+    payload: googleProfile
+  };
+};
+
 // Clear current user
 export const clearCurrentUser = () => {
   return {
     type: types.CLEAR_CURRENT_USER
   };
+};
+
+// Log user out
+export const logoutUser = () => dispatch => {
+  if (!isEmpty(window.gapi)) {
+    const auth2 = window.gapi.auth2.getAuthInstance();
+    if (auth2 != null) {
+      auth2.signOut();
+      auth2.disconnect();
+    }
+  }
+  // Remove token from localStorage
+  localStorage.removeItem('GrizzGoogleToken');
+  // Remove auth header for future requests
+  setAuthToken(false);
+  // Clear current user, isAuthenticated to false
+  dispatch(clearCurrentUser());
 };

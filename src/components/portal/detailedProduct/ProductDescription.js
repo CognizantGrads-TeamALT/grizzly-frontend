@@ -125,7 +125,8 @@ class ProductDescription extends Component {
     // if we don't have any images yet, use the incoming product's
     let images;
     if (this.files.length === 0) {
-      images = this.props.product.single.images;
+      //images = this.props.product.single.images;
+      images = this.props.product.images[this.props.product.single.productId]
     } else {
       // otherwise just use our local pictures in the redux format
       // (this means the images have been edited)
@@ -152,7 +153,7 @@ class ProductDescription extends Component {
   showImg() {
     const product = this.props.product.single;
     // If we don't have any images.
-    if (isEmpty(product.images)) {
+    if (isEmpty(this.props.product.images[product.productId])) {
       // If the product details literally has no images.
       if (isEmpty(product.imageDTO)) {
         return (
@@ -179,10 +180,10 @@ class ProductDescription extends Component {
     let imageNames;
     if (this.files.length === 0) {
       const product = this.props.product.single;
-      imageData = product.images.map((img) => {
+      imageData = this.props.product.images[product.productId].map((img) => {
         return img.base64Image;
       });
-      imageNames = product.images.map((img) => {
+      imageNames = this.props.product.images[product.productId].map((img) => {
         return {"name": img.imgName};
       });
     } else {
@@ -419,9 +420,9 @@ class ProductDescription extends Component {
 }
 
 const mapStateToProps = state => ({
-  product: state.product,
+  errors: state.errors,
   user: state.user,
-  errors: state.errors
+  product: state.product
 });
 
 export default connect(
