@@ -147,6 +147,13 @@ export const clearCurrentProducts = () => {
   };
 };
 
+// Clear Filtered Products
+export const clearFilteredProducts = () => {
+  return {
+    type: types.CLEAR_FILTERED_PRODUCTS
+  }
+}
+
 // Reload Products
 export const reloadProducts = () => dispatch => {
   dispatch(clearCurrentProducts());
@@ -388,7 +395,7 @@ export const editProductInventory = newInfo => dispatch => {
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
   dispatch(setProductLoading());
-  dispatch(clearCurrentProducts());
+  dispatch(clearFilteredProducts());
   axios
     .get(
       PRODUCT_API_GATEWAY +
