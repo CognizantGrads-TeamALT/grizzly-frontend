@@ -7,8 +7,7 @@ import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
   getProductWithImgs,
- 
-
+  getProductImage,
   getRandomProducts,
   addToCart
 } from '../../../actions/productsActions';
@@ -142,9 +141,8 @@ export default connect(
   mapStateToProps,
   {
     getProductWithImgs,
-   
     getRandomProducts,
-   
+    getProductImage,
     addToCart
   }
 )(CustomerDetailedProduct);

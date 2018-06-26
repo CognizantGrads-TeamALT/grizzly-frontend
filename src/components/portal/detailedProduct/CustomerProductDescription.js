@@ -10,7 +10,8 @@ class CustomerProductDescription extends Component {
   constructor() {
     super();
     this.state = {
-      search: ''
+      search: '',
+      clicks: 0
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -21,6 +22,9 @@ class CustomerProductDescription extends Component {
 
   onClick = event => {
     this.props.cart.push(this.props.product);
+    this.setState({ clicks: this.state.clicks + 1 });
+    console.log(this.clicks);
+
   }
   
   onChange(e) {
@@ -102,7 +106,9 @@ class CustomerProductDescription extends Component {
               </div>
               <div className="row mt-2">
                 <button className="orange-b surround-parent w-75 more-rounded mb-2">Buy now</button>
-                <button className="yellow-b surround-parent w-75 more-rounded mb-2">Add to Cart</button>
+                <button className="yellow-b surround-parent w-75 more-rounded mb-2"  
+                onClick={ () => this.props.addToCart(product)}
+                >Add to Cart</button>
                 <div className="bottom-border-line w-75 pt-4 mb-3"></div>
               </div>
               <div className="row">
@@ -110,14 +116,6 @@ class CustomerProductDescription extends Component {
                   Description
                 </div>
               </div>
-              <div className="row mt-1">
-                <button className="btn more-rounded btn-sm btnCartCustomer"
-                  onClick={ () => this.props.addToCart(product)}
-                  >
-                  Add to Cart
-                </button>
-                {/* <Link className="btn more-rounded btn-sm btnCartCustomer" 
-                 to="/shoppingcart">Add to Cart </Link> */}
               <div className="row">
                 <div className="dscrptnSize-7 fnt-weight-300 mb-5">
                   {product.desc}
@@ -142,7 +140,7 @@ class CustomerProductDescription extends Component {
         </span>
         <RandomProduct productId={product.productId} />
       </div>
-      </div>
+      
     );
   }
 }
