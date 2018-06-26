@@ -95,7 +95,6 @@ class Navbar extends Component {
             <img src={this.props.user.googleProfile.picture} className="nav-bar-profile-img"/>
             </a>
             <div className="dropdown-menu right-anchor">
-              <a className="dropdown-item" href="/settings">Profile</a>
               <a className="dropdown-item" href="/settings">Settings</a>
               <div className="dropdown-divider"></div>
               <a className="dropdown-item" onClick={this.onLogout}>Log out</a>
