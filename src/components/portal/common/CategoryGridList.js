@@ -24,7 +24,8 @@ class CategoryGridList extends Component {
   componentWillMount() {
     this.props.filterProductsByCategory({
       cur_id: this.props.match.params.catId,
-      index: 0
+      index: 0,
+      filtered: true
     });
   }
 
