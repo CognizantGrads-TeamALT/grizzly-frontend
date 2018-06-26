@@ -8,9 +8,8 @@ import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   getImg(product) {
-    //let imgInfo = product.images[0];
     let imgInfo = this.props.product.images[product.productId][0];
-    console.log(imgInfo);
+
     return (
       <img
         key={product.productId}
