@@ -13,7 +13,6 @@ class ProductImage extends Component {
     this.state = {
       activeTab: 0
     };
-    this.props.getProductWithImgs(this.props.prod.productId);
     this.props.getProductImageCustomer(this.props.prod, this.props.prod.imageDTO[0].imgName);
   }
 

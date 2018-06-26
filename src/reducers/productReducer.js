@@ -6,6 +6,7 @@ const initialState = {
   product_category: [],
   product_vendor: [],
   random_products: [],
+  products_filtered: [],
   hasMore: false,
   loadingVendors: false,
   loadingCategories: false,
@@ -31,13 +32,13 @@ export default function(state = initialState, action) {
         loading: false
       };
     case types.GET_PRODUCTS:
-      const hasMore =
+      let hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
           ? false
           : true;
-      const currentProducts = isEmpty(state.products) ? [] : state.products;
-      const index = isEmpty(state.products) ? 1 : state.index + 1;
-      const newProducts = isEmpty(action.payload)
+      let currentProducts = isEmpty(state.products) ? [] : state.products;
+      let index = isEmpty(state.products) ? 1 : state.index + 1;
+      let newProducts = isEmpty(action.payload)
         ? currentProducts
         : [
             ...new Map(
@@ -54,6 +55,30 @@ export default function(state = initialState, action) {
         loadingVendors: true,
         loadingCategories: true
       };
+    case types.GET_FILTERED_PRODUCTS:
+      hasMore =
+      action.payload.length < 25 || isEmpty(action.payload.length)
+        ? false
+        : true;
+    currentProducts = isEmpty(state.products_filtered) ? [] : state.products_filtered;
+    index = isEmpty(state.products_filtered) ? 1 : state.index + 1;
+    newProducts = isEmpty(action.payload)
+      ? currentProducts
+      : [
+          ...new Map(
+            currentProducts
+              .concat(action.payload)
+              .map(o => [o['productId'], o])
+          ).values()
+        ];
+    return {
+      ...state,
+      products_filtered: newProducts,
+      hasMore: hasMore,
+      index: index,
+      loadingVendors: true,
+      loadingCategories: true
+    };
     case types.GET_VENDOR_INVENTORY:
       const VendorhasMore =
       action.payload.length < 25 || isEmpty(action.payload.length)
@@ -105,13 +130,23 @@ export default function(state = initialState, action) {
     case types.GET_PRODUCT_IMAGE_CUSTOMER:
       const newProduct = action.product;
       newProduct.images = [action.payload];
-      return {
-        ...state,
-        products: state.products.map(
-          product =>
-            product.productId === newProduct.productId ? newProduct : product
-        )
-      };
+      if (action.filtered) {
+        return {
+          ...state,
+          products_filtered: state.products_filtered.map(
+            product =>
+              product.productId === newProduct.productId ? newProduct : product
+          )
+        };
+      } else {
+        return {
+          ...state,
+          products: state.products.map(
+            product =>
+              product.productId === newProduct.productId ? newProduct : product
+          )
+        };
+      }
     case types.GET_PRODUCTS_IMAGE_RANDOM:
       const randProd = action.product;
       randProd.images = [action.payload];
@@ -197,6 +232,7 @@ export default function(state = initialState, action) {
         ...state,
         hasMore: true,
         products: null,
+        products_filtered: null,
         product_category: null,
         product_vendor: null,
         loadingCategories: null,
