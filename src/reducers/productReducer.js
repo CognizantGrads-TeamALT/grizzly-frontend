@@ -109,8 +109,19 @@ export default function(state = initialState, action) {
         single: action.payload
       };
     case types.GET_RANDOM_PRODUCTS:
+      let currentProducts3 = isEmpty(state.products) ? [] : state.products;
+      let newProducts3 = isEmpty(action.payload)
+        ? currentProducts3
+        : [
+            ...new Map(
+              currentProducts3
+                .concat(action.payload)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
       return {
         ...state,
+        products: newProducts3,
         random_products:
           action.payload.length > 12
             ? action.payload.slice(0, 12)
@@ -122,7 +133,19 @@ export default function(state = initialState, action) {
       let currentImages = isEmpty(state.images) ? [] : state.images;
 
       let oldImages = isEmpty(currentImages[productId]) ? [] : currentImages[productId];
-      currentImages[productId] = oldImages.concat(newImage);
+
+      // prevent duplicate images.
+      let newImages = isEmpty(newImage)
+        ? oldImages :
+        [
+          ...new Map(
+            oldImages
+              .concat(newImage)
+              .map(o => [o['imgName'], o])
+          ).values()
+        ];
+
+      currentImages[productId] = newImages;
 
       return {
         ...state,
