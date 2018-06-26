@@ -262,7 +262,7 @@
   top: 0; 
   min-width: 100%; 
   background: white; 
-  z-index: 1; 
+  z-index: 9001; /* OVER 9000!!!!! */ 
 }
 
 .navbar-inner-height > * > .nav-bar-singular-tab {
@@ -271,6 +271,11 @@
 
 .profile-nav.nav-tabs {
   border: none;
+}
+
+.img-responsive, .card-img-top {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .nav-link {
@@ -334,6 +339,10 @@ a:not([href]):not([tabindex]) {
 
 .card.product-card {
   border: none;
+}
+
+.card-body {
+  text-align: center;
 }
 
 .card-body.inner-product-card {
