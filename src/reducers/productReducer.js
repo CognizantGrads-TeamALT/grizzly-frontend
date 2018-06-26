@@ -9,7 +9,8 @@ const initialState = {
   hasMore: false,
   loadingVendors: false,
   loadingCategories: false,
-  index: 0
+  index: 0,
+  cart: []
 };
 
 export default function(state = initialState, action) {
@@ -54,6 +55,14 @@ export default function(state = initialState, action) {
         loadingVendors: true,
         loadingCategories: true
       };
+    case types.ADD_TO_CART:
+      var newCart = state.cart;
+      newCart.push(action.payload)
+      console.log(newCart);
+      return{
+        ...state,
+        cart: newCart
+      }
     case types.GET_VENDOR_INVENTORY:
       const VendorhasMore =
       action.payload.length < 25 || isEmpty(action.payload.length)

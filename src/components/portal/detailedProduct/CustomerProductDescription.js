@@ -4,10 +4,16 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
+//import { Link } from 'react-router-dom';  
 class CustomerProductDescription extends Component {
   onCancel = event => {
     this.props.history.goBack();
   };
+
+  onClick = event => {
+    this.props.cart.push(this.props.product);
+  }
+  
 
   showCarousel() {
     const product = this.props.single;
@@ -108,9 +114,13 @@ class CustomerProductDescription extends Component {
                 </button>
               </div>
               <div className="row mt-1">
-                <button className="btn more-rounded btn-sm btnCartCustomer">
+                <button className="btn more-rounded btn-sm btnCartCustomer"
+                  onClick={ () => this.props.addToCart(product)}
+                  >
                   Add to Cart
                 </button>
+                {/* <Link className="btn more-rounded btn-sm btnCartCustomer" 
+                 to="/shoppingcart">Add to Cart </Link> */}
               </div>
             </div>
           </div>
