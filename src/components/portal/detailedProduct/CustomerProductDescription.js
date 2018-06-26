@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
@@ -23,8 +24,8 @@ class CustomerProductDescription extends Component {
 
   showCarousel() {
     const product = this.props.single;
-    if (!isEmpty(product.images)) {
-      return product.images.map((img, index) => (
+    if (!isEmpty(this.props.product.images[product.productId])) {
+      return this.props.product.images[product.productId].map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
         //<div id={index}>
         <img
@@ -41,7 +42,7 @@ class CustomerProductDescription extends Component {
   showImg() {
     const product = this.props.single;
     // If we don't have any images.
-    if (isEmpty(product.images)) {
+    if (isEmpty(this.props.product.images[product.productId])) {
       // If the product details literally has no images.
       if (isEmpty(product.imageDTO)) {
         return (
@@ -132,4 +133,10 @@ class CustomerProductDescription extends Component {
   }
 }
 
-export default CustomerProductDescription;
+const mapStateToProps = state => ({
+  product: state.product
+});
+
+export default connect(
+  mapStateToProps,
+)(CustomerProductDescription);

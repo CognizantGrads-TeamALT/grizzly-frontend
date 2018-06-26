@@ -8,27 +8,28 @@ import Spinner from '../../common/Spinner';
 
 class ProductGridList extends Component {
   getImg(product) {
-    let imgInfo = product.images[0];
+    let imgInfo = this.props.product.images[product.productId][0];
+
     return (
       <img
         key={product.productId}
         src={imgInfo.base64Image}
-        className="card-img-top"
+        className="img-responsive"
         alt=""
-        style={{ width: '150px', height:'150px', objectFit: 'cover' }}
+        style={{ width: '150px', height: '150px' }}
       />
     );
   }
 
   showImg(product) {
     // If we don't have any images.
-    if (isEmpty(product.images)) {
+    if (isEmpty(this.props.product.images[product.productId])) {
       // If the product details has no images.
       if (isEmpty(product.imageDTO)) {
         return (
           <img
             src={unavailable}
-            className="card-img-top"
+            className="img-responsive"
             style={{ width: '150px', height: '150px' }}
             alt="Unavailable"
           />

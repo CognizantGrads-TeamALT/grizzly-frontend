@@ -3,6 +3,7 @@ import isEmpty from '../validation/is-empty';
 
 const initialState = {
   products: [],
+  images: [],
   product_category: [],
   product_vendor: [],
   random_products: [],
@@ -60,17 +61,17 @@ export default function(state = initialState, action) {
       action.payload.length < 25 || isEmpty(action.payload.length)
         ? false
         : true;
-    currentProducts = isEmpty(state.products_filtered) ? [] : state.products_filtered;
-    index = isEmpty(state.products_filtered) ? 1 : state.index + 1;
-    newProducts = isEmpty(action.payload)
-      ? currentProducts
-      : [
-          ...new Map(
-            currentProducts
-              .concat(action.payload)
-              .map(o => [o['productId'], o])
-          ).values()
-        ];
+      currentProducts = isEmpty(state.products_filtered) ? [] : state.products_filtered;
+      index = isEmpty(state.products_filtered) ? 1 : state.index + 1;
+      newProducts = isEmpty(action.payload)
+        ? currentProducts
+        : [
+            ...new Map(
+              currentProducts
+                .concat(action.payload)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
     return {
       ...state,
       products_filtered: newProducts,
@@ -95,74 +96,60 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
-    return {
-      ...state,
-      vendorInventory: newVendorProducts,
-      vendorHasMore: VendorhasMore,
-      vendorIndex: VendorIndex,
-    };
+      return {
+        ...state,
+        vendorInventory: newVendorProducts,
+        vendorHasMore: VendorhasMore,
+        vendorIndex: VendorIndex,
+      };
     case types.GET_PRODUCT:
-      action.payload.images = [];
       return {
         ...state,
         single: action.payload
       };
     case types.GET_RANDOM_PRODUCTS:
+      let currentProducts3 = isEmpty(state.products) ? [] : state.products;
+      let newProducts3 = isEmpty(action.payload)
+        ? currentProducts3
+        : [
+            ...new Map(
+              currentProducts3
+                .concat(action.payload)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
       return {
         ...state,
+        products: newProducts3,
         random_products:
           action.payload.length > 12
             ? action.payload.slice(0, 12)
             : action.payload
       };
     case types.GET_PRODUCT_IMAGE:
-      const product = action.product;
-      product.images = product.images.concat(action.payload);
+      let newImage = action.payload;
+      let productId = action.productId;
+      let currentImages = isEmpty(state.images) ? [] : state.images;
+
+      let oldImages = isEmpty(currentImages[productId]) ? [] : currentImages[productId];
+
+      // prevent duplicate images.
+      let newImages = isEmpty(newImage)
+        ? oldImages :
+        [
+          ...new Map(
+            oldImages
+              .concat(newImage)
+              .map(o => [o['imgName'], o])
+          ).values()
+        ];
+
+      currentImages[productId] = newImages;
+
       return {
         ...state,
-        single: product,
-        products: isEmpty(
-          state.products.filter(prod => prod.productId === product.productId)
-        )
-          ? state.products.concat(product)
-          : state.products
-      };
-    case types.GET_PRODUCT_IMAGE_CUSTOMER:
-      const newProduct = action.product;
-      newProduct.images = [action.payload];
-      if (action.filtered) {
-        return {
-          ...state,
-          products_filtered: state.products_filtered.map(
-            product =>
-              product.productId === newProduct.productId ? newProduct : product
-          )
-        };
-      } else {
-        return {
-          ...state,
-          products: state.products.map(
-            product =>
-              product.productId === newProduct.productId ? newProduct : product
-          )
-        };
+        images: currentImages
       }
-    case types.GET_PRODUCTS_IMAGE_RANDOM:
-      const randProd = action.product;
-      randProd.images = [action.payload];
-      return {
-        ...state,
-        random_products: state.random_products.map(
-          product =>
-            product.productId === randProd.productId ? randProd : product
-        )
-        // ,
-        // products: isEmpty(
-        //   state.products.filter(prod => prod.productId === randProd.productId)
-        // )
-        //   ? state.products.concat(product)
-        //   : state.products
-      };
     case types.PRODUCT_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];

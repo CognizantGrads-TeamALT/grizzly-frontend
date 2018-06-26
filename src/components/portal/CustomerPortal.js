@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {
   getProducts,
   setProductUpdated,
-  getProductImageCustomer
+  getProductImage
 } from '../../actions/productsActions';
 import { sortCategoriesByParamCustomer } from '../../actions/categoryActions';
 import ProductCarousel from './common/ProductCarousel';
@@ -38,9 +38,9 @@ class CustomerPortal extends Component {
 
   getImages(products) {
     for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(product.images)) {
-        this.props.getProductImageCustomer(
-          product,
+      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
+        this.props.getProductImage(
+          product.productId,
           product.imageDTO[0].imgName
         );
       }
@@ -107,7 +107,7 @@ class CustomerPortal extends Component {
 CustomerPortal.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  getProductImageCustomer: PropTypes.func.isRequired,
+  getProductImage: PropTypes.func.isRequired,
   sortCategoriesByParamCustomer: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
   category: PropTypes.object.isRequired
@@ -123,7 +123,7 @@ export default connect(
   {
     getProducts,
     setProductUpdated,
-    getProductImageCustomer,
+    getProductImage,
     sortCategoriesByParamCustomer
   }
 )(CustomerPortal);
