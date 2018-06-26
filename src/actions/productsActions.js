@@ -101,7 +101,6 @@ export const getProductImage = (productId, imageName) => dispatch => {
     })
     .catch(err => {
       dispatch(setProductUpdated());
-      console.log(err);
       dispatch({
         type: types.GET_ERRORS,
         payload: err.response.data

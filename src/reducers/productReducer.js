@@ -61,17 +61,17 @@ export default function(state = initialState, action) {
       action.payload.length < 25 || isEmpty(action.payload.length)
         ? false
         : true;
-    currentProducts = isEmpty(state.products_filtered) ? [] : state.products_filtered;
-    index = isEmpty(state.products_filtered) ? 1 : state.index + 1;
-    newProducts = isEmpty(action.payload)
-      ? currentProducts
-      : [
-          ...new Map(
-            currentProducts
-              .concat(action.payload)
-              .map(o => [o['productId'], o])
-          ).values()
-        ];
+      currentProducts = isEmpty(state.products_filtered) ? [] : state.products_filtered;
+      index = isEmpty(state.products_filtered) ? 1 : state.index + 1;
+      newProducts = isEmpty(action.payload)
+        ? currentProducts
+        : [
+            ...new Map(
+              currentProducts
+                .concat(action.payload)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
     return {
       ...state,
       products_filtered: newProducts,
@@ -96,14 +96,13 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
-    return {
-      ...state,
-      vendorInventory: newVendorProducts,
-      vendorHasMore: VendorhasMore,
-      vendorIndex: VendorIndex,
-    };
+      return {
+        ...state,
+        vendorInventory: newVendorProducts,
+        vendorHasMore: VendorhasMore,
+        vendorIndex: VendorIndex,
+      };
     case types.GET_PRODUCT:
-      //action.payload.images = [];
       return {
         ...state,
         single: action.payload
