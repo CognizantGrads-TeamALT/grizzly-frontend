@@ -96,8 +96,8 @@ class CustomerProductDescription extends Component {
                 <p className="mb-0">${product.price}</p>
               </div>
               <div className="row mt-2">
-                <button className="orange-b surround-parent w-75 more-rounded mb-2">Buy now</button>
-                <button className="yellow-b surround-parent w-75 more-rounded mb-2">Add to Cart</button>
+                <button className="btn orange-b surround-parent w-75 more-rounded mb-2">Buy now</button>
+                <button className="btn yellow-b surround-parent w-75 more-rounded mb-2">Add to Cart</button>
                 <div className="bottom-border-line w-75 pt-4 mb-3"></div>
               </div>
               <div className="row">
