@@ -91,8 +91,8 @@ class Navbar extends Component {
             }> `}</span>
           </li>
           <li className="nav-item dropdown my-auto">
-            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            <img src={this.props.user.googleProfile.picture} className="nav-bar-profile-img"/>
+            <a className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <img src={this.props.user.googleProfile.picture} className="nav-bar-profile-img" alt="google profile"/>
             </a>
             <div className="dropdown-menu right-anchor">
               <Link className="dropdown-item" to={{

@@ -366,6 +366,16 @@ a:not([href]):not([tabindex]) {
   object-fit: cover;
 }
 
+.straight-grid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 .nav-bar-profile-img {
   object-fit: cover;
   width: 30px;

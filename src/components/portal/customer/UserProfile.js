@@ -8,7 +8,7 @@ render() {
     <div className="m-3 text-left col">
         <div className="m-2 row">
             <div className="col-2">
-                <img src={this.props.user.googleProfile.picture} className="main-profile-img" alt="Profile picture"/>
+                <img src={this.props.user.googleProfile.picture} className="main-profile-img" alt="Profile"/>
             </div>
             <div className="col-10 text-left">
                 <div className="mb-2 row fnt-weight-600 title-size-1-5em">
