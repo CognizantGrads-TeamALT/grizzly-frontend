@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import { editProductInventory } from "../../../actions/productsActions";
 import validator from 'validator';
+import isEmpty from '../../../validation/is-empty'
 
 class InventoryList extends Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class InventoryList extends Component {
   validateInventory(inv) {
     var valid = true;
 
-    if(inv.name === "" || inv.name === undefined)
+    if(isEmpty(inv.name))
       valid=false;
     return valid;
     
