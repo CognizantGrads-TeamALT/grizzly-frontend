@@ -11,7 +11,7 @@ import unavailable from '../../../img/unavailable.png';
 class CategoryGridList extends Component {
   getImages(products) {
     for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(product.images)) {
+      if (!isEmpty(product.imageDTO) && isEmpty(product.images) && !isEmpty(this.props.product.products_filtered)) {
         this.props.getProductImageCustomer(
           product,
           product.imageDTO[0].imgName,
