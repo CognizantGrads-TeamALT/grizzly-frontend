@@ -293,6 +293,9 @@ a:not([href]):not([tabindex]) {
   text-decoration: none;
 }
 
+.nav-link.active {
+  background-color: #324D5C !important;
+}
 
 /* Product Carousel */
 
@@ -343,6 +346,25 @@ a:not([href]):not([tabindex]) {
   display: flex;
   flex-flow: wrap;
   object-fit: cover;
+}
+
+.nav-bar-profile-img {
+  object-fit: cover;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.main-profile-img {
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.dropdown-menu.right-anchor {
+  right: 0!important;
+  left: -100px;
 }
 
 /* Detailed Product */

@@ -90,8 +90,17 @@ class Navbar extends Component {
               this.props.user.googleProfile.given_name
             }> `}</span>
           </li>
-
-          <li className="nav-item">{this.logOutBtn()}</li>
+          <li className="nav-item dropdown my-auto">
+            <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <img src={this.props.user.googleProfile.picture} className="nav-bar-profile-img"/>
+            </a>
+            <div className="dropdown-menu right-anchor">
+              <a className="dropdown-item" href="/settings">Profile</a>
+              <a className="dropdown-item" href="/settings">Settings</a>
+              <div className="dropdown-divider"></div>
+              <a className="dropdown-item" onClick={this.onLogout}>Log out</a>
+            </div>
+          </li>
         </ul>
       );
     } else
