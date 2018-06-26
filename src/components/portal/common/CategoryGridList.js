@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
-import { filterProductsByCategory, getProductImageCustomer } from '../../../actions/productsActions';
+import { filterProductsByCategory, getProductImage } from '../../../actions/productsActions';
 import Button from 'react-ions/lib/components/Button';
 import Spinner from '../../common/Spinner';
 import unavailable from '../../../img/unavailable.png';
@@ -11,9 +11,9 @@ import unavailable from '../../../img/unavailable.png';
 class CategoryGridList extends Component {
   getImages(products) {
     for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(product.images) && !isEmpty(this.props.product.products_filtered)) {
-        this.props.getProductImageCustomer(
-          product,
+      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId]) && !isEmpty(this.props.product.products_filtered)) {
+        this.props.getProductImage(
+          product.productId,
           product.imageDTO[0].imgName,
           true
         );
@@ -79,7 +79,8 @@ class CategoryGridList extends Component {
   }
 
   getImg(product) {
-    let imgInfo = product.images[0];
+    //let imgInfo = product.images[0];
+    let imgInfo = this.props.product.images[product.productId][0];
     return (
       <img
         key={product.productId}
@@ -93,7 +94,7 @@ class CategoryGridList extends Component {
 
   showImg(product) {
     // If we don't have any images.
-    if (isEmpty(product.images)) {
+    if (isEmpty(this.props.product.images[product.productId])) {
       // If the product details has no images.
       if (isEmpty(product.imageDTO)) {
         return (
@@ -140,7 +141,7 @@ class CategoryGridList extends Component {
 
 CategoryGridList.propTypes = {
   filterProductsByCategory: PropTypes.func.isRequired,
-  getProductImageCustomer: PropTypes.func.isRequired
+  getProductImage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -153,6 +154,6 @@ export default connect(
   mapStateToProps,
   {
     filterProductsByCategory,
-    getProductImageCustomer
+    getProductImage
   }
 )(CategoryGridList);

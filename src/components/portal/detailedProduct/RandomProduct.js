@@ -11,7 +11,7 @@ class RandomProduct extends Component {
     return (
       <img
         key={product.productId}
-        src={product.images[0].base64Image}
+        src={this.props.product.images[product.productId][0].base64Image}
         className="card-img-top"
         alt=""
         style={{ width: '150px', height: '150px' }}
@@ -21,7 +21,7 @@ class RandomProduct extends Component {
 
   showImg(product) {
     // If we don't have any images.
-    if (isEmpty(product.images)) {
+    if (isEmpty(this.props.product.images[product.productId])) {
       // If the product details has no images.
       if (isEmpty(product.imageDTO)) {
         return (

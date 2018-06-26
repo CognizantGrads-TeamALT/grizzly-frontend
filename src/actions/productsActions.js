@@ -75,7 +75,7 @@ export const getProductWithImgs = productId => dispatch => {
         // Fetch images.
         if (!isEmpty(res.data.imageDTO)) {
           for (let image of res.data.imageDTO)
-            dispatch(getProductImage(res.data, image.imgName));
+            dispatch(getProductImage(res.data.productId, image.imgName));
         }
       }
       dispatch(setProductUpdated());
@@ -89,52 +89,14 @@ export const getProductWithImgs = productId => dispatch => {
     });
 };
 
-export const getProductImage = (product, imageName) => dispatch => {
+export const getProductImage = (productId, imageName) => dispatch => {
   cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
+    .get(PRODUCT_API_GATEWAY + `/getImage/${productId}/${imageName}`)
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT_IMAGE,
         payload: res.data,
-        product: product
-      });
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
-      });
-    });
-};
-export const getProductsImageRandom = (product, imageName) => dispatch => {
-  cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
-    .then(res => {
-      dispatch({
-        type: types.GET_PRODUCTS_IMAGE_RANDOM,
-        payload: res.data,
-        product: product
-      });
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
-      });
-    });
-};
-
-export const getProductImageCustomer = (product, imageName, filtered) => dispatch => {
-  cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
-    .then(res => {
-      dispatch({
-        type: types.GET_PRODUCT_IMAGE_CUSTOMER,
-        payload: res.data,
-        product: product,
-        filtered: filtered
+        productId: productId
       });
     })
     .catch(err => {
