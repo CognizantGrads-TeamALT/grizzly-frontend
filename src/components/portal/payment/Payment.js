@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 
 class Payment extends Component {
+  showOrderContent() {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    return cart.map(prod => (
+      <div className="row">
+        {prod.Name}
+        {prod.Price}
+      </div>
+    ));
+  }
   render() {
     return (
       <div className="container paymentContainer">
@@ -9,9 +18,7 @@ class Payment extends Component {
             <div className="row">
               <p>Your Order:</p>
             </div>
-            <div className="row">
-              <p>Order Stuff here</p>
-            </div>
+            <div className="row">{this.showOrderContent()}</div>
           </div>
           <div className="col paymentRightCol left-border-line">
             <div className="row ">
