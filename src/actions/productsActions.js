@@ -55,7 +55,7 @@ export const getProducts = index => dispatch => {
 };
 
 // Get Product with Imgs
-export const getProductWithImgs = productId => dispatch => {
+export const getProduct = productId => dispatch => {
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
@@ -70,12 +70,6 @@ export const getProductWithImgs = productId => dispatch => {
             dispatch(getVendorBatch(res.data.vendorId));
           if (res.data.categoryId !== 0)
             dispatch(getCategoryBatch(res.data.categoryId));
-        }
-
-        // Fetch images.
-        if (!isEmpty(res.data.imageDTO)) {
-          for (let image of res.data.imageDTO)
-            dispatch(getProductImage(res.data.productId, image.imgName));
         }
       }
       dispatch(setProductUpdated());
