@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { addProduct, clearErrors } from '../../../actions/productsActions';
+import { addProduct, clearErrors, WaitForError  } from '../../../actions/productsActions';
 import {
   searchCategories,
   Update_TypeAhead
@@ -33,7 +33,9 @@ class ProductForm extends Component {
       valid_vendor: false,
       display_error: false,
       intervalID: "",
-      errors: []
+      errors: [],
+      shouldCancel: false,
+      showDBErrors: false
     };
     this.pictures = [];
     this.files = [];
@@ -41,7 +43,6 @@ class ProductForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.validateProduct = this.validateProduct.bind(this);
-    this.waitForResponce = this.waitForResponce.bind(this);
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -55,8 +56,31 @@ class ProductForm extends Component {
     });
   }
 
+  componentDidUpdate(){
+    //console.log(this.props.errors);
+    if(!this.props.errors.waitForError && this.state.shouldCancel){
+      this.cancel();
+      this.props.WaitForError();
+
+     }
+  }
+
   cancel() {
+    this.setState({errors: [],
+      modal: false,
+      category: '',
+      name: '',
+      desc: '',
+      price: '',
+      rating: 0,
+      categoryList: [],
+      cur_id: '',
+      valid_cat: false,
+      valid_vendor: false,
+      shouldCancel: false,
+      showDBErrors: false});
     this.props.onCancel();
+    
   }
 
   onSubmit(e) {
@@ -94,43 +118,13 @@ class ProductForm extends Component {
     // No validation errors found!
     else {
       this.props.addProduct(newProd);
-      this.setState({intervalID: setInterval(this.waitForResponce, 10)})
-    }
-  }
-
-  waitForResponce(){
-    //console.log("waiting for responce " + this.props.product.pushingProduct + " errors: " + this.props.errors.errorMessage);
-    if(this.props.product.pushingProduct === false && this.props.errors.errorMessage === ""){
-      clearInterval(this.state.intervalID);
-      //product has been pushed, no error thrown
-      this.setState({
-        modal: false,
-        category: '',
-        name: '',
-        desc: '',
-        price: '',
-        rating: 0,
-        categoryList: [],
-        cur_id: '',
-        valid_cat: false,
-        valid_vendor: false
-      });
+      this.setState({shouldCancel: true, 
+                    showDBErrors: true})
+      //this.cancel();
       
-      this.cancel();
+     // this.setState({intervalID: setInterval(this.waitForResponce, 10)})
     }
-    else if(this.props.errors.errorMessage !== "" && !this.props.product.pushingProduct){
-      //product has been pushed, error has been thrown
-      this.setState({errors: [{msg: this.props.errors.errorMessage,
-                                          errorDebug: this.props.errors.debug}]});
-      clearInterval(this.state.intervalID);
-    }
-    // else{
-    //   //product waiting to be pushed
-    // }
   }
-
-  
-
 
   /**
    * Validates fields of a newly created product (where appropriate)
@@ -202,6 +196,9 @@ class ProductForm extends Component {
     if(this.state.errors.length !==0){
 
       return(<ErrorComponent errormsg={this.state.errors[0].msg} />)
+    }
+    else if(this.state.showDBErrors && this.props.errors.errorMessage !== ''){
+      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }
   }
 
@@ -295,7 +292,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps, ProductForm.waitForResponce,
-  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead, clearErrors }
-)(withRouter(ProductForm));
+  mapStateToProps,
+  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead, clearErrors, WaitForError })(withRouter(ProductForm));
 

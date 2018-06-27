@@ -133,10 +133,10 @@ export const addProduct = newProd => dispatch => {
         type: types.PRODUCT_ADDING,
         payload: res.data
       });
-
+      dispatch(stopWaitingForError());
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
-      dispatch(setProductPosted());
+      //dispatch(setProductPosted());
     })
     .catch(err => {
       
@@ -250,7 +250,13 @@ export const clearErrors = values => dispatch => {
       type: types.PRODUCT_PUSHED
     }
   }
+  export const WaitForError = () => {
+    return {type: types.START_WAITING}
+  }
 
+  export const stopWaitingForError = () => {
+    return {type: types.STOP_WAITING}
+  }
 
 // Product Editing
 export const setProductEditing = () => {

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { waitForResponce} from "../products/ProductForm"
 
 class ConfirmModal extends Component {
     constructor(props) {
@@ -12,7 +11,6 @@ class ConfirmModal extends Component {
 
         this.onToggle = this.onToggle.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        console.log(this.props.waitForResponce);
     }
 
     onToggle(e) {
@@ -79,5 +77,5 @@ class ConfirmModal extends Component {
 
 export default connect(
     null,
-    {waitForResponce}
+    {}
   )(ConfirmModal);
