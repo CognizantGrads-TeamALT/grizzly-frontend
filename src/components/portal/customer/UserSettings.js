@@ -1,47 +1,95 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import UserProfile from './UserProfile';
-
+import classnames from 'classnames';
+import OrderHistory from './OrderHistory';
+import {
+    Nav,
+    NavItem,
+    NavLink,
+    TabContent,
+    TabPane,
+    Col
+  } from 'reactstrap';
 
 class UserSettings extends Component {
-    constructor() {
-        super();
-        console.log(
-        'ef'
-        )
+    constructor(props) {
+        super(props);
+        this.toggle = this.toggle.bind(this);
+        this.state = {
+            activeTab: this.props.location.state.tabId
+        }
     }
-  render() {
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.location.state.tabId !== this.props.location.state.tabId) {
+            this.setState({ activeTab: this.props.location.state.tabId });
+        }
+    }
+
+    toggle(tab) {
+        if (this.state.activeTab !== tab) {
+          this.setState({
+            activeTab: tab
+          });
+        }
+      }
+
+    render() {
     return (
-        <div className="m-5 pt-5 griz-portal-parent">
-            <div className="m-5 row">
-                <div className="col-3">
-                    <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Profile</a>
-                    <a className="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Cart</a>
-                    <a className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Order History</a>
-                    <a className="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
-                    </div>
-                </div>
-                <div className="col-9">
-                    <div className="tab-content" id="v-pills-tabContent">
-                    <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                        <UserProfile />
-                    </div>
-                    <div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+        <div className="row m-5 pt-5 griz-portal-parent">
+            <Col sm="3">
+                <Nav vertical tabs className="row profile-nav nav-tabs">
+                    <NavItem className="tabs-a-underline rounded">
+                        <NavLink
+                        className={classnames(
+                            'nav-link profile-nav',
+                            { active: this.state.activeTab === '1' }
+                        )}
+                        onClick={() => { this.toggle('1'); }}
+                        >
+                        Profile
+                        </NavLink>
+                    </NavItem>
+                    <NavItem className="tabs-a-underline">
+                        <NavLink
+                        className={classnames(
+                            'nav-link profile-nav',
+                            { active: this.state.activeTab === '2' })}
+                        onClick={() => { this.toggle('2'); }}
+                        >
                         Cart
-                    </div>
-                    <div className="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                        </NavLink>
+                    </NavItem>
+                    <NavItem className="tabs-a-underline">
+                        <NavLink
+                        className={classnames(
+                            'nav-link profile-nav',
+                            { active: this.state.activeTab === '3' })}
+                        onClick={() => { this.toggle('3'); }}
+                        >
                         Order History
-                    </div>
-                    <div className="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                        Settings
-                    </div>
-                    </div>
-                </div>
-            </div>
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+            </Col>
+            <Col sm="9">
+                <TabContent activeTab={this.state.activeTab}>
+                    <TabPane tabId="1">
+                        <UserProfile /> 
+                    </TabPane>
+                    <TabPane tabId="2">
+                    </TabPane>
+                    <TabPane tabId="3">
+                        <OrderHistory />  
+                    </TabPane>
+                    <TabPane tabId="4">
+                    </TabPane>
+                </TabContent>
+            </Col>
         </div>
     );
-  }
+    }
 }
 
 export default connect(null)(UserSettings); 

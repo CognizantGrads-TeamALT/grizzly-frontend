@@ -78,7 +78,7 @@ class RandomProduct extends Component {
   }
 
   render() {
-    return <div className="row">{this.showProducts()}</div>;
+    return <div className="row straight-grid">{this.showProducts()}</div>;
   }
 }
 const mapStateToProps = state => ({

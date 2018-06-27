@@ -83,14 +83,14 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
-    return {
-      ...state,
-      products_filtered: newProducts,
-      hasMore: hasMore,
-      index: index,
-      loadingVendors: true,
-      loadingCategories: true
-    };
+      return {
+        ...state,
+        products_filtered: newProducts,
+        hasMore: hasMore,
+        index: index,
+        loadingVendors: true,
+        loadingCategories: true
+      };
     case types.GET_VENDOR_INVENTORY:
       const VendorhasMore =
       action.payload.length < 25 || isEmpty(action.payload.length)
@@ -237,6 +237,11 @@ export default function(state = initialState, action) {
         loadingVendors: null,
         index: 0
       };
+    case types.CLEAR_FILTERED_PRODUCTS:
+      return {
+        ...state,
+        products_filtered: null
+      }
     default:
       return state;
   }

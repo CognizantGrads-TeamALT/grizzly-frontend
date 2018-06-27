@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FlipMove from 'react-flip-move';
 import UploadIcon from '../../../img/UploadIcon.svg';
+import md5 from 'js-md5';
 
 class ImageUploader extends Component {
   constructor(props) {
@@ -64,7 +65,33 @@ class ImageUploader extends Component {
         return function(e) {
           // Add the file name to the data URL
           let dataURL = e.target.result;
-          dataURL = dataURL.replace(';base64', `;name=${f.name};base64`);
+
+          // DUPLICATE VERIFICATIONS
+
+          // Our regex to strip the beginning section of the data.
+          // We need this. A person may change .png to .jpg and get away with it otherwise.
+          let stripPattern = /data:.*;base64,/;
+
+          // Calculate the MD5 hash of the file being rendered.
+          let MD5Hash = md5(dataURL.replace(stripPattern, ''));
+
+          // Loop through existing images and compare MD5.
+          for (let i = 0; i < _this.props.startingImages.length; i++) {
+            let data = _this.props.startingImages[i].replace(stripPattern, '');
+
+            if (MD5Hash === md5(data)) {
+              return;
+            }
+          }
+
+          // Loop through files being uploaded and compare MD5.
+          for (let i = 0; i < _this.state.pictures.length; i++) {
+            let data = _this.state.pictures[i].replace(stripPattern, '');
+
+            if (MD5Hash === md5(data)) {
+              return;
+            }
+          }
 
           if (_this.props.singleImage === true) {
             _this.setState({ pictures: [dataURL], files: [f] }, () => {
