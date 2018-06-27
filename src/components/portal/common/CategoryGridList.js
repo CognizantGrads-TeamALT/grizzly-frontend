@@ -76,11 +76,16 @@ class CategoryGridList extends Component {
           </div>
         </div>
       ));
+    } else {
+      return (
+        <div className="text-center">
+          <Spinner size={'150px'} />
+        </div>
+      );
     }
   }
 
   getImg(product) {
-    //let imgInfo = product.images[0];
     let imgInfo = this.props.product.images[product.productId][0];
     return (
       <img
@@ -108,7 +113,11 @@ class CategoryGridList extends Component {
         );
         // We have image but its loading, so wait.
       } else {
-        return <Spinner size={'150px'} />;
+        return (
+          <div className="text-center">
+            <Spinner size={'150px'} />
+          </div>
+        );
       }
       // Return the loaded image.
     } else {
