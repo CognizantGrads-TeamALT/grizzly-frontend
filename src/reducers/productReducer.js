@@ -59,7 +59,10 @@ export default function(state = initialState, action) {
       };
     case types.ADD_TO_CART:
       var newCart = state.cart;
-      newCart.push(action.payload)
+      //cartdata: product, quantity
+      newCart.push([action.payload])
+      //{this.state.cart.productId==newCart}?
+
       console.log(newCart);
       return{
         ...state,

@@ -22,8 +22,8 @@ class CustomerProductDescription extends Component {
 
   onClick = event => {
     this.props.cart.push(this.props.product);
-    this.setState({ clicks: this.state.clicks + 1 });
-    console.log(this.clicks);
+    // this.setState({ clicks: this.state.clicks + 1 });
+    // console.log(this.clicks);
 
   }
   
