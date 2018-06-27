@@ -75,7 +75,7 @@ export const getProductWithImgs = productId => dispatch => {
         // Fetch images.
         if (!isEmpty(res.data.imageDTO)) {
           for (let image of res.data.imageDTO)
-            dispatch(getProductImage(res.data, image.imgName));
+            dispatch(getProductImage(res.data.productId, image.imgName));
         }
       }
       dispatch(setProductUpdated());
@@ -89,51 +89,14 @@ export const getProductWithImgs = productId => dispatch => {
     });
 };
 
-export const getProductImage = (product, imageName) => dispatch => {
+export const getProductImage = (productId, imageName) => dispatch => {
   cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
+    .get(PRODUCT_API_GATEWAY + `/getImage/${productId}/${imageName}`)
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT_IMAGE,
         payload: res.data,
-        product: product
-      });
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
-      });
-    });
-};
-export const getProductsImageRandom = (product, imageName) => dispatch => {
-  cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
-    .then(res => {
-      dispatch({
-        type: types.GET_PRODUCTS_IMAGE_RANDOM,
-        payload: res.data,
-        product: product
-      });
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
-      });
-    });
-};
-
-export const getProductImageCustomer = (product, imageName) => dispatch => {
-  cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${product.productId}/${imageName}`)
-    .then(res => {
-      dispatch({
-        type: types.GET_PRODUCT_IMAGE_CUSTOMER,
-        payload: res.data,
-        product: product
+        productId: productId
       });
     })
     .catch(err => {
@@ -183,6 +146,13 @@ export const clearCurrentProducts = () => {
     type: types.CLEAR_CURRENT_PRODUCTS
   };
 };
+
+// Clear Filtered Products
+export const clearFilteredProducts = () => {
+  return {
+    type: types.CLEAR_FILTERED_PRODUCTS
+  }
+}
 
 // Reload Products
 export const reloadProducts = () => dispatch => {
@@ -424,14 +394,15 @@ export const editProductInventory = newInfo => dispatch => {
 
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
-  dispatch(clearCurrentProducts());
+  dispatch(setProductLoading());
+  dispatch(clearFilteredProducts());
   axios
     .get(
       PRODUCT_API_GATEWAY +
         `/bycategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
-      dispatch(refreshProductData(res.data));
+      dispatch(refreshProductData(res.data, inputs.filtered));
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -442,11 +413,18 @@ export const filterProductsByCategory = inputs => dispatch => {
     });
 };
 
-export const refreshProductData = data => dispatch => {
-  dispatch({
-    type: types.GET_PRODUCTS,
-    payload: data
-  });
+export const refreshProductData = (data, filtered) => dispatch => {
+  if (filtered) {
+    dispatch({
+      type: types.GET_FILTERED_PRODUCTS,
+      payload: data
+    })
+  } else {
+    dispatch({
+      type: types.GET_PRODUCTS,
+      payload: data
+    });
+  }
   if (!isEmpty(data[0])) {
     if (!isEmpty(data[0].productId)) {
       let vendorIdArray = '';

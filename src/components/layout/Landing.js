@@ -11,6 +11,11 @@ class Landing extends Component {
       this.props.history.push(`/${this.props.user.userType}`);
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.user.isAuthenticated) {
+      this.props.history.push(`/${this.props.user.userType}`);
+    }
+  }
 
   render() {
     return (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
-import { getProductWithImgs, getProductImageCustomer } from '../../../actions/productsActions';
+import { getProductWithImgs, getProductImage } from '../../../actions/productsActions';
 import unavailable from '../../../img/unavailable.png';
 import Spinner from '../../common/Spinner';
 
@@ -13,13 +13,12 @@ class ProductImage extends Component {
     this.state = {
       activeTab: 0
     };
-    this.props.getProductWithImgs(this.props.prod.productId);
-    this.props.getProductImageCustomer(this.props.prod, this.props.prod.imageDTO[0].imgName);
+    this.props.getProductImage(this.props.prod.productId, this.props.prod.imageDTO[0].imgName);
   }
 
   showImg() {
     const single = this.props.prod;
-    if (isEmpty(single.images)) {
+    if (isEmpty(this.props.product.images[single.productId])) {
       // If the product details literally has no images.
       if (isEmpty(single.imageDTO)) {
         return (
@@ -36,8 +35,8 @@ class ProductImage extends Component {
   }
 
   getImg(single) {
-    if (!isEmpty(single.images)) {
-      let imgInfo = single.images[0];
+    if (!isEmpty(this.props.product.images[single.productId])) {
+      let imgInfo = this.props.product.images[single.productId][0];
       return (
         <img
           key={single.productId}
@@ -71,6 +70,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getProductWithImgs,
-    getProductImageCustomer
+    getProductImage
    }
 )(ProductImage);

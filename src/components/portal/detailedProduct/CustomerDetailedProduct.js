@@ -7,8 +7,7 @@ import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
   getProductWithImgs,
-  getProductImageCustomer,
-  getProductsImageRandom,
+  getProductImage,
   getRandomProducts
 } from '../../../actions/productsActions';
 
@@ -57,6 +56,7 @@ class CustomerDetailedProduct extends Component {
     } else {
       this.props.getProductWithImgs(id);
     }
+
     let searchTerm = name.split(' ').pop();
     if (!isEmpty(searchTerm)) {
       this.props.getRandomProducts(searchTerm, '0');
@@ -65,8 +65,8 @@ class CustomerDetailedProduct extends Component {
 
   getImages(products) {
     for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(product.images)) {
-        this.props.getProductsImageRandom(product, product.imageDTO[0].imgName);
+      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
+        this.props.getProductImage(product.productId, product.imageDTO[0].imgName);
       }
     }
   }
@@ -83,9 +83,9 @@ class CustomerDetailedProduct extends Component {
         this.props.getRandomProducts(single.name.split(' ').pop(), '0');
       } else {
         this.getImages(random_products);
-        if (!isEmpty(single.imageDTO) && isEmpty(single.images)) {
-          this.props.getProductImageCustomer(
-            single,
+        if (!isEmpty(single.imageDTO) && isEmpty(this.props.product.images[single.productId])) {
+          this.props.getProductImage(
+            single.productId,
             single.imageDTO[0].imgName
           );
         }
@@ -117,9 +117,8 @@ class CustomerDetailedProduct extends Component {
 
 CustomerDetailedProduct.propTypes = {
   getProductWithImgs: PropTypes.func.isRequired,
-  getProductImageCustomer: PropTypes.func.isRequired,
-  getRandomProducts: PropTypes.func.isRequired,
-  getProductsImageRandom: PropTypes.func.isRequired
+  getProductImage: PropTypes.func.isRequired,
+  getRandomProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -130,8 +129,7 @@ export default connect(
   mapStateToProps,
   {
     getProductWithImgs,
-    getProductImageCustomer,
-    getRandomProducts,
-    getProductsImageRandom
+    getProductImage,
+    getRandomProducts
   }
 )(CustomerDetailedProduct);

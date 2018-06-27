@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {
   getProducts,
   setProductUpdated,
-  getProductImageCustomer
+  getProductImage
 } from '../../actions/productsActions';
 import { sortCategoriesByParamCustomer } from '../../actions/categoryActions';
 import ProductCarousel from './common/ProductCarousel';
@@ -38,9 +38,9 @@ class CustomerPortal extends Component {
 
   getImages(products) {
     for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(product.images)) {
-        this.props.getProductImageCustomer(
-          product,
+      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
+        this.props.getProductImage(
+          product.productId,
           product.imageDTO[0].imgName
         );
       }
@@ -68,12 +68,35 @@ class CustomerPortal extends Component {
         <div className="col-md-12">
           {!isEmpty(this.props.product.products) && <ProductCategoryRow />}
           <ProductCarousel />
+          <div className="pt-3 mb-5 mock-description">
+            <div className="row">
+              <div className="col d-inline surround-parent w-50">
+                <div className="text-center">
+                  <i className="fab fa-ethereum mr-1 griz-t-color"></i> <div className="fnt-weight-400">Run on Ethereum.</div>
+                  <div className="fnt-weight-300">Number #1 E-commerce website run on the blockchain. </div>
+                </div>
+              </div>
+              <div className="col d-inline surround-parent w-50">
+                <div className="text-center">
+                  <i className="fab fa-paypal mr-1 griz-t-color"></i> <div className="fnt-weight-400">We use PayPal!</div>
+                  <div className="fnt-weight-300">Your security is our priority. </div>
+                </div>
+              </div>
+              <div className="col d-inline surround-parent w-50">
+                <div className="text-center">
+                  <i className="fab fa-bitcoin mr-1 griz-t-color"></i> <div className="fnt-weight-400">Ahead of the game.</div>
+                  <div className="fnt-weight-300">We also accept Bitcoin. </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="fnt-weight-400 text-center title-size-1-5em mb-2">Browse our latest products</div>
           <ProductGridList />
         </div>
       );
     } else {
       return (
-        <div className="col-md-12">
+        <div className="text-center">
           <Spinner size={'150px'} />
         </div>
       );
@@ -84,7 +107,7 @@ class CustomerPortal extends Component {
 CustomerPortal.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  getProductImageCustomer: PropTypes.func.isRequired,
+  getProductImage: PropTypes.func.isRequired,
   sortCategoriesByParamCustomer: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
   category: PropTypes.object.isRequired
@@ -100,7 +123,7 @@ export default connect(
   {
     getProducts,
     setProductUpdated,
-    getProductImageCustomer,
+    getProductImage,
     sortCategoriesByParamCustomer
   }
 )(CustomerPortal);

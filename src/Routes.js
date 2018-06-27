@@ -1,18 +1,18 @@
-import React from "react";
-import SignUp from "./components/auth/SignUp";
-import Login from "./components/auth/Login";
-import Portal from "./components/portal/Portal";
-import CustomerPortal from "./components/portal/CustomerPortal";
-import DetailedProduct from "./components/portal/detailedProduct/DetailedProduct";
-import NotFound from "./components/not-found/NotFound";
-import CategoryForm from "./components/portal/categories/CategoryForm";
-import ProductForm from "./components/portal/products/ProductForm";
-import CustomerDetailedProduct from "./components/portal/detailedProduct/CustomerDetailedProduct";
-import CategoryGridList from "./components/portal/common/CategoryGridList";
-import Payment from "./components/portal/payment/Payment";
-import { Switch } from "react-router-dom";
-import { Route } from "react-router-dom";
-import Landing from "./components/layout/Landing";
+import React from 'react';
+import SignUp from './components/auth/SignUp';
+import Login from './components/auth/Login';
+import Portal from './components/portal/Portal';
+import CustomerPortal from './components/portal/CustomerPortal';
+import UserSettings from './components/portal/customer/UserSettings';
+import DetailedProduct from './components/portal/detailedProduct/DetailedProduct';
+import NotFound from './components/not-found/NotFound';
+import CategoryForm from './components/portal/categories/CategoryForm';
+import ProductForm from './components/portal/products/ProductForm';
+import CustomerDetailedProduct from './components/portal/detailedProduct/CustomerDetailedProduct';
+import CategoryGridList from './components/portal/common/CategoryGridList';
+import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import Landing from './components/layout/Landing';
 export default () => {
   return (
     <div className="surround-parent h-100 griz-portal">
@@ -20,9 +20,10 @@ export default () => {
         <Route exact path="/" component={Landing} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/payment" component={Payment} />
-        <Route exact path="/:portal" component={Portal} />
         <Route exact path="/customer" component={CustomerPortal} />
+        <Route exact path="/settings" component={UserSettings} />
+        {/* Make sure the Portal route is always below other routes or they may not load */}
+        <Route exact path="/:portal" component={Portal} />
         <Route
           exact
           path="/detailedproduct/:productId"
