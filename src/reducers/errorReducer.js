@@ -15,10 +15,12 @@ export default function(state = initialState, action) {
     catch(err){
       errdata = { message: "Connection error, servers may be down", debugMessage : err}
     }
+    console.log(errdata);
       return {...state, 
               errorMessage : errdata.message,
               errorDebug: errdata.debugMessage};
     case types.CLEAR_ERRORS:
+    console.log("clearing errors");
       return {...state, 
               errorMessage : "",
               errorDebug: ""};

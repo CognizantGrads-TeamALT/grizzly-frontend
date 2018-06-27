@@ -66,6 +66,7 @@ class Products extends Component {
             product_vendor={product_vendor}
             product={prod}
             userType={this.props.user.userType}
+            errors={this.props.errors}
           />
         ));
       }

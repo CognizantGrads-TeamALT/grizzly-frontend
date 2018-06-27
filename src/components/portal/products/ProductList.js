@@ -9,31 +9,78 @@ import {
   deleteProduct
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
+import ErrorComponent from '../../common/ErrorComponent';
 
 class ProductList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      productId: this.props.location
+      productId: this.props.location,
+      showError: false,
+      listenForError: false,
+      testCount: 0
     };
     this.onBlockClick = this.onBlockClick.bind(this);
     this.onViewClick = this.onViewClick.bind(this);
+    this.closeError=this.closeError.bind(this);
+    this.testMethod=this.testMethod.bind(this);
+  }
+
+  closeError(){
+    this.setState({showError:false});
+    
   }
 
   onDeleteClick(id) {
     this.props.deleteProduct(id);
+    this.setState({listenForError: true});
   }
 
   onBlockClick() {
     const { product } = this.props;
     product.enabled = !product.enabled;
     this.props.toggleBlockProduct(product);
+    this.setState({listenForError: true,
+    intervalId: setInterval(this.testMethod, 50)
+    });
   }
 
   onViewClick() {
     const { product } = this.props;
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
+
+  // componentDidUpdate(){
+  //   //console.log(this.props.errors.errorMessage + " " + this.state.listenForError + " " + this.state.showError);
+  //     if(this.props.errors.errorMessage !== "" && this.state.listenForError){
+  //       console.log("showing error in theory");
+  //       this.setState({showError:true,
+  //       listenForError: false})
+  //     }
+  //   }
+
+    testMethod(){
+      console.log("intestmethod");
+      console.log(this.props.errors);
+      console.log(this.props.errors.errorMessage + " " + this.state.listenForError + " " + this.state.showError);
+      if(this.props.errors.errorMessage !== "" && this.state.listenForError){
+        console.log("showing error in theory");
+        this.setState({showError:true,
+        listenForError: false})
+        clearInterval(this.state.intervalId) 
+      }
+      else if(this.state.testCount> 10)
+        clearInterval(this.state.intervalId);
+      else this.setState({testCount: this.state.testCount+1})
+    }
+
+  // componentDidUpdate(){
+  //   console.log(this.props.errors.errorMessage !== "" && this.listenForError)
+  //   if(this.props.errors.errorMessage !== "" && this.listenForError){
+  //     console.log("showing error in theory")
+  //     this.setState({showError:true})
+  //   }
+  // }
 
   showCatName(product) {
     const { product_category } = this.props;
@@ -100,6 +147,11 @@ class ProductList extends Component {
                 buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
                 onSubmit={this.onDeleteClick.bind(this, product.productId)}
               />
+              <ErrorComponent 
+                errormsg={this.props.errors.errorMessage} 
+                popup={true} 
+                show={this.state.showError} 
+                closeError={this.closeError} />
             </div>
           </div>
         </td>
