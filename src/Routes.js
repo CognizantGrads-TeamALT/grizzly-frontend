@@ -1,4 +1,5 @@
 import React from 'react';
+import PrivateRoute from './components/common/PrivateRoute';
 import SignUp from './components/auth/SignUp';
 import Login from './components/auth/Login';
 import Portal from './components/portal/Portal';
@@ -21,26 +22,27 @@ export default () => {
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/customer" component={CustomerPortal} />
-        <Route exact path="/settings" component={UserSettings} />
-        {/* Make sure the Portal route is always below other routes or they may not load */}
-        <Route exact path="/:portal" component={Portal} />
         <Route
           exact
-          path="/detailedproduct/:productId"
-          component={DetailedProduct}
+          path="/category/:searchParam/:catId"
+          component={CategoryGridList}
         />
         <Route
           exact
           path="/customerdetailedproduct/:productId"
           component={CustomerDetailedProduct}
         />
-        <Route exact path="/category/new" component={CategoryForm} />
-        <Route
+        <PrivateRoute exact path="/settings" component={UserSettings} />
+        {/* Make sure the Portal route is always below other routes or they may not load */}
+        <Route exact path="/:portal" component={Portal} />
+        <PrivateRoute
           exact
-          path="/category/:searchParam/:catId"
-          component={CategoryGridList}
+          path="/detailedproduct/:productId"
+          component={DetailedProduct}
         />
-        <Route exact path="/product/new" component={ProductForm} />
+        <PrivateRoute exact path="/category/new" component={CategoryForm} />
+        <PrivateRoute exact path="/product/new" component={ProductForm} />
+
         <Route component={NotFound} />
       </Switch>
     </div>
