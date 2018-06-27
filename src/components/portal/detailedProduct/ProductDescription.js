@@ -7,10 +7,12 @@ import { Carousel } from "react-responsive-carousel";
 import {
   editProduct,
   reloadProducts,
+  WaitForError
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
 import ImageUploader from "../products/ImageUploader";
+import ErrorComponent from "../../common/ErrorComponent";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -24,7 +26,8 @@ class ProductDescription extends Component {
       desc: this.props.product.single.desc,
       price: this.props.product.single.price,
       changed: false,
-      intervalId: null
+      shouldCancel: false,
+      showDBError: false
     };
 
     this.pictures = [];
@@ -38,7 +41,6 @@ class ProductDescription extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onDrop = this.onDrop.bind(this);
-    this.waitForResponce = this.waitForResponce.bind(this);
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -150,6 +152,7 @@ class ProductDescription extends Component {
 
   showImg() {
     const product = this.props.product.single;
+    console.log(this.props.errors.errorMessage);
     // If we don't have any images.
     if (isEmpty(this.props.product.images[product.productId])) {
       // If the product details literally has no images.
@@ -163,7 +166,11 @@ class ProductDescription extends Component {
           />
         );
         // We have image but its loading, so wait.
-      } else {
+      } 
+      else if(this.props.errors.errorMessage !== ''){
+        return<ErrorComponent errormsg={this.props.errors.errorMessage}/>
+      }
+      else {
         return <Spinner size={'150px'} />;
       }
       // Return the loaded images.
@@ -234,31 +241,33 @@ class ProductDescription extends Component {
 
     if (this.state.changed) {
       this.props.editProduct(newProd);
-      this.setState({intervalId: setInterval(this.waitForResponce, 20)})
-      //this.onCancel();
+      this.setState({shouldCancel: true,
+      showDBError: true})
     }
   }
 
-  waitForResponce(){
-    console.log(this.props.product.pushingProduct + " " + this.props.errors.errorMessage);
-    if(this.props.product.pushingProduct === false && this.props.errors.errorMessage === ""){
-      clearInterval(this.state.intervalId);
-      //product has been pushed, no error thrown
+  showErrors(){
+    console.log(this.state);
+    if(this.state.showDBError){
+      console.log("inshowerror");
+      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
+    }
+  }
+
+  componentDidUpdate(){
+    console.log(!this.props.errors.waitForError + " " + this.state.shouldCancel);
+    //console.log(this.props.WaitForError)
+    if(!this.props.errors.waitForError && this.state.shouldCancel){
       this.props.reloadProducts();
       this.onCancel();
     }
-    else if(this.props.errors.errorMessage !== "" && !this.props.product.pushingProduct){
-      //product has been pushed, error has been thrown
-      this.setState({errors: [{msg: this.props.errors.errorMessage,
-                                          errorDebug: this.props.errors.debug}]});
-      clearInterval(this.state.intervalId);
-    }
-    // else{
-    //   //product waiting to be pushed
-    // }
   }
 
   onCancel() {
+    this.setState({shouldCancel: false,
+      showDBError: false,
+      changed: false});
+    this.props.WaitForError();
     this.props.history.goBack();
   };
 
@@ -406,6 +415,7 @@ class ProductDescription extends Component {
                         </Button>
                       )}
                     </div>
+                    {this.showErrors()}
                   </div>
                 </div>
               </div>
@@ -425,5 +435,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts }
+  { editProduct, reloadProducts, WaitForError }
 )(ProductDescription);

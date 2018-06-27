@@ -61,8 +61,8 @@ class ProductForm extends Component {
     if(!this.props.errors.waitForError && this.state.shouldCancel){
       this.cancel();
       this.props.WaitForError();
-
      }
+     
   }
 
   cancel() {

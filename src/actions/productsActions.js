@@ -221,11 +221,9 @@ export const editProduct = newInfo => dispatch => {
         type: types.PRODUCT_EDITED,
         payload: newInfo
       })
-      dispatch(setProductPosted());}
+      dispatch(stopWaitingForError());}
     )
     .catch(err => {
-      dispatch(setProductLoading());
-      dispatch(setProductPosted());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.request.response
@@ -434,7 +432,6 @@ export const editProductInventory = newInfo => dispatch => {
       });
     });
 };
-
 
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
