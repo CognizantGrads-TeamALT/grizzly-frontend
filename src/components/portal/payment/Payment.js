@@ -1,13 +1,15 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Payment extends Component {
   showOrderContent() {
     const cart = JSON.parse(localStorage.getItem("cart"));
+    console.log(cart);
     return cart.map(prod => (
-      <div className="row">
-        {prod.Name}
-        {prod.Price}
-      </div>
+      <tr key={prod.productId}>
+        <td>{prod.name}</td>
+        <td>Price: {prod.price}</td>
+      </tr>
     ));
   }
   render() {
@@ -15,10 +17,12 @@ class Payment extends Component {
       <div className="container paymentContainer">
         <div className="row ">
           <div className="col">
-            <div className="row">
-              <p>Your Order:</p>
-            </div>
-            <div className="row">{this.showOrderContent()}</div>
+            <table className="table table-striped">
+              <thead className="thead-light">
+                <tr>Your Order:</tr>
+              </thead>
+              <tbody>{this.showOrderContent()}</tbody>
+            </table>
           </div>
           <div className="col paymentRightCol left-border-line">
             <div className="row ">
@@ -27,9 +31,12 @@ class Payment extends Component {
               </button>
             </div>
             <div className="row mt-3">
-              <button className="btn more-rounded btn-sm orange-b btnReturnCart">
+              <Link
+                className="btn more-rounded btn-sm orange-b btnReturnCart"
+                to="/shoppingcart"
+              >
                 Return to Cart
-              </button>
+              </Link>
             </div>
           </div>
         </div>
