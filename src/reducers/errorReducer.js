@@ -2,7 +2,7 @@ import * as types from "../actions/types";
 
 
 const initialState = {
-
+  waitForError: true
   };
 
 export default function(state = initialState, action) {
@@ -20,6 +20,10 @@ export default function(state = initialState, action) {
     case types.CLEAR_ERRORS:
       return {errorMessage : "",
               errorDebug: ""};
+    case types.STOP_WAITING:
+        return{waitForError: false}
+    case types.START_WAITING:
+        return{waitForError:true}
     default:
       return state;
   }

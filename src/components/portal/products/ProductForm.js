@@ -100,7 +100,6 @@ class ProductForm extends Component {
 
   waitForResponce(){
     //console.log("waiting for responce " + this.props.product.pushingProduct + " errors: " + this.props.errors.errorMessage);
-
     if(this.props.product.pushingProduct === false && this.props.errors.errorMessage === ""){
       clearInterval(this.state.intervalID);
       //product has been pushed, no error thrown
@@ -119,7 +118,7 @@ class ProductForm extends Component {
       
       this.cancel();
     }
-    else if(this.props.errors.errorMessage != "" && !this.props.product.pushingProduct){
+    else if(this.props.errors.errorMessage !== "" && !this.props.product.pushingProduct){
       //product has been pushed, error has been thrown
       this.setState({errors: [{msg: this.props.errors.errorMessage,
                                           errorDebug: this.props.errors.debug}]});
@@ -129,6 +128,9 @@ class ProductForm extends Component {
     //   //product waiting to be pushed
     // }
   }
+
+  
+
 
   /**
    * Validates fields of a newly created product (where appropriate)
@@ -197,7 +199,7 @@ class ProductForm extends Component {
   }
 
   showErrors(){
-    if(this.state.errors.length !=0){
+    if(this.state.errors.length !==0){
 
       return(<ErrorComponent errormsg={this.state.errors[0].msg} />)
     }
@@ -293,6 +295,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps,
+  mapStateToProps, ProductForm.waitForResponce,
   { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead, clearErrors }
 )(withRouter(ProductForm));
+

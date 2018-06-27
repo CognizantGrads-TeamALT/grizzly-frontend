@@ -7,7 +7,6 @@ import { Carousel } from "react-responsive-carousel";
 import {
   editProduct,
   reloadProducts,
-  waitForResponce
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
@@ -248,7 +247,7 @@ class ProductDescription extends Component {
       this.props.reloadProducts();
       this.onCancel();
     }
-    else if(this.props.errors.errorMessage != "" && !this.props.product.pushingProduct){
+    else if(this.props.errors.errorMessage !== "" && !this.props.product.pushingProduct){
       //product has been pushed, error has been thrown
       this.setState({errors: [{msg: this.props.errors.errorMessage,
                                           errorDebug: this.props.errors.debug}]});
@@ -427,5 +426,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, waitForResponce }
+  { editProduct, reloadProducts }
 )(ProductDescription);

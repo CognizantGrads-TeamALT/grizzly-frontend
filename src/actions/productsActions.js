@@ -483,20 +483,3 @@ export const refreshProductData = (data, filtered) => dispatch => {
     }
   }
 };
-
-export const waitForResponce = (successfunc, failfunc, props) => {
-  console.log(props);
-  console.log("waiting for responce " + props.product.pushingProduct + " errors: " + props.errors.errorMessage);
-
-  if(props.product.pushingProduct === false && props.errors.errorMessage === ""){
-    successfunc();
-  }
-  else if(this.props.errors.errorMessage != "" && !this.props.product.pushingProduct){
-    //product has been pushed, error has been thrown
-    failfunc();
-  }
-  // else{
-  //   //product waiting to be pushed
-  // }
-}
-

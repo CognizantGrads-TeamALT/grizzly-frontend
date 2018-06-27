@@ -40,6 +40,7 @@ class Products extends Component {
   loadMore() {
     if (this.props.product.hasMore) {
       this.props.getProducts(this.props.product.index);
+      
     }
   }
 
