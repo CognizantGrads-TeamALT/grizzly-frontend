@@ -33,9 +33,6 @@ class Landing extends Component {
         <Link className="btn btn-outline-success" to="/customer">
           Customer Portal Demo
         </Link>
-        <Link className="btn btn-outline-success" to="/payment">
-          Payment Demo
-        </Link>
       </div>
     );
   }
