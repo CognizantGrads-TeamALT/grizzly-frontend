@@ -8,6 +8,7 @@ import LoginModal from '../auth/LoginModal';
 import { logoutUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
 import { searchProducts } from '../../actions/productsActions';
+//import ShoppingCart from '../portal/customer/ShoppingCart';
 
 class Navbar extends Component {
   constructor() {
@@ -122,6 +123,10 @@ class Navbar extends Component {
     } else
       return (
         <ul className="navbar-nav pl-2">
+        <li>
+          <Link className="mr-2 mt-2 mb-0 more-rounded hover-w-b fas fa-shopping-cart" 
+          to="/shoppingcart"/> 
+        </li>
           <li className="nav-item mr-1 my-auto">
             <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
           </li>

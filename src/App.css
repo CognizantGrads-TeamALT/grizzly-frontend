@@ -1271,25 +1271,59 @@ a:hover {
 }
 
 .btnBuyNowCustomer {
-  margin-left: 35%;
+  margin-left: 33.5%;
   background-color: #e37b40;
   border-color: #e37b40;
   color: #fff;
+  min-width: 9em;
 }
 
 .btnBuyNowCustomer:hover {
   color: #020000;
 }
-
+/*Shopping cart page*/
 .btnCartCustomer {
   margin-left: 33.5%;
   background-color: #f0ca4d;
   border-color: #f0ca4d;
   color: #fff;
+  min-width: 9em;
 }
 .btnCartCustomer:hover {
   color: #020000;
 }
+ .btnRemoveProductfromCart{
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-bottom-width: 1px;
+    min-width: 4em;
+    border-radius: 4em;
+    -webkit-text-fill-color: #45b29d;
+    border-color: #45b29d;
+    font-size: 0.8em;
+ }
+ .btnRemoveProductfromCart:hover{
+  -webkit-text-fill-color: white;
+  background-color: #45b29d; 
+  border-color: #45b29d;
+ }
+
+ .btnCheckOutCart{
+  -webkit-text-fill-color: #45b29d;
+  border-color: #45b29d;
+  
+ }
+ .div-checkout{
+  margin-left: 470px;
+ }
+
+ .btnCheckOutCart:hover{
+  -webkit-text-fill-color: white;
+  background-color: #45b29d; 
+  border-color: #45b29d;
+ } 
 
 .picCustomerDetailedProductCol {
   margin-top: 2%;
@@ -1306,12 +1340,25 @@ a:hover {
   margin-left: 2%;
 }
 
-.vendor-Price-Offer {
+.vendor-Price-Offer{
   font-size: 12px;
   font-style: italic;
 }
 
-.bg-lightGrey {
+.quantity-select {
+    text-align: right;
+    width: 3.0rem;
+    padding-right: .3rem;
+    height: 2.1rem;
+    border-radius: .5rem;
+    margin-bottom: .3rem;
+    margin-top: .2rem;
+    
+}
+
+
+
+.bg-lightGrey{
   background-color: #ebe9e9;
 }
 

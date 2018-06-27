@@ -452,4 +452,17 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
 };
 
+export const addToCart = data => dispatch => {
+  dispatch({
+    type: types.ADD_TO_CART,
+    payload: data
+  })
+}
+
+// export const addToCart= () => {
+//   return {
+//     type: types.PRODUCT_ADDING
+//   };
+// };
+
 
