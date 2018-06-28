@@ -26,8 +26,7 @@ class ProductList extends Component {
 
   onBlockClick() {
     const { product } = this.props;
-    product.enabled = !product.enabled;
-    this.props.toggleBlockProduct(product);
+    this.props.toggleBlockProduct(product.productId, !product.enabled);
   }
 
   onViewClick() {
