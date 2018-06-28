@@ -1,3 +1,4 @@
+// http://www.methods.co.nz/misc/toast/toast-examples.html
 import $ from 'jquery';
 
 var toastr = {};
