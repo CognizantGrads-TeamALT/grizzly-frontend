@@ -19,6 +19,8 @@
     "react-dom": "^16.4.1",
     "react-flip-move": "^3.0.2",
     "react-google-login": "^3.2.1",
+    "react-google-maps-loader": "^4.2.3",
+    "react-google-places-suggest": "^3.4.0",
     "react-inline-editing": "^1.0.10",
     "react-ions": "^5.1.4",
     "react-label": "0.0.6",
