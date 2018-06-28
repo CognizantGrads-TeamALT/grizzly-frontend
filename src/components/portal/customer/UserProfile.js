@@ -16,8 +16,7 @@ class UserProfile extends Component {
           </div>
           <div className="col-10 text-left">
             <div className="mb-2 row fnt-weight-600 title-size-1-5em">
-              {this.props.user.googleProfile.given_name}{' '}
-              {this.props.user.googleProfile.family_name}
+              {this.props.user.googleProfile.name}
             </div>
             <div className="mb-2 row fnt-weight-400 title-size-1em">
               {this.props.user.googleProfile.email}
