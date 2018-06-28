@@ -91,7 +91,7 @@ export const getProductWithImgs = productId => dispatch => {
 
 export const getProductImage = (productId, imageName) => dispatch => {
   cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${productId}/${imageName}`)
+    .get(PRODUCT_API_GATEWAY + `/getImage/${imageName}`)
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT_IMAGE,
