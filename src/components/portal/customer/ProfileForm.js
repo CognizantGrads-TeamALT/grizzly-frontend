@@ -43,12 +43,13 @@ class ProfileForm extends Component {
 
     /*const profileData = {
       name: this.props.user.googleProfile.name,
-      contact_num: parseInt(this.state.contact_num, 10),
+      contact_num: this.state.contact_num,
       email: this.props.user.googleProfile.email,
       address: this.state.address
     };*/
     if (this.validateForm()) {
       // this.props.createOrUpdateProfile(profileData, this.props.history);
+      toastr.success('Yayyyy!!!');
       this.setState({ isValid: true });
       this.clearForm();
       this.props.onCancel();
