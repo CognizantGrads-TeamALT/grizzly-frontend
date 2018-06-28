@@ -24,23 +24,29 @@ class CustomerDetailedProduct extends Component {
     this.addToCart = this.addToCart.bind(this);
   }
 
-  
-  addToCart(single){
-    this.state.cart.push(single);
-    
 
-    if (isEmpty(JSON.parse(localStorage.getItem('cart')))) {
-      localStorage.setItem('cart', JSON.stringify(this.state.cart));
+  addToCart(single) {
+    single.quantity = single.quantity ? single.quantity + 1 : 1;
+    let newCart = [];
+    newCart.push(single);
+
+    if (isEmpty(localStorage.getItem('cart'))) {
+      localStorage.setItem('cart', JSON.stringify(newCart));
     } else {
       let currentCartString = localStorage.getItem('cart');
-
       let currentCart = JSON.parse(currentCartString);
-      currentCart = currentCart.concat(single);
+      let existingItem = false;
 
+      currentCart.forEach(product => {
+        if (product.productId === single.productId) {
+          product.quantity = product.quantity + 1;
+          existingItem = true;
+        }
+      });
+      if (!existingItem) {
+        currentCart.push(single);
+      }
       localStorage.setItem('cart', JSON.stringify(currentCart));
-      this.State ={cart: []};
-      console.log(currentCart);
-
     }
   }
 

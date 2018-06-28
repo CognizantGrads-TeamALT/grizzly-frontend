@@ -6,6 +6,7 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import Spinner from '../../common/Spinner';
 import PropTypes from 'prop-types';
+//import cart from '../detailedProduct/CustomerDetailedProduct';
 import { getProductWithImgs } from '../../../actions/productsActions';
 
 class ShoppingCart extends Component {
@@ -14,8 +15,10 @@ class ShoppingCart extends Component {
         this.state = {
             quantity: 1,
             totalprice: 0
+             
         }
         this.onChange = this.onChange.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
     getImg(product) {
         let imgInfo = this.props.product.images[product.productId][0];
@@ -33,18 +36,25 @@ class ShoppingCart extends Component {
     onChange(e) {
         console.log("inside onchange");
         this.setState({
-            [e.target.name]: e.target.value
-            // totalprice: this.state.quantity*this.state.price
+            [e.target.name]: e.target.value,
+            totalprice: e.target.quantity * e.target.price
         });
-
         console.log(e.target.name);
         console.log(e.target.value);
+        console.log(e.target.price);
+        console.log(this.state.totalprice);
     }
 
-    onClick = event => {
-        this.setState({ clicks: this.state.value - 1 });
-        console.log(this.clicks);
-
+    onClick() {
+        console.log("remove");
+    //     let currentCartString = localStorage.getItem('cart');
+    //     localStorage.setItem('cart',JSON.parse(currentCartString));
+    //     let currentCart=localStorage.removeItem('cart',1);
+    //    localStorage.setItem('cart',JSON.stringify(currentCart));
+    //    this.State={cart: []};
+       
+    //    this.props.cart.splice(cart.indexOf(2),1);
+    //    localStorage.setItem('cart',JSON.stringify(cart));
     }
     showImg(product) {
         // If we don't have any images.
@@ -71,7 +81,7 @@ class ShoppingCart extends Component {
     show() {
         const products = JSON.parse(localStorage.getItem('cart'));
         return products.map(prod => (
-            <div>
+            <div className="container">
                 <div className="row-8 d-inline products-information">
                     <div key={prod.productId} className="col-3 ml-5 d-inline products-image">
                         <Link className="align-content-center"
@@ -82,19 +92,19 @@ class ShoppingCart extends Component {
                     <div className="col-6 d-inline product-price-quantity align-right">
                         <h6 className="d-inline ml-5">{prod.name}</h6>
                         <ul className="d-inline">
-                            <li id="price" className="d-inline mr-3">$ {prod.price}</li>
+                            <li name="price" className="d-inline mr-3">$ {prod.price}</li>
                             <li className="d-inline">
-                                <input name="quantity" className="quantity-select" Value="1"
+                                <input name="quantity" className="quantity-select" value={prod.quantity}
                                     min="1" max="50" maxLength="2" type="number"
                                     onChange={this.onChange} ></input></li>
                         </ul>
                     </div>
                     <div align="right" className="col-2 d-inline product-total-price ">
-                        <p id="totalprice" className="d-inline"> A$ {this.totalprice}</p>
+                        <p name="totalprice" className="d-inline"> A$ {this.state.totalprice}</p>
                     </div>
                     <div className="col-1 d-inline remove-btn">
                         <button className=" d-inline more-rounded hover-w-b fas fa-times"
-                            onClick={this.removeItem} />
+                            onClick={this.onClick} ></button>
                     </div>
                 </div>
                 <hr width="100%" />
