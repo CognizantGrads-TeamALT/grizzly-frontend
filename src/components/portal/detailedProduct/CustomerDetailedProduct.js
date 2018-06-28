@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
-  getProductWithImgs,
+  getProduct,
   getProductImage,
   getRandomProducts,
   addToCart
@@ -75,10 +75,10 @@ class CustomerDetailedProduct extends Component {
         this.setState({ single: single[0] });
         name = single[0].name;
       } else {
-        this.props.getProductWithImgs(id);
+        this.props.getProduct(id);
       }
     } else {
-      this.props.getProductWithImgs(id);
+      this.props.getProduct(id);
     }
 
     let searchTerm = name.split(' ').pop();
@@ -141,7 +141,7 @@ class CustomerDetailedProduct extends Component {
 }
 
 CustomerDetailedProduct.propTypes = {
-  getProductWithImgs: PropTypes.func.isRequired,
+  getProduct: PropTypes.func.isRequired,
   getProductImage: PropTypes.func.isRequired,
   getRandomProducts: PropTypes.func.isRequired
 };
@@ -154,9 +154,9 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    getProductWithImgs,
-    getRandomProducts,
+    getProduct,
     getProductImage,
+    getRandomProducts,
     addToCart
   }
 )(CustomerDetailedProduct);
