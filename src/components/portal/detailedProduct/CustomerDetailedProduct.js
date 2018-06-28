@@ -8,7 +8,8 @@ import isEmpty from '../../../validation/is-empty';
 import {
   getProduct,
   getProductImage,
-  getRandomProducts
+  getRandomProducts,
+  addToCart
 } from '../../../actions/productsActions';
 
 class CustomerDetailedProduct extends Component {
@@ -16,8 +17,31 @@ class CustomerDetailedProduct extends Component {
     super(props);
     this.state = {
       single: null,
-      id: null
+      id: null,
+      cart: []
     };
+
+    this.addToCart = this.addToCart.bind(this);
+  }
+
+  
+  addToCart(single){
+    this.state.cart.push(single);
+    
+
+    if (isEmpty(JSON.parse(localStorage.getItem('cart')))) {
+      localStorage.setItem('cart', JSON.stringify(this.state.cart));
+    } else {
+      let currentCartString = localStorage.getItem('cart');
+
+      let currentCart = JSON.parse(currentCartString);
+      currentCart = currentCart.concat(single);
+
+      localStorage.setItem('cart', JSON.stringify(currentCart));
+      this.State ={cart: []};
+      console.log(currentCart);
+
+    }
   }
 
   componentDidMount() {
@@ -98,6 +122,7 @@ class CustomerDetailedProduct extends Component {
               single={single}
               history={this.props.history}
               vendor={vendor}
+              addToCart={this.addToCart}
             />
           </div>
         );
@@ -122,7 +147,8 @@ CustomerDetailedProduct.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  cart: state.cart
 });
 
 export default connect(
@@ -130,6 +156,7 @@ export default connect(
   {
     getProduct,
     getProductImage,
-    getRandomProducts
+    getRandomProducts,
+    addToCart
   }
 )(CustomerDetailedProduct);
