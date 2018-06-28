@@ -5,11 +5,13 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
+//import { Link } from 'react-router-dom';  
 class CustomerProductDescription extends Component {
   constructor() {
     super();
     this.state = {
-      search: ''
+      search: '',
+      clicks: 0
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -18,6 +20,13 @@ class CustomerProductDescription extends Component {
     this.props.history.goBack();
   };
 
+  onClick = event => {
+    this.props.cart.push(this.props.product);
+    // this.setState({ clicks: this.state.clicks + 1 });
+    // console.log(this.clicks);
+
+  }
+  
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -101,13 +110,11 @@ class CustomerProductDescription extends Component {
                 <p className="mb-0">${product.price}</p>
               </div>
               <div className="row mt-2">
-                <button className="btn orange-b surround-parent w-75 more-rounded mb-2">
-                  Buy now
-                </button>
-                <button className="btn yellow-b surround-parent w-75 more-rounded mb-2">
-                  Add to Cart
-                </button>
-                <div className="bottom-border-line w-75 pt-4 mb-3" />
+                <button className="orange-b surround-parent w-75 more-rounded mb-2">Buy now</button>
+                <button className="yellow-b surround-parent w-75 more-rounded mb-2"  
+                onClick={ () => this.props.addToCart(product)}
+                >Add to Cart</button>
+                <div className="bottom-border-line w-75 pt-4 mb-3"></div>
               </div>
               <div className="row">
                 <div className="title-size-1em fnt-weight-400">Description</div>
@@ -139,6 +146,7 @@ class CustomerProductDescription extends Component {
         </span>
         <RandomProduct productId={product.productId} />
       </div>
+      
     );
   }
 }
