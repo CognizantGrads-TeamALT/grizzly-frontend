@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import validator from 'validator';
+import toastr from '../../../toastr/toast';
 import isEmpty from '../../../validation/is-empty';
 import GoogleMapLoader from 'react-google-maps-loader';
 import GooglePlacesSuggest from 'react-google-places-suggest';
@@ -52,6 +53,7 @@ class ProfileForm extends Component {
       this.clearForm();
       this.props.onCancel();
     } else {
+      toastr.warning('Please check your input!');
       this.setState({ isValid: false });
     }
   }

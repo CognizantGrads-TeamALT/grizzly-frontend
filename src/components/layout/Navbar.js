@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import toastr from '../../toastr/toast';
 import logo from '../../img/logo.png';
 import LoginModal from '../auth/LoginModal';
 import { logoutUser } from '../../actions/userActions';
@@ -28,9 +29,13 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const term = this.state.search;
-    this.setState({ search: '' });
-    this.props.searchProducts(term, '0');
+    if (isEmpty(this.state.search)) {
+      toastr.warning('Please check your input!');
+    } else {
+      const term = this.state.search;
+      this.setState({ search: '' });
+      this.props.searchProducts(term, '0');
+    }
   }
 
   onLogout(e) {
