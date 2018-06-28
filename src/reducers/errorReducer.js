@@ -13,27 +13,27 @@ export default function(state = initialState, action) {
     errdata = JSON.parse(action.payload);
     }
     catch(err){
-      errdata = { message: "Connection error, servers may be down", debugMessage : err}
+      errdata = { message: "Connection error, servers may be down", debugMessage : action.payload}
     }
-    console.log(errdata);
-      return {...state, 
-              errorMessage : errdata.message,
-              errorDebug: errdata.debugMessage};
+    return {...state, 
+            errorMessage : errdata.message,
+            errorDebug: errdata.debugMessage};
+
     case types.CLEAR_ERRORS:
-    console.log("clearing errors");
       return {...state, 
               errorMessage : "",
               errorDebug: ""};
+
     case types.STOP_WAITING:
-        console.log("stop waiting set to false");
-        return{...state,
-              waitForError: false}
+      return{...state,
+            waitForError: false}
+
     case types.START_WAITING:
-        return{...state,
-              waitForError: true}
+      return{...state,
+            waitForError: true}
+
     default:
       return state;
   }
-  
 }
 

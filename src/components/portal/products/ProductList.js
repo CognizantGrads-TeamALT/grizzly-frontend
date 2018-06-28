@@ -18,7 +18,8 @@ class ProductList extends Component {
       productId: this.props.location,
       showError: false,
       listenForError: false,
-      testCount: 0
+      count: 0,
+      testCount: 0,
     };
     this.onBlockClick = this.onBlockClick.bind(this);
     this.onViewClick = this.onViewClick.bind(this);
@@ -28,59 +29,47 @@ class ProductList extends Component {
 
   closeError(){
     this.setState({showError:false});
-    
   }
 
   onDeleteClick(id) {
     this.props.deleteProduct(id);
-    this.setState({listenForError: true});
+    this.setState({listenForError: true,})
   }
 
   onBlockClick() {
     const { product } = this.props;
     product.enabled = !product.enabled;
     this.props.toggleBlockProduct(product);
+    var block = true;
     this.setState({listenForError: true,
-    intervalId: setInterval(this.testMethod, 50)
+      block: true,
+      count: 0,
+    intervalId: setInterval(this.testMethod.bind(product), 10)
     });
   }
+
 
   onViewClick() {
     const { product } = this.props;
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
-  // componentDidUpdate(){
-  //   //console.log(this.props.errors.errorMessage + " " + this.state.listenForError + " " + this.state.showError);
-  //     if(this.props.errors.errorMessage !== "" && this.state.listenForError){
-  //       console.log("showing error in theory");
-  //       this.setState({showError:true,
-  //       listenForError: false})
-  //     }
-  //   }
-
-    testMethod(){
-      console.log("intestmethod");
-      console.log(this.props.errors);
-      console.log(this.props.errors.errorMessage + " " + this.state.listenForError + " " + this.state.showError);
+    testMethod = (product) => {
       if(this.props.errors.errorMessage !== "" && this.state.listenForError){
-        console.log("showing error in theory");
         this.setState({showError:true,
         listenForError: false})
+        if(this.state.block){
+          this.props.product.enabled = !this.props.product.enabled;
+          this.setState({block:false});
+        }
         clearInterval(this.state.intervalId) 
       }
-      else if(this.state.testCount> 10)
+      else if(this.state.count> 5){
         clearInterval(this.state.intervalId);
-      else this.setState({testCount: this.state.testCount+1})
+        this.setState({listenForError:false})}
+        
+      else this.setState({count: this.state.count+1})
     }
-
-  // componentDidUpdate(){
-  //   console.log(this.props.errors.errorMessage !== "" && this.listenForError)
-  //   if(this.props.errors.errorMessage !== "" && this.listenForError){
-  //     console.log("showing error in theory")
-  //     this.setState({showError:true})
-  //   }
-  // }
 
   showCatName(product) {
     const { product_category } = this.props;
@@ -162,10 +151,19 @@ class ProductList extends Component {
 
 ProductList.propTypes = {
   toggleBlockProduct: PropTypes.func.isRequired,
-  deleteProduct: PropTypes.func.isRequired
+  deleteProduct: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  errors: state.errors,
+  //TODO: Fix this 
+  //product: state.product,
+  //product_vendor: state.product_vendor,
+ // product_category: state.product_category
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { toggleBlockProduct, deleteProduct }
 )(withRouter(ProductList));

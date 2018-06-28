@@ -16,7 +16,6 @@ class DetailedProduct extends Component {
     this.state = {
       activeTab: 0
     };
-
     this.props.getProductWithImgs(this.props.match.params.productId);
   }
 
@@ -30,13 +29,10 @@ class DetailedProduct extends Component {
 
   show() {
     const { single, loading, product_vendor } = this.props.product;
-    console.log(isEmpty(single) + " " + isEmpty(product_vendor) + " " +  loading)
     if(isEmpty(single) || isEmpty(product_vendor) && this.props.errors.errorMessage !== ''){
-      console.log("in here");
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }
     else if (isEmpty(single) || isEmpty(product_vendor) || loading) {
-      console.log("in the other here");
       return (<Spinner size={'150px'}/>);
     } else {
       const vendor = this.props.product.product_vendor.filter(

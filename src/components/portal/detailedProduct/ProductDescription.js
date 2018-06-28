@@ -247,15 +247,12 @@ class ProductDescription extends Component {
   }
 
   showErrors(){
-    console.log(this.state);
     if(this.state.showDBError){
-      console.log("inshowerror");
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }
   }
 
   componentDidUpdate(){
-    console.log(!this.props.errors.waitForError + " " + this.state.shouldCancel);
     //console.log(this.props.WaitForError)
     if(!this.props.errors.waitForError && this.state.shouldCancel){
       this.props.reloadProducts();

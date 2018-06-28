@@ -47,7 +47,6 @@ export const getProducts = index => dispatch => {
         payload: err.request.response
       });
       dispatch(setProductUpdated());
-      dispatch(setProductPosted());
       // For development purposes. The micro-services take time to initialise.
       // This will keep requesting data if it gets a 500 or 403 error...
       // Should be removed once we actually implement a feature to error or retry x times.
@@ -120,7 +119,7 @@ export const setProductAdding = () => {
 };
 
 export const addProduct = newProd => dispatch => {
-  dispatch(clearErrors(true));
+  dispatch(clearErrors());
   // again, also here...
   // getVendorBatch and getCategoryBatch handle the loading state variable
   // if we call it too early, due to state changes between other methods...
@@ -139,7 +138,6 @@ export const addProduct = newProd => dispatch => {
       //dispatch(setProductPosted());
     })
     .catch(err => {
-      
       dispatch({
         type: types.GET_ERRORS,
         payload: err.request.response
@@ -191,7 +189,7 @@ export const deleteProduct = id => dispatch => {
 
 // Block/unlock Product
 export const toggleBlockProduct = product => dispatch => {
-  dispatch(clearErrors(true));
+  dispatch(clearErrors());
   dispatch(setProductUpdateOnce());
   axios
     .post(PRODUCT_API_GATEWAY + `/setBlock/${product.productId}`, product)
@@ -199,8 +197,7 @@ export const toggleBlockProduct = product => dispatch => {
       dispatch({
         type: types.PRODUCTS_TOGGLEBLOCK,
         payload: res.data
-      })
-      dispatch(setProductPosted());}
+      })}
     )
     .catch(err => {
       dispatch(setProductUpdated());
@@ -208,6 +205,7 @@ export const toggleBlockProduct = product => dispatch => {
         type: types.GET_ERRORS,
         payload: err.request.response
       });
+
     });
 };
 
@@ -236,11 +234,6 @@ export const clearErrors = values => dispatch => {
   dispatch({
     type: types.CLEAR_ERRORS
   })
-  if(values === true){
-    dispatch({
-      type: types.PRODUCT_PUSHING
-    })
-  }
 }
 
   export const setProductPosted = () => {
@@ -291,7 +284,6 @@ export const setProductUpdated = () => {
 };
 
 export const getVendorBatch = vendorIdArray => dispatch => {
-  dispatch(clearErrors());
   axios
     .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
     .then(res => {
@@ -310,7 +302,6 @@ export const getVendorBatch = vendorIdArray => dispatch => {
 };
 
 export const getCategoryBatch = categoryIdArray => dispatch => {
-  dispatch(clearErrors());
   axios
     .get(CATEGORY_API_GATEWAY + `/batchFetch/${categoryIdArray}`)
     .then(res =>
