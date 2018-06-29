@@ -162,6 +162,14 @@ export default function(state = initialState, action) {
         ...state,
         images: currentImages
       }
+    case types.CLEAR_PRODUCT_IMAGES:
+      productId = action.payload;
+      newImages = isEmpty(state.images) ? [] : state.images;
+      newImages[productId] = [];
+      return {
+        ...state,
+        images: newImages
+      }
     case types.PRODUCT_ADDING:
       const currentProducts2 = isEmpty(state.products) ? [] : state.products;
       const addProduct = isEmpty(action.payload) ? [] : [action.payload];

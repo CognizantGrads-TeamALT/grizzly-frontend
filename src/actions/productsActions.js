@@ -74,6 +74,7 @@ export const getProductWithImgs = productId => dispatch => {
 
         // Fetch images.
         if (!isEmpty(res.data.imageDTO)) {
+          dispatch(clearProductImages(res.data.productId));
           for (let image of res.data.imageDTO)
             dispatch(getProductImage(res.data.productId, image.imgName));
         }
@@ -84,10 +85,17 @@ export const getProductWithImgs = productId => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
+
+export const clearProductImages = (productId) => {
+  return {
+    type: types.CLEAR_PRODUCT_IMAGES,
+    payload: productId
+  }
+}
 
 export const getProductImage = (productId, imageName) => dispatch => {
   cache

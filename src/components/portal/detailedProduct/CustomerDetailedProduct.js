@@ -22,6 +22,7 @@ class CustomerDetailedProduct extends Component {
     };
 
     this.addToCart = this.addToCart.bind(this);
+    this.props.getProductWithImgs(this.props.match.params.productId);
   }
 
   
