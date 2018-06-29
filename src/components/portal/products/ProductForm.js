@@ -196,7 +196,7 @@ class ProductForm extends Component {
             withPreview={true}
             buttonText="Choose images"
             onChange={this.onDrop}
-            imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
+            imgExtension={['.jpg', '.jpeg', '.png']}
             maxFileSize={262144}
           />
         </div>
