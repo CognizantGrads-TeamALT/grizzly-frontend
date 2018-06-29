@@ -6,6 +6,9 @@ import VendorSearchSort from "../common/VendorSearchSort";
 import { getVendors, setVendorUpdated } from "../../../actions/vendorActions";
 import VendorList from "./VendorList";
 import isEmpty from "../../../validation/is-empty";
+import ErrorComponent from "../../common/ErrorComponent";
+
+
 class Vendor extends Component {
   componentDidMount() {
     // Detect when scrolled to bottom.
@@ -41,7 +44,17 @@ class Vendor extends Component {
 
   show() {
     const { vendors, loading } = this.props.vendor;
-    if (isEmpty(vendors) || loading) {
+    const {errorMessage } = this.props.errors;
+    if((isEmpty(vendors) && !loading && errorMessage !== "")){
+      return(
+        <tr>
+          <td>
+            <ErrorComponent errormsg={this.props.errors.errorMessage}/>
+          </td>
+        </tr>
+      )
+    }
+    else if (isEmpty(vendors) || loading) {
       return (
         <tr>
           <td>
@@ -88,7 +101,8 @@ Vendor.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  vendor: state.vendor
+  vendor: state.vendor,
+  errors: state.errors
 });
 
 export default connect(
