@@ -18,17 +18,17 @@ export const getCategories = index => dispatch => {
       })
     )
     .catch(err => {
-      dispatch(setCategoryUpdated());
-      // For development purposes. The micro-services take time to initialise.
-      // This will keep requesting data if it gets a 500 or 403 error...
-      // Should be removed once we actually implement a feature to error or retry x times.
-      if (index === 0)
-        dispatch(getCategories(index));
-
       dispatch({
         type: types.GET_ERRORS,
         payload: err.request.response
       })
+      dispatch(setCategoryUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      // if (index === 0)
+      //   dispatch(getCategories(index));
+      
     });
 };
 //Category TypeAhead
@@ -156,6 +156,7 @@ export const setCategoryEditing = () => {
 
 // Delete Category
 export const deleteCategory = id => dispatch => {
+  dispatch(clearErrors());
   dispatch(setCategoryUpdateOnce());
   axios
     .delete(CATEGORY_API_GATEWAY + `/delete/${id}`)
@@ -176,12 +177,11 @@ export const deleteCategory = id => dispatch => {
 };
 
 // Block/unlock Category
-export const toggleBlockCategory = category => dispatch => {
+export const toggleBlockCategory = (categoryId, enabled) => dispatch => {
   dispatch(clearErrors());
   dispatch(setCategoryUpdateOnce());
-  console.log(category);
   axios
-    .post(CATEGORY_API_GATEWAY + `/setBlock/${category.categoryId}`, category)
+    .post(CATEGORY_API_GATEWAY + `/setBlock/${categoryId}`, {'enabled': enabled})
     .then(res =>
       dispatch({
         type: types.CATEGORY_TOGGLEBLOCK,

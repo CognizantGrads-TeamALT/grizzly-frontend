@@ -24,18 +24,14 @@ class CategoriesList extends Component {
 
   onDeleteClick(id) {
     this.props.deleteCategory(id);
+    this.setState({listenForError: true,
+      count: 0,
+    intervalId: setInterval(this.waitForResponce, 10)})
   }
 
   onBlockClick() {
     const { category } = this.props;
-    const updatedCategory = {
-      categoryId: category.categoryId,
-      name:category.name,
-      description: category.description,
-      product_Count: category.productCount,
-      enabled: !category.enabled
-    };
-    this.props.toggleBlockCategory(updatedCategory);
+    this.props.toggleBlockCategory(category.categoryId, !category.enabled);
     this.setState({listenForError: true,
       block: true,
       count: 0,
@@ -56,6 +52,7 @@ class CategoriesList extends Component {
       this.setState({listenForError:false})}
       
     else this.setState({count: this.state.count+1})
+    
   }
 
   render() {

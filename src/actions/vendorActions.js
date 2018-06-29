@@ -160,10 +160,10 @@ export const deleteVendor = id => dispatch => {
 };
 
 // Block/unlock Vendor
-export const toggleBlockVendor = vendor => dispatch => {
+export const toggleBlockVendor = (vendorId, enabled) => dispatch => {
   dispatch(setVendorUpdateOnce());
   axios
-    .post(VENDOR_API_GATEWAY + `/setBlock/${vendor.vendorId}`, vendor)
+    .post(VENDOR_API_GATEWAY + `/setBlock/${vendorId}`, {'enabled': enabled})
     .then(res =>
       dispatch({
         type: types.VENDOR_TOGGLEBLOCK,

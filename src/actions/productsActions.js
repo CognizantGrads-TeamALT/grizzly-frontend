@@ -187,17 +187,16 @@ export const deleteProduct = id => dispatch => {
 };
 
 // Block/unlock Product
-export const toggleBlockProduct = product => dispatch => {
+export const toggleBlockProduct = (productId, enabled) => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductUpdateOnce());
-  console.log(product);
   axios
-    .post(PRODUCT_API_GATEWAY + `/setBlock/${product.productId}`, product)
-    .then(res => {
+    .post(PRODUCT_API_GATEWAY + `/setBlock/${productId}`, {'enabled': enabled})
+    .then(res =>
       dispatch({
         type: types.PRODUCTS_TOGGLEBLOCK,
         payload: res.data
-      })}
+      })
     )
     .catch(err => {
       dispatch(setProductUpdated());

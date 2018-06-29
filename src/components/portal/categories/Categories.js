@@ -46,7 +46,9 @@ class Categories extends Component {
 
   show() {
     const { categories, loading } = this.props.category;
-    if((isEmpty(categories) && !loading && this.props.errors.errorMessage !== "")){
+    const { errorMessage } = this.props.errors;
+    console.log(isEmpty(categories) + ' ' + !loading + ' ' + errorMessage)
+    if((isEmpty(categories) && !loading && errorMessage !== "")){
       return(
         <tr>
           <td>
@@ -102,7 +104,7 @@ Categories.propTypes = {
 
 const mapStateToProps = state => ({
   category: state.category,
-  errros: state.errors
+  errors: state.errors
 });
 
 export default connect(
