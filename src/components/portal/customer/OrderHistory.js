@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { 
+    getUserOrder
+} from '../../../actions/userActions';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
 import {
     Card,
     CardHeader,
@@ -8,6 +14,31 @@ import {
     CardText
   } from 'reactstrap';
 class OrderHistory extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            orderId: 1,
+            userId: 1
+        }
+        this.props.getUserOrder(this.state.userId, this.state.orderId);
+
+    }
+
+    componentWillMount() {
+        console.log(this.props.orderDetails);
+    }
+
+    getOrderDetails() {
+
+        if (!isEmpty(this.props.orders) || !this.props.loading) {
+            console.log(this.state.orders)
+            console.log(this.props.orderDetails)
+            console.log('s')
+          } else {
+            return <Spinner size={'150px'} />;
+          }
+    }
+
     show() {
         return (
             <div className="mt-2 row">
@@ -64,11 +95,23 @@ class OrderHistory extends Component {
                 </div>
             </div>            
             {this.show()}
+            {this.getOrderDetails()}
         </div>
     );
   }
 }
 
+OrderHistory.propTypes = {
+    getUserOrder: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+    orders: state.orders,
+    orderDetails: state.orderDetails
+});
+
 export default connect(
-null
+mapStateToProps, {
+    getUserOrder
+}
 )(OrderHistory);
