@@ -61,13 +61,14 @@ class LoginModal extends Component {
   login(response) {
     if (isEmpty(response.error) && !isEmpty(response.tokenId)) {
       this.props.loginUser(response);
-      if (isEmpty(this.props.user.user)) {
-        this.props.history.push({
-          pathname: '/settings',
-          state: { tabId: 'ProfileForm' }
-        });
-        toastr.info('Please update your profile.');
-      }
+      toastr.success('Hello ' + response.profileObj.givenName + '!');
+      // if (isEmpty(this.props.user.user)) {
+      //   this.props.history.push({
+      //     pathname: '/settings',
+      //     state: { tabId: 'ProfileForm' }
+      //   });
+      //   toastr.info('Please update your profile.');
+      // }
     }
   }
 
