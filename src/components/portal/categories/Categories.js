@@ -9,6 +9,7 @@ import {
 } from "../../../actions/categoryActions";
 import CategoriesList from "./CategoriesList";
 import isEmpty from "../../../validation/is-empty";
+import ErrorComponent from "../../common/ErrorComponent";
 
 class Categories extends Component {
   componentDidMount() {
@@ -45,7 +46,16 @@ class Categories extends Component {
 
   show() {
     const { categories, loading } = this.props.category;
-    if (isEmpty(categories) || loading) {
+    if((isEmpty(categories) && !loading && this.props.errors.errorMessage !== "")){
+      return(
+        <tr>
+          <td>
+            <ErrorComponent errormsg={this.props.errors.errorMessage}/>
+          </td>
+        </tr>
+      )
+    }
+    else if (isEmpty(categories) || loading) {
       return (
         <tr>
           <td>
@@ -91,7 +101,8 @@ Categories.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  category: state.category
+  category: state.category,
+  errros: state.errors
 });
 
 export default connect(

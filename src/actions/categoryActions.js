@@ -41,6 +41,7 @@ export const Update_TypeAhead = values => dispatch => {
 
 // Add Category
 export const addCategory = newCat => dispatch => {
+  dispatch(clearErrors());
   dispatch(setCategoryAdding());
   axios
     .put(CATEGORY_API_GATEWAY + "/add", newCat)
@@ -61,6 +62,7 @@ export const addCategory = newCat => dispatch => {
 
 // Edit Category
 export const editCategory = newInfo => dispatch => {
+  dispatch(clearErrors());
   dispatch(setCategoryEditing());
   axios
     .post(CATEGORY_API_GATEWAY + `/edit/${newInfo.categoryId}`, newInfo)
@@ -104,6 +106,18 @@ export const searchCategories = keyword => dispatch => {
 export const reloadCategories = () => dispatch => {
   dispatch(clearCurrentCategories());
   dispatch(getCategories());
+}
+
+export const clearErrors = values => dispatch => {
+  dispatch({type: types.CLEAR_ERRORS})
+}
+
+export const WaitForError = () => {
+  return {type: types.START_WAITING}
+}
+
+export const stopWaitingForError = () => {
+  return {type: types.STOP_WAITING}
 }
 
 // Category loading
@@ -163,7 +177,9 @@ export const deleteCategory = id => dispatch => {
 
 // Block/unlock Category
 export const toggleBlockCategory = category => dispatch => {
+  dispatch(clearErrors());
   dispatch(setCategoryUpdateOnce());
+  console.log(category);
   axios
     .post(CATEGORY_API_GATEWAY + `/setBlock/${category.categoryId}`, category)
     .then(res =>

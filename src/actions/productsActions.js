@@ -191,6 +191,7 @@ export const deleteProduct = id => dispatch => {
 export const toggleBlockProduct = product => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductUpdateOnce());
+  console.log(product);
   axios
     .post(PRODUCT_API_GATEWAY + `/setBlock/${product.productId}`, product)
     .then(res => {
