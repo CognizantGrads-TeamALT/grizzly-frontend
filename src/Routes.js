@@ -1,5 +1,6 @@
 import React from 'react';
-import SignUp from './components/auth/SignUp';
+import PrivateRoute from './components/common/PrivateRoute';
+import Payment from './components/portal/payment/Payment';
 import Login from './components/auth/Login';
 import Portal from './components/portal/Portal';
 import CustomerPortal from './components/portal/CustomerPortal';
@@ -13,34 +14,41 @@ import CategoryGridList from './components/portal/common/CategoryGridList';
 import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import Landing from './components/layout/Landing';
+import ShoppingCart from './components/portal/customer/ShoppingCart';
 export default () => {
   return (
     <div className="surround-parent h-100 griz-portal">
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route exact path="/signup" component={SignUp} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/shoppingcart" component={ShoppingCart} />
         <Route exact path="/customer" component={CustomerPortal} />
-        <Route exact path="/settings" component={UserSettings} />
+        <Route exact path="/payment" component={Payment} />
+        <PrivateRoute exact path="/settings" component={UserSettings} />
         {/* Make sure the Portal route is always below other routes or they may not load */}
         <Route exact path="/:portal" component={Portal} />
         <Route
           exact
-          path="/detailedproduct/:productId"
-          component={DetailedProduct}
+          path="/category/:searchParam/:catId"
+          component={CategoryGridList}
         />
         <Route
           exact
           path="/customerdetailedproduct/:productId"
           component={CustomerDetailedProduct}
         />
-        <Route exact path="/category/new" component={CategoryForm} />
-        <Route
+        <PrivateRoute
           exact
-          path="/category/:searchParam/:catId"
-          component={CategoryGridList}
+          path="/detailedproduct/:productId"
+          component={DetailedProduct}
         />
-        <Route exact path="/product/new" component={ProductForm} />
+        <PrivateRoute
+          exact
+          path="/detailedproduct/:productId"
+          component={DetailedProduct}
+        />
+        <PrivateRoute exact path="/category/new" component={CategoryForm} />
+        <PrivateRoute exact path="/product/new" component={ProductForm} />
         <Route component={NotFound} />
       </Switch>
     </div>

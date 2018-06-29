@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import toastr from '../../toastr/toast';
 import logo from '../../img/logo.png';
 import LoginModal from '../auth/LoginModal';
 import { logoutUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
 import { searchProducts } from '../../actions/productsActions';
+//import ShoppingCart from '../portal/customer/ShoppingCart';
 
 class Navbar extends Component {
   constructor() {
@@ -27,9 +29,13 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const term = this.state.search;
-    this.setState({ search: '' });
-    this.props.searchProducts(term, '0');
+    if (isEmpty(this.state.search)) {
+      toastr.warning('Please check your input!');
+    } else {
+      const term = this.state.search;
+      this.setState({ search: '' });
+      this.props.searchProducts(term, '0');
+    }
   }
 
   onLogout(e) {
@@ -91,30 +97,51 @@ class Navbar extends Component {
             }> `}</span>
           </li>
           <li className="nav-item dropdown my-auto">
-            <a className="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <img src={this.props.user.googleProfile.picture} className="nav-bar-profile-img" alt="google profile"/>
+            <a
+              className="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <img
+                src={this.props.user.googleProfile.picture}
+                className="nav-bar-profile-img"
+                alt="google profile"
+              />
             </a>
             <div className="dropdown-menu right-anchor">
-              <Link className="dropdown-item" to={{
-                pathname: '/settings',
-                state: { tabId: "1" }
-              }}>
-              Profile
+              <Link
+                className="dropdown-item"
+                to={{
+                  pathname: '/settings',
+                  state: { tabId: '1' }
+                }}
+              >
+                Profile
               </Link>
-              <Link className="dropdown-item" to={{
-                pathname: '/settings',
-                state: { tabId: "2" }
-              }}>
-              Cart
+              <Link
+                className="dropdown-item"
+                to={{
+                  pathname: '/settings',
+                  state: { tabId: '2' }
+                }}
+              >
+                Cart
               </Link>
-              <Link className="dropdown-item" to={{
-                pathname: '/settings',
-                state: { tabId: "3" }
-              }}>
-              Order History
+              <Link
+                className="dropdown-item"
+                to={{
+                  pathname: '/settings',
+                  state: { tabId: '3' }
+                }}
+              >
+                Order History
               </Link>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" onClick={this.onLogout}>Log out</a>
+              <div className="dropdown-divider" />
+              <a className="dropdown-item" onClick={this.onLogout}>
+                Log out
+              </a>
             </div>
           </li>
         </ul>
@@ -122,16 +149,12 @@ class Navbar extends Component {
     } else
       return (
         <ul className="navbar-nav pl-2">
+        <li>
+          <Link className="mr-2 mt-2 mb-0 more-rounded hover-w-b fas fa-shopping-cart" 
+          to="/shoppingcart"/> 
+        </li>
           <li className="nav-item mr-1 my-auto">
             <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
-          </li>
-          <li className="nav-item mr-1 my-auto">
-            <Link
-              className="btn more-rounded hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
-              to="/signup"
-            >
-              Sign Up
-            </Link>
           </li>
         </ul>
       );

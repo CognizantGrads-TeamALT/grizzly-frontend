@@ -11,17 +11,12 @@ const initialState = {
   hasMore: false,
   loadingVendors: false,
   loadingCategories: false,
-  pushingProduct: false,
-  index: 0
+  index: 0,
+  cart: []
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case types.PRODUCT_PUSHING:
-      return{
-        ...state,
-        pushingProduct: true
-      }
     case types.PRODUCTS_LOADING:
       return {
         ...state,
@@ -38,11 +33,6 @@ export default function(state = initialState, action) {
         updateOnce: false,
         loading: false
       };
-    case types.PRODUCT_PUSHED:
-      return{
-        ...state,
-        pushingProduct: false
-      }
     case types.GET_PRODUCTS:
       let hasMore =
         action.payload.length < 25 || isEmpty(action.payload.length)
@@ -67,6 +57,17 @@ export default function(state = initialState, action) {
         loadingVendors: true,
         loadingCategories: true
       };
+    case types.ADD_TO_CART:
+      var newCart = state.cart;
+      //cartdata: product, quantity
+      newCart.push([action.payload])
+      //{this.state.cart.productId==newCart}?
+
+      console.log(newCart);
+      return{
+        ...state,
+        cart: newCart
+      }
     case types.GET_FILTERED_PRODUCTS:
       hasMore =
       action.payload.length < 25 || isEmpty(action.payload.length)

@@ -95,7 +95,7 @@ export const getProductWithImgs = productId => dispatch => {
 export const getProductImage = (productId, imageName) => dispatch => {
   dispatch(clearErrors());
   cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${productId}/${imageName}`)
+    .get(PRODUCT_API_GATEWAY + `/getImage/${imageName}`)
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT_IMAGE,
@@ -142,7 +142,6 @@ export const addProduct = newProd => dispatch => {
         type: types.GET_ERRORS,
         payload: err.request.response
       });
-      dispatch(setProductPosted());
     });
 };
 
@@ -236,12 +235,6 @@ export const clearErrors = values => dispatch => {
     type: types.CLEAR_ERRORS
   })
 }
-
-  export const setProductPosted = () => {
-    return{
-      type: types.PRODUCT_PUSHED
-    }
-  }
   export const WaitForError = () => {
     return {type: types.START_WAITING}
   }
@@ -417,7 +410,6 @@ export const editProductInventory = newInfo => dispatch => {
       }),
     )
     .catch(err => {
-      dispatch(setProductPosted());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.request.response
@@ -485,3 +477,18 @@ export const refreshProductData = (data, filtered) => dispatch => {
     }
   }
 };
+
+export const addToCart = data => dispatch => {
+  dispatch({
+    type: types.ADD_TO_CART,
+    payload: data
+  })
+}
+
+// export const addToCart= () => {
+//   return {
+//     type: types.PRODUCT_ADDING
+//   };
+// };
+
+

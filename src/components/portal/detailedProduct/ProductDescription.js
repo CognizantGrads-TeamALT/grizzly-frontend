@@ -185,12 +185,14 @@ class ProductDescription extends Component {
     let imageNames;
     if (isEmpty(this.files)) {
       const product = this.props.product.single;
-      imageData = this.props.product.images[product.productId].map((img) => {
-        return img.base64Image;
-      });
-      imageNames = this.props.product.images[product.productId].map((img) => {
-        return {"name": img.imgName};
-      });
+      if (!isEmpty(this.props.product.images[product.productId])) {
+        imageData = this.props.product.images[product.productId].map((img) => {
+          return img.base64Image;
+        });
+        imageNames = this.props.product.images[product.productId].map((img) => {
+          return {"name": img.imgName};
+        });
+      }
     } else {
       imageData = this.pictures;
       imageNames = this.files.map((img) => {
@@ -203,7 +205,7 @@ class ProductDescription extends Component {
               withPreview={true}
               buttonText="Upload new image"
               onChange={this.onDrop}
-              imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
+              imgExtension={['.jpg', '.jpeg', '.png']}
               maxFileSize={262144}
               startingImages={imageData}
               startingFiles={imageNames}

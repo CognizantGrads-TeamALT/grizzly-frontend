@@ -49,7 +49,7 @@ class Tabs extends Component {
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();
-    this.props.getVendorInventory("0", "1");
+    this.props.getVendorInventory('0', '1');
     this.setState({ activeTab: '1' });
   }
 
@@ -102,12 +102,9 @@ class Tabs extends Component {
             <Nav tabs>
               <NavItem className="nav-bar-singular-tab col pl-0 pr-0 tabs-a-underline">
                 <NavLink
-                  className={classnames(
-                    'nav-link my-auto',
-                    {
-                      active: this.state.activeTab === '1'
-                    }
-                  )}
+                  className={classnames('nav-link my-auto', {
+                    active: this.state.activeTab === '1'
+                  })}
                   onClick={() => {
                     this.onToggle('1');
                   }}
@@ -167,7 +164,10 @@ class Tabs extends Component {
                 </NavItem>
               )}
             </Nav>
-            <TabContent activeTab={this.state.activeTab} className="parent-high-inner surround-parent">
+            <TabContent
+              activeTab={this.state.activeTab}
+              className="parent-high-inner surround-parent"
+            >
               <TabPane tabId="1">
                 <Row>
                   <Col sm="12">
@@ -176,21 +176,20 @@ class Tabs extends Component {
                         <ProductSearchSort />
                       </div>
                       <div className="col">
-                      <CategoryTypeAhead
-                        placeholder="Filter by category"
-                        extraClassNames="btn-group mr-2 surround-parent w-100"
-                        onClickHandler={this.props.filterProductsByCategory}
-                        pageIndex={this.props.product.index}
-                      />
+                        <CategoryTypeAhead
+                          placeholder="Filter by category"
+                          extraClassNames="btn-group mr-2 surround-parent w-100"
+                          onClickHandler={this.props.filterProductsByCategory}
+                          pageIndex={this.props.product.index}
+                        />
                       </div>
                       <div className="col text-right">
-                      <button
-                        className="btn more-rounded hover-w-b btn-sm mx-auto w-75"
-                        onClick={this.onAddProduct}
-                        // to="/product/new"
-                      >
-                        Add Product
-                      </button>
+                        <button
+                          className="btn more-rounded hover-w-b btn-sm mx-auto w-75"
+                          onClick={this.onAddProduct}
+                        >
+                          Add Product
+                        </button>
                       </div>
                     </div>
                     <Products />
@@ -226,7 +225,6 @@ class Tabs extends Component {
                 </Row>
               </TabPane>
             </TabContent>
-            {/* {this.state.activeTab === 'addProduct' && <ProductForm />} */}
           </div>
         </Col>
       </Row>

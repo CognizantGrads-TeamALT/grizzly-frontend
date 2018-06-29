@@ -276,7 +276,7 @@ ImageUploader.defaultProps = {
   label: 'Max file size: 250k, accepted: jpg|jpeg|gif|png',
   labelStyles: {},
   labelClass: '',
-  imgExtension: ['.jpg', '.jpeg', '.gif', '.png'],
+  imgExtension: ['.jpg', '.jpeg', '.png'],
   maxFileSize: 5242880,
   fileSizeError: ' file size is too big',
   fileTypeError: ' is not a supported file extension',
