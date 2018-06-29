@@ -41,15 +41,16 @@ class ProfileForm extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    // const profileData = {
-    //   name: this.props.user.googleProfile.name,
-    //   contact_num: parseInt(this.state.contact_num, 10),
-    //   email: this.props.user.googleProfile.email,
-    //   address: this.state.address
-    // };
     if (this.validateForm()) {
       // this.props.createOrUpdateProfile(profileData, this.props.history);
       this.setState({ isValid: true });
+      const profileData = {
+        name: this.props.user.googleProfile.name,
+        contact_num: parseInt(this.state.contact_num, 10),
+        email: this.props.user.googleProfile.email,
+        address: this.state.address
+      };
+      console.log(profileData);
       this.clearForm();
       this.props.onCancel();
     } else {

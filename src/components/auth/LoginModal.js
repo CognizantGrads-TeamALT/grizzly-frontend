@@ -6,6 +6,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { loginUser, logoutUser } from '../../actions/userActions';
 import { GoogleLogin } from 'react-google-login';
 import isEmpty from '../../validation/is-empty';
+import toastr from '../../toastr/toast';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -65,6 +66,7 @@ class LoginModal extends Component {
           pathname: '/settings',
           state: { tabId: 'ProfileForm' }
         });
+        toastr.info('Please update your profile.');
       }
     }
   }
