@@ -16,11 +16,7 @@ class VendorList extends Component {
 
   onBlockClick() {
     const { vendor } = this.props;
-    const updatedVendor = {
-      vendorId: vendor.vendorId,
-      enabled: !vendor.enabled
-    };
-    this.props.toggleBlockVendor(updatedVendor);
+    this.props.toggleBlockVendor(vendor.vendorId, !vendor.enabled);
   }
 
   render() {
