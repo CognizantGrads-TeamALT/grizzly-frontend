@@ -43,6 +43,7 @@ class ProfileForm extends Component {
 
     if (this.validateForm()) {
       // this.props.createOrUpdateProfile(profileData, this.props.history);
+      toastr.success('Yayyyy!!!');
       this.setState({ isValid: true });
       const profileData = {
         name: this.props.user.googleProfile.name,

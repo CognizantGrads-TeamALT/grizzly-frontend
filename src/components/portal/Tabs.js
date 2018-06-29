@@ -102,7 +102,7 @@ class Tabs extends Component {
             <Nav tabs>
               <NavItem className="nav-bar-singular-tab col pl-0 pr-0 tabs-a-underline">
                 <NavLink
-                  className={classnames('nav-link my-auto', {
+                  className={classnames('nav-link admn-vendor-portal my-auto', {
                     active: this.state.activeTab === '1'
                   })}
                   onClick={() => {
@@ -116,7 +116,7 @@ class Tabs extends Component {
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link my-auto griz-t-color-hover',
+                      'nav-link admn-vendor-portal my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '2'
                       }
@@ -133,7 +133,7 @@ class Tabs extends Component {
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link my-auto griz-t-color-hover',
+                      'nav-link admn-vendor-portal my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '3'
                       }
@@ -150,7 +150,7 @@ class Tabs extends Component {
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
-                      'nav-link my-auto griz-t-color-hover',
+                      'nav-link admn-vendor-portal my-auto griz-t-color-hover',
                       {
                         active: this.state.activeTab === '4'
                       }

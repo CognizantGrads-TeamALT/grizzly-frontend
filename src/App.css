@@ -291,6 +291,7 @@
   border-top-left-radius: 0rem !important;
   border-top-right-radius: 0rem !important;
 }
+
 .nav-link:hover {
   border-bottom: 4px solid #e37b40;
 }
@@ -306,6 +307,13 @@
 .active.nav-link.profile-nav {
   color: white !important;
   background-color: #324D5C !important;
+  border-radius: 3px !important;
+}
+
+.active.nav-link.admn-vendor-portal {
+  color: #324D5C !important;
+  font-weight: 700;
+  background-color: rgb(255, 255, 255) !important;
   border-radius: 3px !important;
 }
 
