@@ -91,3 +91,52 @@ export const logoutUser = () => dispatch => {
   // Clear current user, isAuthenticated to false
   dispatch(clearCurrentUser());
 };
+
+// ORDER ACTIONS
+// Get User Orders 
+export const getUserOrder = (userId, orderId) => dispatch => {
+  dispatch(setUserLoading());
+  axios.all([
+    axios.get(USER_API_GATEWAY + `/get/orders/${userId}`),
+    axios.get(USER_API_GATEWAY + `/getOrder/${userId}/${orderId}`)
+  ])  
+  .then( axios.spread((orders, orderDetails) => {
+    dispatch({
+      type: types.GET_USER_ORDER,
+      payload: orders.data,
+      orderDetails: orderDetails.data
+    });
+  }))
+  .catch(err => {
+    dispatch(setUserUpdated());
+    dispatch({
+      type: types.GET_ERRORS,
+      payload: err.response.data
+    });
+  })
+};
+
+// Get An Order with Items
+export const getSingleOrderWithOrderItems = (orderId, orderItemId) => dispatch => {
+  dispatch(setUserLoading());
+  axios.all([
+    axios.get(USER_API_GATEWAY + `/get/orderItems/${orderId}`),
+    axios.get(USER_API_GATEWAY + `/getOrderItem/${orderId}/${orderItemId}`)
+  ])  
+  .then(axios.spread( (order, items) => {
+    dispatch({
+      type: types.GET_ORDER_ITEMS,
+      payload: order.data,
+      orderItems: items.data
+    });
+    dispatch(setUserUpdated());
+  }))
+  .catch(err => {
+    dispatch(setUserUpdated());
+    dispatch({
+      type: types.GET_ERRORS,
+      payload: err.response.data
+    });
+  })
+};
+
