@@ -10,7 +10,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import jwt_decode from 'jwt-decode';
-import { setCurrentUser, logoutUser } from './actions/userActions';
+import { loadUserInfo, logoutUser } from './actions/userActions';
 import setAuthToken from './utils/setAuthToken';
 import store from './store';
 
@@ -22,7 +22,7 @@ if (localStorage.GrizzGoogleToken) {
   //Decode token and get user info and expiration
   const decoded = jwt_decode(localStorage.GrizzGoogleToken);
   //Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
+  // store.dispatch(setCurrentUser(decoded));
 
   // Check for expired token
   const currentTime = Date.now() / 1000;
@@ -31,6 +31,8 @@ if (localStorage.GrizzGoogleToken) {
     store.dispatch(logoutUser());
     // Redirect
     window.location.href = '/customer';
+  } else {
+    store.dispatch(loadUserInfo(decoded));
   }
 }
 

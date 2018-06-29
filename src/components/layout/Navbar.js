@@ -42,6 +42,7 @@ class Navbar extends Component {
     e.preventDefault();
     this.props.logoutUser();
     this.props.history.push('/customer');
+    toastr.success('Bye!');
   }
 
   logOutBtn() {
@@ -57,7 +58,10 @@ class Navbar extends Component {
   }
 
   showLinks() {
-    if (!isEmpty(this.props.user.user)) {
+    if (
+      !isEmpty(this.props.user.user) &&
+      this.props.user.userType !== 'customer'
+    ) {
       if (this.props.user.userType === 'admin') {
         return (
           <ul className="navbar-nav pl-2">
@@ -149,10 +153,12 @@ class Navbar extends Component {
     } else
       return (
         <ul className="navbar-nav pl-2">
-        <li>
-          <Link className="mr-2 mt-2 mb-0 more-rounded hover-w-b fas fa-shopping-cart" 
-          to="/shoppingcart"/> 
-        </li>
+          <li>
+            <Link
+              className="mr-2 mt-2 mb-0 more-rounded hover-w-b fas fa-shopping-cart"
+              to="/shoppingcart"
+            />
+          </li>
           <li className="nav-item mr-1 my-auto">
             <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
           </li>
