@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import toastr from '../../toastr/toast';
+import { toast } from 'react-toastify';
 import logo from '../../img/logo.png';
-import LoginModal from '../auth/LoginModal';
-import { logoutUser } from '../../actions/userActions';
+import { GoogleLogin } from 'react-google-login';
+import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
 import { searchProducts } from '../../actions/productsActions';
 //import ShoppingCart from '../portal/customer/ShoppingCart';
@@ -21,6 +21,7 @@ class Navbar extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onLogout = this.onLogout.bind(this);
+    this.login = this.login.bind(this);
   }
 
   onChange(e) {
@@ -30,7 +31,7 @@ class Navbar extends Component {
   onSubmit(e) {
     e.preventDefault();
     if (isEmpty(this.state.search)) {
-      toastr.warning('Please check your input!');
+      toast.info('Please check your input!');
     } else {
       const term = this.state.search;
       this.setState({ search: '' });
@@ -42,7 +43,21 @@ class Navbar extends Component {
     e.preventDefault();
     this.props.logoutUser();
     this.props.history.push('/customer');
-    toastr.success('Bye!');
+    toast.success('Bye!');
+  }
+
+  login(response) {
+    if (isEmpty(response.error) && !isEmpty(response.tokenId)) {
+      this.props.loginUser(response);
+      toast.success('Hello ' + response.profileObj.givenName + '!');
+      // if (isEmpty(this.props.user.user)) {
+      //   this.props.history.push({
+      //     pathname: '/settings',
+      //     state: { tabId: 'ProfileForm' }
+      //   });
+      //   toast.info('Please update your profile.');
+      // }
+    }
   }
 
   logOutBtn() {
@@ -160,7 +175,13 @@ class Navbar extends Component {
             />
           </li>
           <li className="nav-item mr-1 my-auto">
-            <LoginModal buttonLabel="Login" title="Login" actionLabel="Login" />
+            <GoogleLogin
+              clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={this.login}
+              onFailure={this.login}
+              className="btn more-rounded parent-wide min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0"
+            />
           </li>
         </ul>
       );
@@ -223,7 +244,8 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   searchProducts: PropTypes.func.isRequired,
-  logoutUser: PropTypes.func.isRequired
+  logoutUser: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -232,5 +254,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { searchProducts, logoutUser }
+  { searchProducts, logoutUser, loginUser }
 )(withRouter(Navbar));

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import validator from 'validator';
-import toastr from '../../../toastr/toast';
+import { toast } from 'react-toastify';
 import { createOrUpdateProfile } from '../../../actions/userActions';
 import isEmpty from '../../../validation/is-empty';
 import GoogleMapLoader from 'react-google-maps-loader';
@@ -59,10 +59,10 @@ class ProfileForm extends Component {
         address: this.state.address
       };
       this.props.createOrUpdateProfile(profileData);
-      toastr.success('Profile updated!');
+      toast.success('Profile updated!');
       this.props.onCancel();
     } else {
-      toastr.warning('Please check your input!');
+      toast.info('Please check your input!');
       this.setState({ isValid: false });
     }
   }
@@ -157,11 +157,11 @@ class ProfileForm extends Component {
                     )
                   }
                 />
-                {!this.state.isValid && (
+                {/* {!this.state.isValid && (
                   <div className="alert alert-warning">
                     {'Please check your input.'}
                   </div>
-                )}
+                )} */}
                 <div className="row ml-0 mr-0">
                   <div className="col pl-0 text-left">
                     <button className="btn btn-light" onClick={this.onToggle}>
