@@ -103,12 +103,14 @@ class ShoppingCart extends Component {
   }
 
   show() {
-    if (this.state.loadingCart && isEmpty(this.state.cartItems)) {
+    if (this.state.loadingCart) {
       return (
         <div className="text-center">
           <Spinner size={'150px'} />
         </div>
       );
+    } else if (isEmpty(this.state.cartItems)) {
+      return <p>No items found.</p>;
     }
 
     const cartItems = this.state.cartItems;
