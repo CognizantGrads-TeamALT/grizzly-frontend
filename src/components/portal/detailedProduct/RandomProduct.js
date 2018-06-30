@@ -34,7 +34,11 @@ class RandomProduct extends Component {
         );
         // We have image but its loading, so wait.
       } else {
-        return <Spinner size={'150px'} />;
+        return (
+          <div className="text-center">
+            <Spinner size={'150px'} />
+          </div>
+        );
       }
       // Return the loaded image.
     } else {
@@ -100,9 +104,11 @@ class RandomProduct extends Component {
     return <div className="row straight-grid">{this.showProducts()}</div>;
   }
 }
+
 const mapStateToProps = state => ({
   product: state.product
 });
+
 export default connect(
   mapStateToProps,
   { getRandomProducts }

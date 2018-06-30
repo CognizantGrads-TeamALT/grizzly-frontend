@@ -7,6 +7,7 @@ import {
   setProductUpdated,
   getProductImage
 } from '../../actions/productsActions';
+import { loadCart, saveCart } from '../../actions/cartActions';
 import { sortCategoriesByParamCustomer } from '../../actions/categoryActions';
 import ProductCarousel from './common/ProductCarousel';
 import ProductCategoryRow from './common/ProductCategoryRow';
@@ -23,6 +24,13 @@ class CustomerPortal extends Component {
     ) {
       this.props.getProducts();
     }
+  }
+
+  componentDidMount() {
+    // Scroll to top.
+    window.scrollTo(0, 0);
+
+    this.props.loadCart();
   }
 
   componentDidUpdate() {
@@ -109,8 +117,12 @@ CustomerPortal.propTypes = {
   setProductUpdated: PropTypes.func.isRequired,
   getProductImage: PropTypes.func.isRequired,
   sortCategoriesByParamCustomer: PropTypes.func.isRequired,
+
   product: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired
+  category: PropTypes.object.isRequired,
+
+  loadCart: PropTypes.func.isRequired,
+  saveCart: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -124,6 +136,8 @@ export default connect(
     getProducts,
     setProductUpdated,
     getProductImage,
-    sortCategoriesByParamCustomer
+    sortCategoriesByParamCustomer,
+    loadCart,
+    saveCart
   }
 )(CustomerPortal);

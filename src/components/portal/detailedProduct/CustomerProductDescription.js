@@ -5,6 +5,7 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
+import Button from 'react-ions/lib/components/Button';
 //import { Link } from 'react-router-dom';  
 class CustomerProductDescription extends Component {
   constructor() {
@@ -16,6 +17,16 @@ class CustomerProductDescription extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  componentDidMount() {
+    // Scroll to top.
+    window.scrollTo(0, 0);
+  }
+
+  // Fixes no-op error.
+  componentWillUnmount() {
+    this.props.product.single = null;
+  }
+
   onCancel = event => {
     this.props.history.goBack();
   };
@@ -24,7 +35,6 @@ class CustomerProductDescription extends Component {
     this.props.cart.push(this.props.product);
     // this.setState({ clicks: this.state.clicks + 1 });
     // console.log(this.clicks);
-
   }
   
   onChange(e) {
@@ -81,13 +91,12 @@ class CustomerProductDescription extends Component {
 
     return (
       <div>
-        <button
-          type="button"
-          className="btn btn-link d-inline p-1 my-auto profile-blue-color profile-small-link float-left dscrptnSize-9"
+        <Button
           onClick={this.onCancel}
+          className="btn more-rounded hover-w-b my-auto float-left dscrptnSize-9 d-inline p-1 px-2 btn-link"
         >
           Back
-        </button>
+        </Button>
 
         <div className="container containerCustomerProductView">
           <div className="row">
@@ -110,8 +119,8 @@ class CustomerProductDescription extends Component {
                 <p className="mb-0">${product.price}</p>
               </div>
               <div className="row mt-2">
-                <button className="orange-b surround-parent w-75 more-rounded mb-2">Buy now</button>
-                <button className="yellow-b surround-parent w-75 more-rounded mb-2"  
+                <button className="orange-b surround-parent w-75 more-rounded mb-2 btn">Buy now</button>
+                <button className="yellow-b surround-parent w-75 more-rounded mb-2 btn"
                 onClick={ () => this.props.addToCart(product)}
                 >Add to Cart</button>
                 <div className="bottom-border-line w-75 pt-4 mb-3"></div>
