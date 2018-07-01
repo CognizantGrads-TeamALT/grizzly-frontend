@@ -452,10 +452,5 @@ export const addToCart = data => dispatch => {
   })
 }
 
-// export const addToCart= () => {
-//   return {
-//     type: types.PRODUCT_ADDING
-//   };
-// };
 
 

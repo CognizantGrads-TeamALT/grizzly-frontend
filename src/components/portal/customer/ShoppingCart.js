@@ -47,14 +47,21 @@ class ShoppingCart extends Component {
 
     onClick() {
         console.log("remove");
-    //     let currentCartString = localStorage.getItem('cart');
-    //     localStorage.setItem('cart',JSON.parse(currentCartString));
-    //     let currentCart=localStorage.removeItem('cart',1);
-    //    localStorage.setItem('cart',JSON.stringify(currentCart));
-    //    this.State={cart: []};
-       
-    //    this.props.cart.splice(cart.indexOf(2),1);
-    //    localStorage.setItem('cart',JSON.stringify(cart));
+        let existingCart = localStorage.getItem('cart');
+        localStorage.setItem('cart',JSON.parse(existingCart));
+        console.log(existingCart);
+        localStorage.removeItem('cart',0); //which removes the whole cart.
+       // figuring out the how to remove the product in array
+        console.log(existingCart);
+
+        // localStorage.removeItem(this.props.product.productId);
+        // existingCart.forEach(product => {
+        //     if (product.productId === single.productId) {
+        //       product.quantity = product.quantity + 1;
+        //       existingItem = true;
+        //     }
+        // });
+        
     }
     showImg(product) {
         // If we don't have any images.

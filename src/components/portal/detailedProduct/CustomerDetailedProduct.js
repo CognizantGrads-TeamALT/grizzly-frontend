@@ -24,7 +24,6 @@ class CustomerDetailedProduct extends Component {
     this.addToCart = this.addToCart.bind(this);
   }
 
-
   addToCart(single) {
     single.quantity = single.quantity ? single.quantity + 1 : 1;
     let newCart = [];
