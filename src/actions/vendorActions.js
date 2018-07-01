@@ -111,6 +111,17 @@ export const reloadVendors = () => dispatch => {
   dispatch(getVendors());
 }
 
+// wait for a responce from the backend
+export const WaitForError = () => {
+  return {type: types.START_WAITING}
+}
+
+// recieved responce, stop waiting
+export const stopWaitingForError = () => {
+  return {type: types.STOP_WAITING}
+}
+
+
 // Vendor loading
 export const setVendorLoading = () => {
   return {

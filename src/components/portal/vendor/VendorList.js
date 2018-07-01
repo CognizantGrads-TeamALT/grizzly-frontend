@@ -11,15 +11,19 @@ class VendorList extends Component {
     this.state = {
       showError: false,
       count:0
-      
+
     }
     this.onBlockClick = this.onBlockClick.bind(this);
+    this.closeError = this.closeError.bind(this);
+  }
+
+  closeError(){
+    this.setState({showError: false});
   }
 
   onDeleteClick(id) {
     this.props.deleteVendor(id);
     this.setState({listenForError: true,
-      block: true,
       count: 0,
       intervalId: setInterval(this.waitForResponce, 10)});
   }
