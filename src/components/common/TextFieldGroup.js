@@ -11,13 +11,14 @@ const TextFieldGroup = ({
   info,
   type,
   onChange,
-  disabled
+  disabled,
+  classes
 }) => {
   return (
     <div className="form-group">
       <input
         type={type}
-        className={classnames('form-control z-index-5000', {
+        className={classnames(`form-control z-index-5000 ${classes}`, {
           'is-invalid': error
         })}
         placeholder={placeholder}

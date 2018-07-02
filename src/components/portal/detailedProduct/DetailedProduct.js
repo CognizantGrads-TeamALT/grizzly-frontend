@@ -5,7 +5,7 @@ import ProductDescription from './ProductDescription';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
-  getProductWithImgs,
+  getProduct,
   getVendorBatch
 } from '../../../actions/productsActions';
 
@@ -16,7 +16,15 @@ class DetailedProduct extends Component {
       activeTab: 0
     };
 
-    this.props.getProductWithImgs(this.props.match.params.productId);
+    this.props.getProduct(this.props.match.params.productId);
+  }
+
+  // This fixes the following error:
+  // Warning: Can't call setState (or forceUpdate) on an unmounted component.
+  // This is a no-op, but it indicates a memory leak in your application.
+  // To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.
+  componentWillUnmount() {
+    this.props.product.single = null;
   }
 
   show() {
@@ -57,5 +65,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductWithImgs, getVendorBatch }
+  { getProduct, getVendorBatch }
 )(DetailedProduct);

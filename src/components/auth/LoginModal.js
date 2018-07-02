@@ -6,6 +6,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { loginUser, logoutUser } from '../../actions/userActions';
 import { GoogleLogin } from 'react-google-login';
 import isEmpty from '../../validation/is-empty';
+import toastr from '../../toastr/toast';
 
 class LoginModal extends Component {
   constructor(props) {
@@ -60,7 +61,13 @@ class LoginModal extends Component {
   login(response) {
     if (isEmpty(response.error) && !isEmpty(response.tokenId)) {
       this.props.loginUser(response);
-      // this.props.history.push(`/${this.props.user.userType}`);
+      if (isEmpty(this.props.user.user)) {
+        this.props.history.push({
+          pathname: '/settings',
+          state: { tabId: 'ProfileForm' }
+        });
+        toastr.info('Please update your profile.');
+      }
     }
   }
 

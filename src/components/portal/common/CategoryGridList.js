@@ -21,12 +21,18 @@ class CategoryGridList extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.filterProductsByCategory({
-      cur_id: this.props.match.params.catId,
-      index: 0,
-      filtered: true
-    });
+  componentDidMount() {
+    // Scroll to top.
+    window.scrollTo(0, 0);
+
+    // Retain state, don't reload filtered list.
+    if (this.props.product.products_filtered_last !== this.props.match.params.catId) {
+      this.props.filterProductsByCategory({
+        cur_id: this.props.match.params.catId,
+        index: 0,
+        filtered: true
+      });
+    }
   }
 
   onCancel = event => {
@@ -76,11 +82,16 @@ class CategoryGridList extends Component {
           </div>
         </div>
       ));
+    } else {
+      return (
+        <div className="text-center">
+          <Spinner size={'150px'} />
+        </div>
+      );
     }
   }
 
   getImg(product) {
-    //let imgInfo = product.images[0];
     let imgInfo = this.props.product.images[product.productId][0];
     return (
       <img
@@ -108,7 +119,11 @@ class CategoryGridList extends Component {
         );
         // We have image but its loading, so wait.
       } else {
-        return <Spinner size={'150px'} />;
+        return (
+          <div className="text-center">
+            <Spinner size={'150px'} />
+          </div>
+        );
       }
       // Return the loaded image.
     } else {
@@ -142,13 +157,13 @@ class CategoryGridList extends Component {
 
 CategoryGridList.propTypes = {
   filterProductsByCategory: PropTypes.func.isRequired,
-  getProductImage: PropTypes.func.isRequired
+  getProductImage: PropTypes.func.isRequired,
+
+  product: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  category: state.category,
   product: state.product,
-  vendor: state.vendor
 });
 
 export default connect(

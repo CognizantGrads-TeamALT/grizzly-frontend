@@ -163,10 +163,10 @@ export const deleteCategory = id => dispatch => {
 };
 
 // Block/unlock Category
-export const toggleBlockCategory = category => dispatch => {
+export const toggleBlockCategory = (categoryId, enabled) => dispatch => {
   dispatch(setCategoryUpdateOnce());
   axios
-    .post(CATEGORY_API_GATEWAY + `/setBlock/${category.categoryId}`, category)
+    .post(CATEGORY_API_GATEWAY + `/setBlock/${categoryId}`, {'enabled': enabled})
     .then(res =>
       dispatch({
         type: types.CATEGORY_TOGGLEBLOCK,

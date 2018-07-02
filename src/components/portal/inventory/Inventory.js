@@ -82,7 +82,7 @@ class Inventory extends Component {
                 <th scope="col">In Stock</th>
                 <th scope="col">Req.</th>
                 <th scope="col">Buffer</th>
-                <th scope="col">price</th>
+                <th scope="col">Price</th>
                 <th scope="col">Pending</th>
                 <th scope="col">Rating</th>
                 <th scope="col" />
@@ -98,8 +98,7 @@ class Inventory extends Component {
 
 Inventory.propTypes = {
   getVendorInventory: PropTypes.func.isRequired,
-  setProductUpdated: PropTypes.func.isRequired,
-  //vendorInventory: PropTypes.object.isRequired,
+  setProductUpdated: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

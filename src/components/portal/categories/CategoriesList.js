@@ -18,11 +18,7 @@ class CategoriesList extends Component {
 
   onBlockClick() {
     const { category } = this.props;
-    const updatedCategory = {
-      categoryId: category.categoryId,
-      enabled: !category.enabled
-    };
-    this.props.toggleBlockCategory(updatedCategory);
+    this.props.toggleBlockCategory(category.categoryId, !category.enabled);
   }
 
   render() {

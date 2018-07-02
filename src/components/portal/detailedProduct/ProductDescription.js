@@ -61,7 +61,7 @@ class ProductDescription extends Component {
     });
   };
 
-  buttonCallbackImg = event => {
+  buttonCallbackImg() {
     this.setState({
       isEditingDesc: false,
       isEditingPrice: false,
@@ -118,12 +118,11 @@ class ProductDescription extends Component {
     });
   };
 
-  showCarousel() {
+  showCarousel(product) {
     // if we don't have any images yet, use the incoming product's
     let images;
-    if (this.files.length === 0) {
-      //images = this.props.product.single.images;
-      images = this.props.product.images[this.props.product.single.productId]
+    if (isEmpty(this.files)) {
+      images = this.props.product.images[product.productId]
     } else {
       // otherwise just use our local pictures in the redux format
       // (this means the images have been edited)
@@ -163,11 +162,15 @@ class ProductDescription extends Component {
         );
         // We have image but its loading, so wait.
       } else {
-        return <Spinner size={'150px'} />;
+        return (
+          <div className="text-center">
+            <Spinner size={'150px'} />
+          </div>
+        );
       }
       // Return the loaded images.
     } else {
-      return <Carousel>{this.showCarousel()}</Carousel>;
+      return <Carousel>{this.showCarousel(product)}</Carousel>;
     }
   }
 
@@ -175,14 +178,16 @@ class ProductDescription extends Component {
     // if we haven't edited the images, just use the product's originals
     let imageData;
     let imageNames;
-    if (this.files.length === 0) {
+    if (isEmpty(this.files)) {
       const product = this.props.product.single;
-      imageData = this.props.product.images[product.productId].map((img) => {
-        return img.base64Image;
-      });
-      imageNames = this.props.product.images[product.productId].map((img) => {
-        return {"name": img.imgName};
-      });
+      if (!isEmpty(this.props.product.images[product.productId])) {
+        imageData = this.props.product.images[product.productId].map((img) => {
+          return img.base64Image;
+        });
+        imageNames = this.props.product.images[product.productId].map((img) => {
+          return {"name": img.imgName};
+        });
+      }
     } else {
       imageData = this.pictures;
       imageNames = this.files.map((img) => {
@@ -195,7 +200,7 @@ class ProductDescription extends Component {
               withPreview={true}
               buttonText="Upload new image"
               onChange={this.onDrop}
-              imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
+              imgExtension={['.jpg', '.jpeg', '.png']}
               maxFileSize={262144}
               startingImages={imageData}
               startingFiles={imageNames}
@@ -207,7 +212,7 @@ class ProductDescription extends Component {
     let imageData = [];
     let i;
     // if we haven't edited any images
-    if (this.files.length === 0) {
+    if (isEmpty(this.files)) {
       imageData = this.props.product.single.imageData;
     } else { // we have edited images
       for (i = 0; i < this.files.length; i++) {
@@ -218,6 +223,7 @@ class ProductDescription extends Component {
         imageData.push(img);
       }
     }
+
     var newProd = {
       productId: this.props.product.single.productId,
       categoryId: this.props.product.single.categoryId,
@@ -237,7 +243,7 @@ class ProductDescription extends Component {
     }
   }
 
-  onCancel = event => {
+  onCancel() {
     this.props.history.goBack();
   };
 
@@ -278,8 +284,7 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            {!this.state.isEditingImg && this.showImg()}
-            {this.state.isEditingImg && this.showImgEditor()}
+            {!this.state.isEditingImg ? this.showImg() : this.showImgEditor()}
             {this.props.user.userType === 'admin' && !this.state.isEditingImg && (<Button
               className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
               onClick={this.buttonCallbackImg}>

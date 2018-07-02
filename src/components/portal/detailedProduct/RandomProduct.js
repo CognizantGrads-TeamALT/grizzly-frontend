@@ -34,11 +34,28 @@ class RandomProduct extends Component {
         );
         // We have image but its loading, so wait.
       } else {
-        return <Spinner size={'150px'} />;
+        return (
+          <div className="text-center">
+            <Spinner size={'150px'} />
+          </div>
+        );
       }
       // Return the loaded image.
     } else {
       return this.getImg(product);
+    }
+  }
+
+  showVendorName(vendorId) {
+    if (isEmpty(vendorId) || vendorId === 0) {
+      return '';
+    } else {
+      const vendor = this.props.product.product_vendor.filter(
+        item => item.vendorId === vendorId
+      );
+      if (!isEmpty(vendor)) {
+        return ' by ' + vendor[0].name;
+      }
     }
   }
 
@@ -58,18 +75,24 @@ class RandomProduct extends Component {
             >
               {this.showImg(prod)}
               <div className="card-body inner-product-card surround-parent h-100 w-100">
-                <div className="inner-product-card card-text fnt-weight-400 surround-parent w-100">{prod.name}</div>
+                <div className="inner-product-card card-text fnt-weight-400 surround-parent w-100">
+                  {prod.name}
+                </div>
                 {/* Totally mock data */}
                 <div className="fnt-weight-300 dscrptnSize-8 surround-parent w-100">
-                {prod.vendorId === 0
-                        ? ''
-                        : ' by ' +
-                          this.props.product.product_vendor.filter(
-                            item => item.vendorId === prod.vendorId
-                          )[0].name}
+                  {this.showVendorName(prod.vendorId)}
                 </div>
-                <div className="fnt-weight-300 dscrptnSize-8"><i className="d-inline griz-yellow-color fas fa-star"></i><i className="d-inline griz-yellow-color fas fa-star"></i><i className="d-inline griz-yellow-color fas fa-star"></i><i className="d-inline griz-yellow-color fas fa-star"></i><i className="d-inline griz-yellow-color fas fa-star-half"></i> ({Math.floor((Math.random() * 50) + 1)})</div>
-                <div className="fnt-weight-600 surround-parent w-100">AU${prod.price}.00</div>
+                <div className="fnt-weight-300 dscrptnSize-8">
+                  <i className="d-inline griz-yellow-color fas fa-star" />
+                  <i className="d-inline griz-yellow-color fas fa-star" />
+                  <i className="d-inline griz-yellow-color fas fa-star" />
+                  <i className="d-inline griz-yellow-color fas fa-star" />
+                  <i className="d-inline griz-yellow-color fas fa-star-half" />{' '}
+                  ({Math.floor(Math.random() * 50 + 1)})
+                </div>
+                <div className="fnt-weight-600 surround-parent w-100">
+                  AU${prod.price}.00
+                </div>
               </div>
             </Link>
           </div>
@@ -81,9 +104,11 @@ class RandomProduct extends Component {
     return <div className="row straight-grid">{this.showProducts()}</div>;
   }
 }
+
 const mapStateToProps = state => ({
   product: state.product
 });
+
 export default connect(
   mapStateToProps,
   { getRandomProducts }
