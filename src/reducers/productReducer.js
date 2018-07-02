@@ -6,9 +6,6 @@ const initialState = {
   // Stores ALL products. Shouldn't clear this.
   products: [],
 
-  // Stores ALL products images.
-  images: [],
-
   // Stores ALL product categories.
   product_category: [],
 
@@ -204,30 +201,6 @@ export default function(state = initialState, action) {
             ? action.payload.slice(0, 12)
             : action.payload
       };
-    case types.GET_PRODUCT_IMAGE:
-      let newImage = action.payload;
-      let productId = action.productId;
-
-      let currentImages = isEmpty(state.images) ? [] : state.images;
-      let oldImages = isEmpty(currentImages[productId]) ? [] : currentImages[productId];
-
-      // prevent duplicate images.
-      let newImages = isEmpty(newImage)
-        ? oldImages :
-        [
-          ...new Map(
-            oldImages
-              .concat(newImage)
-              .map(o => [o['imgName'], o])
-          ).values()
-        ];
-
-      currentImages[productId] = newImages;
-
-      return {
-        ...state,
-        images: currentImages
-      }
     case types.PRODUCT_ADDING:
       currentProducts2 = isEmpty(state.products) ? [] : state.products;
       let addProduct = isEmpty(action.payload) ? [] : [action.payload];
