@@ -57,7 +57,7 @@ class DetailedProduct extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-2">
+        <div className="col-2 position-static griz-dark-blue-bg h-95 p-3">
           <Profile />
         </div>
         <div className="col-10">{this.show()}</div>
