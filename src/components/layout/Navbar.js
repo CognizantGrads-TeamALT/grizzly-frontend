@@ -8,7 +8,7 @@ import logo from '../../img/logo.png';
 import { GoogleLogin } from 'react-google-login';
 import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
-import { searchProducts } from '../../actions/productsActions';
+import { searchProducts, clearCurrentProducts } from '../../actions/productsActions';
 //import ShoppingCart from '../portal/customer/ShoppingCart';
 
 class Navbar extends Component {
@@ -42,6 +42,7 @@ class Navbar extends Component {
   onLogout(e) {
     e.preventDefault();
     this.props.logoutUser();
+    this.props.clearCurrentProducts();
     this.props.history.push('/customer');
     toast.success('Bye!');
   }
@@ -250,6 +251,7 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   searchProducts: PropTypes.func.isRequired,
+  clearCurrentProducts: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
   loginUser: PropTypes.func.isRequired
 };
@@ -260,5 +262,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { searchProducts, logoutUser, loginUser }
+  { searchProducts, clearCurrentProducts, logoutUser, loginUser }
 )(withRouter(Navbar));

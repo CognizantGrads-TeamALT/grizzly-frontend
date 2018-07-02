@@ -46,7 +46,7 @@ class CustomerProductDescription extends Component {
     if (!isEmpty(this.props.product.images[product.productId])) {
       return this.props.product.images[product.productId].map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <div id={index}>
+        <div id={index} key={index}>
           <img src={img.base64Image} className="img-responsive" alt="" />
         </div>
       ));
@@ -78,7 +78,7 @@ class CustomerProductDescription extends Component {
       // Return the loaded images.
     } else {
       return (
-        <Carousel infiniteLoop="true" autoPlay="true" width="300px">
+        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
           {this.showCarousel()}
         </Carousel>
       );

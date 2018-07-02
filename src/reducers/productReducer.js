@@ -318,16 +318,7 @@ export default function(state = initialState, action) {
       };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
-        ...state,
-        hasMore: true,
-        products: null,
-        products_filtered: null,
-        products_filtered_last: null,
-        product_category: null,
-        product_vendor: null,
-        loadingCategories: null,
-        loadingVendors: null,
-        index: 0
+        ...initialState
       };
     case types.CLEAR_FILTERED_PRODUCTS:
       return {

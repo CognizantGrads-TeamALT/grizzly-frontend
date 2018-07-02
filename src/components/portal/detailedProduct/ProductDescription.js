@@ -166,7 +166,7 @@ class ProductDescription extends Component {
       // Return the loaded images.
     } else {
       return (
-        <Carousel infiniteLoop="true" autoPlay="true" width="300px">
+        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
           {this.showCarousel(product)}
         </Carousel>
       );
@@ -270,7 +270,9 @@ class ProductDescription extends Component {
                     <span>{this.state.name}</span>
                   )}
                   <p className="d-inline dscrptnSize-9">
-                    {' by ' + this.props.vendor.name}
+                    {isEmpty(this.props.vendor)
+                      ? ''
+                      : ' by ' + this.props.vendor.name}
                   </p>
 
                   {this.props.user.userType === 'admin' && (
