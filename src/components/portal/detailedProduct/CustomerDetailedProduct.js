@@ -18,7 +18,8 @@ class CustomerDetailedProduct extends Component {
     super(props);
     this.state = {
       single: null,
-      id: null
+      id: null,
+      shouldGetRandom: true
     };
 
     this.addToCart = this.addToCart.bind(this);
@@ -91,8 +92,9 @@ class CustomerDetailedProduct extends Component {
         return <p>The item was not found.</p>;
       }
       const { random_products } = this.props.product;
-      if (isEmpty(random_products)) {
+      if (isEmpty(random_products) && this.state.shouldGetRandom) {
         this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+        this.setState({shouldGetRandom: false})
       } else {
         this.getImages(random_products);
         if (!isEmpty(single.imageDTO) && isEmpty(this.props.product.images[single.productId])) {
