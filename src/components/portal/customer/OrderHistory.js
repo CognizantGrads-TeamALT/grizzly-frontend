@@ -174,9 +174,10 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-mapStateToProps, {
-    getUserOrder,
-    getProducts,
-    getProductImage
-}
+    mapStateToProps,
+    {
+        getUserOrder,
+        getProducts,
+        getProductImage
+    }
 )(OrderHistory);

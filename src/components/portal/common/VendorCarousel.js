@@ -19,13 +19,13 @@ class VendorCarousel extends Component {
           <Link
             key={prod.productId}
             to={`/customerdetailedproduct/${prod.productId}`}
-            className="img-thumbnail"
           >
             <img
               src="https://static.ebates.com/img/merchant_logo/14781/banner-1168x200_2.jpg"
+              className="rounded parent-wide"
               alt=""
             />
-            <span>{prod.name}</span>
+            {/* <span>{prod.name}</span> */}
           </Link>
         ));
       } else {
