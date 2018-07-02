@@ -5,7 +5,8 @@ import ProductDescription from './ProductDescription';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
-  getProductWithImgs,
+  getProduct,
+  getProductImages,
   getVendorBatch
 } from '../../../actions/productsActions';
 
@@ -16,7 +17,7 @@ class DetailedProduct extends Component {
       activeTab: 0
     };
 
-    this.props.getProductWithImgs(this.props.match.params.productId);
+    this.props.getProduct(this.props.match.params.productId);
   }
 
   // This fixes the following error:
@@ -35,6 +36,7 @@ class DetailedProduct extends Component {
       const vendor = this.props.product.product_vendor.filter(
         item => item.vendorId === single.vendorId
       )[0];
+      this.props.getProductImages(single);
       return (
         <div>
           <ProductDescription
@@ -65,5 +67,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductWithImgs, getVendorBatch }
+  { getProduct, getProductImages, getVendorBatch }
 )(DetailedProduct);

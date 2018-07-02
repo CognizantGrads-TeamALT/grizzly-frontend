@@ -45,7 +45,7 @@ class Categories extends Component {
 
   show() {
     const { categories, loading } = this.props.category;
-    if (isEmpty(categories) || loading) {
+    if (loading) {
       return (
         <tr>
           <td>
@@ -54,6 +54,10 @@ class Categories extends Component {
         </tr>
       );
     } else {
+      if (isEmpty(categories)) {
+        return <p>No categories found.</p>;
+      }
+
       return categories.map(category => (
         <CategoriesList key={category.categoryId} category={category} />
       ));

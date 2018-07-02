@@ -88,13 +88,15 @@ class ProductCategoryRow extends Component {
 ProductCategoryRow.propTypes = {
   searchCategories: PropTypes.func.isRequired,
   sortCategoriesByParamCustomer: PropTypes.func.isRequired,
-  getProducts: PropTypes.func.isRequired
+  getProducts: PropTypes.func.isRequired,
+
+  product: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  category: state.category,
   product: state.product,
-  vendor: state.vendor
+  category: state.category
 });
 
 export default connect(
