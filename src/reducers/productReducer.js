@@ -30,7 +30,9 @@ const initialState = {
 
   // Stores locally loaded cart info.
   cart: {},
-  cart_products: []
+  cart_products: [],
+  loadingCart: true,
+  fetchingCart: true
 };
 
 export default function(state = initialState, action) {
@@ -269,7 +271,9 @@ export default function(state = initialState, action) {
       return {
         ...state,
         products: newProducts,
-        cart_products: newProducts2
+        cart_products: newProducts2,
+        loadingCart: false,
+        fetchingCart: false
       };
     case types.GET_PRODUCT_VENDOR:
       const currentProductVendor = isEmpty(state.product_vendor)
@@ -326,7 +330,8 @@ export default function(state = initialState, action) {
     case types.LOAD_CART:
       return {
         ...state,
-        cart: action.payload
+        cart: action.payload,
+        loadingCart: false
     }
     default:
       return state;
