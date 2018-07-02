@@ -25,7 +25,7 @@ class ShoppingCart extends Component {
         src={imgInfo.base64Image}
         className="img-responsive"
         alt=""
-        style={{ width: "150px", height: "150px" }}
+        style={{ objectFit: 'cover', width: '150px' }}
       />
     );
   }

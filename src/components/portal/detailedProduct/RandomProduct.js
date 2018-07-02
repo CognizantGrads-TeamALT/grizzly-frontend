@@ -28,7 +28,7 @@ class RandomProduct extends Component {
           <img
             src={unavailable}
             className="card-img-top"
-            style={{ width: '150px', height: '150px' }}
+            style={{ objectFit: 'cover', height: '150px' }}
             alt="Unavailable"
           />
         );
