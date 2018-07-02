@@ -7,7 +7,9 @@ import { Carousel } from "react-responsive-carousel";
 import {
   editProduct,
   reloadProducts,
-  WaitForError
+  WaitForError,
+  getProduct,
+  getProductImages
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
@@ -41,6 +43,11 @@ class ProductDescription extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onDrop = this.onDrop.bind(this);
+  }
+
+  // Fixes no-op error.
+  componentWillUnmount() {
+    this.props.product.single = null;
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -178,7 +185,7 @@ class ProductDescription extends Component {
       // Return the loaded images.
     } else {
       return (
-        <Carousel infiniteLoop="true" autoPlay="true" width="300px">
+        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
           {this.showCarousel(product)}
         </Carousel>
       );
@@ -452,5 +459,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, WaitForError }
+  { editProduct, reloadProducts, WaitForError, getProduct, getProductImages }
 )(ProductDescription);

@@ -6,6 +6,10 @@ import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
 import Button from 'react-ions/lib/components/Button';
+import {
+  getProduct,
+  getProductImages
+} from '../../../actions/productsActions';
 //import { Link } from 'react-router-dom';  
 class CustomerProductDescription extends Component {
   constructor() {
@@ -46,7 +50,7 @@ class CustomerProductDescription extends Component {
     if (!isEmpty(this.props.product.images[product.productId])) {
       return this.props.product.images[product.productId].map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <div key={index}>
+        <div id={index} key={index}>
           <img src={img.base64Image} className="img-responsive" alt="" />
         </div>
       ));
@@ -167,4 +171,10 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps)(CustomerProductDescription);
+export default connect(
+  mapStateToProps,
+  {
+    getProduct,
+    getProductImages
+  }
+)(CustomerProductDescription);

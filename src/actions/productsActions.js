@@ -86,6 +86,13 @@ export const getProduct = productId => dispatch => {
     });
 };
 
+export const clearProductImages = (productId) => {
+  return {
+    type: types.CLEAR_PRODUCT_IMAGES,
+    payload: productId
+  }
+}
+
 export const getProductImages = product => dispatch => {
   // Fetch images.
   if (!isEmpty(product.imageDTO)) {

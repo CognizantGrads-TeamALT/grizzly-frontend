@@ -7,7 +7,8 @@ import isEmpty from '../../../validation/is-empty';
 import {
   getProduct,
   getProductImages,
-  getVendorBatch
+  getVendorBatch,
+  clearProductImages
 } from '../../../actions/productsActions';
 import ErrorComponent from '../../common/ErrorComponent';
 
@@ -19,6 +20,12 @@ class DetailedProduct extends Component {
     };
 
     this.props.getProduct(this.props.match.params.productId);
+  }
+
+  componentDidMount() {
+    this.props.getProduct(this.props.match.params.productId);
+    this.props.clearProductImages(this.props.match.params.productId);
+    this.props.getProductImages(this.props.match.params);
   }
 
   // This fixes the following error:
@@ -73,5 +80,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProduct, getProductImages, getVendorBatch }
+  { getProduct, getProductImages, getVendorBatch, clearProductImages }
 )(DetailedProduct);

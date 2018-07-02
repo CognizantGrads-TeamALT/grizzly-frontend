@@ -228,6 +228,14 @@ export default function(state = initialState, action) {
         ...state,
         images: currentImages
       }
+    case types.CLEAR_PRODUCT_IMAGES:
+      productId = action.payload;
+      newImages = isEmpty(state.images) ? [] : state.images;
+      newImages[productId] = [];
+      return {
+        ...state,
+        images: newImages
+      }
     case types.PRODUCT_ADDING:
       currentProducts2 = isEmpty(state.products) ? [] : state.products;
       let addProduct = isEmpty(action.payload) ? [] : [action.payload];
@@ -323,16 +331,7 @@ export default function(state = initialState, action) {
       };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
-        ...state,
-        hasMore: true,
-        products: null,
-        products_filtered: null,
-        products_filtered_last: null,
-        product_category: null,
-        product_vendor: null,
-        loadingCategories: null,
-        loadingVendors: null,
-        index: 0
+        ...initialState
       };
     case types.CLEAR_FILTERED_PRODUCTS:
       return {
