@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
-import { getProductWithImgs, getProductImage } from '../../../actions/productsActions';
+import { getProduct, getProductImage } from '../../../actions/productsActions';
 import unavailable from '../../../img/unavailable.png';
 import Spinner from '../../common/Spinner';
 
@@ -60,7 +60,7 @@ class ProductImage extends Component {
 }
 
 ProductImage.propTypes = {
-  getProductWithImgs: PropTypes.func.isRequired
+  getProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -69,7 +69,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProductWithImgs,
+  { getProduct,
     getProductImage
    }
 )(ProductImage);

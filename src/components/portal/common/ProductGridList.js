@@ -115,7 +115,4 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(
-  mapStateToProps,
-  {}
-)(ProductGridList);
+export default connect(mapStateToProps)(ProductGridList);

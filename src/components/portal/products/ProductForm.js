@@ -196,7 +196,7 @@ class ProductForm extends Component {
             withPreview={true}
             buttonText="Choose images"
             onChange={this.onDrop}
-            imgExtension={['.jpg', '.jpeg', '.gif', '.png']}
+            imgExtension={['.jpg', '.jpeg', '.png']}
             maxFileSize={262144}
           />
         </div>
@@ -254,13 +254,12 @@ class ProductForm extends Component {
 
 ProductForm.propTypes = {
   addProduct: PropTypes.func.isRequired,
-  searchCategories: PropTypes.func.isRequired
+  searchCategories: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   product: state.product,
-  category: state.category,
-  vendor: state.vendor,
   user: state.user
 });
 
