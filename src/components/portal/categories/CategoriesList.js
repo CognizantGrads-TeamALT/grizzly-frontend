@@ -24,6 +24,7 @@ class CategoriesList extends Component {
 
   onDeleteClick(id) {
     this.props.deleteCategory(id);
+        //begin checking for an error
     this.setState({listenForError: true,
       count: 0,
     intervalId: setInterval(this.waitForResponce, 10)})
@@ -32,6 +33,7 @@ class CategoriesList extends Component {
   onBlockClick() {
     const { category } = this.props;
     this.props.toggleBlockCategory(category.categoryId, !category.enabled);
+    //begin checking for an error
     this.setState({listenForError: true,
       block: true,
       count: 0,
@@ -39,6 +41,7 @@ class CategoriesList extends Component {
   }
 
   waitForResponce(){
+    //check for error, if so, set it to display
     if(this.props.errors.errorMessage !== "" && this.state.listenForError){
       this.setState({showError:true,
       listenForError: false})
@@ -91,6 +94,7 @@ class CategoriesList extends Component {
                   buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
                   onSubmit={this.onDeleteClick.bind(this, category.categoryId)}
                 />
+                {/*shows error on toggle as a popup*/}
               <ErrorComponent 
                 errormsg={this.props.errors.errorMessage} 
                 popup={true} 

@@ -38,7 +38,7 @@ class CategoryForm extends Component {
   }
 
   componentDidUpdate(){
-    //console.log(this.props.errors);
+    //closes module if close has been triggered with no errors
     if(!this.props.errors.waitForError && this.state.shouldCancel){
       this.onToggle();
       this.props.WaitForError();

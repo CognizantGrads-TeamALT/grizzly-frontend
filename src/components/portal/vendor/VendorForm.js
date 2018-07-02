@@ -39,7 +39,6 @@ class VendorForm extends Component {
   }
 
   componentDidUpdate(){
-    //console.log(this.props.errors);
     if(!this.props.errors.waitForError && this.state.shouldToggle){
       this.onToggle();
       this.props.WaitForError();

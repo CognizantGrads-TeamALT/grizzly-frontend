@@ -265,7 +265,6 @@ class ProductDescription extends Component {
   }
 
   componentDidUpdate(){
-    //console.log(this.props.WaitForError)
     if(!this.props.errors.waitForError && this.state.shouldCancel){
       this.props.reloadProducts();
       this.onCancel();
