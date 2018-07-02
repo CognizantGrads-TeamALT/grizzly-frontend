@@ -7,7 +7,7 @@ import unavailable from "../../../img/unavailable.png";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
 import { getProduct, getProductImage, getProductBatch } from "../../../actions/productsActions";
-import { loadCart, saveCart } from "../../../actions/cartActions";
+import { loadCart, saveCart, changeQuantity } from "../../../actions/cartActions";
 
 class ShoppingCart extends Component {
   constructor(props) {
@@ -15,7 +15,8 @@ class ShoppingCart extends Component {
     this.state = {
       totalPrice: 0,
       triggeredFetch: false,
-      quantity:1
+      quantity: 1,
+      // newQuantity: e.target.quantity
     }
 
     this.onChange = this.onChange.bind(this);
@@ -43,15 +44,17 @@ class ShoppingCart extends Component {
     );
   }
 
-  onChange(e) {
-    console.log("inside onchange");
-    this.setState({
-      [e.target.name]: e.target.value,
-      totalprice: this.state.quantity * this.state.price
-    });
+  getImages(products) {
+    for (let product of products) {
+      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
+        this.props.getProductImage(product.productId, product.imageDTO[0].imgName);
+      }
+    }
+  }
 
-    console.log(e.target.name);
-    console.log(e.target.value);
+  onChange(productId, newValue) {
+    this.props.changeQuantity(productId, newValue);
+
   }
 
   onClick = event => {
@@ -101,7 +104,8 @@ class ShoppingCart extends Component {
       if (productIdArray !== '') {
         console.log(productIdArray);
         this.props.getProductBatch(productIdArray);
-      }
+      } else
+        this.props.product.fetchingCart = false;
     }
   }
 
@@ -125,6 +129,7 @@ class ShoppingCart extends Component {
     }
 
     const cartItems = this.props.product.cart_products;
+    this.getImages(cartItems);
     return cartItems.map(prod => (
       <div key={prod.productId}>
         <div className="row-8 d-inline products-information">
@@ -147,12 +152,11 @@ class ShoppingCart extends Component {
                 <input
                   name="quantity"
                   className="quantity-select"
-                  value="1"
+                  value={this.props.product.cart[prod.productId]}
                   min="1"
                   max="50"
-                  maxLength="2"
                   type="number"
-                  onChange={this.onChange}
+                  onChange={(e) => this.onChange(prod.productId, e.target.value)}
                 />
               </li>
             </ul>
@@ -160,14 +164,9 @@ class ShoppingCart extends Component {
 
           {/* display the totalprice per item according to the quantity */}
           <div align="right" className="col-2 d-inline product-total-price ">
-           {/* if the quantity is 1 or display the price, times of quantity */}
-            {(this.state.quantity === 1) ?
             <p name="totalprice" className="d-inline">
               {" "}
-              $ {prod.price}
-              {console.log(this.quantity)}
-            </p> : <p>{this.onChange}</p> }
-            
+              $ {prod.price * this.props.product.cart[prod.productId]}</p>
           </div>
           <div className="col-1 d-inline remove-btn">
             <button
@@ -216,6 +215,7 @@ ShoppingCart.propTypes = {
 
   loadCart: PropTypes.func.isRequired,
   saveCart: PropTypes.func.isRequired,
+  changeQuantity: PropTypes.func.isRequired,
 
   product: PropTypes.object.isRequired
 };
@@ -231,6 +231,7 @@ export default connect(
     getProductImage,
     getProductBatch,
     loadCart,
-    saveCart
+    saveCart,
+    changeQuantity
   }
 )(withRouter(ShoppingCart));

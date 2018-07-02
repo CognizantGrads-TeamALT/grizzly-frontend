@@ -8,6 +8,7 @@ import isEmpty from '../../../validation/is-empty';
 import {
   getProduct,
   getProductImage,
+  getProductImages,
   getRandomProducts
 } from '../../../actions/productsActions';
 import { addToCart, saveCart } from '../../../actions/cartActions';
@@ -24,7 +25,7 @@ class CustomerDetailedProduct extends Component {
   }
 
   addToCart(single) {
-    this.props.addToCart(single.productId);
+    this.props.addToCart(single);
   }
 
   componentDidMount() {
@@ -93,7 +94,7 @@ class CustomerDetailedProduct extends Component {
       } else {
         this.getImages(random_products);
         if (!isEmpty(single.imageDTO) && isEmpty(this.props.product.images[single.productId])) {
-          this.getImages([single]);
+          this.props.getProductImages(single);
         }
         const vendor = this.props.product.product_vendor.filter(
           item => item.vendorId === single.vendorId
@@ -125,6 +126,7 @@ class CustomerDetailedProduct extends Component {
 CustomerDetailedProduct.propTypes = {
   getProduct: PropTypes.func.isRequired,
   getProductImage: PropTypes.func.isRequired,
+  getProductImages: PropTypes.func.isRequired,
   getRandomProducts: PropTypes.func.isRequired,
 
   addToCart: PropTypes.func.isRequired,
@@ -143,6 +145,7 @@ export default connect(
     getProduct,
     getRandomProducts,
     getProductImage,
+    getProductImages,
     addToCart,
     saveCart
   }
