@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PaypalExpressBtn from "react-paypal-express-checkout";
 
 class Payment extends Component {
   showOrderContent() {
@@ -7,14 +8,39 @@ class Payment extends Component {
     console.log(cart);
     return cart.map(prod => (
       <tr key={prod.productId}>
-        <td>{prod.name}</td>
-        <td>Price: {prod.price}</td>
+        <td>
+          {prod.name} x{prod.quantity}
+        </td>
+        <td>Price (AUD): {prod.price}</td>
       </tr>
     ));
   }
+  calcOrderPrice() {
+    const products = JSON.parse(localStorage.getItem("cart"));
+    let totalPrice = 0;
+    products.map(prod => (totalPrice += prod.price));
+    return totalPrice;
+  }
+  onSuccess(payment) {
+    console.log("Ben Lee");
+  }
+  onCancel(data) {
+    console.log("The payment was cancelled!", data);
+  }
+
+  onError(err) {
+    console.log("Error loading Paypal script!", err);
+  }
+
   render() {
+    const client = {
+      sandbox:
+        "AWiPslSzOb4c5wFKr0wWQyE2t5yZ_hOpEHFKbWPyb5P0m-Zlmi_VHwiCMnqo2rU0EQb61FbQPfLUftUx",
+      production: "YOUR-PRODUCTION-APP-ID"
+    };
+
     return (
-      <div className="container paymentContainer">
+      <div className="container paymentContainer rounded-top">
         <div className="row ">
           <div className="col">
             <table className="table table-striped">
@@ -25,10 +51,15 @@ class Payment extends Component {
             </table>
           </div>
           <div className="col paymentRightCol left-border-line">
-            <div className="row ">
-              <button className="btn more-rounded btn-sm red-b  btnPayment">
-                Proceed to Payment
-              </button>
+            <div className="row btnPayment">
+              <PaypalExpressBtn
+                client={client}
+                currency={"AUD"}
+                total={this.calcOrderPrice()}
+                onSuccess={this.onSuccess}
+                onCancel={this.onCancel}
+                onError={this.onError}
+              />
             </div>
             <div className="row mt-3">
               <Link
@@ -37,6 +68,9 @@ class Payment extends Component {
               >
                 Return to Cart
               </Link>
+            </div>
+            <div className="row mt-4 payTotalPrice">
+              Total Price: ${this.calcOrderPrice()}.00
             </div>
           </div>
         </div>
