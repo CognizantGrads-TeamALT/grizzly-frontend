@@ -93,7 +93,7 @@ class ProductList extends Component {
 
   render() {
     //updated this to get the product from the global state instead of the parent
-    const { product } = this.props;
+    const product = this.props.product.products[this.props.index];
     if (!isEmpty(product))
       return (
         <tr>
@@ -155,7 +155,8 @@ ProductList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  product: state.product
 });
 
 export default connect(
