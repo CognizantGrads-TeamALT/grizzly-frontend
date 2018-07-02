@@ -13,19 +13,20 @@ class ShoppingCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loadingCart: true,
-      cartItems: [],
-      totalPrice: 0
+      totalPrice: 0,
+      triggeredFetch: false
     }
 
     this.onChange = this.onChange.bind(this);
 
-    this.loadItems();
+    this.triggeredFetch = false;
   }
 
+  // Load their cart from local storage if it is empty...
   componentDidMount() {
-    if (isEmpty(this.props.product.cart))
+    if (isEmpty(this.props.product.cart)) {
       this.props.loadCart();
+    }
   }
 
   getImg(product) {
@@ -80,10 +81,12 @@ class ShoppingCart extends Component {
     }
   }
 
+  // This will fetch the items from the API.
   loadItems() {
+    this.triggeredFetch = true;
     const cart = this.props.product.cart;
 
-    if (!isEmpty(cart)) {
+    if (!isEmpty(cart) && !this.state.loadingCart) {
       let productIdArray = '';
       for (var productId in cart) {
         // we don't have data for this product.
@@ -95,25 +98,32 @@ class ShoppingCart extends Component {
       }
 
       if (productIdArray !== '') {
+        console.log(productIdArray);
         this.props.getProductBatch(productIdArray);
       }
-    } else {
-      this.setState({ loadingCart: false });
     }
   }
 
   show() {
-    if (this.state.loadingCart) {
+    // No longer  "loading local cart"... so we load the main items.
+    if (!this.props.product.loadingCart) {
+      if (!this.triggeredFetch) {
+        this.loadItems();
+      }
+    }
+
+    // If we're fetching data from api or loading the cart...
+    if (this.props.product.loadingCart || this.props.product.fetchingCart) {
       return (
         <div className="text-center">
           <Spinner size={'150px'} />
         </div>
       );
-    } else if (isEmpty(this.state.cartItems)) {
+    } else if (isEmpty(this.props.product.cart_products)) {
       return <p>No items found.</p>;
     }
 
-    const cartItems = this.state.cartItems;
+    const cartItems = this.props.product.cart_products;
     return cartItems.map(prod => (
       <div key={prod.productId}>
         <div className="row-8 d-inline products-information">
