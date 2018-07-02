@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
-import { filterProductsByCategory, getProductImage } from '../../../actions/productsActions';
+import { filterProductsByCategory } from '../../../actions/productsActions';
 import Button from 'react-ions/lib/components/Button';
 import Spinner from '../../common/Spinner';
 import unavailable from '../../../img/unavailable.png';
@@ -147,7 +147,6 @@ class CategoryGridList extends Component {
 
 CategoryGridList.propTypes = {
   filterProductsByCategory: PropTypes.func.isRequired,
-  getProductImage: PropTypes.func.isRequired,
 
   product: PropTypes.object.isRequired,
 };
@@ -159,7 +158,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    filterProductsByCategory,
-    getProductImage
+    filterProductsByCategory
   }
 )(CategoryGridList);

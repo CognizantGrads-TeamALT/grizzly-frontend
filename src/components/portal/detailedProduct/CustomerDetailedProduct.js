@@ -7,8 +7,6 @@ import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
   getProduct,
-  getProductImage,
-  getProductImages,
   getRandomProducts
 } from '../../../actions/productsActions';
 import { addToCart, saveCart } from '../../../actions/cartActions';
@@ -70,14 +68,6 @@ class CustomerDetailedProduct extends Component {
     }
   }
 
-  getImages(products) {
-    for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
-        this.props.getProductImage(product.productId, product.imageDTO[0].imgName);
-      }
-    }
-  }
-
   show() {
     // From state or from props.
     const single = this.state.single || this.props.product.single;
@@ -90,14 +80,9 @@ class CustomerDetailedProduct extends Component {
       }
 
       const { random_products } = this.props.product;
-      // broken?!
       if (!isEmpty(random_products)) {
-        //this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+        this.props.getRandomProducts(single.name.split(' ').pop(), '0');
       } else {
-        this.getImages(random_products);
-        if (!isEmpty(single.imageDTO) && isEmpty(this.props.product.images[single.productId])) {
-          this.props.getProductImages(single);
-        }
         const vendor = this.props.product.product_vendor.filter(
           item => item.vendorId === single.vendorId
         )[0];
@@ -127,8 +112,6 @@ class CustomerDetailedProduct extends Component {
 
 CustomerDetailedProduct.propTypes = {
   getProduct: PropTypes.func.isRequired,
-  getProductImage: PropTypes.func.isRequired,
-  getProductImages: PropTypes.func.isRequired,
   getRandomProducts: PropTypes.func.isRequired,
 
   addToCart: PropTypes.func.isRequired,
@@ -146,8 +129,6 @@ export default connect(
   {
     getProduct,
     getRandomProducts,
-    getProductImage,
-    getProductImages,
     addToCart,
     saveCart
   }

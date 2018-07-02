@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
-import { getProduct, getProductImage } from '../../../actions/productsActions';
+import { getProduct } from '../../../actions/productsActions';
 import unavailable from '../../../img/unavailable.png';
 import Spinner from '../../common/Spinner';
 import { PRODUCT_IMAGE } from '../../../actions/microservices';
@@ -70,7 +70,6 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProduct,
-    getProductImage
+  { getProduct
    }
 )(ProductImage);

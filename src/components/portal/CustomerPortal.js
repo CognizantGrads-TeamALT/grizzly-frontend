@@ -4,8 +4,7 @@ import ProductGridList from './common/ProductGridList';
 import PropTypes from 'prop-types';
 import {
   getProducts,
-  setProductUpdated,
-  getProductImage
+  setProductUpdated
 } from '../../actions/productsActions';
 import { loadCart, saveCart } from '../../actions/cartActions';
 import { sortCategoriesByParamCustomer } from '../../actions/categoryActions';
@@ -100,7 +99,6 @@ class CustomerPortal extends Component {
 CustomerPortal.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  getProductImage: PropTypes.func.isRequired,
   sortCategoriesByParamCustomer: PropTypes.func.isRequired,
 
   product: PropTypes.object.isRequired,
@@ -120,7 +118,6 @@ export default connect(
   {
     getProducts,
     setProductUpdated,
-    getProductImage,
     sortCategoriesByParamCustomer,
     loadCart,
     saveCart

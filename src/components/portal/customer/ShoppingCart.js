@@ -8,7 +8,7 @@ import Spinner from "../../common/Spinner";
 import { PRODUCT_IMAGE } from '../../../actions/microservices';
 import ImageLoader from 'react-load-image';
 import PropTypes from "prop-types";
-import { getProduct, getProductImage, getProductBatch } from "../../../actions/productsActions";
+import { getProduct, getProductBatch } from "../../../actions/productsActions";
 import { loadCart, saveCart } from "../../../actions/cartActions";
 
 class ShoppingCart extends Component {
@@ -212,7 +212,6 @@ class ShoppingCart extends Component {
 
 ShoppingCart.propTypes = {
   getProduct: PropTypes.func.isRequired,
-  getProductImage: PropTypes.func.isRequired,
   getProductBatch: PropTypes.func.isRequired,
 
   loadCart: PropTypes.func.isRequired,
@@ -229,7 +228,6 @@ export default connect(
   mapStateToProps,
   {
     getProduct,
-    getProductImage,
     getProductBatch,
     loadCart,
     saveCart

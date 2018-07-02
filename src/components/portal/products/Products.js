@@ -9,7 +9,7 @@ import {
   filterProductsByCategory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
-import ErrorComponent from "../../common/ErrorComponent"
+//import ErrorComponent from "../../common/ErrorComponent"
 import { toast } from 'react-toastify';
 
 class Products extends Component {
@@ -56,7 +56,7 @@ class Products extends Component {
       loadingVendors,
       loadingCategories
     } = this.props.product;
-    const { errorMessage } = this.props.errors;
+    //const { errorMessage } = this.props.errors;
     if (!loadingVendors && !loadingCategories) {
       if (this.props.user.userType === 'admin') {
         if (isEmpty(products)) {
