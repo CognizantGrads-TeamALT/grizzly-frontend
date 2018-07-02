@@ -44,17 +44,6 @@ class CustomerPortal extends Component {
     return false;
   }
 
-  getImages(products) {
-    for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
-        this.props.getProductImage(
-          product.productId,
-          product.imageDTO[0].imgName
-        );
-      }
-    }
-  }
-
   getCategories(categories, page, column) {
     if (isEmpty(categories)) {
       this.props.sortCategoriesByParamCustomer(page, column);
@@ -65,10 +54,6 @@ class CustomerPortal extends Component {
     const { products, loading } = this.props.product;
     const { categories, loading2 } = this.props.category;
     if (!isEmpty(products) && !loading && !loading2) {
-      // Loop through each product and fetch the image for it.
-      // This will update the state and change the IMG.
-      this.getImages(products);
-
       // Grab categories for categoryrow
       this.getCategories(categories, '0', 'count');
 

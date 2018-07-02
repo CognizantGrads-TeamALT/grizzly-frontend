@@ -88,9 +88,11 @@ class CustomerDetailedProduct extends Component {
       if (isEmpty(single) || isEmpty(product_vendor)) {
         return <p>The item was not found.</p>;
       }
+
       const { random_products } = this.props.product;
-      if (isEmpty(random_products)) {
-        this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+      // broken?!
+      if (!isEmpty(random_products)) {
+        //this.props.getRandomProducts(single.name.split(' ').pop(), '0');
       } else {
         this.getImages(random_products);
         if (!isEmpty(single.imageDTO) && isEmpty(this.props.product.images[single.productId])) {
