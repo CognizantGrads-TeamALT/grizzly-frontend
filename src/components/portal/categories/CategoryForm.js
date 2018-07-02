@@ -9,7 +9,7 @@ import { addCategory, editCategory, WaitForError } from "../../../actions/catego
 import isEmpty from "../../../validation/is-empty";
 import validator from "validator";
 import _ from "lodash";
-import { runInThisContext } from "vm";
+//import { runInThisContext } from "vm";
 import ErrorComponent from "../../common/ErrorComponent";
 
 class CategoryForm extends Component {
@@ -111,14 +111,17 @@ class CategoryForm extends Component {
         }
       })
     }
+    //saves validation errors to global state
     this.setState({errors: errors})
     return errors;
   }
 
   showError(){
-    if(this.state.errors.length != 0){
+    //shows validation errors
+    if(this.state.errors.length !== 0){
       return <ErrorComponent errormsg={this.state.errors[0].msg}/>
     }
+    //shows DB errors post submit
     else if(this.state.showDBErrors && this.props.errors.errorMessage !== ''){
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }

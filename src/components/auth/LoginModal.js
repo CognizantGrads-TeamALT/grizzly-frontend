@@ -61,6 +61,7 @@ class LoginModal extends Component {
   login(response) {
     if (isEmpty(response.error) && !isEmpty(response.tokenId)) {
       this.props.loginUser(response);
+      console.log(responce.profile.givenName);
       toast.success('Hello ' + response.profileObj.givenName + '!');
       // if (isEmpty(this.props.user.user)) {
       //   this.props.history.push({

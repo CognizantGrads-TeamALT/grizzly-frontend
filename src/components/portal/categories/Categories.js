@@ -47,6 +47,7 @@ class Categories extends Component {
   show() {
     const { categories, loading } = this.props.category;
     const { errorMessage } = this.props.errors;
+    //show errors if finsihed loading, no cats were found and an error message exists
     if((isEmpty(categories) && !loading && errorMessage !== "")){
       return(
         <tr>

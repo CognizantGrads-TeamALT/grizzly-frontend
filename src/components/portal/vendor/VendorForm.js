@@ -118,9 +118,11 @@ class VendorForm extends Component {
   }
 
   showError(){
-    if(this.state.errors.length != 0){
+    //shows validation errors if any exist.
+    if(this.state.errors.length !== 0){
       return <ErrorComponent errormsg={this.state.errors[0].msg}/>
     }
+    //shows DB errors if any exist and a submit has been sent
     else if(this.state.showDBErrors && this.props.errors.errorMessage !== ''){
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }

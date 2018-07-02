@@ -16,13 +16,14 @@ class VendorList extends Component {
     this.onBlockClick = this.onBlockClick.bind(this);
     this.closeError = this.closeError.bind(this);
   }
-
+  //closes the error message popup.
   closeError(){
     this.setState({showError: false});
   }
 
   onDeleteClick(id) {
     this.props.deleteVendor(id);
+        //begins a wait method to listen for an error
     this.setState({listenForError: true,
       count: 0,
       intervalId: setInterval(this.waitForResponce, 10)});
@@ -31,20 +32,17 @@ class VendorList extends Component {
   onBlockClick() {
     const { vendor } = this.props;
     this.props.toggleBlockVendor(vendor.vendorId, !vendor.enabled);
+    //begins a wait method to listen for an error
     this.setState({listenForError: true,
-      block: true,
       count: 0,
-      intervalId: setInterval(this.waitForResponce, 10)});
+      intervalId: setInterval(this.waitForResponce, 100)});
   }
 
   waitForResponce = () => {
+    //method waits for a responce from the server, to check it doesn't result in an error
     if(this.props.errors.errorMessage !== "" && this.state.listenForError){
       this.setState({showError:true,
       listenForError: false})
-      // if(this.state.block){
-      //   //this.props.product.enabled = !this.props.product.enabled;
-      //   this.setState({block:false});
-      // }
       clearInterval(this.state.intervalId) ;
     }
     else if(this.state.count> 5){
@@ -89,6 +87,7 @@ class VendorList extends Component {
                   buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
                   onSubmit={this.onDeleteClick.bind(this, vendor.vendorId)}
                 />
+                {/* error component, load error popup if showerrror = true */}
               <ErrorComponent 
                 errormsg={this.props.errors.errorMessage} 
                 popup={true} 

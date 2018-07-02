@@ -89,12 +89,7 @@ class Products extends Component {
             />
           ));
       }
-    } else if (
-    errorMessage !== undefined && errorMessage !== ""){
-        //not loading, products still empty
-        return(<tr><td><ErrorComponent errormsg={this.props.errors.errorMessage} /></td></tr>);
-      }
-    
+    }
     else {
       return (
         <tr>

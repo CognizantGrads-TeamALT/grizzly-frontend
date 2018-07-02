@@ -45,6 +45,7 @@ class Vendor extends Component {
   show() {
     const { vendors, loading } = this.props.vendor;
     const {errorMessage } = this.props.errors;
+    // show errros if loading is finished, nothing has loaded and an error message exists
     if((isEmpty(vendors) && !loading && errorMessage !== "")){
       return(
         <tr>

@@ -150,7 +150,6 @@ class ProductDescription extends Component {
 
   showImg() {
     const product = this.props.product.single;
-    console.log(this.props.errors.errorMessage);
     // If we don't have any images.
     if (isEmpty(this.props.product.images[product.productId])) {
       // If the product details literally has no images.
@@ -166,6 +165,7 @@ class ProductDescription extends Component {
         // We have image but its loading, so wait.
       } 
       else if(this.props.errors.errorMessage !== ''){
+        //an error was thrown loading the image, show the error
         return<ErrorComponent errormsg={this.props.errors.errorMessage}/>
       }
       else {
@@ -258,6 +258,7 @@ class ProductDescription extends Component {
   }
 
   showErrors(){
+    //shows an error if a DB action has been sent
     if(this.state.showDBError){
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }

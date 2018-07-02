@@ -9,7 +9,7 @@ class App extends Component {
   toastId = null;
 
   notify() {
-    if (!toast.isActive(this.toastId)) {
+    if (!toast.isActive(this.toastId) && this.props.errors.message !== undefined) {
       this.toastId = toast.info(this.props.errors.message);
     }
   }

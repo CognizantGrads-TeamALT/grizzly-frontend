@@ -57,7 +57,7 @@ class ProductForm extends Component {
   }
 
   componentDidUpdate(){
-    //console.log(this.props.errors);
+    //if no errors have been thrown and cancel has been triggered, cancel.
     if(!this.props.errors.waitForError && this.state.shouldCancel){
       this.cancel();
       this.props.WaitForError();
@@ -112,16 +112,15 @@ class ProductForm extends Component {
     // Validate new product
     let validationErrors = this.validateProduct(newProd);
     if (validationErrors.length > 0) {
+      //add any errors to the state
       this.setState({errors: validationErrors})
     }
     // No validation errors found!
     else {
       this.props.addProduct(newProd);
+      //add product, set should cancel to true, this will trigger the closure of the window If no error is thrown.
       this.setState({shouldCancel: true, 
                     showDBErrors: true})
-      //this.cancel();
-      
-     // this.setState({intervalID: setInterval(this.waitForResponce, 10)})
     }
   }
 

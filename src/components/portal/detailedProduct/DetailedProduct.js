@@ -30,7 +30,8 @@ class DetailedProduct extends Component {
 
   show() {
     const { single, loading, product_vendor } = this.props.product;
-    if(isEmpty(single) || isEmpty(product_vendor) && this.props.errors.errorMessage !== ''){
+    //show an error component if there is nothing to show and an error exists.
+    if((isEmpty(single) || isEmpty(product_vendor)) && this.props.errors.errorMessage !== ''){
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }
     else if (isEmpty(single) || isEmpty(product_vendor) || loading) {

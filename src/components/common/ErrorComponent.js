@@ -10,7 +10,7 @@ class ErrorComponent extends Component {
     this.onSubmit=this.onSubmit.bind(this);
         
       }
-
+      //for model only, method call to close the popup
     onSubmit(e){
         e.preventDefault();
         this.props.closeError();
@@ -18,6 +18,7 @@ class ErrorComponent extends Component {
 
     show(){
         if(this.props.popup === true){
+            // returns a popup, with the error message and a 'ok' button to close.
             return(
                 <Modal
                 isOpen={this.props.show}
@@ -40,6 +41,7 @@ class ErrorComponent extends Component {
             )
         }
         else{
+            //returns error in line in red text
             return (<p className="text-danger">{this.props.errormsg}</p>);
         }
     }

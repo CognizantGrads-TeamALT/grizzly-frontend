@@ -95,7 +95,9 @@ export const getProductImages = product => dispatch => {
 }
 
 export const getProductImage = (productId, imageName) => dispatch => {
-  dispatch(clearErrors());
+  //don't know why this caused problems, error along the lines of cannot call render when render is already underway. no idea, shouldn't cause problems...
+  //... hopefully, will find out when/if we do customer portal error handling
+  //dispatch(clearErrors());
   cache
     .get(PRODUCT_API_GATEWAY + `/getImage/${imageName}`)
     .then(res => {

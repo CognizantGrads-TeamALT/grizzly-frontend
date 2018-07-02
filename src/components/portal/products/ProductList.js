@@ -38,12 +38,12 @@ class ProductList extends Component {
 
   onBlockClick() {
     const product = this.props.product.products[this.props.index];
-    //product.enabled = !product.enabled;
     this.props.toggleBlockProduct(product.productId, !product.enabled);
+    //sets it so that errors thrown will be shown, starts a listener to wait for a error.
     this.setState({listenForError: true,
       block: true,
       count: 0,
-    intervalId: setInterval(this.waitForResponce, 10)
+    intervalId: setInterval(this.waitForResponce, 100)
     });
   }
 
@@ -54,13 +54,10 @@ class ProductList extends Component {
   }
 
     waitForResponce = (product) => {
+      //timed method, listens for error and displays if if there is one.
       if(this.props.errors.errorMessage !== "" && this.state.listenForError){
         this.setState({showError:true,
         listenForError: false})
-        // if(this.state.block){
-        //   this.props.product.enabled = !this.props.product.enabled;
-        //   this.setState({block:false});
-        // }
         clearInterval(this.state.intervalId);
       }
       else if(this.state.count> 5){
@@ -96,6 +93,7 @@ class ProductList extends Component {
   }
 
   render() {
+    //updated this to get the product from the global state instead of the parent
     const product = this.props.product.products[this.props.index];
     return (
       <tr>
