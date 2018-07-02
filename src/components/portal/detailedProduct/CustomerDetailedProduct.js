@@ -18,7 +18,8 @@ class CustomerDetailedProduct extends Component {
     super(props);
     this.state = {
       single: null,
-      id: null
+      id: null,
+      shouldGetRandom: true
     };
 
     this.addToCart = this.addToCart.bind(this);
@@ -82,6 +83,7 @@ class CustomerDetailedProduct extends Component {
 
   show() {
     // From state or from props.
+    console.log("got this far");
     const single = this.state.single || this.props.product.single;
     const { loadingCategories, loadingVendors, product_vendor } = this.props.product;
     if (loadingVendors || loadingCategories) {
@@ -90,10 +92,13 @@ class CustomerDetailedProduct extends Component {
       if (isEmpty(single) || isEmpty(product_vendor)) {
         return <p>The item was not found.</p>;
       }
+      console.log("got this far");
       const { random_products } = this.props.product;
-      if (isEmpty(random_products)) {
+      if (isEmpty(random_products) && this.state.shouldGetRandom) {
         this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+        this.setState({shouldGetRandom: false})
       } else {
+        console.log("got this far");
         this.getImages(random_products);
         if (!isEmpty(single.imageDTO) && isEmpty(this.props.product.images[single.productId])) {
           this.props.getProductImages(single);
@@ -116,6 +121,7 @@ class CustomerDetailedProduct extends Component {
   }
 
   render() {
+    console.log("got this far");
     return (
       <div className="col-md-12">
         <ProductCategoryRow />
