@@ -9,6 +9,7 @@ import {
   filterProductsByCategory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
+import { toast } from 'react-toastify';
 
 class Products extends Component {
   componentDidMount() {
@@ -40,6 +41,9 @@ class Products extends Component {
   loadMore() {
     if (this.props.product.hasMore) {
       this.props.getProducts(this.props.product.index);
+      if (!isEmpty(this.props.errors)) {
+        toast.info(this.props.errors.message);
+      }
     }
   }
 
@@ -97,7 +101,10 @@ class Products extends Component {
 
   render() {
     return (
-      <div ref="myscroll" style={{ height: '555px', overflowX: 'hidden', overflowY: 'auto' }}>
+      <div
+        ref="myscroll"
+        style={{ height: '555px', overflowX: 'hidden', overflowY: 'auto' }}
+      >
         <div className="overflow-normal-page">
           <table className="table table-sm table-hover">
             <thead>
@@ -128,7 +135,8 @@ Products.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  user: state.user
+  user: state.user,
+  errors: state.errors
 });
 
 export default connect(
