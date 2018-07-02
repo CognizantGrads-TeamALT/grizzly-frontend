@@ -8,8 +8,7 @@ import {
   editProduct,
   reloadProducts,
   WaitForError,
-  getProduct,
-  getProductImages
+  getProduct
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import ImageUploader from "../products/ImageUploader";
@@ -444,5 +443,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, WaitForError, getProduct, getProductImages }
+  { editProduct, reloadProducts, WaitForError, getProduct }
 )(ProductDescription);
