@@ -46,7 +46,7 @@ class CustomerProductDescription extends Component {
     if (!isEmpty(this.props.product.images[product.productId])) {
       return this.props.product.images[product.productId].map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <div id={index} key={index}>
+        <div key={index}>
           <img src={img.base64Image} className="img-responsive" alt="" />
         </div>
       ));

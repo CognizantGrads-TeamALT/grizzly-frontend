@@ -25,7 +25,7 @@ class CustomerDetailedProduct extends Component {
   }
 
   addToCart(single) {
-    this.props.addToCart(single.productId);
+    this.props.addToCart(single);
   }
 
   componentDidMount() {

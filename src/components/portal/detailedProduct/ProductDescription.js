@@ -270,9 +270,8 @@ class ProductDescription extends Component {
                     <span>{this.state.name}</span>
                   )}
                   <p className="d-inline dscrptnSize-9">
-                    {isEmpty(this.props.vendor)
-                      ? ''
-                      : ' by ' + this.props.vendor.name}
+                    {!isEmpty(this.props.vendor) &&
+                      ' by ' + this.props.vendor.name}
                   </p>
 
                   {this.props.user.userType === 'admin' && (
