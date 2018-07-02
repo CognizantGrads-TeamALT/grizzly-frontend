@@ -4,7 +4,8 @@ import isEmpty from '../validation/is-empty';
 const initialState = {
   vendors: null,
   hasMore: false,
-  index: 0
+  loading: true,
+  index: 0,
 };
 
 export default function (state = initialState, action) {

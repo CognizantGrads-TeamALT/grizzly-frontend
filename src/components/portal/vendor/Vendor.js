@@ -41,7 +41,7 @@ class Vendor extends Component {
 
   show() {
     const { vendors, loading } = this.props.vendor;
-    if (isEmpty(vendors) || loading) {
+    if (loading) {
       return (
         <tr>
           <td>
@@ -50,6 +50,10 @@ class Vendor extends Component {
         </tr>
       );
     } else {
+      if (isEmpty(vendors)) {
+        return <p>No vendors found.</p>;
+      }
+
       return vendors.map(vendor => (
         <VendorList key={vendor.vendorId} vendor={vendor} />
       ));

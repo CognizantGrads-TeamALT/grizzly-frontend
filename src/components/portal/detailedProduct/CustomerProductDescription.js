@@ -5,7 +5,8 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
-//import { Link } from 'react-router-dom';
+import Button from 'react-ions/lib/components/Button';
+//import { Link } from 'react-router-dom';  
 class CustomerProductDescription extends Component {
   constructor() {
     super();
@@ -16,6 +17,16 @@ class CustomerProductDescription extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  componentDidMount() {
+    // Scroll to top.
+    window.scrollTo(0, 0);
+  }
+
+  // Fixes no-op error.
+  componentWillUnmount() {
+    this.props.product.single = null;
+  }
+
   onCancel = event => {
     this.props.history.goBack();
   };
@@ -24,8 +35,8 @@ class CustomerProductDescription extends Component {
     this.props.cart.push(this.props.product);
     // this.setState({ clicks: this.state.clicks + 1 });
     // console.log(this.clicks);
-  };
-
+  }
+  
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -79,13 +90,12 @@ class CustomerProductDescription extends Component {
 
     return (
       <div>
-        <button
-          type="button"
-          className="btn btn-link d-inline p-1 my-auto profile-blue-color profile-small-link float-left dscrptnSize-9"
+        <Button
           onClick={this.onCancel}
+          className="btn more-rounded hover-w-b my-auto float-left dscrptnSize-9 d-inline p-1 px-2 btn-link"
         >
           Back
-        </button>
+        </Button>
 
         <div className="container containerCustomerProductView">
           <div className="row">
