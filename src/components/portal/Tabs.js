@@ -49,7 +49,7 @@ class Tabs extends Component {
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();
-    this.props.getVendorInventory('0', '1');
+    this.props.getVendorInventory('0', '2');
     this.setState({ activeTab: '1' });
   }
 
@@ -199,7 +199,7 @@ class Tabs extends Component {
               <TabPane tabId="2">
                 <Row>
                   <Col sm="12 pt-2">
-                    <Vendor />
+                    <Vendor userType={this.props.userType} />
                   </Col>
                 </Row>
               </TabPane>
@@ -213,7 +213,7 @@ class Tabs extends Component {
               <TabPane tabId="4">
                 <Row>
                   <Col sm="12 pt-2">
-                    <Inventory />
+                    <Inventory userType={this.props.userType} />
                   </Col>
                 </Row>
               </TabPane>
