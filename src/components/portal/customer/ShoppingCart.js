@@ -6,17 +6,29 @@ import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
-import { getProductWithImgs } from "../../../actions/productsActions";
+import { getProduct, getProductImage, getProductBatch } from "../../../actions/productsActions";
+import { loadCart, saveCart } from "../../../actions/cartActions";
 
 class ShoppingCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 1,
-      totalprice: 0
-    };
+      totalPrice: 0,
+      triggeredFetch: false,
+    }
+
     this.onChange = this.onChange.bind(this);
+
+    this.triggeredFetch = false;
   }
+
+  // Load their cart from local storage if it is empty...
+  componentDidMount() {
+    if (isEmpty(this.props.product.cart)) {
+      this.props.loadCart();
+    }
+  }
+
   getImg(product) {
     let imgInfo = this.props.product.images[product.productId][0];
     return (
@@ -28,6 +40,14 @@ class ShoppingCart extends Component {
         style={{ objectFit: 'cover', width: '150px' }}
       />
     );
+  }
+
+  getImages(products) {
+    for (let product of products) {
+      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
+        this.props.getProductImage(product.productId, product.imageDTO[0].imgName);
+      }
+    }
   }
 
   onChange(e) {
@@ -45,6 +65,7 @@ class ShoppingCart extends Component {
     this.setState({ clicks: this.state.value - 1 });
     console.log(this.clicks);
   };
+
   showImg(product) {
     // If we don't have any images.
     if (isEmpty(this.props.product.images[product.productId])) {
@@ -67,9 +88,53 @@ class ShoppingCart extends Component {
       return this.getImg(product);
     }
   }
+
+  // This will fetch the items from the API.
+  loadItems() {
+    this.triggeredFetch = true;
+    const cart = this.props.product.cart;
+
+    if (!isEmpty(cart) && !this.state.loadingCart) {
+      let productIdArray = '';
+      for (var productId in cart) {
+        // we don't have data for this product.
+        if (isEmpty(this.props.product.products[productId])) {
+          // check if productid array is empty and return only the number,
+          // else append the array with a comma and the number.
+          productIdArray = (productIdArray === '' ? productId : productIdArray + ',' + productId);
+        }
+      }
+
+      if (productIdArray !== '') {
+        console.log(productIdArray);
+        this.props.getProductBatch(productIdArray);
+      } else
+        this.props.product.fetchingCart = false;
+    }
+  }
+
   show() {
-    const products = JSON.parse(localStorage.getItem("cart"));
-    return products.map(prod => (
+    // No longer  "loading local cart"... so we load the main items.
+    if (!this.props.product.loadingCart) {
+      if (!this.triggeredFetch) {
+        this.loadItems();
+      }
+    }
+
+    // If we're fetching data from api or loading the cart...
+    if (this.props.product.loadingCart || this.props.product.fetchingCart) {
+      return (
+        <div className="text-center">
+          <Spinner size={'150px'} />
+        </div>
+      );
+    } else if (isEmpty(this.props.product.cart_products)) {
+      return <p>No items found.</p>;
+    }
+
+    const cartItems = this.props.product.cart_products;
+    this.getImages(cartItems);
+    return cartItems.map(prod => (
       <div key={prod.productId}>
         <div className="row-8 d-inline products-information">
           <div className="col-3 ml-5 d-inline products-image">
@@ -148,14 +213,27 @@ class ShoppingCart extends Component {
 }
 
 ShoppingCart.propTypes = {
-  getProductWithImgs: PropTypes.func.isRequired
+  getProduct: PropTypes.func.isRequired,
+  getProductImage: PropTypes.func.isRequired,
+  getProductBatch: PropTypes.func.isRequired,
+
+  loadCart: PropTypes.func.isRequired,
+  saveCart: PropTypes.func.isRequired,
+
+  product: PropTypes.object.isRequired
 };
+
 const mapStateToProps = state => ({
-  product: state.product,
-  cart: state.cart
+  product: state.product
 });
 
 export default connect(
   mapStateToProps,
-  { getProductWithImgs }
+  {
+    getProduct,
+    getProductImage,
+    getProductBatch,
+    loadCart,
+    saveCart
+  }
 )(withRouter(ShoppingCart));

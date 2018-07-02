@@ -5,10 +5,12 @@ import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../../common/TextFieldGroup";
 import TextAreaFieldGroup from "../../common/TextAreaFieldGroup";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { addCategory, editCategory } from "../../../actions/categoryActions";
+import { addCategory, editCategory, WaitForError } from "../../../actions/categoryActions";
 import isEmpty from "../../../validation/is-empty";
 import validator from "validator";
 import _ from "lodash";
+//import { runInThisContext } from "vm";
+import ErrorComponent from "../../common/ErrorComponent";
 
 class CategoryForm extends Component {
   constructor(props) {
@@ -16,17 +18,31 @@ class CategoryForm extends Component {
     this.state = {
       modal: false,
       name: this.props.category.name,
-      description: this.props.category.description
+      description: this.props.category.description,
+      errors: [],
+      shouldToggle: false
     };
     this.onToggle = this.onToggle.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.validateCategory=this.validateCategory.bind(this);
   }
 
   onToggle() {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      errors: [],
+      shouldToggle: false,
+      showDBErrors: false
     });
+  }
+
+  componentDidUpdate(){
+    //closes module if close has been triggered with no errors
+    if(!this.props.errors.waitForError && this.state.shouldCancel){
+      this.onToggle();
+      this.props.WaitForError();
+     }
   }
 
   onChange(e) {
@@ -37,7 +53,7 @@ class CategoryForm extends Component {
     e.preventDefault();
 
     let validationErrors = [];
-
+    //first if, checks if the category exists, if so, edits the category
     if (!isEmpty(this.props.category.categoryId)) {
       const newInfo = {
         categoryId: this.props.category.categoryId,
@@ -47,19 +63,11 @@ class CategoryForm extends Component {
       };
 
       validationErrors = this.validateCategory(newInfo);
-
-      if (validationErrors.length > 0) {
-        // TODO: show modal with error messages. For now just logging to console
-        console.log("The category could not be created. Please amend the following issues:");
-        _(validationErrors).forEach(function(error) {
-          console.log(error.msg);
-          console.log("DEBUG: " + error.debug);
-        });
-      } 
-      // No validation errors found!
-      else {
+      //if no errors were found, edit cat
+      if(validationErrors.length === 0) {
         this.props.editCategory(newInfo);
       }
+    // else to the frist if, category does not exist, therefor, create new category.
     } else {
       const newCat = {
         name: this.state.name,
@@ -67,27 +75,18 @@ class CategoryForm extends Component {
       };
 
       validationErrors = this.validateCategory(newCat);
-
-      if (validationErrors.length > 0) {
-        // TODO: show modal with error messages. For now just logging to console
-        console.log("The category could not be created. Please amend the following issues:");
-        _(validationErrors).forEach(function(error) {
-          console.log(error.msg);
-          console.log("DEBUG: " + error.debug);
-        });
-      } 
-      // No validation errors found!
-      else {
+      
+      if(validationErrors.length === 0) {
         this.props.addCategory(newCat);
       }
     }
 
     if (validationErrors.length === 0) {
       this.setState({
-        name: "",
-        description: ""
+        shouldToggle: true,
+        showDBErrors: true
       });
-      this.onToggle();
+      
     }
   }
 
@@ -112,9 +111,21 @@ class CategoryForm extends Component {
         }
       })
     }
-
+    //saves validation errors to global state
+    this.setState({errors: errors})
     return errors;
   }
+
+  showError(){
+    //shows validation errors
+    if(this.state.errors.length !== 0){
+      return <ErrorComponent errormsg={this.state.errors[0].msg}/>
+    }
+    //shows DB errors post submit
+    else if(this.state.showDBErrors && this.props.errors.errorMessage !== ''){
+      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
+    }
+  } 
 
   render() {
     return (
@@ -176,6 +187,7 @@ class CategoryForm extends Component {
               >
                 Cancel
               </Button>
+              {this.showError()}
             </div>
           </ModalFooter>
         </Modal>
@@ -189,6 +201,10 @@ CategoryForm.propTypes = {
   editCategory: PropTypes.func.isRequired
 };
 
-export default connect(null, { addCategory, editCategory })(
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, { addCategory, editCategory, WaitForError })(
   withRouter(CategoryForm)
 );

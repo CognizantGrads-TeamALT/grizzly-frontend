@@ -31,6 +31,7 @@ class ConfirmModal extends Component {
         this.onToggle();
     }
 
+
     render() {
         return (
             <div className="form-group mb-0">

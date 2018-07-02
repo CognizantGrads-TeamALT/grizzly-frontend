@@ -16,6 +16,11 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
+    case types.USER_UPDATED:
+      return {
+        ...state,
+        loading: false
+      };
     case types.GET_USERS:
       return {
         ...state,
@@ -23,6 +28,11 @@ export default function(state = initialState, action) {
         userType: action.userType,
         isAuthenticated: true,
         loading: false
+      };
+    case types.GET_USER_BY_EMAIL:
+      return {
+        ...state,
+        user: action.payload
       };
     case types.SET_CURRENT_USER:
       return {
@@ -36,6 +46,13 @@ export default function(state = initialState, action) {
         ...state,
         orders: action.payload,
         loading: false
+       };
+    case types.USER_PROFILE_UPDATE:
+      return {
+        ...state,
+        isAuthenticated: !isEmpty(action.payload),
+        user: action.payload,
+        userType: 'customer' // TODO : fix this, receive from BE instead.
       };
     case types.CLEAR_CURRENT_USER:
       return {

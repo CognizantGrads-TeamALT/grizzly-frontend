@@ -6,11 +6,12 @@ import PropTypes from 'prop-types';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
-  getProductWithImgs,
+  getProduct,
   getProductImage,
-  getRandomProducts,
-  addToCart
+  getProductImages,
+  getRandomProducts
 } from '../../../actions/productsActions';
+import { addToCart, saveCart } from '../../../actions/cartActions';
 
 class CustomerDetailedProduct extends Component {
   constructor(props) {
@@ -18,34 +19,20 @@ class CustomerDetailedProduct extends Component {
     this.state = {
       single: null,
       id: null,
-      cart: []
+      shouldGetRandom: true
     };
 
     this.addToCart = this.addToCart.bind(this);
   }
 
-  
-  addToCart(single){
-    this.state.cart.push(single);
-    
-
-    if (isEmpty(JSON.parse(localStorage.getItem('cart')))) {
-      localStorage.setItem('cart', JSON.stringify(this.state.cart));
-    } else {
-      let currentCartString = localStorage.getItem('cart');
-
-      let currentCart = JSON.parse(currentCartString);
-      currentCart = currentCart.concat(single);
-
-      localStorage.setItem('cart', JSON.stringify(currentCart));
-      this.State ={cart: []};
-      console.log(currentCart);
-
-    }
+  addToCart(single) {
+    this.props.addToCart(single);
   }
 
   componentDidMount() {
     this.loadData(this.props.match.params.productId);
+    this.props.getProduct(this.props.match.params.productId);
+    this.props.getProductImages(this.props.match.params);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,7 +42,6 @@ class CustomerDetailedProduct extends Component {
     }
 
     //new route param ?
-
     if (this.state.id !== this.props.match.params.productId) {
       this.loadData(this.props.match.params.productId);
       this.setState({ id: this.props.match.params.productId });
@@ -75,10 +61,10 @@ class CustomerDetailedProduct extends Component {
         this.setState({ single: single[0] });
         name = single[0].name;
       } else {
-        this.props.getProductWithImgs(id);
+        this.props.getProduct(id);
       }
     } else {
-      this.props.getProductWithImgs(id);
+      this.props.getProduct(id);
     }
 
     let searchTerm = name.split(' ').pop();
@@ -98,20 +84,21 @@ class CustomerDetailedProduct extends Component {
   show() {
     // From state or from props.
     const single = this.state.single || this.props.product.single;
-    const { loading, product_vendor } = this.props.product;
-    if (isEmpty(single) || isEmpty(product_vendor) || loading) {
+    const { loadingCategories, loadingVendors, product_vendor } = this.props.product;
+    if (loadingVendors || loadingCategories) {
       return <Spinner size={'150px'} />;
     } else {
+      if (isEmpty(single) || isEmpty(product_vendor)) {
+        return <p>The item was not found.</p>;
+      }
       const { random_products } = this.props.product;
-      if (isEmpty(random_products)) {
+      if (isEmpty(random_products) && this.state.shouldGetRandom) {
         this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+        this.setState({shouldGetRandom: false})
       } else {
         this.getImages(random_products);
         if (!isEmpty(single.imageDTO) && isEmpty(this.props.product.images[single.productId])) {
-          this.props.getProductImage(
-            single.productId,
-            single.imageDTO[0].imgName
-          );
+          this.props.getProductImages(single);
         }
         const vendor = this.props.product.product_vendor.filter(
           item => item.vendorId === single.vendorId
@@ -141,22 +128,29 @@ class CustomerDetailedProduct extends Component {
 }
 
 CustomerDetailedProduct.propTypes = {
-  getProductWithImgs: PropTypes.func.isRequired,
+  getProduct: PropTypes.func.isRequired,
   getProductImage: PropTypes.func.isRequired,
-  getRandomProducts: PropTypes.func.isRequired
+  getProductImages: PropTypes.func.isRequired,
+  getRandomProducts: PropTypes.func.isRequired,
+
+  addToCart: PropTypes.func.isRequired,
+  saveCart: PropTypes.func.isRequired,
+
+  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product,
-  cart: state.cart
+  product: state.product
 });
 
 export default connect(
   mapStateToProps,
   {
-    getProductWithImgs,
+    getProduct,
     getRandomProducts,
     getProductImage,
-    addToCart
+    getProductImages,
+    addToCart,
+    saveCart
   }
 )(CustomerDetailedProduct);

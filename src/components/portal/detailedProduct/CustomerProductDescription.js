@@ -5,6 +5,11 @@ import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
+import Button from 'react-ions/lib/components/Button';
+import {
+  getProduct,
+  getProductImages
+} from '../../../actions/productsActions';
 //import { Link } from 'react-router-dom';  
 class CustomerProductDescription extends Component {
   constructor() {
@@ -16,6 +21,16 @@ class CustomerProductDescription extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  componentDidMount() {
+    // Scroll to top.
+    window.scrollTo(0, 0);
+  }
+
+  // Fixes no-op error.
+  componentWillUnmount() {
+    this.props.product.single = null;
+  }
+
   onCancel = event => {
     this.props.history.goBack();
   };
@@ -24,7 +39,6 @@ class CustomerProductDescription extends Component {
     this.props.cart.push(this.props.product);
     // this.setState({ clicks: this.state.clicks + 1 });
     // console.log(this.clicks);
-
   }
   
   onChange(e) {
@@ -36,14 +50,9 @@ class CustomerProductDescription extends Component {
     if (!isEmpty(this.props.product.images[product.productId])) {
       return this.props.product.images[product.productId].map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        //<div id={index}>
-        <img
-          key={index}
-          src={img.base64Image}
-          className="img-responsive"
-          alt=""
-        />
-        //</div>
+        <div id={index} key={index}>
+          <img src={img.base64Image} className="img-responsive" alt="" />
+        </div>
       ));
     }
   }
@@ -72,7 +81,11 @@ class CustomerProductDescription extends Component {
       }
       // Return the loaded images.
     } else {
-      return <Carousel>{this.showCarousel()}</Carousel>;
+      return (
+        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
+          {this.showCarousel()}
+        </Carousel>
+      );
     }
   }
 
@@ -81,13 +94,12 @@ class CustomerProductDescription extends Component {
 
     return (
       <div>
-        <button
-          type="button"
-          className="btn btn-link d-inline p-1 my-auto profile-blue-color profile-small-link float-left dscrptnSize-9"
+        <Button
           onClick={this.onCancel}
+          className="btn more-rounded hover-w-b my-auto float-left dscrptnSize-9 d-inline p-1 px-2 btn-link"
         >
           Back
-        </button>
+        </Button>
 
         <div className="container containerCustomerProductView">
           <div className="row">
@@ -110,11 +122,16 @@ class CustomerProductDescription extends Component {
                 <p className="mb-0">${product.price}</p>
               </div>
               <div className="row mt-2">
-                <button className="orange-b surround-parent w-75 more-rounded mb-2">Buy now</button>
-                <button className="yellow-b surround-parent w-75 more-rounded mb-2"  
-                onClick={ () => this.props.addToCart(product)}
-                >Add to Cart</button>
-                <div className="bottom-border-line w-75 pt-4 mb-3"></div>
+                <button className="btn orange-b surround-parent w-75 more-rounded mb-2">
+                  Buy now
+                </button>
+                <button
+                  className="btn yellow-b surround-parent w-75 more-rounded mb-2"
+                  onClick={() => this.props.addToCart(product)}
+                >
+                  Add to Cart
+                </button>
+                <div className="bottom-border-line w-75 pt-4 mb-3" />
               </div>
               <div className="row">
                 <div className="title-size-1em fnt-weight-400">Description</div>
@@ -146,7 +163,6 @@ class CustomerProductDescription extends Component {
         </span>
         <RandomProduct productId={product.productId} />
       </div>
-      
     );
   }
 }
@@ -155,4 +171,10 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps)(CustomerProductDescription);
+export default connect(
+  mapStateToProps,
+  {
+    getProduct,
+    getProductImages
+  }
+)(CustomerProductDescription);

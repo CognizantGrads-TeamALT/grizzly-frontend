@@ -18,17 +18,17 @@ export const getCategories = index => dispatch => {
       })
     )
     .catch(err => {
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.request.response
+      })
       dispatch(setCategoryUpdated());
       // For development purposes. The micro-services take time to initialise.
       // This will keep requesting data if it gets a 500 or 403 error...
       // Should be removed once we actually implement a feature to error or retry x times.
-      if (index === 0)
-        dispatch(getCategories(index));
-
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
-      })
+      // if (index === 0)
+      //   dispatch(getCategories(index));
+      
     });
 };
 //Category TypeAhead
@@ -37,11 +37,11 @@ export const Update_TypeAhead = values => dispatch => {
       type: types.CATEGORY_TYPEAHEAD_UPDATE,
       payload: values
     })
-  
 }
 
 // Add Category
 export const addCategory = newCat => dispatch => {
+  dispatch(clearErrors());
   dispatch(setCategoryAdding());
   axios
     .put(CATEGORY_API_GATEWAY + "/add", newCat)
@@ -55,13 +55,14 @@ export const addCategory = newCat => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
 
 // Edit Category
 export const editCategory = newInfo => dispatch => {
+  dispatch(clearErrors());
   dispatch(setCategoryEditing());
   axios
     .post(CATEGORY_API_GATEWAY + `/edit/${newInfo.categoryId}`, newInfo)
@@ -75,7 +76,7 @@ export const editCategory = newInfo => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -86,17 +87,17 @@ export const searchCategories = keyword => dispatch => {
   dispatch(setCategoryLoading());
   axios
     .get(CATEGORY_API_GATEWAY + `/search/${keyword}`)
-    .then(res =>
+    .then(res =>{
       dispatch({
         type: types.GET_CATEGORIES,
         payload: res.data
       })
-    )
+    })
     .catch(err => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -105,6 +106,18 @@ export const searchCategories = keyword => dispatch => {
 export const reloadCategories = () => dispatch => {
   dispatch(clearCurrentCategories());
   dispatch(getCategories());
+}
+
+export const clearErrors = values => dispatch => {
+  dispatch({type: types.CLEAR_ERRORS})
+}
+
+export const WaitForError = () => {
+  return {type: types.START_WAITING}
+}
+
+export const stopWaitingForError = () => {
+  return {type: types.STOP_WAITING}
 }
 
 // Category loading
@@ -143,6 +156,7 @@ export const setCategoryEditing = () => {
 
 // Delete Category
 export const deleteCategory = id => dispatch => {
+  dispatch(clearErrors());
   dispatch(setCategoryUpdateOnce());
   axios
     .delete(CATEGORY_API_GATEWAY + `/delete/${id}`)
@@ -157,16 +171,17 @@ export const deleteCategory = id => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
 
 // Block/unlock Category
-export const toggleBlockCategory = category => dispatch => {
+export const toggleBlockCategory = (categoryId, enabled) => dispatch => {
+  dispatch(clearErrors());
   dispatch(setCategoryUpdateOnce());
   axios
-    .post(CATEGORY_API_GATEWAY + `/setBlock/${category.categoryId}`, category)
+    .post(CATEGORY_API_GATEWAY + `/setBlock/${categoryId}`, {'enabled': enabled})
     .then(res =>
       dispatch({
         type: types.CATEGORY_TOGGLEBLOCK,
@@ -177,7 +192,7 @@ export const toggleBlockCategory = category => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -192,7 +207,7 @@ export const disableCategoryProducts = id => dispatch => {
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 }
@@ -213,7 +228,7 @@ export const sortCategoriesByParam = (index, param) => dispatch => {
       dispatch(setCategoryUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };
@@ -232,7 +247,7 @@ export const sortCategoriesByParamCustomer = (index, param) => dispatch => {
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       })
     });
 };

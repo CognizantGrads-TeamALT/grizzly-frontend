@@ -21,7 +21,7 @@ export const getUsers = (userType, id) => dispatch => {
       dispatch(setUserUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
@@ -57,7 +57,12 @@ export const loginUser = googleResponse => dispatch => {
   // Decode Token to get User Data from tokenId, not from tokenObj
   const decoded = jwt_decode(tokenId);
   // Set current user
+  dispatch(loadUserInfo(decoded));
+};
+
+export const loadUserInfo = decoded => dispatch => {
   dispatch(setCurrentUser(decoded));
+  dispatch(getUserByEmail(decoded.email));
 };
 
 // Set logged in user
@@ -66,6 +71,46 @@ export const setCurrentUser = googleProfile => {
     type: types.SET_CURRENT_USER,
     payload: googleProfile
   };
+};
+
+// Get user by email
+export const getUserByEmail = email => dispatch => {
+  dispatch(setUserLoading());
+  axios
+    .get(USER_API_GATEWAY + `/get/${email}/`)
+    .then(res =>
+      dispatch({
+        type: types.GET_USER_BY_EMAIL,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(setUserUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// create or update user info
+export const createOrUpdateProfile = profileData => dispatch => {
+  dispatch(setUserLoading());
+  axios
+    .put(USER_API_GATEWAY + '/save', profileData)
+    .then(res =>
+      dispatch({
+        type: types.USER_PROFILE_UPDATE,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch(setUserUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
 
 // Clear current user

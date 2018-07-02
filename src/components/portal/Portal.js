@@ -50,7 +50,7 @@ class Portal extends Component {
           )}
           {this.props.match.params.portal === 'vendor' && (
             <div className="col-2 position-static griz-dark-blue-bg h-95 p-3">
-              <Profile userType="vendor" userId="1" />
+              <Profile userType="vendor" userId="2" />
             </div>
           )}
           {(this.props.userType === 'admin' ||

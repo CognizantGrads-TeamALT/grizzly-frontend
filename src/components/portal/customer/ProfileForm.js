@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import validator from 'validator';
-import toastr from '../../../toastr/toast';
+import { toast } from 'react-toastify';
+import { createOrUpdateProfile } from '../../../actions/userActions';
 import isEmpty from '../../../validation/is-empty';
 import GoogleMapLoader from 'react-google-maps-loader';
 import GooglePlacesSuggest from 'react-google-places-suggest';
@@ -24,6 +26,13 @@ class ProfileForm extends Component {
     this.handleSelectSuggest = this.handleSelectSuggest.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+  componentDidMount() {
+    const { user } = this.props.user;
+    if (!isEmpty(user)) {
+      this.setState({ contact_num: user.contact_num, address: user.address });
+    }
+  }
+
   handleInputChange(e, validationFunction) {
     this.setState({ search: e.target.value, address: e.target.value });
     validationFunction(e.target.value);
@@ -41,28 +50,38 @@ class ProfileForm extends Component {
   onSubmit(e) {
     e.preventDefault();
 
-    const profileData = {
-      name: this.props.user.googleProfile.name,
-      contact_num: parseInt(this.state.contact_num, 10),
-      email: this.props.user.googleProfile.email,
-      address: this.state.address
-    };
     if (this.validateForm()) {
-      // this.props.createOrUpdateProfile(profileData, this.props.history);
       this.setState({ isValid: true });
-      this.clearForm();
+      const profileData = {
+        name: this.props.user.googleProfile.name,
+        contact_num: parseInt(this.state.contact_num, 10),
+        email: this.props.user.googleProfile.email,
+        address: this.state.address
+      };
+      this.props.createOrUpdateProfile(profileData);
+      toast.success('Profile updated!');
       this.props.onCancel();
     } else {
-      toastr.warning('Please check your input!');
+      toast.info('Please check your input!');
       this.setState({ isValid: false });
     }
   }
 
-  clearForm() {
+  resetForm() {
+    const { user } = this.props.user;
+    let contact_num = '';
+    let address = '';
+    if (!isEmpty(user)) {
+      contact_num = user.contact_num;
+      address = user.address;
+    } else {
+      contact_num = parseInt(this.state.contact_num, 10);
+      address = this.state.address;
+    }
     this.setState({
       search: '',
-      contact_num: '',
-      address: '',
+      contact_num: contact_num,
+      address: address,
       errors: {},
       isValid: true
     });
@@ -70,7 +89,7 @@ class ProfileForm extends Component {
 
   onToggle(e) {
     e.preventDefault();
-    this.clearForm();
+    this.resetForm();
     this.props.onCancel();
   }
 
@@ -138,11 +157,11 @@ class ProfileForm extends Component {
                     )
                   }
                 />
-                {!this.state.isValid && (
+                {/* {!this.state.isValid && (
                   <div className="alert alert-warning">
                     {'Please check your input.'}
                   </div>
-                )}
+                )} */}
                 <div className="row ml-0 mr-0">
                   <div className="col pl-0 text-left">
                     <button className="btn btn-light" onClick={this.onToggle}>
@@ -222,8 +241,15 @@ class ProfileForm extends Component {
   }
 }
 
+ProfileForm.propTypes = {
+  createOrUpdateProfile: PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps)(withRouter(ProfileForm));
+export default connect(
+  mapStateToProps,
+  { createOrUpdateProfile }
+)(withRouter(ProfileForm));
