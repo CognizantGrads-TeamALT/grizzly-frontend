@@ -14,7 +14,7 @@ class ShoppingCart extends Component {
     super(props);
     this.state = {
       totalPrice: 0,
-      triggeredFetch: false
+      triggeredFetch: false,
     }
 
     this.onChange = this.onChange.bind(this);
@@ -40,6 +40,14 @@ class ShoppingCart extends Component {
         style={{ width: "150px", height: "150px" }}
       />
     );
+  }
+
+  getImages(products) {
+    for (let product of products) {
+      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
+        this.props.getProductImage(product.productId, product.imageDTO[0].imgName);
+      }
+    }
   }
 
   onChange(e) {
@@ -100,7 +108,8 @@ class ShoppingCart extends Component {
       if (productIdArray !== '') {
         console.log(productIdArray);
         this.props.getProductBatch(productIdArray);
-      }
+      } else
+        this.props.product.fetchingCart = false;
     }
   }
 
@@ -124,6 +133,7 @@ class ShoppingCart extends Component {
     }
 
     const cartItems = this.props.product.cart_products;
+    this.getImages(cartItems);
     return cartItems.map(prod => (
       <div key={prod.productId}>
         <div className="row-8 d-inline products-information">
