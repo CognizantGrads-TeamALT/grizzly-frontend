@@ -8,7 +8,6 @@ import { PRODUCT_IMAGE } from '../../../actions/microservices';
 //import ImageLoader from 'react-load-image';
 //import Spinner from '../../common/Spinner';
 import Button from 'react-ions/lib/components/Button';
-
 class CustomerProductDescription extends Component {
   constructor() {
     super();
@@ -170,4 +169,6 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps)(CustomerProductDescription);
+export default connect(
+  mapStateToProps,
+)(CustomerProductDescription);

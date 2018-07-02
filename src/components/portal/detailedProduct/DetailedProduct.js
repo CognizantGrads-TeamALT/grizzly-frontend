@@ -20,6 +20,10 @@ class DetailedProduct extends Component {
     this.props.getProduct(this.props.match.params.productId);
   }
 
+  componentDidMount() {
+    this.props.getProduct(this.props.match.params.productId);
+  }
+
   // This fixes the following error:
   // Warning: Can't call setState (or forceUpdate) on an unmounted component.
   // This is a no-op, but it indicates a memory leak in your application.

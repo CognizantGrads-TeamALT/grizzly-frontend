@@ -7,7 +7,9 @@ import { Carousel } from "react-responsive-carousel";
 import {
   editProduct,
   reloadProducts,
-  WaitForError
+  WaitForError,
+  getProduct,
+  getProductImages
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
 import ImageUploader from "../products/ImageUploader";
@@ -43,6 +45,11 @@ class ProductDescription extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onDrop = this.onDrop.bind(this);
+  }
+
+  // Fixes no-op error.
+  componentWillUnmount() {
+    this.props.product.single = null;
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -437,5 +444,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, WaitForError }
+  { editProduct, reloadProducts, WaitForError, getProduct, getProductImages }
 )(ProductDescription);

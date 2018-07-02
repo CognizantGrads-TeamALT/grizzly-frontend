@@ -16,7 +16,8 @@ class CustomerDetailedProduct extends Component {
     super(props);
     this.state = {
       single: null,
-      id: null
+      id: null,
+      shouldGetRandom: true
     };
 
     this.addToCart = this.addToCart.bind(this);
@@ -28,6 +29,7 @@ class CustomerDetailedProduct extends Component {
 
   componentDidMount() {
     this.loadData(this.props.match.params.productId);
+    this.props.getProduct(this.props.match.params.productId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -80,8 +82,9 @@ class CustomerDetailedProduct extends Component {
       }
 
       const { random_products } = this.props.product;
-      if (!isEmpty(random_products)) {
+      if (isEmpty(random_products) && this.state.shouldGetRandom) {
         this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+        this.setState({shouldGetRandom: false})
       } else {
         const vendor = this.props.product.product_vendor.filter(
           item => item.vendorId === single.vendorId
