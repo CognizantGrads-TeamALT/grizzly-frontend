@@ -59,12 +59,13 @@ class Products extends Component {
       !loading
     ) {
       if (this.props.user.userType === 'admin') {
-        return products.map(prod => (
+        return products.map((prod, index) => (
           <ProductList
             key={prod.productId}
             product_category={product_category}
             product_vendor={product_vendor}
             product={prod}
+            index = {index}
             userType={this.props.user.userType}
             errors={this.props.errors}
           />

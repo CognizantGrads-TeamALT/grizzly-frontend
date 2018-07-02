@@ -24,7 +24,7 @@ class ProductList extends Component {
     this.onBlockClick = this.onBlockClick.bind(this);
     this.onViewClick = this.onViewClick.bind(this);
     this.closeError=this.closeError.bind(this);
-    this.testMethod=this.testMethod.bind(this);
+    this.waitForResponce=this.waitForResponce.bind(this);
   }
 
   closeError(){
@@ -37,14 +37,13 @@ class ProductList extends Component {
   }
 
   onBlockClick() {
-    const { product } = this.props;
-    product.enabled = !product.enabled;
+    const product = this.props.product.products[this.props.index];
+    //product.enabled = !product.enabled;
     this.props.toggleBlockProduct(product.productId, !product.enabled);
-    var block = true;
     this.setState({listenForError: true,
       block: true,
       count: 0,
-    intervalId: setInterval(this.testMethod.bind(product), 10)
+    intervalId: setInterval(this.waitForResponce, 10)
     });
   }
 
@@ -54,15 +53,15 @@ class ProductList extends Component {
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
-    testMethod = (product) => {
+    waitForResponce = (product) => {
       if(this.props.errors.errorMessage !== "" && this.state.listenForError){
         this.setState({showError:true,
         listenForError: false})
-        if(this.state.block){
-          this.props.product.enabled = !this.props.product.enabled;
-          this.setState({block:false});
-        }
-        clearInterval(this.state.intervalId) 
+        // if(this.state.block){
+        //   this.props.product.enabled = !this.props.product.enabled;
+        //   this.setState({block:false});
+        // }
+        clearInterval(this.state.intervalId);
       }
       else if(this.state.count> 5){
         clearInterval(this.state.intervalId);
@@ -85,7 +84,7 @@ class ProductList extends Component {
   }
 
   showVendorName(product) {
-    const { product_vendor } = this.props;
+    const { product_vendor } = this.props
     if (!isEmpty(product) && !isEmpty(product_vendor)) {
       const vendName =
         product.vendorId === 0
@@ -97,7 +96,7 @@ class ProductList extends Component {
   }
 
   render() {
-    const { product } = this.props;
+    const product = this.props.product.products[this.props.index];
     return (
       <tr>
         <th scope="row">{product.productId}</th>
@@ -157,10 +156,7 @@ ProductList.propTypes = {
 
 const mapStateToProps = state => ({
   errors: state.errors,
-  //TODO: Fix this 
-  //product: state.product,
-  //product_vendor: state.product_vendor,
- // product_category: state.product_category
+  product: state.product,
 });
 
 export default connect(
