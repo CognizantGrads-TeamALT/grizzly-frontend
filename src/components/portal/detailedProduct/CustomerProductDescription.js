@@ -118,11 +118,11 @@ class CustomerProductDescription extends Component {
                 <p className="mb-0">${product.price}</p>
               </div>
               <div className="row mt-2">
-                <button className="orange-b surround-parent w-75 more-rounded mb-2">
+                <button className="btn orange-b surround-parent w-75 more-rounded mb-2">
                   Buy now
                 </button>
                 <button
-                  className="yellow-b surround-parent w-75 more-rounded mb-2"
+                  className="btn yellow-b surround-parent w-75 more-rounded mb-2"
                   onClick={() => this.props.addToCart(product)}
                 >
                   Add to Cart
