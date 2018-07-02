@@ -4,6 +4,11 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "bootstrap": "^4.1.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3",
+    "react-inline-editing": "^1.0.10",
+    "slick-carousel": "^1.8.1",
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "js-md5": "^0.7.3",
