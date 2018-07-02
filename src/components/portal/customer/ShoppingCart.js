@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import Spinner from "../../common/Spinner";
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+import ImageLoader from 'react-load-image';
 import PropTypes from "prop-types";
 import { getProduct, getProductImage, getProductBatch } from "../../../actions/productsActions";
 import { loadCart, saveCart } from "../../../actions/cartActions";
@@ -29,27 +31,6 @@ class ShoppingCart extends Component {
     }
   }
 
-  getImg(product) {
-    let imgInfo = this.props.product.images[product.productId][0];
-    return (
-      <img
-        key={product.productId}
-        src={imgInfo.base64Image}
-        className="img-responsive"
-        alt=""
-        style={{ width: "150px", height: "150px" }}
-      />
-    );
-  }
-
-  getImages(products) {
-    for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
-        this.props.getProductImage(product.productId, product.imageDTO[0].imgName);
-      }
-    }
-  }
-
   onChange(e) {
     console.log("inside onchange");
     this.setState({
@@ -66,24 +47,41 @@ class ShoppingCart extends Component {
     console.log(this.clicks);
   };
 
+  getImg(product) {
+    let imgInfo = product.imageDTO[0];
+
+    return (
+      <ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName}>
+        <img
+          key={product.productId}
+          className="img-responsive"
+          alt={product.name}
+          style={{ width: '150px', height: '150px' }}
+        />
+        <img
+          key={product.productId}
+          src={unavailable}
+          className="img-responsive"
+          style={{ width: '150px', height: '150px' }}
+          alt={product.name}
+        />
+        <Spinner size={'150px'}/>
+      </ImageLoader>
+    );
+  }
+
   showImg(product) {
-    // If we don't have any images.
-    if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img
-            src={unavailable}
-            className="img-responsive"
-            style={{ width: "150px", height: "150px" }}
-            alt="Unavailable"
-          />
-        );
-        // We have image but its loading, so wait.
-      } else {
-        return <Spinner size={"150px"} />;
-      }
-      // Return the loaded image.
+    // If the product details has no images.
+    if (isEmpty(product.imageDTO)) {
+      return (
+        <img
+          src={unavailable}
+          className="img-responsive"
+          style={{ width: '150px', height: '150px' }}
+          alt={product.name}
+        />
+      );
+    // Return the loaded image.
     } else {
       return this.getImg(product);
     }
@@ -133,7 +131,7 @@ class ShoppingCart extends Component {
     }
 
     const cartItems = this.props.product.cart_products;
-    this.getImages(cartItems);
+
     return cartItems.map(prod => (
       <div key={prod.productId}>
         <div className="row-8 d-inline products-information">

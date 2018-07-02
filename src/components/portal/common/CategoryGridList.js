@@ -92,7 +92,13 @@ class CategoryGridList extends Component {
           alt={product.name}
           style={{ width: '150px', height: '150px' }}
         />
-        <div>Error!</div>
+        <img
+          key={product.productId}
+          src={unavailable}
+          className="img-responsive"
+          style={{ width: '150px', height: '150px' }}
+          alt={product.name}
+        />
         <Spinner size={'150px'}/>
       </ImageLoader>
     );

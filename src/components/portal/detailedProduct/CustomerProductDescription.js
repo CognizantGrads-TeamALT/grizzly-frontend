@@ -43,17 +43,6 @@ class CustomerProductDescription extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  /*showCarousel(product) {
-    if (!isEmpty(this.props.product.images[product.productId])) {
-      return this.props.product.images[product.productId].map((img, index) => (
-        // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <div key={index}>
-          <img src={img.base64Image} className="img-responsive" alt="" />
-        </div>
-      ));
-    }
-  }*/
-
   showCarousel(product) {
     if (!isEmpty(product.imageDTO)) {
       return product.imageDTO.map((imgInfo, index) => (
@@ -64,9 +53,12 @@ class CustomerProductDescription extends Component {
             key={index}
             className="img-responsive"
             alt={product.name}
-            
           />
-          <div>Error!</div>
+          <img
+            src={unavailable}
+            className="img-responsive"
+            alt={product.name}
+          />
           <Spinner size={'150px'}/>
         </ImageLoader>*/
         <div key={index}>
@@ -83,7 +75,6 @@ class CustomerProductDescription extends Component {
         <img
           src={unavailable}
           className="img-responsive"
-          style={{ width: '150px', height: '150px' }}
           alt={product.name}
         />
       );
