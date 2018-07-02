@@ -19,7 +19,7 @@ class ShoppingCart extends Component {
     this.state = {
       totalPrice: 0,
       triggeredFetch: false
-    }
+    };
 
     this.onChange = this.onChange.bind(this);
 
@@ -28,9 +28,9 @@ class ShoppingCart extends Component {
 
   // Load their cart from local storage if it is empty...
   componentDidMount() {
-    if (isEmpty(this.props.product.cart)) {
-      this.props.loadCart();
-    }
+    // if (isEmpty(this.props.product.cart)) {
+    this.props.loadCart();
+    // }
   }
 
   getImg(product) {
@@ -91,7 +91,7 @@ class ShoppingCart extends Component {
     const cart = this.props.product.cart;
 
     if (!isEmpty(cart) && !this.state.loadingCart) {
-      let productIdArray = '';
+      let productIdArray = "";
       for (var productId in cart) {
         // we don't have data for this product.
         if (isEmpty(this.props.product.products[productId])) {
@@ -104,7 +104,7 @@ class ShoppingCart extends Component {
         }
       }
 
-      if (productIdArray !== '') {
+      if (productIdArray !== "") {
         console.log(productIdArray);
         this.props.getProductBatch(productIdArray);
       }

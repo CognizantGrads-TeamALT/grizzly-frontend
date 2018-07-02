@@ -1,24 +1,33 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 import PaypalExpressBtn from "react-paypal-express-checkout";
+import { loadCart, saveCart } from "../../../actions/cartActions";
 
 class Payment extends Component {
+  componentDidMount() {
+    this.props.loadCart();
+  }
   showOrderContent() {
-    const cart = JSON.parse(localStorage.getItem("cart"));
-    console.log(cart);
-    return cart.map(prod => (
+    let { cart, cart_products } = this.props.product;
+    console.log(cart_products);
+    return cart_products.map(prod => (
       <tr key={prod.productId}>
         <td>
-          {prod.name} x{prod.quantity}
+          {prod.name} x{cart[prod.productId]}
         </td>
         <td>Price (AUD): {prod.price}</td>
       </tr>
     ));
   }
   calcOrderPrice() {
-    const products = JSON.parse(localStorage.getItem("cart"));
+    let { cart, cart_products } = this.props.product;
     let totalPrice = 0;
-    products.map(prod => (totalPrice += prod.price));
+    cart_products.map(
+      prod => (totalPrice += prod.price * cart[prod.productId])
+    );
     return totalPrice;
   }
   onSuccess(payment) {
@@ -78,4 +87,18 @@ class Payment extends Component {
     );
   }
 }
-export default Payment;
+
+Payment.propTypes = {
+  loadCart: PropTypes.func.isRequired,
+  saveCart: PropTypes.func.isRequired
+};
+const mapStateToProps = state => ({
+  product: state.product
+});
+export default connect(
+  mapStateToProps,
+  {
+    loadCart,
+    saveCart
+  }
+)(withRouter(Payment));
