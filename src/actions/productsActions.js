@@ -367,7 +367,6 @@ export const getRandomProducts = (keyword, index) => dispatch => {
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: types.GET_RANDOM_PRODUCTS,
         payload: res.data
