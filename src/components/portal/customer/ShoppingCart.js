@@ -6,7 +6,11 @@ import isEmpty from "../../../validation/is-empty";
 import unavailable from "../../../img/unavailable.png";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
-import { getProduct, getProductImage, getProductBatch } from "../../../actions/productsActions";
+import {
+  getProduct,
+  getProductImage,
+  getProductBatch
+} from "../../../actions/productsActions";
 import { loadCart, saveCart } from "../../../actions/cartActions";
 
 class ShoppingCart extends Component {
@@ -16,7 +20,7 @@ class ShoppingCart extends Component {
       loadingCart: true,
       cartItems: [],
       totalPrice: 0
-    }
+    };
 
     this.onChange = this.onChange.bind(this);
 
@@ -24,8 +28,7 @@ class ShoppingCart extends Component {
   }
 
   componentDidMount() {
-    if (isEmpty(this.props.product.cart))
-      this.props.loadCart();
+    if (isEmpty(this.props.product.cart)) this.props.loadCart();
   }
 
   getImg(product) {
@@ -84,17 +87,20 @@ class ShoppingCart extends Component {
     const cart = this.props.product.cart;
 
     if (!isEmpty(cart)) {
-      let productIdArray = '';
+      let productIdArray = "";
       for (var productId in cart) {
         // we don't have data for this product.
         if (isEmpty(this.props.product.products[productId])) {
           // check if productid array is empty and return only the number,
           // else append the array with a comma and the number.
-          productIdArray = (productIdArray === '' ? productId : productIdArray + ',' + productId);
+          productIdArray =
+            productIdArray === ""
+              ? productId
+              : productIdArray + "," + productId;
         }
       }
 
-      if (productIdArray !== '') {
+      if (productIdArray !== "") {
         this.props.getProductBatch(productIdArray);
       }
     } else {
@@ -106,7 +112,7 @@ class ShoppingCart extends Component {
     if (this.state.loadingCart) {
       return (
         <div className="text-center">
-          <Spinner size={'150px'} />
+          <Spinner size={"150px"} />
         </div>
       );
     } else if (isEmpty(this.state.cartItems)) {
