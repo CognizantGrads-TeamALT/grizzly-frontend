@@ -86,43 +86,6 @@ export const getProduct = productId => dispatch => {
     });
 };
 
-export const clearProductImages = (productId) => {
-  return {
-    type: types.CLEAR_PRODUCT_IMAGES,
-    payload: productId
-  }
-}
-
-export const getProductImages = product => dispatch => {
-  // Fetch images.
-  if (!isEmpty(product.imageDTO)) {
-    for (let image of product.imageDTO)
-      dispatch(getProductImage(product.productId, image.imgName));
-  }
-}
-
-export const getProductImage = (productId, imageName) => dispatch => {
-  //don't know why this caused problems, error along the lines of cannot call render when render is already underway. no idea, shouldn't cause problems...
-  //... hopefully, will find out when/if we do customer portal error handling
-  //dispatch(clearErrors());
-  cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${imageName}`)
-    .then(res => {
-      dispatch({
-        type: types.GET_PRODUCT_IMAGE,
-        payload: res.data,
-        productId: productId
-      });
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.request.response
-      });
-    });
-};
-
 export const setProductAdding = () => {
   return {
     type: types.PRODUCT_ADDING

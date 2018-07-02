@@ -3,24 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
-import { filterProductsByCategory, getProductImage } from '../../../actions/productsActions';
+import { filterProductsByCategory } from '../../../actions/productsActions';
 import Button from 'react-ions/lib/components/Button';
 import Spinner from '../../common/Spinner';
 import unavailable from '../../../img/unavailable.png';
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+import ImageLoader from 'react-load-image';
 
 class CategoryGridList extends Component {
-  getImages(products) {
-    for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId]) && !isEmpty(this.props.product.products_filtered)) {
-        this.props.getProductImage(
-          product.productId,
-          product.imageDTO[0].imgName,
-          true
-        );
-      }
-    }
-  }
-
   componentDidMount() {
     // Scroll to top.
     window.scrollTo(0, 0);
@@ -48,7 +38,7 @@ class CategoryGridList extends Component {
       !isEmpty(this.props.product.product_vendor)
     ) {
       const filteredProducts = this.props.product.products_filtered;
-      this.getImages(filteredProducts);
+
       return filteredProducts.map(prod => (
         <div className="card text-left mb-2" key={prod.productId}>
           <div className="card-body">
@@ -92,40 +82,40 @@ class CategoryGridList extends Component {
   }
 
   getImg(product) {
-    let imgInfo = this.props.product.images[product.productId][0];
+    let imgInfo = product.imageDTO[0];
+
     return (
-      <img
-        key={product.productId}
-        src={imgInfo.base64Image}
-        className="img-responsive"
-        alt=""
-        style={{ width: '150px', height: '150px' }}
-      />
+      <ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName}>
+        <img
+          key={product.productId}
+          className="img-responsive"
+          alt={product.name}
+          style={{ width: '150px', height: '150px' }}
+        />
+        <img
+          key={product.productId}
+          src={unavailable}
+          className="img-responsive"
+          style={{ width: '150px', height: '150px' }}
+          alt={product.name}
+        />
+        <Spinner size={'150px'}/>
+      </ImageLoader>
     );
   }
 
   showImg(product) {
-    // If we don't have any images.
-    if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img
-            src={unavailable}
-            className="img-responsive"
-            style={{ width: '150px', height: '150px' }}
-            alt="Unavailable"
-          />
-        );
-        // We have image but its loading, so wait.
-      } else {
-        return (
-          <div className="text-center">
-            <Spinner size={'150px'} />
-          </div>
-        );
-      }
-      // Return the loaded image.
+    // If the product details has no images.
+    if (isEmpty(product.imageDTO)) {
+      return (
+        <img
+          src={unavailable}
+          className="img-responsive"
+          style={{ width: '150px', height: '150px' }}
+          alt={product.name}
+        />
+      );
+    // Return the loaded image.
     } else {
       return this.getImg(product);
     }
@@ -157,7 +147,6 @@ class CategoryGridList extends Component {
 
 CategoryGridList.propTypes = {
   filterProductsByCategory: PropTypes.func.isRequired,
-  getProductImage: PropTypes.func.isRequired,
 
   product: PropTypes.object.isRequired,
 };
@@ -169,7 +158,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    filterProductsByCategory,
-    getProductImage
+    filterProductsByCategory
   }
 )(CategoryGridList);

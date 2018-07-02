@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
-import { getProduct, getProductImage } from '../../../actions/productsActions';
+import { getProduct } from '../../../actions/productsActions';
 import unavailable from '../../../img/unavailable.png';
 import Spinner from '../../common/Spinner';
-
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+import ImageLoader from 'react-load-image';
 
 class ProductImage extends Component {
   constructor(props) {
@@ -13,47 +14,47 @@ class ProductImage extends Component {
     this.state = {
       activeTab: 0
     };
-    this.props.getProductImage(this.props.prod.productId, this.props.prod.imageDTO[0].imgName);
   }
 
-  showImg() {
-    const single = this.props.prod;
-    if (isEmpty(this.props.product.images[single.productId])) {
-      // If the product details literally has no images.
-      if (isEmpty(single.imageDTO)) {
-        return (
-          <img src={unavailable} className="img-responsive" style={{"width": "150px", "height": "150px"}} alt="Unavailable"/>
-        );
-      // We have image but its loading, so wait.
-      } else {
-        return (<Spinner size={'150px'} />);
-      }
-    // Return the loaded image.
-    } else {
-      return this.getImg(single);
-    }
-  }
+  getImg(product) {
+    let imgInfo = product.imageDTO[0];
 
-  getImg(single) {
-    if (!isEmpty(this.props.product.images[single.productId])) {
-      let imgInfo = this.props.product.images[single.productId][0];
-      return (
+    return (
+      <ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName}>
         <img
-          key={single.productId}
-          src={imgInfo.base64Image}
+          key={product.productId}
           className="img-responsive"
-          alt=""
+          alt={product.name}
           style={{ width: '150px', height: '150px' }}
         />
+        <div>Error!</div>
+        <Spinner size={'150px'}/>
+      </ImageLoader>
+    );
+  }
+
+  showImg(product) {
+    // If the product details has no images.
+    if (isEmpty(product.imageDTO)) {
+      return (
+        <img
+          src={unavailable}
+          className="img-responsive"
+          style={{ width: '150px', height: '150px' }}
+          alt={product.name}
+        />
       );
+    // Return the loaded image.
+    } else {
+      return this.getImg(product);
     }
   }
 
-
   render() {
+    const product = this.props.prod;
     return (
         <div className="col profile-userpic">
-            {this.showImg()}
+            {this.showImg(product)}
         </div>
     );
   }
@@ -69,7 +70,6 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProduct,
-    getProductImage
+  { getProduct
    }
 )(ProductImage);

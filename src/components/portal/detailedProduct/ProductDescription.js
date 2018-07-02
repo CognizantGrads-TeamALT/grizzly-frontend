@@ -8,13 +8,14 @@ import {
   editProduct,
   reloadProducts,
   WaitForError,
-  getProduct,
-  getProductImages
+  getProduct
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
-import Spinner from "../../common/Spinner";
 import ImageUploader from "../products/ImageUploader";
 import ErrorComponent from "../../common/ErrorComponent";
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+//import Spinner from "../../common/Spinner";
+//import ImageLoader from 'react-load-image';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -130,26 +131,25 @@ class ProductDescription extends Component {
   };
 
   showCarousel(product) {
-    // if we don't have any images yet, use the incoming product's
-    let images;
-    if (isEmpty(this.files)) {
-      images = this.props.product.images[product.productId];
-    } else {
-      // otherwise just use our local pictures in the redux format
-      // (this means the images have been edited)
-      images = this.files.map((pic, index) => {
-        return {
-          imgName: pic.name,
-          base64Image: this.pictures[index]
-        };
-      });
-    }
-
-    if (!isEmpty(images)) {
-      return images.map((img, index) => (
+    if (!isEmpty(product.imageDTO)) {
+      return product.imageDTO.map((imgInfo, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
+        // UNABLE TO IMPLEMENT IMAGELOADER HERE, THE THUMBNAILS NEVER LOAD.
+        /*<ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName} key={index}>
+          <img
+            key={index}
+            className="img-responsive"
+            alt={product.name}
+          />
+          <img
+            src={unavailable}
+            className="img-responsive"
+            alt={product.name}
+          />
+          <Spinner size={'150px'}/>
+        </ImageLoader>*/
         <div key={index}>
-          <img src={img.base64Image} className="img-responsive" alt="" />
+          <img src={PRODUCT_IMAGE + imgInfo.imgName} className="img-responsive" alt="" />
         </div>
       ));
     }
@@ -157,32 +157,16 @@ class ProductDescription extends Component {
 
   showImg() {
     const product = this.props.product.single;
-    // If we don't have any images.
-    if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details literally has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img
-            src={unavailable}
-            className="img-responsive"
-            style={{ width: '150px', height: '150px' }}
-            alt="Unavailable"
-          />
-        );
-        // We have image but its loading, so wait.
-      } 
-      else if(this.props.errors.errorMessage !== ''){
-        //an error was thrown loading the image, show the error
-        return<ErrorComponent errormsg={this.props.errors.errorMessage}/>
-      }
-      else {
-        return (
-          <div className="text-center">
-            <Spinner size={'150px'} />
-          </div>
-        );
-      }
-      // Return the loaded images.
+    // If the product details has no images.
+    if (isEmpty(product.imageDTO)) {
+      return (
+        <img
+          src={unavailable}
+          className="img-responsive"
+          alt={product.name}
+        />
+      );
+    // Return the loaded image.
     } else {
       return (
         <Carousel infiniteLoop={true} autoPlay={true} width="300px">
@@ -198,11 +182,11 @@ class ProductDescription extends Component {
     let imageNames;
     if (isEmpty(this.files)) {
       const product = this.props.product.single;
-      if (!isEmpty(this.props.product.images[product.productId])) {
-        imageData = this.props.product.images[product.productId].map(img => {
-          return img.base64Image;
-        });
-        imageNames = this.props.product.images[product.productId].map(img => {
+      if (!isEmpty(product.imageDTO)) {
+        //imageData = product.imageDTO.map(img => {
+        //  return img.base64Image;
+        //});
+        imageNames = product.imageDTO.map(img => {
           return { name: img.imgName };
         });
       }
@@ -459,5 +443,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, WaitForError, getProduct, getProductImages }
+  { editProduct, reloadProducts, WaitForError, getProduct }
 )(ProductDescription);
