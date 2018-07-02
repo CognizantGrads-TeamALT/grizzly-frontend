@@ -137,11 +137,11 @@ class VendorSearchSort extends Component {
 VendorSearchSort.propTypes = {
   searchVendors: PropTypes.func.isRequired,
   sortVendorsByParam: PropTypes.func.isRequired,
-  vendor: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  vendor: state.vendor
+  product: state.product
 });
 
 export default connect(

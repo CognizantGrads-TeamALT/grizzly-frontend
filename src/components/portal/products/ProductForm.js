@@ -254,13 +254,12 @@ class ProductForm extends Component {
 
 ProductForm.propTypes = {
   addProduct: PropTypes.func.isRequired,
-  searchCategories: PropTypes.func.isRequired
+  searchCategories: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   product: state.product,
-  category: state.category,
-  vendor: state.vendor,
   user: state.user
 });
 

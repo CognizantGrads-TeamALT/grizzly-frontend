@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
-import isEmpty from "../../../validation/is-empty";
-import Slider from "react-slick";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
+import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
 
 class VendorCarousel extends Component {
   show() {
@@ -29,7 +29,7 @@ class VendorCarousel extends Component {
           </Link>
         ));
       } else {
-        return <Spinner size={"150px"} />;
+        return <Spinner size={'150px'} />;
       }
     }
   }
@@ -38,11 +38,16 @@ class VendorCarousel extends Component {
     var settings = {
       dots: true,
       infinite: true,
-      speed: 500,
+      speed: 5000,
       slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      autoplay: true
     };
-    return <Slider className="mb-5" {...settings}>{this.show()}</Slider>;
+    return (
+      <Slider className="mb-5" {...settings}>
+        {this.show()}
+      </Slider>
+    );
   }
 }
 

@@ -4,6 +4,7 @@ import isEmpty from '../validation/is-empty';
 const initialState = {
   categories: null,
   hasMore: false,
+  loading: true,
   index: 0
 };
 
