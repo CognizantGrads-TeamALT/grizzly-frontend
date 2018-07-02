@@ -316,8 +316,6 @@ export const getVendorBatch = vendorIdArray => dispatch => {
     })
     .catch(err => {
       dispatch(setProductUpdated());
-      console.log(err);
-      console.log(err.request);
       dispatch({
         type: types.GET_ERRORS,
         payload: err.request.response
