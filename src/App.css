@@ -1347,7 +1347,11 @@ a:hover {
   border-color: #45b29d;
 }
 
-
+.h4-totalprice{
+  margin-bottom: 12px;
+  margin-right: 100px;
+  
+}
 .picCustomerDetailedProductCol {
   margin-top: 2%;
 }

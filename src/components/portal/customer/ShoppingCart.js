@@ -7,7 +7,7 @@ import unavailable from "../../../img/unavailable.png";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
 import { getProduct, getProductImage, getProductBatch } from "../../../actions/productsActions";
-import { loadCart, saveCart, changeQuantity } from "../../../actions/cartActions";
+import { loadCart, saveCart, changeQuantity, removeFromCart } from "../../../actions/cartActions";
 
 class ShoppingCart extends Component {
   constructor(props) {
@@ -15,13 +15,14 @@ class ShoppingCart extends Component {
     this.state = {
       totalPrice: 0,
       triggeredFetch: false,
-      quantity: 1,
-      // newQuantity: e.target.quantity
+      quantity: 1
     }
 
     this.onChange = this.onChange.bind(this);
+    this.onClick = this.onClick.bind(this);
 
     this.triggeredFetch = false;
+    this.totalPrice = 0;
   }
 
   // Load their cart from local storage if it is empty...
@@ -52,14 +53,19 @@ class ShoppingCart extends Component {
     }
   }
 
+
+  removeFromCart(single, productId) {
+    this.props.removeFromCart(single.productId);
+
+  }
+
   onChange(productId, newValue) {
     this.props.changeQuantity(productId, newValue);
 
   }
 
-  onClick = event => {
-    this.setState({ clicks: this.state.value - 1 });
-    console.log(this.clicks);
+  onClick(e) {
+    this.props.cart.pop(this.props.productId);
   };
 
   showImg(product) {
@@ -109,6 +115,10 @@ class ShoppingCart extends Component {
     }
   }
 
+ addToMoney(additionalPrice) { 
+    this.totalPrice += additionalPrice 
+  }
+
   show() {
     // No longer  "loading local cart"... so we load the main items.
     if (!this.props.product.loadingCart) {
@@ -130,6 +140,7 @@ class ShoppingCart extends Component {
 
     const cartItems = this.props.product.cart_products;
     this.getImages(cartItems);
+    this.totalPrice = 0;
     return cartItems.map(prod => (
       <div key={prod.productId}>
         <div className="row-8 d-inline products-information">
@@ -164,21 +175,25 @@ class ShoppingCart extends Component {
 
           {/* display the totalprice per item according to the quantity */}
           <div align="right" className="col-2 d-inline product-total-price ">
-            <p name="totalprice" className="d-inline">
+            <p name="totalPricePerProduct" className="d-inline">
               {" "}
               $ {prod.price * this.props.product.cart[prod.productId]}</p>
           </div>
-          <div className="col-1 d-inline remove-btn">
+          <div align="right" className="col-1 d-inline remove-btn">
             <button
               className=" d-inline more-rounded hover-w-b fas fa-times"
-              onClick={this.removeItem}
+              onClick={(event) => this.props.removeFromCart(prod.productId)}
             />
           </div>
         </div>
         <hr width="100%" />
+        {this.addToMoney(this.props.product.cart[prod.productId] * prod.price)}
       </div>
     ));
+
   }
+
+
 
   render() {
     return (
@@ -188,6 +203,14 @@ class ShoppingCart extends Component {
           <hr width="100%" />
         </div>
         <div>{this.show()}</div>
+        <div align="right" className="totalprice d-inline">
+          <div align="center" className="d-inline col mr-6 mb-5">
+            <h4 className="d-inline h4-totalprice">Totalprice of items: </h4>
+            <div align="center" className="d-inline ">
+              <h4 className="d-inline"> ${this.totalPrice}</h4>
+            </div>
+          </div>
+        </div>
         <div align="right" className="row-2 d-inline checkout-btn div-checkout">
           <Link
             className="d-inline btn continue-btn more-rounded btnCheckOutCart "
@@ -232,6 +255,7 @@ export default connect(
     getProductBatch,
     loadCart,
     saveCart,
-    changeQuantity
+    changeQuantity,
+    removeFromCart
   }
 )(withRouter(ShoppingCart));

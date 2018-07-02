@@ -114,12 +114,15 @@ export default function(state = initialState, action) {
       };
     case types.REMOVE_FROM_CART:
       newCart = isEmpty(state.cart) ? {} : state.cart;
-      newCart[action.productId] = null;
+      delete newCart[action.productId];
       console.log("Cart remove", newCart);
       saveCart(newCart);
       return {
         ...state,
-        cart: newCart
+        cart: newCart,
+        cart_products: state.cart_products.filter(
+          product => product.productId !== action.productId
+        )
       };
     case types.GET_FILTERED_PRODUCTS:
       hasMore = // hasMore should should a different veriable, as you're loading filtered products.
