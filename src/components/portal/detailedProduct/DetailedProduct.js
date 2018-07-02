@@ -6,6 +6,7 @@ import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
   getProduct,
+  getProductImages,
   getVendorBatch
 } from '../../../actions/productsActions';
 import ErrorComponent from '../../common/ErrorComponent';
@@ -40,6 +41,7 @@ class DetailedProduct extends Component {
       const vendor = this.props.product.product_vendor.filter(
         item => item.vendorId === single.vendorId
       )[0];
+      this.props.getProductImages(single);
       return (
         <div>
           <ProductDescription
@@ -71,5 +73,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProduct, getVendorBatch }
+  { getProduct, getProductImages, getVendorBatch }
 )(DetailedProduct);

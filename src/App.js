@@ -3,17 +3,8 @@ import { BrowserRouter } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import { connect } from 'react-redux';
 import Routes from './Routes';
-import { ToastContainer, Flip, toast } from 'react-toastify';
-import isEmpty from './validation/is-empty';
+import { ToastContainer, Flip } from 'react-toastify';
 class App extends Component {
-  toastId = null;
-
-  notify() {
-    if (!toast.isActive(this.toastId) && this.props.errors.message !== undefined) {
-      this.toastId = toast.info(this.props.errors.message);
-    }
-  }
-
   render() {
     return (
       <BrowserRouter>
@@ -31,9 +22,6 @@ class App extends Component {
             transition={Flip}
             pauseOnHover={false}
           />
-          {!isEmpty(this.props.errors) &&
-            this.props.errors.message !== 'No message available' &&
-            this.notify()}
           <Navbar />
           <div className="griz-real-body griz-portal-parent h-100 surround-parent">
             <Routes />

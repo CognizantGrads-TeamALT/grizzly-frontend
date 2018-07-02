@@ -46,7 +46,7 @@ class CustomerProductDescription extends Component {
     if (!isEmpty(this.props.product.images[product.productId])) {
       return this.props.product.images[product.productId].map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <div id={index}>
+        <div key={index}>
           <img src={img.base64Image} className="img-responsive" alt="" />
         </div>
       ));
@@ -78,7 +78,7 @@ class CustomerProductDescription extends Component {
       // Return the loaded images.
     } else {
       return (
-        <Carousel infiniteLoop="true" autoPlay="true" width="300px">
+        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
           {this.showCarousel()}
         </Carousel>
       );
@@ -118,11 +118,11 @@ class CustomerProductDescription extends Component {
                 <p className="mb-0">${product.price}</p>
               </div>
               <div className="row mt-2">
-                <button className="orange-b surround-parent w-75 more-rounded mb-2">
+                <button className="btn orange-b surround-parent w-75 more-rounded mb-2">
                   Buy now
                 </button>
                 <button
-                  className="yellow-b surround-parent w-75 more-rounded mb-2"
+                  className="btn yellow-b surround-parent w-75 more-rounded mb-2"
                   onClick={() => this.props.addToCart(product)}
                 >
                   Add to Cart

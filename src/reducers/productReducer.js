@@ -30,7 +30,9 @@ const initialState = {
 
   // Stores locally loaded cart info.
   cart: {},
-  cart_products: []
+  cart_products: [],
+  loadingCart: true,
+  fetchingCart: true
 };
 
 export default function(state = initialState, action) {
@@ -81,12 +83,25 @@ export default function(state = initialState, action) {
       //  return state;
 
       var newCart = isEmpty(state.cart) ? {} : state.cart;
-      newCart[action.productId] = 1; // quantity.
+      newCart[action.product.productId] = isEmpty(newCart[action.product.productId]) ? 1 : newCart[action.product.productId]+1; // quantity.
       console.log("Cart append", newCart);
       saveCart(newCart);
+
+      let currentProducts2 = isEmpty(state.cart_products) ? [] : state.cart_products;
+      let newProducts2 = isEmpty(action.product)
+        ? currentProducts2
+        : [
+            ...new Map(
+              currentProducts2
+                .concat(action.product)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
+
       return {
         ...state,
-        cart: newCart
+        cart: newCart,
+        cart_products: newProducts2
       }
     case types.ADJUST_CART_QUANTITY:
       newCart = isEmpty(state.cart) ? {} : state.cart;
@@ -214,9 +229,9 @@ export default function(state = initialState, action) {
         images: currentImages
       }
     case types.PRODUCT_ADDING:
-      let currentProducts2 = isEmpty(state.products) ? [] : state.products;
+      currentProducts2 = isEmpty(state.products) ? [] : state.products;
       let addProduct = isEmpty(action.payload) ? [] : [action.payload];
-      let newProducts2 = addProduct.concat(currentProducts2);
+      newProducts2 = addProduct.concat(currentProducts2);
       let hasMore2 = !state.hasMore
         ? newProducts2.length / 25 >= state.index
         : state.hasMore;
@@ -269,7 +284,9 @@ export default function(state = initialState, action) {
       return {
         ...state,
         products: newProducts,
-        cart_products: newProducts2
+        cart_products: newProducts2,
+        loadingCart: false,
+        fetchingCart: false
       };
     case types.GET_PRODUCT_VENDOR:
       const currentProductVendor = isEmpty(state.product_vendor)
@@ -326,7 +343,8 @@ export default function(state = initialState, action) {
     case types.LOAD_CART:
       return {
         ...state,
-        cart: action.payload
+        cart: action.payload,
+        loadingCart: false
     }
     default:
       return state;

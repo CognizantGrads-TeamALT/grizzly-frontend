@@ -7,11 +7,10 @@ const location = 'grizzly-alt-cart';
 export const loadCart = () => dispatch => {
     var data = localStorage.getItem(location);
 
-    if (!isEmpty(data))
-        dispatch({
-            type: types.LOAD_CART,
-            payload: JSON.parse(data)
-        });
+    dispatch({
+        type: types.LOAD_CART,
+        payload: !isEmpty(data) ? JSON.parse(data) : {}
+    });
 }
 
 // Save the cart data.
@@ -21,10 +20,10 @@ export const saveCart = data => {
 }
 
 // Add an item to the cart.
-export const addToCart = productId => dispatch => {
+export const addToCart = product => dispatch => {
     dispatch({
         type: types.ADD_TO_CART,
-        productId: productId
+        product: product
     })
 }
 
