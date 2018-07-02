@@ -20,7 +20,7 @@ const store = localforage.createInstance({
 
 const cache = setup({
   cache: {
-    maxAge: 30 * 60 * 1000, // 2 hours
+    maxAge: 120 * 60 * 1000, // 2 hours
     store
   }
 });
@@ -57,7 +57,7 @@ export const getProducts = index => dispatch => {
 };
 
 // Get Product with Imgs
-export const getProductWithImgs = productId => dispatch => {
+export const getProduct = productId => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductLoading());
   axios
@@ -74,12 +74,6 @@ export const getProductWithImgs = productId => dispatch => {
           if (res.data.categoryId !== 0)
             dispatch(getCategoryBatch(res.data.categoryId));
         }
-
-        // Fetch images.
-        if (!isEmpty(res.data.imageDTO)) {
-          for (let image of res.data.imageDTO)
-            dispatch(getProductImage(res.data.productId, image.imgName));
-        }
       }
       dispatch(setProductUpdated());
     })
@@ -91,6 +85,14 @@ export const getProductWithImgs = productId => dispatch => {
       });
     });
 };
+
+export const getProductImages = product => dispatch => {
+  // Fetch images.
+  if (!isEmpty(product.imageDTO)) {
+    for (let image of product.imageDTO)
+      dispatch(getProductImage(product.productId, image.imgName));
+  }
+}
 
 export const getProductImage = (productId, imageName) => dispatch => {
   dispatch(clearErrors());
@@ -276,6 +278,24 @@ export const setProductUpdated = () => {
   };
 };
 
+export const getProductBatch = productIdArray => dispatch => {
+  axios
+    .get(PRODUCT_API_GATEWAY + `/batchFetch/${productIdArray}`)
+    .then(res => {
+      dispatch({
+        type: types.GET_PRODUCTS_CART,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
 export const getVendorBatch = vendorIdArray => dispatch => {
   axios
     .get(VENDOR_API_GATEWAY + `/batchFetch/${vendorIdArray}`)
@@ -367,6 +387,7 @@ export const sortProductsByParam = (index, param) => dispatch => {
       });
     });
 };
+
 // get all products beloning to a vendor, and get their inventory details
 export const getVendorInventory = (index, VendorID) => dispatch => {
   dispatch(clearErrors());
@@ -427,7 +448,7 @@ export const filterProductsByCategory = inputs => dispatch => {
         `/bycategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
-      dispatch(refreshProductData(res.data, inputs.filtered));
+      dispatch(refreshProductData(res.data, inputs));
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -442,7 +463,8 @@ export const refreshProductData = (data, filtered) => dispatch => {
   if (filtered) {
     dispatch({
       type: types.GET_FILTERED_PRODUCTS,
-      payload: data
+      payload: data,
+      filter: filtered.cur_id
     })
   } else {
     dispatch({
@@ -476,18 +498,3 @@ export const refreshProductData = (data, filtered) => dispatch => {
     }
   }
 };
-
-export const addToCart = data => dispatch => {
-  dispatch({
-    type: types.ADD_TO_CART,
-    payload: data
-  })
-}
-
-// export const addToCart= () => {
-//   return {
-//     type: types.PRODUCT_ADDING
-//   };
-// };
-
-

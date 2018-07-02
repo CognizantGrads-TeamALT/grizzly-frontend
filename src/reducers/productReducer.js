@@ -1,18 +1,36 @@
 import * as types from '../actions/types';
 import isEmpty from '../validation/is-empty';
+import { saveCart } from '../actions/cartActions';
 
 const initialState = {
+  // Stores ALL products. Shouldn't clear this.
   products: [],
+
+  // Stores ALL products images.
   images: [],
+
+  // Stores ALL product categories.
   product_category: [],
+
+  // Stores ALL product vendors.
   product_vendor: [],
+
+  // Stores TEMP data (random products on detailed page)
   random_products: [],
+
+  // Stores TEMP data (for listing on category search)
   products_filtered: [],
+  products_filtered_last: null,
+
+  // Infinite scroll & loading variables.
   hasMore: false,
-  loadingVendors: false,
-  loadingCategories: false,
+  loadingVendors: true,
+  loadingCategories: true,
   index: 0,
-  cart: []
+
+  // Stores locally loaded cart info.
+  cart: {},
+  cart_products: []
 };
 
 export default function(state = initialState, action) {
@@ -58,18 +76,38 @@ export default function(state = initialState, action) {
         loadingCategories: true
       };
     case types.ADD_TO_CART:
-      var newCart = state.cart;
-      //cartdata: product, quantity
-      newCart.push([action.payload])
-      //{this.state.cart.productId==newCart}?
+      // Checks if we already have the item in the cart.
+      //if (state.cart.indexOf(action.productId) !== -1)
+      //  return state;
 
-      console.log(newCart);
-      return{
+      var newCart = isEmpty(state.cart) ? {} : state.cart;
+      newCart[action.productId] = 1; // quantity.
+      console.log("Cart append", newCart);
+      saveCart(newCart);
+      return {
         ...state,
         cart: newCart
       }
+    case types.ADJUST_CART_QUANTITY:
+      newCart = isEmpty(state.cart) ? {} : state.cart;
+      newCart[action.productId] = action.quantity;
+      console.log("Cart quantity change", newCart);
+      saveCart(newCart);
+      return {
+        ...state,
+        cart: newCart
+      };
+    case types.REMOVE_FROM_CART:
+      newCart = isEmpty(state.cart) ? {} : state.cart;
+      newCart[action.productId] = null;
+      console.log("Cart remove", newCart);
+      saveCart(newCart);
+      return {
+        ...state,
+        cart: newCart
+      };
     case types.GET_FILTERED_PRODUCTS:
-      hasMore =
+      hasMore = // hasMore should should a different veriable, as you're loading filtered products.
       action.payload.length < 25 || isEmpty(action.payload.length)
         ? false
         : true;
@@ -84,9 +122,22 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
+      // Save the filtered into the main list.
+      let currentProducts5 = isEmpty(state.products) ? [] : state.products;
+      let newMainProducts = isEmpty(action.payload)
+          ? currentProducts5
+          : [
+              ...new Map(
+                currentProducts5
+                  .concat(action.payload)
+                  .map(o => [o['productId'], o])
+              ).values()
+            ];
       return {
         ...state,
+        products: newMainProducts,
         products_filtered: newProducts,
+        products_filtered_last: action.filter,
         hasMore: hasMore,
         index: index,
         loadingVendors: true,
@@ -141,8 +192,8 @@ export default function(state = initialState, action) {
     case types.GET_PRODUCT_IMAGE:
       let newImage = action.payload;
       let productId = action.productId;
-      let currentImages = isEmpty(state.images) ? [] : state.images;
 
+      let currentImages = isEmpty(state.images) ? [] : state.images;
       let oldImages = isEmpty(currentImages[productId]) ? [] : currentImages[productId];
 
       // prevent duplicate images.
@@ -163,10 +214,10 @@ export default function(state = initialState, action) {
         images: currentImages
       }
     case types.PRODUCT_ADDING:
-      const currentProducts2 = isEmpty(state.products) ? [] : state.products;
-      const addProduct = isEmpty(action.payload) ? [] : [action.payload];
-      const newProducts2 = addProduct.concat(currentProducts2);
-      const hasMore2 = !state.hasMore
+      let currentProducts2 = isEmpty(state.products) ? [] : state.products;
+      let addProduct = isEmpty(action.payload) ? [] : [action.payload];
+      let newProducts2 = addProduct.concat(currentProducts2);
+      let hasMore2 = !state.hasMore
         ? newProducts2.length / 25 >= state.index
         : state.hasMore;
       return {
@@ -192,6 +243,33 @@ export default function(state = initialState, action) {
               ? action.payload
               : product
         )
+      };
+    case types.GET_PRODUCTS_CART:
+      currentProducts2 = isEmpty(state.cart_products) ? [] : state.cart_products;
+      newProducts2 = isEmpty(action.payload)
+        ? currentProducts2
+        : [
+            ...new Map(
+              currentProducts2
+                .concat(action.payload)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
+
+      currentProducts = isEmpty(state.products) ? [] : state.products;
+      newProducts = isEmpty(action.payload)
+        ? currentProducts
+        : [
+            ...new Map(
+              currentProducts
+                .concat(action.payload)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
+      return {
+        ...state,
+        products: newProducts,
+        cart_products: newProducts2
       };
     case types.GET_PRODUCT_VENDOR:
       const currentProductVendor = isEmpty(state.product_vendor)
@@ -232,6 +310,7 @@ export default function(state = initialState, action) {
         hasMore: true,
         products: null,
         products_filtered: null,
+        products_filtered_last: null,
         product_category: null,
         product_vendor: null,
         loadingCategories: null,
@@ -241,8 +320,14 @@ export default function(state = initialState, action) {
     case types.CLEAR_FILTERED_PRODUCTS:
       return {
         ...state,
-        products_filtered: null
+        products_filtered: null,
+        products_filtered_last: null
       }
+    case types.LOAD_CART:
+      return {
+        ...state,
+        cart: action.payload
+    }
     default:
       return state;
   }

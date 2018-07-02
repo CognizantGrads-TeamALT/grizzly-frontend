@@ -209,8 +209,7 @@ class VendorForm extends Component {
 }
 
 VendorForm.propTypes = {
-  vendor: PropTypes.object.isRequired,
-  addVendor: PropTypes.func.isRequired
+  addVendor: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

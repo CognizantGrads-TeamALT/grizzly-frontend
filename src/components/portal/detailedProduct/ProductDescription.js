@@ -72,7 +72,7 @@ class ProductDescription extends Component {
       isEditing: false,
       isEditingImg: true
     });
-  };
+  }
 
   handleCallbackImg = event => {
     this.setState({
@@ -126,26 +126,24 @@ class ProductDescription extends Component {
     // if we don't have any images yet, use the incoming product's
     let images;
     if (isEmpty(this.files)) {
-      images = this.props.product.images[product.productId]
+      images = this.props.product.images[product.productId];
     } else {
       // otherwise just use our local pictures in the redux format
       // (this means the images have been edited)
       images = this.files.map((pic, index) => {
-        return {"imgName": pic.name,
-                "base64Image": this.pictures[index]
+        return {
+          imgName: pic.name,
+          base64Image: this.pictures[index]
         };
       });
     }
-    
+
     if (!isEmpty(images)) {
       return images.map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <img
-          key={index}
-          src={img.base64Image}
-          className="img-responsive"
-          alt=""
-        />
+        <div key={index}>
+          <img src={img.base64Image} className="img-responsive" alt="" />
+        </div>
       ));
     }
   }
@@ -171,11 +169,19 @@ class ProductDescription extends Component {
         return<ErrorComponent errormsg={this.props.errors.errorMessage}/>
       }
       else {
-        return <Spinner size={'150px'} />;
+        return (
+          <div className="text-center">
+            <Spinner size={'150px'} />
+          </div>
+        );
       }
       // Return the loaded images.
     } else {
-      return <Carousel>{this.showCarousel(product)}</Carousel>;
+      return (
+        <Carousel infiniteLoop="true" autoPlay="true" width="300px">
+          {this.showCarousel(product)}
+        </Carousel>
+      );
     }
   }
 
@@ -186,30 +192,32 @@ class ProductDescription extends Component {
     if (isEmpty(this.files)) {
       const product = this.props.product.single;
       if (!isEmpty(this.props.product.images[product.productId])) {
-        imageData = this.props.product.images[product.productId].map((img) => {
+        imageData = this.props.product.images[product.productId].map(img => {
           return img.base64Image;
         });
-        imageNames = this.props.product.images[product.productId].map((img) => {
-          return {"name": img.imgName};
+        imageNames = this.props.product.images[product.productId].map(img => {
+          return { name: img.imgName };
         });
       }
     } else {
       imageData = this.pictures;
-      imageNames = this.files.map((img) => {
-        return {"name": img.name};
+      imageNames = this.files.map(img => {
+        return { name: img.name };
       });
     }
-    
-    return (<ImageUploader
-              withIcon={true}
-              withPreview={true}
-              buttonText="Upload new image"
-              onChange={this.onDrop}
-              imgExtension={['.jpg', '.jpeg', '.png']}
-              maxFileSize={262144}
-              startingImages={imageData}
-              startingFiles={imageNames}
-            />);
+
+    return (
+      <ImageUploader
+        withIcon={true}
+        withPreview={true}
+        buttonText="Upload new image"
+        onChange={this.onDrop}
+        imgExtension={['.jpg', '.jpeg', '.png']}
+        maxFileSize={262144}
+        startingImages={imageData}
+        startingFiles={imageNames}
+      />
+    );
   }
 
   onSubmit(e) {
@@ -219,11 +227,12 @@ class ProductDescription extends Component {
     // if we haven't edited any images
     if (isEmpty(this.files)) {
       imageData = this.props.product.single.imageData;
-    } else { // we have edited images
+    } else {
+      // we have edited images
       for (i = 0; i < this.files.length; i++) {
         let img = {
           imgName: this.files[i].name,
-          base64Image: this.pictures[i].split(",")[1]
+          base64Image: this.pictures[i].split(',')[1]
         };
         imageData.push(img);
       }
@@ -268,7 +277,7 @@ class ProductDescription extends Component {
       changed: false});
     this.props.WaitForError();
     this.props.history.goBack();
-  };
+  }
 
   render() {
     return (
@@ -308,16 +317,24 @@ class ProductDescription extends Component {
               </div>
             </div>
             {!this.state.isEditingImg ? this.showImg() : this.showImgEditor()}
-            {this.props.user.userType === 'admin' && !this.state.isEditingImg && (<Button
-              className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
-              onClick={this.buttonCallbackImg}>
-              Add or remove images
-            </Button>) }
-            {this.props.user.userType === 'admin' && this.state.isEditingImg && (<Button
-              className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
-              onClick={this.handleCallbackImg}>
-              Save changes
-            </Button>) }
+            {this.props.user.userType === 'admin' &&
+              !this.state.isEditingImg && (
+                <Button
+                  className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
+                  onClick={this.buttonCallbackImg}
+                >
+                  Add or remove images
+                </Button>
+              )}
+            {this.props.user.userType === 'admin' &&
+              this.state.isEditingImg && (
+                <Button
+                  className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
+                  onClick={this.handleCallbackImg}
+                >
+                  Save changes
+                </Button>
+              )}
           </div>
         </div>
 

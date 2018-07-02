@@ -19,7 +19,8 @@ class Products extends Component {
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
           this.refs.myscroll.scrollHeight &&
-        !this.props.product.loading
+        !this.props.product.loadingVendors &&
+        !this.props.product.loadingCategories
       ) {
         this.loadMore();
       }
@@ -49,16 +50,15 @@ class Products extends Component {
       products,
       product_vendor,
       product_category,
-      loading
+      loadingVendors,
+      loadingCategories
     } = this.props.product;
     const { errorMessage } = this.props.errors;
-    if (
-      !isEmpty(products) &&
-      !isEmpty(product_category) &&
-      !isEmpty(product_vendor) &&
-      !loading
-    ) {
+    if (!loadingVendors && !loadingCategories) {
       if (this.props.user.userType === 'admin') {
+        if (isEmpty(products)) {
+          return <p>No products found.</p>;
+        }
         return products.map((prod, index) => (
           <ProductList
             key={prod.productId}
@@ -70,8 +70,10 @@ class Products extends Component {
             errors={this.props.errors}
           />
         ));
-      }
-      if (this.props.user.userType === 'vendor') {
+      } else if (this.props.user.userType === 'vendor') {
+        if (isEmpty(products)) {
+          return <p>No products found.</p>;
+        }
         return products
           .filter(
             prod =>

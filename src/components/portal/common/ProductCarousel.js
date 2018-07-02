@@ -38,11 +38,16 @@ class ProductCarousel extends Component {
     var settings = {
       dots: true,
       infinite: true,
-      speed: 500,
+      speed: 5000,
       slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      autoplay: true
     };
-    return <Slider className="mb-5" {...settings}>{this.show()}</Slider>;
+    return (
+      <Slider className="mb-5" {...settings}>
+        {this.show()}
+      </Slider>
+    );
   }
 }
 

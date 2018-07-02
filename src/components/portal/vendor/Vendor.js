@@ -54,7 +54,7 @@ class Vendor extends Component {
         </tr>
       )
     }
-    else if (isEmpty(vendors) || loading) {
+    else if (loading) {
       return (
         <tr>
           <td>
@@ -63,6 +63,10 @@ class Vendor extends Component {
         </tr>
       );
     } else {
+      if (isEmpty(vendors)) {
+        return <p>No vendors found.</p>;
+      }
+
       return vendors.map(vendor => (
         <VendorList key={vendor.vendorId} vendor={vendor} />
       ));

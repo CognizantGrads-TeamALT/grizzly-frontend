@@ -56,7 +56,7 @@ class Categories extends Component {
         </tr>
       )
     }
-    else if (isEmpty(categories) || loading) {
+    else if (loading) {
       return (
         <tr>
           <td>
@@ -65,6 +65,10 @@ class Categories extends Component {
         </tr>
       );
     } else {
+      if (isEmpty(categories)) {
+        return <p>No categories found.</p>;
+      }
+
       return categories.map(category => (
         <CategoriesList key={category.categoryId} category={category} />
       ));
