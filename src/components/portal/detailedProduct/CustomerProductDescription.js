@@ -24,8 +24,6 @@ class CustomerProductDescription extends Component {
   componentDidMount() {
     // Scroll to top.
     window.scrollTo(0, 0);
-    this.props.getProduct(this.props.single.productId);
-    this.props.getProductImages(this.props.single);
   }
 
   // Fixes no-op error.

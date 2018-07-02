@@ -4,7 +4,7 @@ import InlineEdit from 'react-ions/lib/components/InlineEdit';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
-import { editProduct, reloadProducts } from '../../../actions/productsActions';
+import { editProduct, reloadProducts, getProduct, getProductImages } from '../../../actions/productsActions';
 import { connect } from 'react-redux';
 import Spinner from '../../common/Spinner';
 import ImageUploader from '../products/ImageUploader';
@@ -34,6 +34,11 @@ class ProductDescription extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onDrop = this.onDrop.bind(this);
+  }
+
+  // Fixes no-op error.
+  componentWillUnmount() {
+    this.props.product.single = null;
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -420,5 +425,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts }
+  { editProduct, reloadProducts, getProduct, getProductImages }
 )(ProductDescription);

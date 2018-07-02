@@ -30,6 +30,8 @@ class CustomerDetailedProduct extends Component {
 
   componentDidMount() {
     this.loadData(this.props.match.params.productId);
+    this.props.getProduct(this.props.match.params.productId);
+    this.props.getProductImages(this.props.match.params);
   }
 
   componentDidUpdate(prevProps, prevState) {
