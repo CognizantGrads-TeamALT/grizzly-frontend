@@ -189,12 +189,12 @@ class VendorForm extends Component {
 }
 
 VendorForm.propTypes = {
-  vendor: PropTypes.object.isRequired,
-  addVendor: PropTypes.func.isRequired
+  addVendor: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  vendor: state.vendor
+  product: state.product
 });
 
 export default connect(mapStateToProps, { addVendor })(withRouter(VendorForm));
