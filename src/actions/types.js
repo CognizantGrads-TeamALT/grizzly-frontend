@@ -54,6 +54,7 @@ export const GET_PRODUCT_VENDOR = 'GET_PRODUCT_VENDOR';
 export const GET_PRODUCT_CATEGORY = 'GET_PRODUCT_CATEGORY';
 
 export const GET_USERS = 'GET_USERS';
+export const GET_USER_BY_EMAIL = 'GET_USER_BY_EMAIL';
 export const USER_LOG_IN = 'USER_LOG_IN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const USER_LOADING = 'USER_LOADING';
