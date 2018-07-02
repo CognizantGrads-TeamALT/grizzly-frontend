@@ -115,6 +115,7 @@ class Navbar extends Component {
               this.props.user.googleProfile.given_name
             }> `}</span>
           </li>
+          {this.showCartLink()}
           <li className="nav-item dropdown my-auto">
             <a
               className="nav-link dropdown-toggle"
@@ -168,12 +169,7 @@ class Navbar extends Component {
     } else
       return (
         <ul className="navbar-nav pl-2">
-          <li>
-            <Link
-              className="mr-2 mt-2 mb-0 more-rounded hover-w-b fas fa-shopping-cart"
-              to="/shoppingcart"
-            />
-          </li>
+          {this.showCartLink()}
           <li className="nav-item mr-1 my-auto">
             <GoogleLogin
               clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
@@ -185,6 +181,16 @@ class Navbar extends Component {
           </li>
         </ul>
       );
+  }
+  showCartLink() {
+    return (
+      <li>
+        <Link
+          className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
+          to="/shoppingcart"
+        />
+      </li>
+    );
   }
 
   render() {
