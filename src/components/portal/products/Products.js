@@ -42,8 +42,8 @@ class Products extends Component {
   loadMore() {
     if (this.props.product.hasMore) {
       this.props.getProducts(this.props.product.index);
-      if (!isEmpty(this.props.errors)) {
-        toast.info(this.props.errors.message);
+      if (!isEmpty(this.props.errors.errorMessage)) {
+        toast.info(this.props.errors.errorMessage);
       }
     }
   }
