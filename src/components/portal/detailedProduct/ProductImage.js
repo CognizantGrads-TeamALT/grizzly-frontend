@@ -11,13 +11,14 @@ class ProductImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: 0
-    };
+      single: this.props.prod.single,
+      images: this.props.prod.images
+    }
     this.props.getProductImage(this.props.prod.productId, this.props.prod.imageDTO[0].imgName);
   }
 
   showImg() {
-    const single = this.props.prod;
+    const single = this.props.prod.single;
     if (isEmpty(this.props.product.images[single.productId])) {
       // If the product details literally has no images.
       if (isEmpty(single.imageDTO)) {
@@ -43,7 +44,7 @@ class ProductImage extends Component {
           src={imgInfo.base64Image}
           className="img-responsive"
           alt=""
-          style={{ width: '150px', height: '150px' }}
+          style={{ objectFit: 'cover', height: '150px' }}
         />
       );
     }

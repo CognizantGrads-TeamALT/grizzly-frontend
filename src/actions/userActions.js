@@ -136,3 +136,23 @@ export const logoutUser = () => dispatch => {
   // Clear current user, isAuthenticated to false
   dispatch(clearCurrentUser());
 };
+
+// ORDER ACTIONS
+// Get User Orders 
+export const getUserOrder = userId => dispatch => {
+  dispatch(setUserLoading());
+  axios.get(USER_API_GATEWAY + `/get/orders/${userId}`)
+  .then(res =>
+    dispatch({
+      type: types.GET_USER_WITH_ORDER,
+      payload: res.data
+    })
+  )
+  .catch(err => {
+    dispatch(setUserUpdated());
+    dispatch({
+      type: types.GET_ERRORS,
+      payload: err.response.data
+    });
+  })
+};

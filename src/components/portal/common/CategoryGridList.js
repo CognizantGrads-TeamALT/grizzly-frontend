@@ -99,7 +99,7 @@ class CategoryGridList extends Component {
         src={imgInfo.base64Image}
         className="img-responsive"
         alt=""
-        style={{ width: '150px', height: '150px' }}
+        style={{ objectFit: 'cover', height: '150px' }}
       />
     );
   }
