@@ -6,9 +6,8 @@ import isEmpty from '../../../validation/is-empty';
 import { filterProductsByCategory } from '../../../actions/productsActions';
 import Button from 'react-ions/lib/components/Button';
 import Spinner from '../../common/Spinner';
-import unavailable from '../../../img/unavailable.png';
-import { PRODUCT_IMAGE } from '../../../actions/microservices';
-import ImageLoader from 'react-load-image';
+
+import ProductImage from '../common/ProductImage';
 
 class CategoryGridList extends Component {
   componentDidMount() {
@@ -44,7 +43,7 @@ class CategoryGridList extends Component {
           <div className="card-body">
             <div className="row">
               <div className="col-3">
-                {this.showImg(prod)}
+                <ProductImage prod={prod} />
               </div>
               <div className="col-5">
                 <div className="productTitle">
@@ -78,46 +77,6 @@ class CategoryGridList extends Component {
           <Spinner size={'150px'} />
         </div>
       );
-    }
-  }
-
-  getImg(product) {
-    let imgInfo = product.imageDTO[0];
-
-    return (
-      <ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName}>
-        <img
-          key={product.productId}
-          className="img-responsive"
-          alt={product.name}
-          style={{ width: '150px', height: '150px' }}
-        />
-        <img
-          key={product.productId}
-          src={unavailable}
-          className="img-responsive"
-          style={{ width: '150px', height: '150px' }}
-          alt={product.name}
-        />
-        <Spinner size={'150px'}/>
-      </ImageLoader>
-    );
-  }
-
-  showImg(product) {
-    // If the product details has no images.
-    if (isEmpty(product.imageDTO)) {
-      return (
-        <img
-          src={unavailable}
-          className="img-responsive"
-          style={{ width: '150px', height: '150px' }}
-          alt={product.name}
-        />
-      );
-    // Return the loaded image.
-    } else {
-      return this.getImg(product);
     }
   }
 

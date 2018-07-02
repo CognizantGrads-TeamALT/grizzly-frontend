@@ -7,24 +7,6 @@ import {
 import axios from 'axios';
 import isEmpty from '../validation/is-empty';
 
-// Caching
-import localforage from 'localforage';
-import { setup } from 'axios-cache-adapter';
-
-const store = localforage.createInstance({
-  // List of drivers used
-  driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE],
-  // Prefix all storage keys to prevent conflicts
-  name: 'grizzly-alt'
-});
-
-const cache = setup({
-  cache: {
-    maxAge: 120 * 60 * 1000, // 2 hours
-    store
-  }
-});
-
 // Get Product List
 export const getProducts = index => dispatch => {
   dispatch(clearErrors());

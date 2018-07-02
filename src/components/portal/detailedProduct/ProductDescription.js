@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import Button from "react-ions/lib/components/Button";
 import InlineEdit from "react-ions/lib/components/InlineEdit";
 import isEmpty from "../../../validation/is-empty";
-import unavailable from "../../../img/unavailable.png";
-import { Carousel } from "react-responsive-carousel";
 import {
   editProduct,
   reloadProducts,
@@ -13,9 +11,9 @@ import {
 import { connect } from "react-redux";
 import ImageUploader from "../products/ImageUploader";
 import ErrorComponent from "../../common/ErrorComponent";
-import { PRODUCT_IMAGE } from '../../../actions/microservices';
-//import Spinner from "../../common/Spinner";
-//import ImageLoader from 'react-load-image';
+
+import ProductCarousel from '../common/ProductCarousel';
+import { PRODUCT_IMAGE } from "../../../actions/microservices";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -130,52 +128,6 @@ class ProductDescription extends Component {
     });
   };
 
-  showCarousel(product) {
-    if (!isEmpty(product.imageDTO)) {
-      return product.imageDTO.map((imgInfo, index) => (
-        // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        // UNABLE TO IMPLEMENT IMAGELOADER HERE, THE THUMBNAILS NEVER LOAD.
-        /*<ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName} key={index}>
-          <img
-            key={index}
-            className="img-responsive"
-            alt={product.name}
-          />
-          <img
-            src={unavailable}
-            className="img-responsive"
-            alt={product.name}
-          />
-          <Spinner size={'150px'}/>
-        </ImageLoader>*/
-        <div key={index}>
-          <img src={PRODUCT_IMAGE + imgInfo.imgName} className="img-responsive" alt="" />
-        </div>
-      ));
-    }
-  }
-
-  showImg() {
-    const product = this.props.product.single;
-    // If the product details has no images.
-    if (isEmpty(product.imageDTO)) {
-      return (
-        <img
-          src={unavailable}
-          className="img-responsive"
-          alt={product.name}
-        />
-      );
-    // Return the loaded image.
-    } else {
-      return (
-        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
-          {this.showCarousel(product)}
-        </Carousel>
-      );
-    }
-  }
-
   showImgEditor() {
     // if we haven't edited the images, just use the product's originals
     let imageData;
@@ -183,9 +135,9 @@ class ProductDescription extends Component {
     if (isEmpty(this.files)) {
       const product = this.props.product.single;
       if (!isEmpty(product.imageDTO)) {
-        //imageData = product.imageDTO.map(img => {
-        //  return img.base64Image;
-        //});
+        imageData = product.imageDTO.map(img => {
+          return PRODUCT_IMAGE + img.imgName;
+        });
         imageNames = product.imageDTO.map(img => {
           return { name: img.imgName };
         });
@@ -308,7 +260,7 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            {!this.state.isEditingImg ? this.showImg() : this.showImgEditor()}
+            {!this.state.isEditingImg ? <ProductCarousel prod={this.props.product.single} /> : this.showImgEditor()}
             {this.props.user.userType === 'admin' &&
               !this.state.isEditingImg && (
                 <Button

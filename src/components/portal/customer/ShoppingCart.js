@@ -3,13 +3,12 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import isEmpty from "../../../validation/is-empty";
-import unavailable from "../../../img/unavailable.png";
 import Spinner from "../../common/Spinner";
-import { PRODUCT_IMAGE } from '../../../actions/microservices';
-import ImageLoader from 'react-load-image';
 import PropTypes from "prop-types";
 import { getProduct, getProductBatch } from "../../../actions/productsActions";
 import { loadCart, saveCart } from "../../../actions/cartActions";
+
+import ProductImage from '../common/ProductImage';
 
 class ShoppingCart extends Component {
   constructor(props) {
@@ -46,46 +45,6 @@ class ShoppingCart extends Component {
     this.setState({ clicks: this.state.value - 1 });
     console.log(this.clicks);
   };
-
-  getImg(product) {
-    let imgInfo = product.imageDTO[0];
-
-    return (
-      <ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName}>
-        <img
-          key={product.productId}
-          className="img-responsive"
-          alt={product.name}
-          style={{ width: '150px', height: '150px' }}
-        />
-        <img
-          key={product.productId}
-          src={unavailable}
-          className="img-responsive"
-          style={{ width: '150px', height: '150px' }}
-          alt={product.name}
-        />
-        <Spinner size={'150px'}/>
-      </ImageLoader>
-    );
-  }
-
-  showImg(product) {
-    // If the product details has no images.
-    if (isEmpty(product.imageDTO)) {
-      return (
-        <img
-          src={unavailable}
-          className="img-responsive"
-          style={{ width: '150px', height: '150px' }}
-          alt={product.name}
-        />
-      );
-    // Return the loaded image.
-    } else {
-      return this.getImg(product);
-    }
-  }
 
   // This will fetch the items from the API.
   loadItems() {
@@ -141,7 +100,7 @@ class ShoppingCart extends Component {
               to={`/customerdetailedproduct/${prod.productId}`}
             >
               {" "}
-              {this.showImg(prod)}
+              <ProductImage prod={prod} />
             </Link>
           </div>
           <div className="col-6 d-inline product-price-quantity align-right">

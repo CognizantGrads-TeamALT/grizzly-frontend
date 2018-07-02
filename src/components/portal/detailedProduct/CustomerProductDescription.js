@@ -8,6 +8,7 @@ import { PRODUCT_IMAGE } from '../../../actions/microservices';
 //import ImageLoader from 'react-load-image';
 //import Spinner from '../../common/Spinner';
 import Button from 'react-ions/lib/components/Button';
+import ProductCarousel from '../common/ProductCarousel';
 class CustomerProductDescription extends Component {
   constructor() {
     super();
@@ -102,7 +103,7 @@ class CustomerProductDescription extends Component {
         <div className="container containerCustomerProductView">
           <div className="row">
             <div className="col-5 picCustomerDetailedProductCol text-left">
-              <div className="row">{this.showImg(product)}</div>
+              <div className="row"><ProductCarousel prod={product} /></div>
             </div>
 
             <div className="col-5 containerCustomerProductDesc text-left">

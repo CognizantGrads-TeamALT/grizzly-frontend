@@ -8,7 +8,7 @@ import {
 } from '../../actions/productsActions';
 import { loadCart, saveCart } from '../../actions/cartActions';
 import { sortCategoriesByParamCustomer } from '../../actions/categoryActions';
-import ProductCarousel from './common/ProductCarousel';
+import VendorCarousel from './common/VendorCarousel';
 import ProductCategoryRow from './common/ProductCategoryRow';
 import isEmpty from '../../validation/is-empty';
 import Spinner from '../common/Spinner';
@@ -59,7 +59,7 @@ class CustomerPortal extends Component {
       return (
         <div className="col-md-12">
           {!isEmpty(this.props.product.products) && <ProductCategoryRow />}
-          <ProductCarousel />
+          <VendorCarousel />
           <div className="pt-3 mb-5 mock-description">
             <div className="row">
               <div className="col d-inline surround-parent w-50">

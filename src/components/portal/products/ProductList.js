@@ -47,25 +47,24 @@ class ProductList extends Component {
     });
   }
 
-
   onViewClick() {
-    const product = this.props.product.products[this.props.index]
+    const { product } = this.props;
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
-    waitForResponce = (product) => {
-      //timed method, listens for error and displays if if there is one.
-      if(this.props.errors.errorMessage !== "" && this.state.listenForError){
-        this.setState({showError:true,
-        listenForError: false})
-        clearInterval(this.state.intervalId);
-      }
-      else if(this.state.count> 5){
-        clearInterval(this.state.intervalId);
-        this.setState({listenForError:false})}
-        
-      else this.setState({count: this.state.count+1})
+  waitForResponce = (product) => {
+    //timed method, listens for error and displays if if there is one.
+    if(this.props.errors.errorMessage !== "" && this.state.listenForError){
+      this.setState({showError:true,
+      listenForError: false})
+      clearInterval(this.state.intervalId);
     }
+    else if(this.state.count> 5){
+      clearInterval(this.state.intervalId);
+      this.setState({listenForError:false})}
+      
+    else this.setState({count: this.state.count+1})
+  }
 
   showCatName(product) {
     const { product_category } = this.props;
@@ -94,67 +93,69 @@ class ProductList extends Component {
 
   render() {
     //updated this to get the product from the global state instead of the parent
-    const product = this.props.product.products[this.props.index];
-    return (
-      <tr>
-        <th scope="row">{product.productId}</th>
-        <td>{product.name}</td>
-        <td>{this.showVendorName(product)}</td>
-        <td>{this.showCatName(product)}</td>
-        <td>{product.rating}</td>
-        <td>
-          <div className="row">
-            <div className="col p-0">
-              <Button
-                onClick={this.onViewClick}
-                className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
-              >
-                View
-              </Button>
-            </div>
-            {this.props.userType === 'admin' && (
-              <div className="col p-0 collapsable-block-appearance">
-                <ConfirmModal
-                  buttonLabel={product.enabled ? 'Block' : 'Unblock'}
-                  title="Block Product"
-                  confirmText={
-                    (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
-                  }
-                  buttonClass="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
-                  onSubmit={this.onBlockClick}
-                />
+    const { product } = this.props;
+    if (!isEmpty(product))
+      return (
+        <tr>
+          <th scope="row">{product.productId}</th>
+          <td>{product.name}</td>
+          <td>{this.showVendorName(product)}</td>
+          <td>{this.showCatName(product)}</td>
+          <td>{product.rating}</td>
+          <td>
+            <div className="row">
+              <div className="col p-0">
+                <Button
+                  onClick={this.onViewClick}
+                  className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
+                >
+                  View
+                </Button>
               </div>
-            )}
-            <div className="col p-0">
-              <ConfirmModal
-                buttonLabel="Delete"
-                title="Delete Product"
-                confirmText={'Delete ' + product.name}
-                buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
-                onSubmit={this.onDeleteClick.bind(this, product.productId)}
-              />
-              <ErrorComponent 
-                errormsg={this.props.errors.errorMessage} 
-                popup={true} 
-                show={this.state.showError} 
-                closeError={this.closeError} />
+              {this.props.userType === 'admin' && (
+                <div className="col p-0 collapsable-block-appearance">
+                  <ConfirmModal
+                    buttonLabel={product.enabled ? 'Block' : 'Unblock'}
+                    title="Block Product"
+                    confirmText={
+                      (product.enabled ? 'Block' : 'Unblock') + ' ' + product.name
+                    }
+                    buttonClass="btn more-rounded orange-b btn-sm mr-sm-2 d-inline"
+                    onSubmit={this.onBlockClick}
+                  />
+                </div>
+              )}
+              <div className="col p-0">
+                <ConfirmModal
+                  buttonLabel="Delete"
+                  title="Delete Product"
+                  confirmText={'Delete ' + product.name}
+                  buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
+                  onSubmit={this.onDeleteClick.bind(this, product.productId)}
+                />
+                <ErrorComponent 
+                  errormsg={this.props.errors.errorMessage} 
+                  popup={true} 
+                  show={this.state.showError} 
+                  closeError={this.closeError} />
+              </div>
             </div>
-          </div>
-        </td>
-      </tr>
-    );
+          </td>
+        </tr>
+      );
   }
 }
 
 ProductList.propTypes = {
   toggleBlockProduct: PropTypes.func.isRequired,
   deleteProduct: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
+
+  errors: PropTypes.object.isRequired,
+  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  errors: state.errors,
-  product: state.product,
+  errors: state.errors
 });
 
 export default connect(
