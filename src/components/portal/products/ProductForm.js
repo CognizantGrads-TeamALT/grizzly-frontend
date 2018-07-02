@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { addProduct } from '../../../actions/productsActions';
+import { addProduct, clearErrors, WaitForError  } from '../../../actions/productsActions';
 import {
   searchCategories,
   Update_TypeAhead
@@ -14,6 +14,7 @@ import ImageUploader from './ImageUploader';
 import validator from 'validator';
 import VendorTypeAhead from '../vendor/VendorTypeAhead';
 import { Vendor_Update_TypeAhead } from '../../../actions/vendorActions';
+import ErrorComponent from '../../common/ErrorComponent';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -29,7 +30,12 @@ class ProductForm extends Component {
       categoryList: [],
       cur_id: '',
       valid_cat: false,
-      valid_vendor: false
+      valid_vendor: false,
+      display_error: false,
+      intervalID: "",
+      errors: [],
+      shouldCancel: false,
+      showDBErrors: false
     };
     this.pictures = [];
     this.files = [];
@@ -50,12 +56,35 @@ class ProductForm extends Component {
     });
   }
 
+  componentDidUpdate(){
+    //if no errors have been thrown and cancel has been triggered, cancel.
+    if(!this.props.errors.waitForError && this.state.shouldCancel){
+      this.cancel();
+      this.props.WaitForError();
+     }
+  }
+
   cancel() {
+    this.setState({errors: [],
+      modal: false,
+      category: '',
+      name: '',
+      desc: '',
+      price: '',
+      rating: 0,
+      categoryList: [],
+      cur_id: '',
+      valid_cat: false,
+      valid_vendor: false,
+      shouldCancel: false,
+      showDBErrors: false});
     this.props.onCancel();
+    
   }
 
   onSubmit(e) {
     e.preventDefault();
+    this.props.clearErrors();
     let imageData = [];
     let i;
     for (i = 0; i < this.files.length; i++) {
@@ -83,31 +112,15 @@ class ProductForm extends Component {
     // Validate new product
     let validationErrors = this.validateProduct(newProd);
     if (validationErrors.length > 0) {
-      // TODO: show modal with error messages. For now just logging to console
-      console.log(
-        'The product could not be created. Please amend the following issues:'
-      );
-      _(validationErrors).forEach(function(error) {
-        console.log(error.msg);
-        console.log('DEBUG: ' + error.debug);
-      });
+      //add any errors to the state
+      this.setState({errors: validationErrors})
     }
     // No validation errors found!
     else {
       this.props.addProduct(newProd);
-      this.setState({
-        modal: false,
-        category: '',
-        name: '',
-        desc: '',
-        price: '',
-        rating: 0,
-        categoryList: [],
-        cur_id: '',
-        valid_cat: false,
-        valid_vendor: false
-      });
-      this.cancel();
+      //add product, set should cancel to true, this will trigger the closure of the window If no error is thrown.
+      this.setState({shouldCancel: true, 
+                    showDBErrors: true})
     }
   }
 
@@ -175,6 +188,16 @@ class ProductForm extends Component {
     }
 
     return errors;
+  }
+
+  showErrors(){
+    if(this.state.errors.length !==0){
+
+      return(<ErrorComponent errormsg={this.state.errors[0].msg} />)
+    }
+    else if(this.state.showDBErrors && this.props.errors.errorMessage !== ''){
+      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
+    }
   }
 
   onChange(e, persist) {
@@ -246,6 +269,7 @@ class ProductForm extends Component {
           >
             Cancel
           </button>
+          {this.showErrors()}
         </div>
       </div>
     );
@@ -260,10 +284,13 @@ ProductForm.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  user: state.user
+  category: state.category,
+  vendor: state.vendor,
+  user: state.user,
+  errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead }
-)(withRouter(ProductForm));
+  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead, clearErrors, WaitForError })(withRouter(ProductForm));
+

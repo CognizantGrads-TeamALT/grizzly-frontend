@@ -1,13 +1,18 @@
-import React, { Component } from 'react';
-import Button from 'react-ions/lib/components/Button';
-import InlineEdit from 'react-ions/lib/components/InlineEdit';
-import isEmpty from '../../../validation/is-empty';
-import unavailable from '../../../img/unavailable.png';
-import { Carousel } from 'react-responsive-carousel';
-import { editProduct, reloadProducts } from '../../../actions/productsActions';
-import { connect } from 'react-redux';
-import Spinner from '../../common/Spinner';
-import ImageUploader from '../products/ImageUploader';
+import React, { Component } from "react";
+import Button from "react-ions/lib/components/Button";
+import InlineEdit from "react-ions/lib/components/InlineEdit";
+import isEmpty from "../../../validation/is-empty";
+import unavailable from "../../../img/unavailable.png";
+import { Carousel } from "react-responsive-carousel";
+import {
+  editProduct,
+  reloadProducts,
+  WaitForError
+} from "../../../actions/productsActions";
+import { connect } from "react-redux";
+import Spinner from "../../common/Spinner";
+import ImageUploader from "../products/ImageUploader";
+import ErrorComponent from "../../common/ErrorComponent";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -20,7 +25,9 @@ class ProductDescription extends Component {
       name: this.props.product.single.name,
       desc: this.props.product.single.desc,
       price: this.props.product.single.price,
-      changed: false
+      changed: false,
+      shouldCancel: false,
+      showDBError: false
     };
 
     this.pictures = [];
@@ -156,7 +163,12 @@ class ProductDescription extends Component {
           />
         );
         // We have image but its loading, so wait.
-      } else {
+      } 
+      else if(this.props.errors.errorMessage !== ''){
+        //an error was thrown loading the image, show the error
+        return<ErrorComponent errormsg={this.props.errors.errorMessage}/>
+      }
+      else {
         return (
           <div className="text-center">
             <Spinner size={'150px'} />
@@ -240,12 +252,30 @@ class ProductDescription extends Component {
 
     if (this.state.changed) {
       this.props.editProduct(newProd);
+      this.setState({shouldCancel: true,
+      showDBError: true})
+    }
+  }
+
+  showErrors(){
+    //shows an error if a DB action has been sent
+    if(this.state.showDBError){
+      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
+    }
+  }
+
+  componentDidUpdate(){
+    if(!this.props.errors.waitForError && this.state.shouldCancel){
       this.props.reloadProducts();
       this.onCancel();
     }
   }
 
   onCancel() {
+    this.setState({shouldCancel: false,
+      showDBError: false,
+      changed: false});
+    this.props.WaitForError();
     this.props.history.goBack();
   }
 
@@ -402,6 +432,7 @@ class ProductDescription extends Component {
                         </Button>
                       )}
                     </div>
+                    {this.showErrors()}
                   </div>
                 </div>
               </div>
@@ -414,11 +445,12 @@ class ProductDescription extends Component {
 }
 
 const mapStateToProps = state => ({
+  errors: state.errors,
   user: state.user,
   product: state.product
 });
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts }
+  { editProduct, reloadProducts, WaitForError }
 )(ProductDescription);

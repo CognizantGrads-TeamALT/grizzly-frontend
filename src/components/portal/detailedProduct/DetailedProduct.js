@@ -9,6 +9,7 @@ import {
   getProductImages,
   getVendorBatch
 } from '../../../actions/productsActions';
+import ErrorComponent from '../../common/ErrorComponent';
 
 class DetailedProduct extends Component {
   constructor(props) {
@@ -30,7 +31,11 @@ class DetailedProduct extends Component {
 
   show() {
     const { single, loading, product_vendor } = this.props.product;
-    if (isEmpty(single) || isEmpty(product_vendor) || loading) {
+    //show an error component if there is nothing to show and an error exists.
+    if((isEmpty(single) || isEmpty(product_vendor)) && this.props.errors.errorMessage !== ''){
+      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
+    }
+    else if (isEmpty(single) || isEmpty(product_vendor) || loading) {
       return (<Spinner size={'150px'}/>);
     } else {
       const vendor = this.props.product.product_vendor.filter(
@@ -52,7 +57,7 @@ class DetailedProduct extends Component {
   render() {
     return (
       <div className="row">
-        <div className="col-2">
+        <div className="col-2 position-static griz-dark-blue-bg h-95 p-3">
           <Profile />
         </div>
         <div className="col-10">{this.show()}</div>
@@ -62,7 +67,8 @@ class DetailedProduct extends Component {
 }
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  errors: state.errors
 });
 
 export default connect(

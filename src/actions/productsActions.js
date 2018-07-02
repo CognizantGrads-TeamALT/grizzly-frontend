@@ -27,6 +27,7 @@ const cache = setup({
 
 // Get Product List
 export const getProducts = index => dispatch => {
+  dispatch(clearErrors());
   // Default the index to 0 if not given.
   index = index == null ? 0 : index;
 
@@ -41,21 +42,23 @@ export const getProducts = index => dispatch => {
       dispatch(refreshProductData(res.data));
     })
     .catch(err => {
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.request.response
+      });
       dispatch(setProductUpdated());
       // For development purposes. The micro-services take time to initialise.
       // This will keep requesting data if it gets a 500 or 403 error...
       // Should be removed once we actually implement a feature to error or retry x times.
-      if (index === 0) dispatch(getProducts(index));
+      //if (index === 0) dispatch(getProducts(index));
+      
 
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
-      });
     });
 };
 
 // Get Product with Imgs
 export const getProduct = productId => dispatch => {
+  dispatch(clearErrors());
   dispatch(setProductLoading());
   axios
     .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
@@ -78,7 +81,7 @@ export const getProduct = productId => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
@@ -92,6 +95,9 @@ export const getProductImages = product => dispatch => {
 }
 
 export const getProductImage = (productId, imageName) => dispatch => {
+  //don't know why this caused problems, error along the lines of cannot call render when render is already underway. no idea, shouldn't cause problems...
+  //... hopefully, will find out when/if we do customer portal error handling
+  //dispatch(clearErrors());
   cache
     .get(PRODUCT_API_GATEWAY + `/getImage/${imageName}`)
     .then(res => {
@@ -105,7 +111,7 @@ export const getProductImage = (productId, imageName) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
@@ -117,6 +123,7 @@ export const setProductAdding = () => {
 };
 
 export const addProduct = newProd => dispatch => {
+  dispatch(clearErrors());
   // again, also here...
   // getVendorBatch and getCategoryBatch handle the loading state variable
   // if we call it too early, due to state changes between other methods...
@@ -129,15 +136,15 @@ export const addProduct = newProd => dispatch => {
         type: types.PRODUCT_ADDING,
         payload: res.data
       });
-
+      dispatch(stopWaitingForError());
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
+      //dispatch(setProductPosted());
     })
     .catch(err => {
-      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
@@ -164,6 +171,7 @@ export const reloadProducts = () => dispatch => {
 
 // Delete Product
 export const deleteProduct = id => dispatch => {
+  dispatch(clearErrors());
   dispatch(setProductUpdateOnce());
   axios
     .delete(PRODUCT_API_GATEWAY + `/delete/${id}`)
@@ -177,13 +185,14 @@ export const deleteProduct = id => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Block/unlock Product
 export const toggleBlockProduct = (productId, enabled) => dispatch => {
+  dispatch(clearErrors());
   dispatch(setProductUpdateOnce());
   axios
     .post(PRODUCT_API_GATEWAY + `/setBlock/${productId}`, {'enabled': enabled})
@@ -197,30 +206,45 @@ export const toggleBlockProduct = (productId, enabled) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
+
     });
 };
 
 // Edit Product
 export const editProduct = newInfo => dispatch => {
-  dispatch(setProductEditing());
+  dispatch(clearErrors(true));
   axios
     .post(PRODUCT_API_GATEWAY + `/edit/${newInfo.productId}`, newInfo)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.PRODUCT_EDITED,
         payload: newInfo
       })
+      dispatch(stopWaitingForError());}
     )
     .catch(err => {
-      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
+
+//clearing errors
+export const clearErrors = values => dispatch => {
+  dispatch({
+    type: types.CLEAR_ERRORS
+  })
+}
+  export const WaitForError = () => {
+    return {type: types.START_WAITING}
+  }
+
+  export const stopWaitingForError = () => {
+    return {type: types.STOP_WAITING}
+  }
 
 // Product Editing
 export const setProductEditing = () => {
@@ -287,7 +311,7 @@ export const getVendorBatch = vendorIdArray => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
@@ -305,13 +329,14 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Search Products
 export const searchProducts = (keyword, index) => dispatch => {
+  dispatch(clearErrors());
   dispatch(clearCurrentProducts());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
@@ -322,13 +347,14 @@ export const searchProducts = (keyword, index) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Search Products
 export const getRandomProducts = (keyword, index) => dispatch => {
+  dispatch(clearErrors());
   axios
     .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
     .then(res => {
@@ -341,13 +367,14 @@ export const getRandomProducts = (keyword, index) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Sort products by @param
 export const sortProductsByParam = (index, param) => dispatch => {
+  dispatch(clearErrors());
   dispatch(clearCurrentProducts());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
@@ -358,13 +385,14 @@ export const sortProductsByParam = (index, param) => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // get all products beloning to a vendor, and get their inventory details
 export const getVendorInventory = (index, VendorID) => dispatch => {
+  dispatch(clearErrors());
   index = index == null ? 0 : index;
   // getVendorBatch and getCategoryBatch set loading: true
   // if either data is not loaded yet.
@@ -388,13 +416,13 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
 
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
   };
 // edit the inventory of a single product.
 export const editProductInventory = newInfo => dispatch => {
-  dispatch(setProductEditing());
+  dispatch(clearErrors(true));
   axios
     .post(PRODUCT_API_GATEWAY + `/editInventory/`, newInfo)
     .then(res =>
@@ -404,16 +432,16 @@ export const editProductInventory = newInfo => dispatch => {
       }),
     )
     .catch(err => {
-      dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
 
 // Filter Products by Category
 export const filterProductsByCategory = inputs => dispatch => {
+  dispatch(clearErrors());
   dispatch(setProductLoading());
   dispatch(clearFilteredProducts());
   axios
@@ -428,7 +456,7 @@ export const filterProductsByCategory = inputs => dispatch => {
       dispatch(setProductUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
     });
 };
