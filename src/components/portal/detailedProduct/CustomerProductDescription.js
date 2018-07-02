@@ -6,6 +6,10 @@ import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
 import Button from 'react-ions/lib/components/Button';
+import {
+  getProduct,
+  getProductImages
+} from '../../../actions/productsActions';
 //import { Link } from 'react-router-dom';  
 class CustomerProductDescription extends Component {
   constructor() {
@@ -20,6 +24,8 @@ class CustomerProductDescription extends Component {
   componentDidMount() {
     // Scroll to top.
     window.scrollTo(0, 0);
+    this.props.getProduct(this.props.single.productId);
+    this.props.getProductImages(this.props.single);
   }
 
   // Fixes no-op error.
@@ -46,7 +52,7 @@ class CustomerProductDescription extends Component {
     if (!isEmpty(this.props.product.images[product.productId])) {
       return this.props.product.images[product.productId].map((img, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <div key={index}>
+        <div id={index} key={index}>
           <img src={img.base64Image} className="img-responsive" alt="" />
         </div>
       ));
@@ -168,5 +174,9 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  {
+    getProduct,
+    getProductImages
+  }
 )(CustomerProductDescription);
