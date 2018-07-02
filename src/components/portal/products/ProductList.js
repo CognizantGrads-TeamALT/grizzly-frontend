@@ -49,7 +49,7 @@ class ProductList extends Component {
 
 
   onViewClick() {
-    const { product } = this.props;
+    const product = this.props.product.products[this.props.index]
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
