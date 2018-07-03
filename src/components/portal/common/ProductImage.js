@@ -41,7 +41,7 @@ class ProductImage extends Component {
           alt={product.name}
           className="img-responsive"
           style={{
-            width: '150px',
+            objectFit: 'cover',
             height: '150px'
           }}
         />
