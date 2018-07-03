@@ -106,7 +106,6 @@ class ShoppingCart extends Component {
               className="align-content-center"
               to={`/customerdetailedproduct/${prod.productId}`}
             >
-              {" "}
               <ProductImage prod={prod} />
             </Link>
           </div>
@@ -132,9 +131,9 @@ class ShoppingCart extends Component {
 
           {/* display the totalprice per item according to the quantity */}
           <div align="right" className="col-2 d-inline product-total-price ">
-            <p name="totalPricePerProduct" className="d-inline">
-              {" "}
-              ${prod.price * this.props.product.cart[prod.productId]}</p>
+            <p className="d-inline">             
+              ${prod.price * this.props.product.cart[prod.productId]}
+            </p>
           </div>
           <div align="right" className="col-1 d-inline remove-btn">
             <button
