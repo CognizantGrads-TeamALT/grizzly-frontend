@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import isEmpty from "../../../validation/is-empty";
-import unavailable from "../../../img/unavailable.png";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
-import { getProduct, getProductImage, getProductBatch } from "../../../actions/productsActions";
+import { getProduct, getProductBatch } from "../../../actions/productsActions";
 import { loadCart, saveCart, changeQuantity, removeFromCart } from "../../../actions/cartActions";
+import ProductImage from '../common/ProductImage';
 
 class ShoppingCart extends Component {
   constructor(props) {
@@ -35,26 +35,6 @@ class ShoppingCart extends Component {
     }
   }
 
-  getImg(product) {
-    let imgInfo = this.props.product.images[product.productId][0];
-    return (
-      <img
-        key={product.productId}
-        src={imgInfo.base64Image}
-        className="img-responsive"
-        alt=""
-        style={{ width: "150px", height: "150px" }}
-      />
-    );
-  }
-
-  getImages(products) {
-    for (let product of products) {
-      if (!isEmpty(product.imageDTO) && isEmpty(this.props.product.images[product.productId])) {
-        this.props.getProductImage(product.productId, product.imageDTO[0].imgName);
-      }
-    }
-  }
   removeFromCart(single, productId) {
     this.props.removeFromCart(single.productId);
   }
@@ -66,29 +46,6 @@ class ShoppingCart extends Component {
   onClick(e) {
     this.props.cart.pop(this.props.productId);
   };
-
-  showImg(product) {
-    // If we don't have any images.
-    if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img
-            src={unavailable}
-            className="img-responsive"
-            style={{ width: "150px", height: "150px" }}
-            alt="Unavailable"
-          />
-        );
-        // We have image but its loading, so wait.
-      } else {
-        return <Spinner size={"150px"} />;
-      }
-      // Return the loaded image.
-    } else {
-      return this.getImg(product);
-    }
-  }
 
   // This will fetch the items from the API.
   loadItems() {
@@ -140,7 +97,6 @@ class ShoppingCart extends Component {
     }
 
     const cartItems = this.props.product.cart_products;
-    this.getImages(cartItems);
     this.totalPrice = 0;
     return cartItems.map(prod => (
       <div key={prod.productId}>
@@ -151,7 +107,7 @@ class ShoppingCart extends Component {
               to={`/customerdetailedproduct/${prod.productId}`}
             >
               {" "}
-              {this.showImg(prod)}
+              <ProductImage prod={prod} />
             </Link>
           </div>
           <div className="col-6 d-inline product-price-quantity align-right">
@@ -230,9 +186,8 @@ class ShoppingCart extends Component {
 
 ShoppingCart.propTypes = {
   getProduct: PropTypes.func.isRequired,
-  getProductImage: PropTypes.func.isRequired,
   getProductBatch: PropTypes.func.isRequired,
-
+  
   loadCart: PropTypes.func.isRequired,
   saveCart: PropTypes.func.isRequired,
   changeQuantity: PropTypes.func.isRequired,
@@ -248,7 +203,6 @@ export default connect(
   mapStateToProps,
   {
     getProduct,
-    getProductImage,
     getProductBatch,
     loadCart,
     saveCart,

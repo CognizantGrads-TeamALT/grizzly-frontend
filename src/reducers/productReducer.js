@@ -6,9 +6,6 @@ const initialState = {
   // Stores ALL products. Shouldn't clear this.
   products: [],
 
-  // Stores ALL products images.
-  images: [],
-
   // Stores ALL product categories.
   product_category: [],
 
@@ -204,30 +201,6 @@ export default function(state = initialState, action) {
             ? action.payload.slice(0, 12)
             : action.payload
       };
-    case types.GET_PRODUCT_IMAGE:
-      let newImage = action.payload;
-      let productId = action.productId;
-
-      let currentImages = isEmpty(state.images) ? [] : state.images;
-      let oldImages = isEmpty(currentImages[productId]) ? [] : currentImages[productId];
-
-      // prevent duplicate images.
-      let newImages = isEmpty(newImage)
-        ? oldImages :
-        [
-          ...new Map(
-            oldImages
-              .concat(newImage)
-              .map(o => [o['imgName'], o])
-          ).values()
-        ];
-
-      currentImages[productId] = newImages;
-
-      return {
-        ...state,
-        images: currentImages
-      }
     case types.PRODUCT_ADDING:
       currentProducts2 = isEmpty(state.products) ? [] : state.products;
       let addProduct = isEmpty(action.payload) ? [] : [action.payload];
@@ -323,16 +296,7 @@ export default function(state = initialState, action) {
       };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
-        ...state,
-        hasMore: true,
-        products: null,
-        products_filtered: null,
-        products_filtered_last: null,
-        product_category: null,
-        product_vendor: null,
-        loadingCategories: null,
-        loadingVendors: null,
-        index: 0
+        ...initialState
       };
     case types.CLEAR_FILTERED_PRODUCTS:
       return {

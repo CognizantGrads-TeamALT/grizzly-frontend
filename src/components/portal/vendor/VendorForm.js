@@ -5,9 +5,10 @@ import { withRouter } from "react-router-dom";
 import TextFieldGroup from "../../common/TextFieldGroup";
 import TextAreaFieldGroup from "../../common/TextAreaFieldGroup";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { addVendor } from "../../../actions/vendorActions";
+import { addVendor, WaitForError } from "../../../actions/vendorActions";
 import validator from 'validator';
 import _ from 'lodash';
+import ErrorComponent from "../../common/ErrorComponent";
 
 class VendorForm extends Component {
   constructor(props) {
@@ -18,19 +19,30 @@ class VendorForm extends Component {
       website: "",
       contactNum: "",
       email: "",
-      bio: ""
+      bio: "",
+      errors: [],
+      shouldToggle: false,
+      showDBErrors: false
     };
 
     this.onToggle = this.onToggle.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.validateVendor = this.validateVendor.bind(this);
+    this.showError = this.showError.bind(this);
   }
 
   onToggle() {
     this.setState({
       modal: !this.state.modal
     });
+  }
+
+  componentDidUpdate(){
+    if(!this.props.errors.waitForError && this.state.shouldToggle){
+      this.onToggle();
+      this.props.WaitForError();
+     }
   }
 
   onChange(e) {
@@ -50,25 +62,22 @@ class VendorForm extends Component {
 
     let validationErrors = this.validateVendor(newVendor);
 
-    if (validationErrors.length > 0) {
-      // TODO: show modal with error messages. For now just logging to console
-      console.log("The vendor could not be created. Please amend the following issues:");
-      _(validationErrors).forEach(function(error) {
-        console.log(error.msg);
-        console.log("DEBUG: " + error.debug);
-      });
-    } 
+    
+      // add errors to the state if they exist;
+      this.setState({errors: validationErrors});
+   
     // No validation errors found!
-    else {
+    if(validationErrors.length === 0){
       this.props.addVendor(newVendor);
       this.setState({
         name: "",
         website: "",
         contactNum: "",
         email: "",
-        bio: ""
+        bio: "",
+        shouldToggle: true,
+        showDBErrors: true
       });
-      this.onToggle();
     }
   }
 
@@ -106,6 +115,17 @@ class VendorForm extends Component {
 
     return errors;
   }
+
+  showError(){
+    //shows validation errors if any exist.
+    if(this.state.errors.length !== 0){
+      return <ErrorComponent errormsg={this.state.errors[0].msg}/>
+    }
+    //shows DB errors if any exist and a submit has been sent
+    else if(this.state.showDBErrors && this.props.errors.errorMessage !== ''){
+      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
+    }
+  } 
 
   render() {
     return (
@@ -180,6 +200,7 @@ class VendorForm extends Component {
               >
                 Cancel
               </Button>
+              {this.showError()}
             </div>
           </ModalFooter>
         </Modal>
@@ -190,11 +211,11 @@ class VendorForm extends Component {
 
 VendorForm.propTypes = {
   addVendor: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  vendor: state.vendor,
+  errors: state.errors
 });
 
-export default connect(mapStateToProps, { addVendor })(withRouter(VendorForm));
+export default connect(mapStateToProps, { addVendor, WaitForError })(withRouter(VendorForm));
