@@ -5,8 +5,7 @@ import {
     getUserOrder
 } from '../../../actions/userActions';
 import { 
-    getProducts,
-    getProductImage
+    getProducts
 } from '../../../actions/productsActions';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
@@ -129,8 +128,7 @@ class OrderHistory extends Component {
 
 OrderHistory.propTypes = {
     getUserOrder: PropTypes.func.isRequired,
-    getProducts: PropTypes.func.isRequired,
-    getProductImage: PropTypes.func.isRequired
+    getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -143,7 +141,6 @@ export default connect(
     mapStateToProps,
     {
         getUserOrder,
-        getProducts,
-        getProductImage
+        getProducts
     }
 )(OrderHistory);
