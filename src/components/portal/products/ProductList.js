@@ -94,7 +94,7 @@ class ProductList extends Component {
   render() {
     //updated this to get the product from the global state instead of the parent
     const product = this.props.product.products[this.props.index];
-    if (!isEmpty(product))
+    if (!isEmpty(product)) {
       return (
         <tr>
           <th scope="row">{product.productId}</th>
@@ -143,6 +143,9 @@ class ProductList extends Component {
           </td>
         </tr>
       );
+    } else {
+      return (<tr />);
+    }
   }
 }
 
