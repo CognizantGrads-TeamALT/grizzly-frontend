@@ -4,48 +4,10 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { getRandomProducts } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
-import unavailable from '../../../img/unavailable.png';
-import Spinner from '../../common/Spinner';
+
+import ProductImage from '../common/ProductImage';
+
 class RandomProduct extends Component {
-  getImg(product) {
-    return (
-      <img
-        key={product.productId}
-        src={this.props.product.images[product.productId][0].base64Image}
-        className="card-img-top"
-        alt=""
-        style={{ width: '150px', height: '150px' }}
-      />
-    );
-  }
-
-  showImg(product) {
-    // If we don't have any images.
-    if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img
-            src={unavailable}
-            className="card-img-top"
-            style={{ width: '150px', height: '150px' }}
-            alt="Unavailable"
-          />
-        );
-        // We have image but its loading, so wait.
-      } else {
-        return (
-          <div className="text-center">
-            <Spinner size={'150px'} />
-          </div>
-        );
-      }
-      // Return the loaded image.
-    } else {
-      return this.getImg(product);
-    }
-  }
-
   showVendorName(vendorId) {
     if (isEmpty(vendorId) || vendorId === 0) {
       return '';
@@ -73,7 +35,7 @@ class RandomProduct extends Component {
               className="img-thumbnail surround-parent h-100 w-100 card product-card"
               key={prod.productId}
             >
-              {this.showImg(prod)}
+              <ProductImage prod={prod} />
               <div className="card-body inner-product-card surround-parent h-100 w-100">
                 <div className="inner-product-card card-text fnt-weight-400 surround-parent w-100">
                   {prod.name}

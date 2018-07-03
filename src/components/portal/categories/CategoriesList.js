@@ -5,20 +5,57 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
 import { toggleBlockCategory, deleteCategory } from "../../../actions/categoryActions";
+import ErrorComponent from "../../common/ErrorComponent";
 
 class CategoriesList extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showError: false
+    }
     this.onBlockClick = this.onBlockClick.bind(this);
+    this.waitForResponce = this.waitForResponce.bind(this);
+    this.closeError=this.closeError.bind(this);
+  }
+
+  closeError(){
+    this.setState({showError:false})
   }
 
   onDeleteClick(id) {
     this.props.deleteCategory(id);
+        //begin checking for an error
+    this.setState({listenForError: true,
+      count: 0,
+    intervalId: setInterval(this.waitForResponce, 10)})
   }
 
   onBlockClick() {
     const { category } = this.props;
     this.props.toggleBlockCategory(category.categoryId, !category.enabled);
+    //begin checking for an error
+    this.setState({listenForError: true,
+      block: true,
+      count: 0,
+    intervalId: setInterval(this.waitForResponce, 10)})
+  }
+
+  waitForResponce(){
+    //check for error, if so, set it to display
+    if(this.props.errors.errorMessage !== "" && this.state.listenForError){
+      this.setState({showError:true,
+      listenForError: false})
+      if(this.state.block){
+        this.setState({block:false});
+      }
+      clearInterval(this.state.intervalId) 
+    }
+    else if(this.state.count> 5){
+      clearInterval(this.state.intervalId);
+      this.setState({listenForError:false})}
+      
+    else this.setState({count: this.state.count+1})
+    
   }
 
   render() {
@@ -57,6 +94,13 @@ class CategoriesList extends Component {
                   buttonClass="btn more-rounded red-b btn-sm mr-sm-2 d-inline"
                   onSubmit={this.onDeleteClick.bind(this, category.categoryId)}
                 />
+                {/*shows error on toggle as a popup*/}
+              <ErrorComponent 
+                errormsg={this.props.errors.errorMessage} 
+                popup={true} 
+                show={this.state.showError} 
+                closeError={this.closeError} />
+                
             </div>
           </div>
           </td>
@@ -73,7 +117,11 @@ CategoriesList.propTypes = {
   deleteCategory: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+  errors: state.errors,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { toggleBlockCategory, deleteCategory }
 )(CategoriesList);

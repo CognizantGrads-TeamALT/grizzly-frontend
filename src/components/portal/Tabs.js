@@ -49,7 +49,9 @@ class Tabs extends Component {
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();
-    this.props.getVendorInventory('0', '2');
+    // only load inventory data if they're a vendor...
+    if (this.props.userType === 'vendor')
+      this.props.getVendorInventory('0', '2');
     this.setState({ activeTab: '1' });
   }
 

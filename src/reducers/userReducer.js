@@ -3,6 +3,7 @@ import isEmpty from '../validation/is-empty';
 
 const initialState = {
   user: null,
+  orders: [],
   googleProfile: null,
   userType: null,
   isAuthenticated: false
@@ -40,6 +41,12 @@ export default function(state = initialState, action) {
         googleProfile: action.payload,
         userType: 'customer' // TODO : fix this, receive from BE instead.
       };
+    case types.GET_USER_WITH_ORDER:
+      return {
+        ...state,
+        orders: action.payload,
+        loading: false
+       };
     case types.USER_PROFILE_UPDATE:
       return {
         ...state,

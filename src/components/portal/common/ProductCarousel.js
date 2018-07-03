@@ -1,62 +1,70 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
-import Slider from 'react-slick';
-import { Link } from 'react-router-dom';
+
+import unavailable from '../../../img/unavailable.png';
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+//import spinner from "../../common/spinner.svg";
+
+import { Carousel } from 'react-responsive-carousel';
+//import ProgressiveImage from 'react-progressive-image';
 
 class ProductCarousel extends Component {
-  show() {
-    const { products, loading } = this.props.product;
-    let prodArray = [];
-    if (!isEmpty(products) && !loading) {
-      for (let i = 0; i < products.length; i++) {
-        prodArray.push(products[i]);
-      }
-      if (!isEmpty(prodArray)) {
-        return prodArray.map(prod => (
-          <Link
-            key={prod.productId}
-            to={`/customerdetailedproduct/${prod.productId}`}
-          >
+  showCarousel(product) {
+    if (!isEmpty(product.imageDTO)) {
+      return product.imageDTO.map((imgInfo, index) => (
+        // stops complaining about "UNIQUE KEYS" THANKS REACT.
+        // UNABLE TO IMPLEMENT ProgressiveImage HERE, THE THUMBNAILS NEVER LOAD.
+        /*<ProgressiveImage src={PRODUCT_IMAGE + imgInfo.imgName} placeholder={spinner}>
+          {(src, loading) => (
             <img
-              src="https://static.ebates.com/img/merchant_logo/14781/banner-1168x200_2.jpg"
-              className="rounded parent-wide"
-              alt=""
+              key={product.productId}
+              src={src}
+              alt={product.name}
+              className="img-responsive"
+              style={{
+                opacity: loading ? 0.5 : 1,
+                width: '150px',
+                height: '150px'
+              }}
             />
-            {/* <span>{prod.name}</span> */}
-          </Link>
-        ));
-      } else {
-        return <Spinner size={'150px'} />;
-      }
+          )}
+        </ProgressiveImage>*/
+        <div key={index}>
+          <img src={PRODUCT_IMAGE + imgInfo.imgName} className="img-responsive" alt="" />
+        </div>
+      ));
+    }
+  }
+
+  showImg(product) {
+    // If the product details has no images.
+    if (isEmpty(product.imageDTO)) {
+      return (
+        <img
+          key={product.productId}
+          src={unavailable}
+          className="img-responsive"
+          alt={product.name}
+          style={{
+            width: '150px',
+            height: '150px'
+          }}
+        />
+      );
+    // Return the loaded image.
+    } else {
+      return (
+        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
+          {this.showCarousel(product)}
+        </Carousel>
+      );
     }
   }
 
   render() {
-    var settings = {
-      dots: true,
-      infinite: true,
-      speed: 5000,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      autoplay: true
-    };
-    return (
-      <Slider className="mb-5" {...settings}>
-        {this.show()}
-      </Slider>
-    );
+    const product = this.props.prod;
+    return this.showImg(product);
   }
 }
 
-ProductCarousel.propTypes = {
-  product: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  product: state.product
-});
-
-export default connect(mapStateToProps)(ProductCarousel);
+export default (ProductCarousel);

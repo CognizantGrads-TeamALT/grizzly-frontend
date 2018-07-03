@@ -9,6 +9,7 @@ import {
   filterProductsByCategory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
+//import ErrorComponent from "../../common/ErrorComponent"
 import { toast } from 'react-toastify';
 
 class Products extends Component {
@@ -32,7 +33,7 @@ class Products extends Component {
   }
 
   shouldComponentUpdate() {
-    if (this.props.product.updateOnce || this.props.product.loading)
+    if (this.props.product.updateOnce || this.props.product.loading || this.props.errors.errorMessage !== "")
       return true;
 
     return false;
@@ -41,8 +42,8 @@ class Products extends Component {
   loadMore() {
     if (this.props.product.hasMore) {
       this.props.getProducts(this.props.product.index);
-      if (!isEmpty(this.props.errors)) {
-        toast.info(this.props.errors.message);
+      if (!isEmpty(this.props.errors.errorMessage)) {
+        toast.info(this.props.errors.errorMessage);
       }
     }
   }
@@ -55,18 +56,21 @@ class Products extends Component {
       loadingVendors,
       loadingCategories
     } = this.props.product;
+    //const { errorMessage } = this.props.errors;
     if (!loadingVendors && !loadingCategories) {
       if (this.props.user.userType === 'admin') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
         }
-        return products.map(prod => (
+        return products.map((prod, index) => (
           <ProductList
             key={prod.productId}
             product_category={product_category}
             product_vendor={product_vendor}
             product={prod}
+            index = {index}
             userType={this.props.user.userType}
+            errors={this.props.errors}
           />
         ));
       } else if (this.props.user.userType === 'vendor') {
@@ -78,17 +82,19 @@ class Products extends Component {
             prod =>
               prod.vendorId === parseInt(this.props.user.user[0].userId, 10)
           )
-          .map(prod => (
+          .map((prod, index) => (
             <ProductList
               key={prod.productId}
               product_category={product_category}
               product_vendor={product_vendor}
               product={prod}
+              index={index}
               userType={this.props.user.userType}
             />
           ));
       }
-    } else {
+    }
+    else {
       return (
         <tr>
           <td>
@@ -128,9 +134,8 @@ class Products extends Component {
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired,
   filterProductsByCategory: PropTypes.func.isRequired,
-
-  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

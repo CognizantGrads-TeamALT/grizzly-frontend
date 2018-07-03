@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+//import ImageLoader from 'react-load-image';
+//import Spinner from '../../common/Spinner';
 import Button from 'react-ions/lib/components/Button';
-//import { Link } from 'react-router-dom';  
+import ProductCarousel from '../common/ProductCarousel';
 class CustomerProductDescription extends Component {
   constructor() {
     super();
@@ -41,45 +43,46 @@ class CustomerProductDescription extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  showCarousel() {
-    const product = this.props.single;
-    if (!isEmpty(this.props.product.images[product.productId])) {
-      return this.props.product.images[product.productId].map((img, index) => (
+  showCarousel(product) {
+    if (!isEmpty(product.imageDTO)) {
+      return product.imageDTO.map((imgInfo, index) => (
         // stops complaining about "UNIQUE KEYS" THANKS REACT.
+        // UNABLE TO IMPLEMENT IMAGELOADER HERE, THE THUMBNAILS NEVER LOAD.
+        /*<ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName} key={index}>
+          <img
+            key={index}
+            className="img-responsive"
+            alt={product.name}
+          />
+          <img
+            src={unavailable}
+            className="img-responsive"
+            alt={product.name}
+          />
+          <Spinner size={'150px'}/>
+        </ImageLoader>*/
         <div key={index}>
-          <img src={img.base64Image} className="img-responsive" alt="" />
+          <img src={PRODUCT_IMAGE + imgInfo.imgName} className="img-responsive" alt="" />
         </div>
       ));
     }
   }
 
-  showImg() {
-    const product = this.props.single;
-    // If we don't have any images.
-    if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details literally has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img
-            src={unavailable}
-            className="img-responsive"
-            style={{ width: '150px', height: '150px' }}
-            alt="Unavailable"
-          />
-        );
-        // We have image but its loading, so wait.
-      } else {
-        return (
-          <div className="text-center">
-            <Spinner size={'150px'} />
-          </div>
-        );
-      }
-      // Return the loaded images.
+  showImg(product) {
+    // If the product details has no images.
+    if (isEmpty(product.imageDTO)) {
+      return (
+        <img
+          src={unavailable}
+          className="img-responsive"
+          alt={product.name}
+        />
+      );
+    // Return the loaded image.
     } else {
       return (
         <Carousel infiniteLoop={true} autoPlay={true} width="300px">
-          {this.showCarousel()}
+          {this.showCarousel(product)}
         </Carousel>
       );
     }
@@ -100,7 +103,7 @@ class CustomerProductDescription extends Component {
         <div className="container containerCustomerProductView">
           <div className="row">
             <div className="col-5 picCustomerDetailedProductCol text-left">
-              <div className="row">{this.showImg()}</div>
+              <div className="row"><ProductCarousel prod={product} /></div>
             </div>
 
             <div className="col-5 containerCustomerProductDesc text-left">
@@ -167,4 +170,6 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps)(CustomerProductDescription);
+export default connect(
+  mapStateToProps,
+)(CustomerProductDescription);
