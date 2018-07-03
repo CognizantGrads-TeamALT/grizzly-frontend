@@ -51,11 +51,13 @@ class ProductDescription extends Component {
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
+    {console.log("here")}
     this.pictures = pictureDataURLs;
     this.files = pictureFiles;
   }
 
   handleCallbackDesc = event => {
+    {console.log("here")}
     this.setState({
       isEditingDesc: false,
       [event.target.name]: event.target.value,
@@ -64,6 +66,7 @@ class ProductDescription extends Component {
   };
 
   buttonCallbackDesc = event => {
+    {console.log("here")}
     this.setState({
       isEditingDesc: true,
       isEditingPrice: false,
@@ -73,6 +76,7 @@ class ProductDescription extends Component {
   };
 
   buttonCallbackImg() {
+    {console.log("here")}
     this.setState({
       isEditingDesc: false,
       isEditingPrice: false,
@@ -82,6 +86,7 @@ class ProductDescription extends Component {
   }
 
   handleCallbackImg = event => {
+    {console.log("here")}
     this.setState({
       isEditingImg: false,
       [event.target.name]: event.target.value,
@@ -90,6 +95,7 @@ class ProductDescription extends Component {
   };
 
   handleCallback = event => {
+    {console.log("here")}
     this.setState({
       isEditing: false,
       [event.target.name]: event.target.value,
@@ -98,6 +104,7 @@ class ProductDescription extends Component {
   };
 
   buttonCallback = () => {
+    {console.log("here")}
     this.setState({
       isEditing: true,
       isEditingDesc: false,
@@ -109,6 +116,7 @@ class ProductDescription extends Component {
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
+    {console.log("here")}
     if (isNaN(parseInt(event.target.value, 10))) {
       event.target.value = this.state.price;
     } else {
@@ -121,6 +129,7 @@ class ProductDescription extends Component {
   };
 
   buttonCallbackPrice = event => {
+    {console.log("here")}
     this.setState({
       isEditingPrice: true,
       isEditing: false,
@@ -130,6 +139,7 @@ class ProductDescription extends Component {
   };
 
   showCarousel(product) {
+    {console.log("here")}
     // if we don't have any images yet, use the incoming product's
     let images;
     if (isEmpty(this.files)) {
@@ -193,6 +203,7 @@ class ProductDescription extends Component {
   }
 
   showImgEditor() {
+    {console.log("here")}
     // if we haven't edited the images, just use the product's originals
     let imageData;
     let imageNames;
@@ -273,6 +284,7 @@ class ProductDescription extends Component {
 
   componentDidUpdate(){
     if(!this.props.errors.waitForError && this.state.shouldCancel){
+      console.log("check");
       this.props.reloadProducts();
       this.onCancel();
     }
@@ -287,8 +299,11 @@ class ProductDescription extends Component {
   }
 
   render() {
+    console.log("here");
     return (
+      
       <div className="row mt-4 parent-min-half-high">
+      {console.log("here")}
         <div className="col-6">
           <div className="container">
             <div className="row align-items-start">
