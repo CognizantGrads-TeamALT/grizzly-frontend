@@ -16,11 +16,11 @@ class CustomerDetailedProduct extends Component {
     super(props);
     this.state = {
       single: null,
-      id: null,
-      shouldGetRandom: true
+      id: null
     };
 
     this.addToCart = this.addToCart.bind(this);
+    this.fetchedRandom = false;
   }
 
   addToCart(single) {
@@ -33,20 +33,28 @@ class CustomerDetailedProduct extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    //initial render without a previous prop change
+    // initial render without a previous prop change
     if (isEmpty(prevProps)) {
       return false;
     }
 
-    //new route param ?
+    // new route param ?
     if (this.state.id !== this.props.match.params.productId) {
       this.loadData(this.props.match.params.productId);
       this.setState({ id: this.props.match.params.productId });
+
+      this.fetchedRandom = false;
+    }
+
+    // load "random" products
+    const single = this.state.single || this.props.product.single;
+    if (!isEmpty(single) && !this.fetchedRandom && this.state.id === this.props.match.params.productId) {
+      this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+      this.fetchedRandom = true;
     }
   }
 
   loadData(id) {
-    let name = '';
     // Only load data again if there is no data present.
     // Saves page load time & useless API calls :)
     if (!isEmpty(this.props.product.products)) {
@@ -56,17 +64,11 @@ class CustomerDetailedProduct extends Component {
       );
       if (!isEmpty(single)) {
         this.setState({ single: single[0] });
-        name = single[0].name;
       } else {
         this.props.getProduct(id);
       }
     } else {
       this.props.getProduct(id);
-    }
-
-    let searchTerm = name.split(' ').pop();
-    if (!isEmpty(searchTerm)) {
-      this.props.getRandomProducts(searchTerm, '0');
     }
   }
 
@@ -81,25 +83,19 @@ class CustomerDetailedProduct extends Component {
         return <p>The item was not found.</p>;
       }
 
-      const { random_products } = this.props.product;
-      if (isEmpty(random_products) && this.state.shouldGetRandom) {
-        this.props.getRandomProducts(single.name.split(' ').pop(), '0');
-        this.setState({shouldGetRandom: false})
-      } else {
-        const vendor = this.props.product.product_vendor.filter(
-          item => item.vendorId === single.vendorId
-        )[0];
-        return (
-          <div>
-            <CustomerProductDescription
-              single={single}
-              history={this.props.history}
-              vendor={vendor}
-              addToCart={this.addToCart}
-            />
-          </div>
-        );
-      }
+      const vendor = this.props.product.product_vendor.filter(
+        item => item.vendorId === single.vendorId
+      )[0];
+      return (
+        <div>
+          <CustomerProductDescription
+            single={single}
+            history={this.props.history}
+            vendor={vendor}
+            addToCart={this.addToCart}
+          />
+        </div>
+      );
     }
   }
 

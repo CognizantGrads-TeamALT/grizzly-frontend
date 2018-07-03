@@ -75,13 +75,8 @@ export default function(state = initialState, action) {
         loadingCategories: true
       };
     case types.ADD_TO_CART:
-      // Checks if we already have the item in the cart.
-      //if (state.cart.indexOf(action.productId) !== -1)
-      //  return state;
-
       var newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.product.productId] = isEmpty(newCart[action.product.productId]) ? 1 : newCart[action.product.productId]+1; // quantity.
-      console.log("Cart append", newCart);
       saveCart(newCart);
 
       let currentProducts2 = isEmpty(state.cart_products) ? [] : state.cart_products;
@@ -103,20 +98,23 @@ export default function(state = initialState, action) {
     case types.ADJUST_CART_QUANTITY:
       newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.productId] = action.quantity;
-      console.log("Cart quantity change", newCart);
       saveCart(newCart);
+
       return {
         ...state,
         cart: newCart
       };
     case types.REMOVE_FROM_CART:
       newCart = isEmpty(state.cart) ? {} : state.cart;
-      newCart[action.productId] = null;
-      console.log("Cart remove", newCart);
+      delete newCart[action.productId];
       saveCart(newCart);
+
       return {
         ...state,
-        cart: newCart
+        cart: newCart,
+        cart_products: state.cart_products.filter(
+          product => product.productId !== action.productId
+        )
       };
     case types.GET_FILTERED_PRODUCTS:
       hasMore = // hasMore should should a different veriable, as you're loading filtered products.
