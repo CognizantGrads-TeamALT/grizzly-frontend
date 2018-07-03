@@ -15,8 +15,8 @@ export const loadCart = () => dispatch => {
 
 // Save the cart data.
 export const saveCart = data => {
-    if (!isEmpty(data))
-        localStorage.setItem(location, JSON.stringify(data));
+    let newData = !isEmpty(data) ? data : {}
+    localStorage.setItem(location, JSON.stringify(newData));
 }
 
 // Add an item to the cart.

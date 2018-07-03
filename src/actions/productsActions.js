@@ -73,7 +73,7 @@ export const setProductAdding = () => {
     type: types.PRODUCT_ADDING
   };
 };
-
+//Add products
 export const addProduct = newProd => dispatch => {
   dispatch(clearErrors());
   // again, also here...
