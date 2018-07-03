@@ -92,7 +92,6 @@ class Products extends Component {
               index={index}
               userType={this.props.user.userType}
             />
-            
           )
         );
 

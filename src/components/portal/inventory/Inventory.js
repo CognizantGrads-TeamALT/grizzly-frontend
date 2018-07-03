@@ -70,7 +70,7 @@ class Inventory extends Component {
         );
       }
       else if (isEmpty(vendorInventory) && !loading && !(this.props.errors.errorMessage == "")){
-        toast.info('No inventory was found.');
+        toast.info('No products were found. Select Add Product to add one now!');
       }  
     }
   }
