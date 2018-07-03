@@ -8,7 +8,10 @@ import logo from '../../img/logo.png';
 import { GoogleLogin } from 'react-google-login';
 import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
-import { searchProducts, clearCurrentProducts } from '../../actions/productsActions';
+import { 
+    searchProducts,
+    reloadProducts 
+  } from '../../actions/productsActions';
 //import ShoppingCart from '../portal/customer/ShoppingCart';
 
 class Navbar extends Component {
@@ -42,7 +45,8 @@ class Navbar extends Component {
   onLogout(e) {
     e.preventDefault();
     this.props.logoutUser();
-    this.props.clearCurrentProducts();
+    this.props.reloadProducts(); // NOTE: this causes a flicker on going to customer, then admin, then
+                                 // back to customer, but this won't be an issue once we route it better
     this.props.history.push('/customer');
     toast.success('Bye!');
   }
@@ -251,7 +255,7 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   searchProducts: PropTypes.func.isRequired,
-  clearCurrentProducts: PropTypes.func.isRequired,
+  reloadProducts: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
   loginUser: PropTypes.func.isRequired
 };
@@ -262,5 +266,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { searchProducts, clearCurrentProducts, logoutUser, loginUser }
+  { searchProducts, reloadProducts, logoutUser, loginUser }
 )(withRouter(Navbar));
