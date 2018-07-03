@@ -169,7 +169,7 @@ class ProductDescription extends Component {
     let i;
     // if we haven't edited any images
     if (isEmpty(this.files)) {
-      imageData = this.props.product.single.imageData;
+      imageData = this.props.product.single.imageDTO;
     } else {
       // we have edited images
       for (i = 0; i < this.files.length; i++) {
