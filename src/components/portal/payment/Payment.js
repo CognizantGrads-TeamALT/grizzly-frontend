@@ -63,19 +63,25 @@ class Payment extends Component {
   }
 
   onSuccess(payment) {
-    console.log(payment);
     let { cart } = this.props.product;
     let totalCost = this.calcOrderPrice();
+
+    let orderItems = Object.keys(cart).map(function(prodId) {
+      return ({
+        productId: parseInt(prodId),
+        quantity: cart[prodId]
+      });
+    });
+
     const newOrder = {
       user_id: 1,
       txn_id: payment.paymentID,
       cost: totalCost,
       departing_location: "Melbourne City",
       shipped_on: "2018-06-15",
-      order_items: cart
+      orderItemDTO: orderItems
     };
-    console.log(newOrder);
-    // addOrder(newOrder);
+    addOrder(newOrder);
   }
   onCancel(data) {
     console.log("The payment was cancelled!", data);
