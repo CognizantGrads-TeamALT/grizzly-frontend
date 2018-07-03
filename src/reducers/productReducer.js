@@ -75,10 +75,6 @@ export default function(state = initialState, action) {
         loadingCategories: true
       };
     case types.ADD_TO_CART:
-      // Checks if we already have the item in the cart.
-      //if (state.cart.indexOf(action.productId) !== -1)
-      //  return state;
-
       var newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.product.productId] = isEmpty(newCart[action.product.productId]) ? 1 : newCart[action.product.productId]+1; // quantity.
       saveCart(newCart);
@@ -103,6 +99,7 @@ export default function(state = initialState, action) {
       newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.productId] = action.quantity;
       saveCart(newCart);
+
       return {
         ...state,
         cart: newCart
@@ -111,6 +108,7 @@ export default function(state = initialState, action) {
       newCart = isEmpty(state.cart) ? {} : state.cart;
       delete newCart[action.productId];
       saveCart(newCart);
+
       return {
         ...state,
         cart: newCart,

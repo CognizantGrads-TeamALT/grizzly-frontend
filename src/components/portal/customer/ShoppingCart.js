@@ -5,13 +5,16 @@ import { Link } from "react-router-dom";
 import isEmpty from "../../../validation/is-empty";
 import Spinner from "../../common/Spinner";
 import PropTypes from "prop-types";
+
 import { getProduct, getProductBatch } from "../../../actions/productsActions";
 import { loadCart, saveCart, changeQuantity, removeFromCart } from "../../../actions/cartActions";
+
 import ProductImage from '../common/ProductImage';
 
 class ShoppingCart extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       totalPrice: 0,
       triggeredFetch: false,
@@ -24,19 +27,17 @@ class ShoppingCart extends Component {
     this.triggeredFetch = false;
     this.totalPrice = 0;
   }
+
   // Will update the totalPrice once the cart is cleared
-  componentWillUpdate() {
+  componentDidUpdate() {
     this.totalPrice = 0;
   }
+
   // Load their cart from local storage if it is empty...
   componentDidMount() {
     if (isEmpty(this.props.product.cart)) {
       this.props.loadCart();
     }
-  }
-
-  removeFromCart(single, productId) {
-    this.props.removeFromCart(single.productId);
   }
 
   onChange(productId, newValue) {
@@ -64,7 +65,6 @@ class ShoppingCart extends Component {
       }
 
       if (productIdArray !== '') {
-        console.log(productIdArray);
         this.props.getProductBatch(productIdArray);
       } else
         this.props.product.fetchingCart = false;
@@ -114,7 +114,7 @@ class ShoppingCart extends Component {
             <h6 className="d-inline ml-5">{prod.name}</h6>
             <ul className="d-inline">
               <li id="price" className="d-inline mr-3">
-                $ {prod.price}
+                ${prod.price} x
               </li>
               <li className="d-inline">
                 <input
@@ -134,7 +134,7 @@ class ShoppingCart extends Component {
           <div align="right" className="col-2 d-inline product-total-price ">
             <p name="totalPricePerProduct" className="d-inline">
               {" "}
-              $ {prod.price * this.props.product.cart[prod.productId]}</p>
+              ${prod.price * this.props.product.cart[prod.productId]}</p>
           </div>
           <div align="right" className="col-1 d-inline remove-btn">
             <button
@@ -160,10 +160,8 @@ class ShoppingCart extends Component {
         <div align="right" className="totalprice d-inline mb-8">
           <div align="center" className="d-inline col mr-6 mb-5">
             <h4 align="center" className="d-inline h4-totalprice">
-              Totalprice of items: </h4>
-            <div align="center" className="d-inline ">
-              <h4 className="d-inline"> ${this.totalPrice}</h4>
-            </div>
+              Total: ${this.totalPrice}
+            </h4>
           </div>
         </div>
         <div align="right" className="row-2 d-inline checkout-btn div-checkout mt-5">
