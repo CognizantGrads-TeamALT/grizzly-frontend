@@ -200,28 +200,28 @@ class Tabs extends Component {
               </TabPane>
               <TabPane tabId="2">
                 <Row>
-                  <Col sm="12 pt-2">
+                  <Col sm="12">
                     <Vendor userType={this.props.userType} />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="3">
                 <Row>
-                  <Col sm="12 pt-2">
+                  <Col sm="12">
                     <Categories />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="4">
                 <Row>
-                  <Col sm="12 pt-2">
+                  <Col sm="12">
                     <Inventory userType={this.props.userType} />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="addProduct">
                 <Row>
-                  <Col sm="12 pt-2">
+                  <Col sm="12">
                     <ProductForm onCancel={this.onAddProductCancel} />
                   </Col>
                 </Row>
