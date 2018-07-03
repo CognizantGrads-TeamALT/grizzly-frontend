@@ -5,14 +5,14 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
-    "jquery": "^3.3.1",
-    "popper.js": "^1.14.3",
-    "slick-carousel": "^1.8.1",
     "classnames": "^2.2.6",
+    "clean": "^4.0.2",
     "cross-env": "^5.2.0",
+    "jquery": "^3.3.1",
     "js-md5": "^0.7.3",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
+    "popper.js": "^1.14.3",
     "prop-types": "15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -31,6 +31,7 @@
     "reactstrap": "^6.2.0",
     "redux": "^4.0.0",
     "redux-thunk": "^2.2.0",
+    "slick-carousel": "^1.8.1",
     "validator": "^10.3.0"
   },
   "scripts": {
