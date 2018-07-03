@@ -1,8 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { searchVendors } from "../../../actions/vendorActions";
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { searchVendors } from '../../../actions/vendorActions';
+import { toast } from 'react-toastify';
+import isEmpty from '../../../validation/is-empty';
 class InventorySearchSort extends Component {
   constructor() {
     super();
@@ -17,8 +18,7 @@ class InventorySearchSort extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.disabled)
-      this.setState({ disabled: false });
+    if (this.state.disabled) this.setState({ disabled: false });
   }
 
   onChange(e) {
@@ -32,11 +32,16 @@ class InventorySearchSort extends Component {
   onSearch(e) {
     e.preventDefault();
 
-    const searchTerm = {
-      search: this.state.search
-    };
+    if (isEmpty(this.state.search)) {
+      toast.info('Please check your input!');
+    } else {
+      const searchTerm = {
+        search: this.state.search
+      };
 
-    this.props.searchVendors(searchTerm);
+      this.props.searchVendors(searchTerm);
+      this.setState({ search: '' });
+    }
   }
 
   render() {
@@ -52,7 +57,7 @@ class InventorySearchSort extends Component {
                 placeholder="Search"
                 value={this.state.search}
                 onChange={this.onChange}
-                disabled = {(this.state.disabled)? "disabled" : ""}
+                disabled={this.state.disabled ? 'disabled' : ''}
               />
               <span className="input-group-append-more">
                 <button
@@ -86,8 +91,7 @@ class InventorySearchSort extends Component {
             </button>
           </div>
         </div>
-        <div className="col">
-        </div>
+        <div className="col" />
       </div>
     );
   }
@@ -102,4 +106,7 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(mapStateToProps, { searchVendors })(InventorySearchSort);
+export default connect(
+  mapStateToProps,
+  { searchVendors }
+)(InventorySearchSort);

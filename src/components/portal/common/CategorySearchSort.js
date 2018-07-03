@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 import {
   searchCategories,
   sortCategoriesByParam
 } from '../../../actions/categoryActions';
 import CategoryForm from '../categories/CategoryForm';
+import isEmpty from '../../../validation/is-empty';
 
 class CategorySearchSort extends Component {
   constructor() {
@@ -38,8 +40,12 @@ class CategorySearchSort extends Component {
 
   onSearch(e) {
     e.preventDefault();
-    this.props.searchCategories(this.state.search);
-    this.setState({ search: '' });
+    if (isEmpty(this.state.search)) {
+      toast.info('Please check your input!');
+    } else {
+      this.props.searchCategories(this.state.search);
+      this.setState({ search: '' });
+    }
   }
 
   onSortByName(e) {
@@ -68,7 +74,10 @@ class CategorySearchSort extends Component {
     return (
       <div className="mt-2 mb-3 row w-100">
         <div className="col text-center">
-          <form onSubmit={this.onSearch} className="btn-group form-inline ml-0 mr-1">
+          <form
+            onSubmit={this.onSearch}
+            className="btn-group form-inline ml-0 mr-1"
+          >
             <div className="search-form-custom">
               <input
                 className="form-control left-rounded border-right-0 border"
@@ -123,8 +132,7 @@ class CategorySearchSort extends Component {
             </button>
           </div>
         </div>
-        <div className="col">
-        </div>
+        <div className="col" />
         <div className="col text-right">
           <CategoryForm
             category={category}
