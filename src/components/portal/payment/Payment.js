@@ -1,24 +1,55 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import isEmpty from "../../../validation/is-empty";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import PaypalExpressBtn from "react-paypal-express-checkout";
+import { getProductBatch } from "../../../actions/productsActions";
 import { loadCart, saveCart } from "../../../actions/cartActions";
+import { addOrder } from "../../../actions/userActions";
 
 class Payment extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.props.loadCart();
+    this.state = {
+      totalPrice: 0,
+      triggeredFetch: false
+    };
+
+    let orderFetched = false;
+    this.calcOrderPrice = this.calcOrderPrice.bind(this);
+    this.onSuccess = this.onSuccess.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onError = this.onError.bind(this);
   }
+
   showOrderContent() {
+    this.triggeredFetch = true;
     let { cart, cart_products } = this.props.product;
-    console.log(cart_products);
+
+    let productIdArray = "";
+    if (!this.orderFetched || isEmpty(cart_products)) {
+      for (var productId in cart) {
+        productIdArray =
+          productIdArray === "" ? productId : productIdArray + "," + productId;
+      }
+
+      this.props.getProductBatch(productIdArray);
+      this.orderFetched = true;
+    }
+
+    // console.log("cart");
+    // console.log(cart);
+    // console.log("cart_products");
+    // console.log(cart_products);
     return cart_products.map(prod => (
       <tr key={prod.productId}>
         <td>
           {prod.name} x{cart[prod.productId]}
         </td>
-        <td>Price (AUD): {prod.price}</td>
+        <td>Price (AUD): ${prod.price * cart[prod.productId]}.00</td>
       </tr>
     ));
   }
@@ -30,8 +61,21 @@ class Payment extends Component {
     );
     return totalPrice;
   }
+
   onSuccess(payment) {
-    console.log("Ben Lee");
+    console.log(payment);
+    let { cart_products } = this.props.product;
+    let totalCost = this.calcOrderPrice();
+    const newOrder = {
+      user_id: 1,
+      txn_id: payment.paymentID,
+      cost: totalCost,
+      departing_location: "Melbourne City",
+      shipped_on: "2018-06-15",
+      order_items: cart_products
+    };
+    console.log(newOrder);
+    addOrder(newOrder);
   }
   onCancel(data) {
     console.log("The payment was cancelled!", data);
@@ -89,6 +133,8 @@ class Payment extends Component {
 }
 
 Payment.propTypes = {
+  getProductBatch: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired,
   loadCart: PropTypes.func.isRequired,
   saveCart: PropTypes.func.isRequired
 };
@@ -98,6 +144,8 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
+    getProductBatch,
+
     loadCart,
     saveCart
   }
