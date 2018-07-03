@@ -8,7 +8,6 @@ import {
     getProducts,
     getProductImage
 } from '../../../actions/productsActions';
-import unavailable from '../../../img/unavailable.png';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import {
@@ -18,6 +17,9 @@ import {
     CardTitle,
     CardText
   } from 'reactstrap';
+
+import ProductImage from '../common/ProductImage';
+
 class OrderHistory extends Component {
     constructor(props) {
         super(props);
@@ -33,42 +35,6 @@ class OrderHistory extends Component {
           }
     }
 
-    getImg(product) {
-        return (
-          <img
-            key={product.productId}
-            src={this.props.product.images[product.productId][0].base64Image}
-            className="card-img-top"
-            alt=""
-            style={{ objectFit: 'cover', height: '150px' }}
-          />
-        );
-      }
-
-    showImg(product) {
-        this.props.getProductImage(product.productId, product.imageDTO[0].imgName)
-        // If we don't have any images.
-        if (isEmpty(this.props.product.images[product.productId])) {
-          // If the product details has no images.
-          if (isEmpty(product.imageDTO)) {
-            return (
-              <img
-                src={unavailable}
-                className="card-img-top"
-                style={{ width: '150px', height: '150px' }}
-                alt="Unavailable"
-              />
-            );
-            // We have image but its loading, so wait.
-          } else {
-            return <Spinner size={'150px'} />;
-          }
-          // Return the loaded image.
-        } else {
-          return this.getImg(product);
-        }
-      }
-
     getProductDetails(prodId) {
         if (!isEmpty(this.props.product.products)) {
             return this.props.product.products
@@ -76,7 +42,7 @@ class OrderHistory extends Component {
               .map(prod => (
                     <div className="row m-3" key={prodId}>
                         <div className="col-3 my-auto mx-auto">
-                            {this.showImg(prod)}
+                            <ProductImage prod={prod} />
                         </div>
                         <div className="col-9">
                             <CardBody>
@@ -174,9 +140,10 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-mapStateToProps, {
-    getUserOrder,
-    getProducts,
-    getProductImage
-}
+    mapStateToProps,
+    {
+        getUserOrder,
+        getProducts,
+        getProductImage
+    }
 )(OrderHistory);

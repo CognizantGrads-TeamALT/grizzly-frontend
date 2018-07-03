@@ -7,24 +7,6 @@ import {
 import axios from 'axios';
 import isEmpty from '../validation/is-empty';
 
-// Caching
-import localforage from 'localforage';
-import { setup } from 'axios-cache-adapter';
-
-const store = localforage.createInstance({
-  // List of drivers used
-  driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE],
-  // Prefix all storage keys to prevent conflicts
-  name: 'grizzly-alt'
-});
-
-const cache = setup({
-  cache: {
-    maxAge: 120 * 60 * 1000, // 2 hours
-    store
-  }
-});
-
 // Get Product List
 export const getProducts = index => dispatch => {
   dispatch(clearErrors());
@@ -76,43 +58,6 @@ export const getProduct = productId => dispatch => {
         }
       }
       dispatch(setProductUpdated());
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.request.response
-      });
-    });
-};
-
-export const clearProductImages = (productId) => {
-  return {
-    type: types.CLEAR_PRODUCT_IMAGES,
-    payload: productId
-  }
-}
-
-export const getProductImages = product => dispatch => {
-  // Fetch images.
-  if (!isEmpty(product.imageDTO)) {
-    for (let image of product.imageDTO)
-      dispatch(getProductImage(product.productId, image.imgName));
-  }
-}
-
-export const getProductImage = (productId, imageName) => dispatch => {
-  //don't know why this caused problems, error along the lines of cannot call render when render is already underway. no idea, shouldn't cause problems...
-  //... hopefully, will find out when/if we do customer portal error handling
-  //dispatch(clearErrors());
-  cache
-    .get(PRODUCT_API_GATEWAY + `/getImage/${imageName}`)
-    .then(res => {
-      dispatch({
-        type: types.GET_PRODUCT_IMAGE,
-        payload: res.data,
-        productId: productId
-      });
     })
     .catch(err => {
       dispatch(setProductUpdated());

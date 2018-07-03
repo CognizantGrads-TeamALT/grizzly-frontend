@@ -2,52 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
-import unavailable from '../../../img/unavailable.png';
 import { Link } from 'react-router-dom';
-import Spinner from '../../common/Spinner';
+
+import ProductImage from '../common/ProductImage';
 
 class ProductGridList extends Component {
-  getImg(product) {
-    let imgInfo = this.props.product.images[product.productId][0];
-
-    return (
-      <img
-        key={product.productId}
-        src={imgInfo.base64Image}
-        className="img-responsive"
-        alt=""
-        style={{ width: '150px', height: '150px' }}
-      />
-    );
-  }
-
-  showImg(product) {
-    // If we don't have any images.
-    if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img
-            src={unavailable}
-            className="img-responsive"
-            style={{ width: '150px', height: '150px' }}
-            alt="Unavailable"
-          />
-        );
-        // We have image but its loading, so wait.
-      } else {
-        return (
-          <div className="text-center">
-            <Spinner size={'150px'} />
-          </div>
-        );
-      }
-      // Return the loaded image.
-    } else {
-      return this.getImg(product);
-    }
-  }
-
   show() {
     const products = this.props.product.products;
     let prodArray = [];
@@ -61,7 +20,7 @@ class ProductGridList extends Component {
             to={`/customerdetailedproduct/${prod.productId}`}
             className="img-thumbnail surround-parent h-100 w-100 card product-card"
           >
-            {this.showImg(prod)}
+            <ProductImage prod={prod} />
             <div className="card-body inner-product-card surround-parent h-100 w-100">
               <div className="inner-product-card card-text fnt-weight-400 surround-parent w-100">
                 {prod.name}
