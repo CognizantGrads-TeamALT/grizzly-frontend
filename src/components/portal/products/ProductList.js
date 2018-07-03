@@ -81,12 +81,21 @@ class ProductList extends Component {
 
   showVendorName(product) {
     const { product_vendor } = this.props
+    console.log(product);
+    console.log(product.vendorId);
+    console.log(product_vendor);
+    console.log(product_vendor.filter(item => item.vendorId === 
+      product.vendorId));
+      //this method would fail on search, if a product in the search hadn't already been loaded, the vendor wouldn't be in product_vendor
+      //causing filtered[0].name to crash with a cannot read property of undefined error
     if (!isEmpty(product) && !isEmpty(product_vendor)) {
-      const vendName =
-        product.vendorId === 0
-          ? product.vendorId
-          : product_vendor.filter(item => item.vendorId === product.vendorId)[0]
-              .name;
+      var filtered = product_vendor.filter(item => item.vendorId === 
+        product.vendorId);
+      var vendName;
+        if(filtered.length !==0)
+          vendName = filtered[0].name;
+        else
+          vendName = product.vendorId;
       return vendName;
     }
   }
