@@ -171,7 +171,6 @@ class ProductDescription extends Component {
       } else {
         // we have edited images
         for (i = 0; i < this.files.length; i++) {
-          console.log("in ehre");
           let img = {
             imgName: this.files[i].name,
             base64Image: this.pictures[i].split(',')[1]
@@ -193,7 +192,6 @@ class ProductDescription extends Component {
       };
 
       if (this.state.changed) {
-        console.log(newProd);
         this.props.editProduct(newProd);
         this.setState({shouldCancel: true,
         showDBError: true})
@@ -220,9 +218,7 @@ class ProductDescription extends Component {
       error = {errmsg: "price must be an number"};
       valid=false;
     }
-    console.log(parseFloat(this.state.price));
     this.setState({error: error});
-    console.log(valid);
     return valid;
   }
 
@@ -237,7 +233,6 @@ class ProductDescription extends Component {
 
   componentDidUpdate(){
     if(!this.props.errors.waitForError && this.state.shouldCancel){
-      console.log("check");
       this.props.reloadProducts();
       this.onCancel();
     }
