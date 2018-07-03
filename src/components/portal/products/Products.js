@@ -82,12 +82,13 @@ class Products extends Component {
             prod =>
               prod.vendorId === parseInt(this.props.user.user[0].userId, 10)
           )
-          .map(prod => (
+          .map((prod, index) => (
             <ProductList
               key={prod.productId}
               product_category={product_category}
               product_vendor={product_vendor}
               product={prod}
+              index={index}
               userType={this.props.user.userType}
             />
           ));

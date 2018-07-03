@@ -22,7 +22,7 @@ class ProductImage extends Component {
             className="img-responsive"
             style={{
               opacity: loading ? 0.5 : 1,
-              width: '150px',
+              objectFit: 'cover',
               height: '150px'
             }}
           />
@@ -41,7 +41,7 @@ class ProductImage extends Component {
           alt={product.name}
           className="img-responsive"
           style={{
-            width: '150px',
+            objectFit: 'cover',
             height: '150px'
           }}
         />
