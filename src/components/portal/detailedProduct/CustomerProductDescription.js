@@ -6,7 +6,7 @@ import unavailable from '../../../img/unavailable.png';
 import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
 import Button from 'react-ions/lib/components/Button';
-//import { Link } from 'react-router-dom';  
+
 class CustomerProductDescription extends Component {
   constructor() {
     super();
@@ -33,10 +33,8 @@ class CustomerProductDescription extends Component {
 
   onClick = event => {
     this.props.cart.push(this.props.product);
-    // this.setState({ clicks: this.state.clicks + 1 });
-    // console.log(this.clicks);
   }
-  
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -57,7 +55,7 @@ class CustomerProductDescription extends Component {
     const product = this.props.single;
     // If we don't have any images.
     if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details literally has no images.
+      // If the product details  has no images.
       if (isEmpty(product.imageDTO)) {
         return (
           <img
@@ -109,8 +107,8 @@ class CustomerProductDescription extends Component {
               </div>
               <div className="row fnt-weight-400 title-size-1em CustomerDetailedProductPrice">
                 {product.vendorId === 0 ||
-                isEmpty(product.vendorId) ||
-                isEmpty(this.props.vendor)
+                  isEmpty(product.vendorId) ||
+                  isEmpty(this.props.vendor)
                   ? ''
                   : ' by ' + this.props.vendor.name}
               </div>

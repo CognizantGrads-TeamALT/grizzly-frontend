@@ -24,7 +24,10 @@ class ShoppingCart extends Component {
     this.triggeredFetch = false;
     this.totalPrice = 0;
   }
-
+  // Will update the totalPrice once the cart is cleared
+  componentWillUpdate() {
+    this.totalPrice = 0;
+  }
   // Load their cart from local storage if it is empty...
   componentDidMount() {
     if (isEmpty(this.props.product.cart)) {
@@ -52,16 +55,12 @@ class ShoppingCart extends Component {
       }
     }
   }
-
-
   removeFromCart(single, productId) {
     this.props.removeFromCart(single.productId);
-
   }
 
   onChange(productId, newValue) {
     this.props.changeQuantity(productId, newValue);
-
   }
 
   onClick(e) {
@@ -114,9 +113,9 @@ class ShoppingCart extends Component {
         this.props.product.fetchingCart = false;
     }
   }
-
- addToMoney(additionalPrice) { 
-    this.totalPrice += additionalPrice 
+  // Adding the total price for all the items in cart
+  addToMoney(additionalPrice) {
+    this.totalPrice += additionalPrice
   }
 
   show() {
@@ -127,15 +126,17 @@ class ShoppingCart extends Component {
       }
     }
 
-    // If we're fetching data from api or loading the cart...
-    if (this.props.product.loadingCart || this.props.product.fetchingCart) {
-      return (
-        <div className="text-center">
-          <Spinner size={'150px'} />
-        </div>
-      );
-    } else if (isEmpty(this.props.product.cart_products)) {
-      return <p>No items found.</p>;
+    // If we're fetching data from api or loading the cart....
+    if (!isEmpty(this.props.product.cart) && isEmpty(this.props.product.cart_products)) {
+      if (this.props.product.loadingCart || this.props.product.fetchingCart) {
+        return (
+          <div className="text-center">
+            <Spinner size={'150px'} />
+          </div>
+        );
+      }
+    } else if (isEmpty(this.props.product.cart)) {
+      return <p align="center" className="mt-6">No items found.</p>;
     }
 
     const cartItems = this.props.product.cart_products;
@@ -190,10 +191,7 @@ class ShoppingCart extends Component {
         {this.addToMoney(this.props.product.cart[prod.productId] * prod.price)}
       </div>
     ));
-
   }
-
-
 
   render() {
     return (
@@ -203,26 +201,25 @@ class ShoppingCart extends Component {
           <hr width="100%" />
         </div>
         <div>{this.show()}</div>
-        <div align="right" className="totalprice d-inline">
+        <div align="right" className="totalprice d-inline mb-8">
           <div align="center" className="d-inline col mr-6 mb-5">
-            <h4 className="d-inline h4-totalprice">Totalprice of items: </h4>
+            <h4 align="center" className="d-inline h4-totalprice">
+              Totalprice of items: </h4>
             <div align="center" className="d-inline ">
               <h4 className="d-inline"> ${this.totalPrice}</h4>
             </div>
           </div>
         </div>
-        <div align="right" className="row-2 d-inline checkout-btn div-checkout">
+        <div align="right" className="row-2 d-inline checkout-btn div-checkout mt-5">
           <Link
             className="d-inline btn continue-btn more-rounded btnCheckOutCart "
-            to="/customer"
-          >
+            to="/customer">
             {" "}
             Continue Shopping
           </Link>
           <Link
             className="d-inline btn ml-3 checkout-btn more-rounded btnCheckOutCart"
-            to="/payment"
-          >
+            to="/payment">
             Checkout
           </Link>
         </div>

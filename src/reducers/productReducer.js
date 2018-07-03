@@ -84,7 +84,6 @@ export default function(state = initialState, action) {
 
       var newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.product.productId] = isEmpty(newCart[action.product.productId]) ? 1 : newCart[action.product.productId]+1; // quantity.
-      console.log("Cart append", newCart);
       saveCart(newCart);
 
       let currentProducts2 = isEmpty(state.cart_products) ? [] : state.cart_products;
@@ -106,7 +105,6 @@ export default function(state = initialState, action) {
     case types.ADJUST_CART_QUANTITY:
       newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.productId] = action.quantity;
-      console.log("Cart quantity change", newCart);
       saveCart(newCart);
       return {
         ...state,
@@ -115,7 +113,6 @@ export default function(state = initialState, action) {
     case types.REMOVE_FROM_CART:
       newCart = isEmpty(state.cart) ? {} : state.cart;
       delete newCart[action.productId];
-      console.log("Cart remove", newCart);
       saveCart(newCart);
       return {
         ...state,
