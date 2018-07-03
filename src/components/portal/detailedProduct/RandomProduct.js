@@ -4,10 +4,21 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { getRandomProducts } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
+import Spinner from '../../common/Spinner';
 
 import ProductImage from '../common/ProductImage';
 
 class RandomProduct extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.count = 0;
+  }
+
+  addCount() {
+    this.count++;
+  }
+
   showVendorName(vendorId) {
     if (isEmpty(vendorId) || vendorId === 0) {
       return '';
@@ -53,17 +64,26 @@ class RandomProduct extends Component {
                   ({Math.floor(Math.random() * 50 + 1)})
                 </div>
                 <div className="fnt-weight-600 surround-parent w-100">
-                  AU${prod.price}.00
+                  ${prod.price}
                 </div>
               </div>
             </Link>
+            {this.addCount()}
           </div>
         ));
     }
   }
 
   render() {
-    return <div className="row straight-grid">{this.showProducts()}</div>;
+    if (isEmpty(this.props.product.random_products))
+      return <div className="row straight-grid"><Spinner size={'150px'} /></div>;
+    else {
+      let result = this.showProducts();
+      if (this.count > 0)
+        return <div className="row straight-grid">{result}</div>;
+      else
+      return <div className="row straight-grid"><p>No similar products found :(</p></div>;
+    }
   }
 }
 
