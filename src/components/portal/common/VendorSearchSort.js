@@ -5,7 +5,9 @@ import {
   searchVendors,
   sortVendorsByParam
 } from '../../../actions/vendorActions';
+import { toast } from 'react-toastify';
 import VendorForm from '../vendor/VendorForm';
+import isEmpty from '../../../validation/is-empty';
 
 class VendorSearchSort extends Component {
   constructor() {
@@ -38,13 +40,17 @@ class VendorSearchSort extends Component {
 
   onSearch(e) {
     e.preventDefault();
-
-    this.props.searchVendors(this.state.search);
-    this.setState({ search: '' });
+    if (isEmpty(this.state.search)) {
+      toast.info('Please check your input!');
+    } else {
+      this.props.searchVendors(this.state.search);
+      this.setState({ search: '' });
+    }
   }
 
   onSortById(e) {
     e.preventDefault();
+
     this.props.sortVendorsByParam('0', 'vendorId');
     this.setState({ search: '' });
   }
@@ -65,7 +71,10 @@ class VendorSearchSort extends Component {
     return (
       <div className="mt-2 mb-3 row w-100">
         <div className="col text-center">
-          <form onSubmit={this.onSearch} className="btn-group form-inline ml-0 mr-1">
+          <form
+            onSubmit={this.onSearch}
+            className="btn-group form-inline ml-0 mr-1"
+          >
             <div className="search-form-custom">
               <input
                 className="form-control left-rounded border-right-0 border"
@@ -87,16 +96,16 @@ class VendorSearchSort extends Component {
               </span>
             </div>
           </form>
-            <button
-              type="button"
-              className="btn-group btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Sort By
-            </button>
-            <div className="dropdown-menu">
+          <button
+            type="button"
+            className="btn-group btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Sort By
+          </button>
+          <div className="dropdown-menu">
             <button
               onClick={this.onSortById}
               className="dropdown-item"
@@ -120,8 +129,7 @@ class VendorSearchSort extends Component {
             </button>
           </div>
         </div>
-        <div className="col">
-        </div>
+        <div className="col" />
         <div className="col text-right">
           <VendorForm
             buttonLabel="addVendor"
