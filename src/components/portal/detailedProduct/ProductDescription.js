@@ -214,9 +214,10 @@ class ProductDescription extends Component {
       error = {errmsg: "description cannot be empty"};
       valid=false;
     }
-    else if(isNaN(parseFloat(this.state.price))){
-      error = {errmsg: "price must be an number"};
+    //Parse float beahaves wierd, 123av-4 would return 123, hence the second check
+    else if(isNaN(parseFloat(this.state.price)) || parseFloat(this.state.price) + "" !== this.state.price){
       valid=false;
+      error = {errmsg: "price must be numeric"};
     }
     this.setState({error: error});
     return valid;
