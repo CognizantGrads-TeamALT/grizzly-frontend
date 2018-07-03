@@ -46,7 +46,6 @@ class ShoppingCart extends Component {
   }
 
   onClick(e) {
-    // this.props.cart.pop(this.props.productId);
     toast.success('Your product has been removed');
   };
 
