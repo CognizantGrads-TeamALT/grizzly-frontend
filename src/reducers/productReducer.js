@@ -210,8 +210,6 @@ export default function(state = initialState, action) {
         ...state,
         products: newProducts2,
         hasMore: hasMore2,
-        loadingVendors: true,
-        loadingCategories: true
       };
     case types.PRODUCTS_DELETING:
       return {
