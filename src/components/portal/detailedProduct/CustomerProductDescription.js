@@ -6,15 +6,16 @@ import RandomProduct from './RandomProduct';
 //import Spinner from '../../common/Spinner';
 import Button from 'react-ions/lib/components/Button';
 import ProductCarousel from '../common/ProductCarousel';
+import { toast } from 'react-toastify';
 
 class CustomerProductDescription extends Component {
   constructor() {
     super();
     this.state = {
       search: '',
-      clicks: 0
     };
     this.onChange = this.onChange.bind(this);
+    
   }
 
   componentDidMount() {
@@ -30,16 +31,17 @@ class CustomerProductDescription extends Component {
 
   onCancel = event => {
     this.props.history.goBack();
+    toast.success('Bye!');
   };
 
   onClick = event => {
-    this.props.cart.push(this.props.product);
+    toast.success('Product has been added to the cart!');
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
+  
   render() {
     const product = this.props.single;
 
@@ -78,7 +80,8 @@ class CustomerProductDescription extends Component {
                 </button>
                 <button
                   className="btn yellow-b surround-parent w-75 more-rounded mb-2"
-                  onClick={() => this.props.addToCart(product)}
+                  onClick={() => {this.props.addToCart(product);
+                  this.onClick();}}
                 >
                   Add to Cart
                 </button>
