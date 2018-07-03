@@ -4,6 +4,9 @@ const PRODUCT_API_PROD   = 'https://api.alt.ausgrads.academy/product';
 const USER_API_PROD      = 'https://api.alt.ausgrads.academy/user';
 const VENDOR_API_PROD    = 'https://api.alt.ausgrads.academy/vendor';
 
+const PRODUCT_IMAGE_PROD = 'https://api.alt.ausgrads.academy/productimgs/';
+const VENDOR_IMAGE_PROD  = 'https://api.alt.ausgrads.academy/vendorimgs/';
+
 const AUTH_API_DEV      = 'http://localhost:8765';
 const CATEGORY_API_DEV  = 'http://localhost:10001';
 const PRODUCT_API_DEV   = 'http://localhost:10005';
@@ -20,3 +23,6 @@ export const CATEGORY_API_GATEWAY = PRODUCTION ? CATEGORY_API_PROD  : CATEGORY_A
 export const PRODUCT_API_GATEWAY  = PRODUCTION ? PRODUCT_API_PROD   : PRODUCT_API_DEV;
 export const USER_API_GATEWAY     = PRODUCTION ? USER_API_PROD      : USER_API_DEV;
 export const VENDOR_API_GATEWAY   = PRODUCTION ? VENDOR_API_PROD    : VENDOR_API_DEV;
+
+export const PRODUCT_IMAGE        = PRODUCT_IMAGE_PROD;
+export const VENDOR_IMAGE         = VENDOR_IMAGE_PROD;

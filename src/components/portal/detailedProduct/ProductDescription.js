@@ -2,19 +2,18 @@ import React, { Component } from "react";
 import Button from "react-ions/lib/components/Button";
 import InlineEdit from "react-ions/lib/components/InlineEdit";
 import isEmpty from "../../../validation/is-empty";
-import unavailable from "../../../img/unavailable.png";
-import { Carousel } from "react-responsive-carousel";
 import {
   editProduct,
   reloadProducts,
   WaitForError,
-  getProduct,
-  getProductImages
+  getProduct
 } from "../../../actions/productsActions";
 import { connect } from "react-redux";
-import Spinner from "../../common/Spinner";
 import ImageUploader from "../products/ImageUploader";
 import ErrorComponent from "../../common/ErrorComponent";
+
+import ProductCarousel from '../common/ProductCarousel';
+import { PRODUCT_IMAGE } from "../../../actions/microservices";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -138,70 +137,6 @@ class ProductDescription extends Component {
     });
   };
 
-  showCarousel(product) {
-    {console.log("here")}
-    // if we don't have any images yet, use the incoming product's
-    let images;
-    if (isEmpty(this.files)) {
-      images = this.props.product.images[product.productId];
-    } else {
-      // otherwise just use our local pictures in the redux format
-      // (this means the images have been edited)
-      images = this.files.map((pic, index) => {
-        return {
-          imgName: pic.name,
-          base64Image: this.pictures[index]
-        };
-      });
-    }
-
-    if (!isEmpty(images)) {
-      return images.map((img, index) => (
-        // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        <div key={index}>
-          <img src={img.base64Image} className="img-responsive" alt="" />
-        </div>
-      ));
-    }
-  }
-
-  showImg() {
-    const product = this.props.product.single;
-    // If we don't have any images.
-    if (isEmpty(this.props.product.images[product.productId])) {
-      // If the product details literally has no images.
-      if (isEmpty(product.imageDTO)) {
-        return (
-          <img
-            src={unavailable}
-            className="img-responsive"
-            style={{ width: '150px', height: '150px' }}
-            alt="Unavailable"
-          />
-        );
-        // We have image but its loading, so wait.
-      } 
-      else if(this.props.errors.errorMessage !== ''){
-        //an error was thrown loading the image, show the error
-        return<ErrorComponent errormsg={this.props.errors.errorMessage}/>
-      }
-      else {
-        return (
-          <div className="text-center">
-            <Spinner size={'150px'} />
-          </div>
-        );
-      }
-      // Return the loaded images.
-    } else {
-      return (
-        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
-          {this.showCarousel(product)}
-        </Carousel>
-      );
-    }
-  }
-
   showImgEditor() {
     {console.log("here")}
     // if we haven't edited the images, just use the product's originals
@@ -209,11 +144,11 @@ class ProductDescription extends Component {
     let imageNames;
     if (isEmpty(this.files)) {
       const product = this.props.product.single;
-      if (!isEmpty(this.props.product.images[product.productId])) {
-        imageData = this.props.product.images[product.productId].map(img => {
-          return img.base64Image;
+      if (!isEmpty(product.imageDTO)) {
+        imageData = product.imageDTO.map(img => {
+          return PRODUCT_IMAGE + img.imgName;
         });
-        imageNames = this.props.product.images[product.productId].map(img => {
+        imageNames = product.imageDTO.map(img => {
           return { name: img.imgName };
         });
       }
@@ -339,7 +274,7 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            {!this.state.isEditingImg ? this.showImg() : this.showImgEditor()}
+            {!this.state.isEditingImg ? <ProductCarousel prod={this.props.product.single} /> : this.showImgEditor()}
             {this.props.user.userType === 'admin' &&
               !this.state.isEditingImg && (
                 <Button
@@ -474,5 +409,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, WaitForError, getProduct, getProductImages }
+  { editProduct, reloadProducts, WaitForError, getProduct }
 )(ProductDescription);
