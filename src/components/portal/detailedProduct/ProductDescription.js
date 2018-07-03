@@ -11,7 +11,7 @@ import {
 import { connect } from "react-redux";
 import ImageUploader from "../products/ImageUploader";
 import ErrorComponent from "../../common/ErrorComponent";
-
+import validator from 'validator';
 import ProductCarousel from '../common/ProductCarousel';
 import { PRODUCT_IMAGE } from "../../../actions/microservices";
 
@@ -50,13 +50,11 @@ class ProductDescription extends Component {
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
-    {console.log("here")}
     this.pictures = pictureDataURLs;
     this.files = pictureFiles;
   }
 
   handleCallbackDesc = event => {
-    {console.log("here")}
     this.setState({
       isEditingDesc: false,
       [event.target.name]: event.target.value,
@@ -65,7 +63,6 @@ class ProductDescription extends Component {
   };
 
   buttonCallbackDesc = event => {
-    {console.log("here")}
     this.setState({
       isEditingDesc: true,
       isEditingPrice: false,
@@ -75,7 +72,6 @@ class ProductDescription extends Component {
   };
 
   buttonCallbackImg() {
-    {console.log("here")}
     this.setState({
       isEditingDesc: false,
       isEditingPrice: false,
@@ -85,7 +81,6 @@ class ProductDescription extends Component {
   }
 
   handleCallbackImg = event => {
-    {console.log("here")}
     this.setState({
       isEditingImg: false,
       [event.target.name]: event.target.value,
@@ -94,7 +89,6 @@ class ProductDescription extends Component {
   };
 
   handleCallback = event => {
-    {console.log("here")}
     this.setState({
       isEditing: false,
       [event.target.name]: event.target.value,
@@ -103,7 +97,6 @@ class ProductDescription extends Component {
   };
 
   buttonCallback = () => {
-    {console.log("here")}
     this.setState({
       isEditing: true,
       isEditingDesc: false,
@@ -115,20 +108,15 @@ class ProductDescription extends Component {
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
-    {console.log("here")}
-    if (isNaN(parseInt(event.target.value, 10))) {
-      event.target.value = this.state.price;
-    } else {
       this.setState({
         isEditingPrice: !this.state.isEditingPrice,
         [event.target.name]: event.target.value,
         changed: true
-      });
-    }
+      
+    });
   };
 
   buttonCallbackPrice = event => {
-    {console.log("here")}
     this.setState({
       isEditingPrice: true,
       isEditing: false,
@@ -138,7 +126,6 @@ class ProductDescription extends Component {
   };
 
   showImgEditor() {
-    {console.log("here")}
     // if we haven't edited the images, just use the product's originals
     let imageData;
     let imageNames;
@@ -175,43 +162,74 @@ class ProductDescription extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    let imageData = [];
-    let i;
-    // if we haven't edited any images
-    if (isEmpty(this.files)) {
-      imageData = this.props.product.single.imageData;
-    } else {
-      // we have edited images
-      for (i = 0; i < this.files.length; i++) {
-        let img = {
-          imgName: this.files[i].name,
-          base64Image: this.pictures[i].split(',')[1]
-        };
-        imageData.push(img);
+    if(this.validateProduct()){
+      let imageData = [];
+      let i;
+      // if we haven't edited any images
+      if (isEmpty(this.files)) {
+        imageData = this.props.product.single.imageDTO;
+      } else {
+        // we have edited images
+        for (i = 0; i < this.files.length; i++) {
+          console.log("in ehre");
+          let img = {
+            imgName: this.files[i].name,
+            base64Image: this.pictures[i].split(',')[1]
+          };
+          imageData.push(img);
+        }
       }
-    }
 
-    var newProd = {
-      productId: this.props.product.single.productId,
-      categoryId: this.props.product.single.categoryId,
-      name: this.state.name,
-      desc: this.state.desc,
-      price: this.state.price,
-      rating: this.props.product.single.rating,
-      enabled: this.props.product.single.enabled,
-      vendorId: this.props.product.single.vendorId,
-      imageDTO: imageData
-    };
+      var newProd = {
+        productId: this.props.product.single.productId,
+        categoryId: this.props.product.single.categoryId,
+        name: this.state.name,
+        desc: this.state.desc,
+        price: this.state.price,
+        rating: this.props.product.single.rating,
+        enabled: this.props.product.single.enabled,
+        vendorId: this.props.product.single.vendorId,
+        imageDTO: imageData
+      };
 
-    if (this.state.changed) {
-      this.props.editProduct(newProd);
-      this.setState({shouldCancel: true,
-      showDBError: true})
+      if (this.state.changed) {
+        console.log(newProd);
+        this.props.editProduct(newProd);
+        this.setState({shouldCancel: true,
+        showDBError: true})
+      }
+  }
+  }
+
+  validateProduct(){
+    var error;
+    var valid = true;
+    if(this.state.name.length > 70){
+        valid = false;
+        error = {errmsg: "product name cannot be longer than 70 characters"};
+      }
+    else if(validator.isEmpty(this.state.name)){
+      error = {errmsg: "name field cannot be empty"};
+      valid = false;
     }
+    else if(validator.isEmpty(this.state.desc)){
+      error = {errmsg: "description cannot be empty"};
+      valid=false;
+    }
+    else if(isNaN(parseFloat(this.state.price))){
+      error = {errmsg: "price must be an number"};
+      valid=false;
+    }
+    console.log(parseFloat(this.state.price));
+    this.setState({error: error});
+    console.log(valid);
+    return valid;
   }
 
   showErrors(){
     //shows an error if a DB action has been sent
+    if(this.state.error !== undefined)
+      return(<ErrorComponent errormsg={this.state.error.errmsg}/>);
     if(this.state.showDBError){
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }
@@ -234,11 +252,8 @@ class ProductDescription extends Component {
   }
 
   render() {
-    console.log("here");
     return (
-      
       <div className="row mt-4 parent-min-half-high">
-      {console.log("here")}
         <div className="col-6">
           <div className="container">
             <div className="row align-items-start">
