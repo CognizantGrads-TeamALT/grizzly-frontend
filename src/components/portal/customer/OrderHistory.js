@@ -37,7 +37,7 @@ class OrderHistory extends Component {
     getProductDetails(prodId) {
         if (!isEmpty(this.props.product.products)) {
             return this.props.product.products
-              .filter(item => item.productId == parseInt(prodId))
+              .filter(item => item.productId === parseInt(prodId, 10))
               .map(prod => (
                     <div className="row m-3" key={prodId}>
                         <div className="col-3 my-auto mx-auto">
