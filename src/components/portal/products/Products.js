@@ -54,7 +54,8 @@ class Products extends Component {
       product_vendor,
       product_category,
       loadingVendors,
-      loadingCategories
+      loadingCategories,
+      loading
     } = this.props.product;
     //const { errorMessage } = this.props.errors;
     if (!loadingVendors && !loadingCategories) {
@@ -91,17 +92,23 @@ class Products extends Component {
               index={index}
               userType={this.props.user.userType}
             />
-          ));
+            
+          )
+        );
+
       }
-    }
-    else {
-      return (
-        <tr>
-          <td>
-            <Spinner size={'150px'} />
-          </td>
-        </tr>
-      );
+    } else {
+      if (loading) {
+        return (
+          <tr>
+            <td>
+              <Spinner />
+            </td>
+          </tr>
+        );
+      } else if (isEmpty(products) && !(this.props.errors.errorMessage == "")) {
+        toast.info('No products. Why not add one now!');
+      }
     }
   }
 
