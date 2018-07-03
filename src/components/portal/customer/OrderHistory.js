@@ -109,8 +109,8 @@ class OrderHistory extends Component {
 }
 
 OrderHistory.propTypes = {
-  getUserOrder: PropTypes.func.isRequired,
-  getProducts: PropTypes.func.isRequired
+    getUserOrder: PropTypes.func.isRequired,
+    getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
