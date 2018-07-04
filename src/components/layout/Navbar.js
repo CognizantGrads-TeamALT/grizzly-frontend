@@ -8,10 +8,10 @@ import logo from '../../img/logo.png';
 import { GoogleLogin } from 'react-google-login';
 import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
-import {
-  searchProducts,
-  clearCurrentProducts
-} from '../../actions/productsActions';
+import { 
+    searchProducts,
+    reloadProducts 
+  } from '../../actions/productsActions';
 //import ShoppingCart from '../portal/customer/ShoppingCart';
 
 class Navbar extends Component {
@@ -51,6 +51,7 @@ class Navbar extends Component {
     if (this.props.history.location.pathname !== '/') {
       window.location.href = '/';
     }
+    this.props.reloadProducts(); // NOTE: this causes a flicker on going to customer, then admin, then
   }
 
   login(response) {
@@ -273,7 +274,7 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   searchProducts: PropTypes.func.isRequired,
-  clearCurrentProducts: PropTypes.func.isRequired,
+  reloadProducts: PropTypes.func.isRequired,
   logoutUser: PropTypes.func.isRequired,
   loginUser: PropTypes.func.isRequired
 };
@@ -284,5 +285,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { searchProducts, clearCurrentProducts, logoutUser, loginUser }
+  { searchProducts, reloadProducts, logoutUser, loginUser }
 )(withRouter(Navbar));

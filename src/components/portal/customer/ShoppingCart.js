@@ -15,6 +15,7 @@ import {
 } from '../../../actions/cartActions';
 
 import ProductImage from '../common/ProductImage';
+import { toast } from "react-toastify";
 
 class ShoppingCart extends Component {
   constructor(props) {
@@ -50,8 +51,8 @@ class ShoppingCart extends Component {
   }
 
   onClick(e) {
-    this.props.cart.pop(this.props.productId);
-  }
+    toast.success('Your product has been removed');
+  };
 
   // This will fetch the items from the API.
   loadItems() {
@@ -152,7 +153,8 @@ class ShoppingCart extends Component {
           <div align="right" className="col-1 d-inline remove-btn">
             <button
               className=" d-inline more-rounded hover-w-b fas fa-times"
-              onClick={event => this.props.removeFromCart(prod.productId)}
+              onClick={(event) => {this.props.removeFromCart(prod.productId);
+              this.onClick();}}
             />
           </div>
         </div>

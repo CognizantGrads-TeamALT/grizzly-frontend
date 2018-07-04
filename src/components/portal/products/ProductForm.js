@@ -197,14 +197,9 @@ class ProductForm extends Component {
     return errors;
   }
 
-  showErrors() {
-    if (this.state.errors.length !== 0) {
-      return <ErrorComponent errormsg={this.state.errors[0].msg} />;
-    } else if (
-      this.state.showDBErrors &&
-      this.props.errors.errorMessage !== ''
-    ) {
-      return <ErrorComponent errormsg={this.props.errors.errorMessage} />;
+  showErrors(){
+    if(this.state.errors.length !==0){
+      return(<ErrorComponent errormsg={this.state.errors[0].msg} />)
     }
   }
 
