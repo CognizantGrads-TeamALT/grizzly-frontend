@@ -38,7 +38,11 @@ class ProductList extends Component {
   }
 
   onBlockClick() {
-    const product = this.props.product.products[this.props.index];
+    const product = this.props.userType === 'vendor' ? 
+    this.props.product.products.filter(
+      prod => prod.productId === parseInt(this.props.prod.productId, 10)
+    )[0] : 
+    this.props.product.products[this.props.index];
     this.props.toggleBlockProduct(product.productId, !product.enabled);
     //sets it so that errors thrown will be shown, starts a listener to wait for a error.
     this.setState({
@@ -50,7 +54,11 @@ class ProductList extends Component {
   }
 
   onViewClick() {
-    const product = this.props.product.products[this.props.index];
+    const product = this.props.userType === 'vendor' ? 
+      this.props.product.products.filter(
+        prod => prod.productId === parseInt(this.props.prod.productId, 10)
+      )[0] : 
+      this.props.product.products[this.props.index];
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
@@ -69,7 +77,7 @@ class ProductList extends Component {
   };
 
   showCatName(product) {
-    const { product_category } = this.props;
+    const { product_category } = this.props.product;
     //adding in the same check to category as to vendor, this does not currently throw an error on search due to there only being 5 categories,
     //all of them are loaded, however if more categores are added this method could face the same problem
     if (!isEmpty(product) && !isEmpty(product_category)) {
@@ -86,10 +94,7 @@ class ProductList extends Component {
   }
 
   showVendorName(product) {
-    const { product_vendor } = this.props;
-    //this method would fail on search, if a product in the search hadn't already been loaded, the vendor wouldn't be in product_vendor
-    //causing filtered[0].name to crash with a cannot read property of undefined error
-    //check if any required fields are empty
+    const { product_vendor } = this.props.product
     if (!isEmpty(product) && !isEmpty(product_vendor)) {
       //create a filtered list of vendors that match the product vendor
       //this list should only ever have a length of 1 or 0
@@ -106,8 +111,13 @@ class ProductList extends Component {
   }
 
   render() {
-    //updated this to get the product from the global state instead of the parent
-    const product = this.props.product.products[this.props.index];
+    // if we don't filter, it will show all items
+    const product = this.props.userType === 'vendor' ? 
+    this.props.product.products.filter(
+      prod => prod.productId === parseInt(this.props.prod.productId, 10)
+    )[0] : 
+    this.props.product.products[this.props.index];
+    
     if (!isEmpty(product)) {
       return (
         <tr>

@@ -116,9 +116,9 @@ class ShoppingCart extends Component {
     const cartItems = this.props.product.cart_products;
     this.totalPrice = 0;
     return cartItems.map(prod => (
-      <div key={prod.productId}>
-        <div className="row-8 d-inline products-information">
-          <div className="col-3 ml-5 d-inline products-image">
+      <div key={prod.productId} className="container">
+        <div className="row products-information">
+          <div className="col-3 d-inline products-image">
             <Link
               className="align-content-center"
               to={`/customerdetailedproduct/${prod.productId}`}
@@ -126,10 +126,12 @@ class ShoppingCart extends Component {
               <ProductImage prod={prod} />
             </Link>
           </div>
-          <div className="col-6 d-inline product-price-quantity align-right">
-            <h6 className="d-inline ml-5">{prod.name}</h6>
+          <div className="col-4  d-inline product-price-quantity" align="left">
+            <h6 className="d-inline align-content-center ">{prod.name}</h6>
+          </div>
+          <div className="col-3 d-inline align-content-right mr-0" align="center">
             <ul className="d-inline">
-              <li id="price" className="d-inline mr-3">
+              <li id="price" className="d-inline mr-3 ">
                 ${prod.price} x
               </li>
               <li className="d-inline">
@@ -147,16 +149,18 @@ class ShoppingCart extends Component {
           </div>
 
           {/* display the totalprice per item according to the quantity */}
-          <div align="right" className="col-2 d-inline product-total-price ">
+
+          <div align="right" className="col-2 align d-inline product-total-price">
+
             <p className="d-inline">
               ${prod.price * this.props.product.cart[prod.productId]}
             </p>
-          </div>
-          <div align="right" className="col-1 d-inline remove-btn">
             <button
-              className=" d-inline more-rounded hover-w-b fas fa-times"
-              onClick={(event) => {this.props.removeFromCart(prod.productId);
-              this.onClick();}}
+              className=" ml-4 d-inline more-rounded hover-w-b fas fa-times"
+              onClick={(event) => {
+                this.props.removeFromCart(prod.productId);
+                this.onClick();
+              }}
             />
           </div>
         </div>
@@ -168,37 +172,34 @@ class ShoppingCart extends Component {
 
   render() {
     return (
-      <div className="shopping cart">
+      <div className="shopping cart container">
         <div className="row-2 mt-8 items-in-cart">
           <h2 className="ml-5 h2TextColour">Items in Your Cart</h2>
           <hr width="100%" />
         </div>
         <div>{this.show()}</div>
-        <div align="right" className="totalprice d-inline mb-8">
-          <div align="center" className="d-inline col mr-6 mb-5">
-            <h4 align="center" className="d-inline h4-totalprice">
-              Total: ${this.totalPrice}
-            </h4>
+        <div align="right" className="row-1 mb-4 totalprice">
+          <h4 className="d-inline h4-totalprice">
+            Total: ${this.totalPrice}
+          </h4>
+        </div>
+        <div className="row-1 checkout">
+          <div className="col-5 d-inline checkout-btn div-checkout mt-5">
+            <Link
+              className="d-inline btn continue-btn more-rounded btnCheckOutCart"
+              to="/customer">
+              {" "}
+              Continue Shopping
+          </Link>
+            <Link
+              className="d-inline btn ml-3 checkout-btn more-rounded btnCheckOutCart"
+              to="/payment">
+              Checkout
+          </Link>
           </div>
         </div>
-        <div
-          align="right"
-          className="row-2 d-inline checkout-btn div-checkout mt-5"
-        >
-          <Link
-            className="d-inline btn continue-btn more-rounded btnCheckOutCart "
-            to="/"
-          >
-            Continue Shopping
-          </Link>
-          <Link
-            className="d-inline btn ml-3 checkout-btn more-rounded btnCheckOutCart"
-            to="/payment"
-          >
-            Checkout
-          </Link>
-        </div>
       </div>
+
     );
   }
 }
