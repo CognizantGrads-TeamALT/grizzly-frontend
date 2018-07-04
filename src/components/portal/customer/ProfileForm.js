@@ -33,6 +33,18 @@ class ProfileForm extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { user } = this.props.user;
+    if (!isEmpty(user)) {
+      if (isEmpty(this.state.contact_num)) {
+        this.setState({ contact_num: user.contact_num });
+      }
+      if (isEmpty(this.state.address)) {
+        this.setState({ address: user.address });
+      }
+    }
+  }
+
   handleInputChange(e, validationFunction) {
     this.setState({ search: e.target.value, address: e.target.value });
     validationFunction(e.target.value);
