@@ -22,7 +22,7 @@ export default () => {
         <Route exact path="/payment" component={Payment} />
         <PrivateRoute exact path="/settings" component={UserSettings} />
         {/* Make sure the Portal route is always below other routes or they may not load */}
-        <Route exact path="/:portal" component={Portal} />
+        <PrivateRoute exact path="/:portal" component={Portal} />
         <Route
           exact
           path="/category/:searchParam/:catId"

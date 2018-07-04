@@ -148,7 +148,7 @@ class InventoryList extends Component {
 
   render() {
     const { product } = this.props;
-    if(!this.state.editing) {
+    if (!this.state.editing) {
       return (
         <tr>
           <th scope="row">{this.state.productId}</th>

@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProductGridList from './common/ProductGridList';
 import PropTypes from 'prop-types';
-import {
-  getProducts,
-  setProductUpdated
-} from '../../actions/productsActions';
+import { getProducts, setProductUpdated } from '../../actions/productsActions';
 import { loadCart, saveCart } from '../../actions/cartActions';
 import { sortCategoriesByParamCustomer } from '../../actions/categoryActions';
 import VendorCarousel from './common/VendorCarousel';
@@ -24,11 +21,9 @@ class CustomerPortal extends Component {
       this.props.getProducts();
     }
   }
-
   componentDidMount() {
     // Scroll to top.
     window.scrollTo(0, 0);
-
     this.props.loadCart();
   }
 
@@ -64,25 +59,34 @@ class CustomerPortal extends Component {
             <div className="row">
               <div className="col d-inline surround-parent w-50">
                 <div className="text-center">
-                  <i className="fab fa-ethereum mr-1 griz-t-color"></i> <div className="fnt-weight-400">Run on Ethereum.</div>
-                  <div className="fnt-weight-300">Number #1 E-commerce website run on the blockchain. </div>
+                  <i className="fab fa-ethereum mr-1 griz-t-color" />{' '}
+                  <div className="fnt-weight-400">Run on Ethereum.</div>
+                  <div className="fnt-weight-300">
+                    Number #1 E-commerce website run on the blockchain.{' '}
+                  </div>
                 </div>
               </div>
               <div className="col d-inline surround-parent w-50">
                 <div className="text-center">
-                  <i className="fab fa-paypal mr-1 griz-t-color"></i> <div className="fnt-weight-400">We use PayPal!</div>
-                  <div className="fnt-weight-300">Your security is our priority. </div>
+                  <i className="fab fa-paypal mr-1 griz-t-color" />{' '}
+                  <div className="fnt-weight-400">We use PayPal!</div>
+                  <div className="fnt-weight-300">
+                    Your security is our priority.{' '}
+                  </div>
                 </div>
               </div>
               <div className="col d-inline surround-parent w-50">
                 <div className="text-center">
-                  <i className="fab fa-bitcoin mr-1 griz-t-color"></i> <div className="fnt-weight-400">Ahead of the game.</div>
+                  <i className="fab fa-bitcoin mr-1 griz-t-color" />{' '}
+                  <div className="fnt-weight-400">Ahead of the game.</div>
                   <div className="fnt-weight-300">We also accept Bitcoin. </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="fnt-weight-400 text-center title-size-1-5em mb-2">Browse our latest products</div>
+          <div className="fnt-weight-400 text-center title-size-1-5em mb-2">
+            Browse our latest products
+          </div>
           <ProductGridList />
         </div>
       );
@@ -103,6 +107,7 @@ CustomerPortal.propTypes = {
 
   product: PropTypes.object.isRequired,
   category: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 
   loadCart: PropTypes.func.isRequired,
   saveCart: PropTypes.func.isRequired
@@ -110,7 +115,8 @@ CustomerPortal.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  category: state.category
+  category: state.category,
+  user: state.user
 });
 
 export default connect(
