@@ -8,7 +8,10 @@ import logo from '../../img/logo.png';
 import { GoogleLogin } from 'react-google-login';
 import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
-import { searchProducts, clearCurrentProducts } from '../../actions/productsActions';
+import {
+  searchProducts,
+  clearCurrentProducts
+} from '../../actions/productsActions';
 //import ShoppingCart from '../portal/customer/ShoppingCart';
 
 class Navbar extends Component {
@@ -21,6 +24,7 @@ class Navbar extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onLogout = this.onLogout.bind(this);
+    this.doRedirect = this.doRedirect.bind(this);
     this.login = this.login.bind(this);
   }
 
@@ -42,22 +46,16 @@ class Navbar extends Component {
   onLogout(e) {
     e.preventDefault();
     this.props.logoutUser();
-    this.props.clearCurrentProducts();
-    this.props.history.push('/customer');
-    toast.success('Bye!');
+    toast.info('Bye!');
+    // this.props.clearCurrentProducts();
+    if (this.props.history.location.pathname !== '/') {
+      window.location.href = '/';
+    }
   }
 
   login(response) {
     if (isEmpty(response.error) && !isEmpty(response.tokenId)) {
       this.props.loginUser(response);
-      toast.success('Hello ' + response.profileObj.givenName + '!');
-      // if (isEmpty(this.props.user.user)) {
-      //   this.props.history.push({
-      //     pathname: '/settings',
-      //     state: { tabId: 'ProfileForm' }
-      //   });
-      //   toast.info('Please update your profile.');
-      // }
     }
   }
 
@@ -73,38 +71,62 @@ class Navbar extends Component {
     );
   }
 
-  showLinks() {
-    if (
-      !isEmpty(this.props.user.user) &&
-      this.props.user.userType !== 'customer'
-    ) {
-      if (this.props.user.userType === 'admin') {
-        return (
-          <ul className="navbar-nav pl-2">
-            <li className="nav-item mr-1 my-auto">
-              <i className="far fa-bell p-t-5 white" />
-            </li>
-            <li className="nav-item mr-1 my-auto">
-              <span>{`Welcome, Admin <${this.props.user.user[0].name}> `}</span>
-            </li>
+  doRedirect() {
+    this.props.history.push({
+      pathname: '/settings',
+      state: { tabId: 'ProfileForm' }
+    });
+  }
 
-            <li className="nav-item">{this.logOutBtn()}</li>
-          </ul>
-        );
+  toastId = null;
+
+  notify = name => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.success('Hello ' + name + '!');
+    }
+  };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.user.role !== this.props.user.role) {
+      if (this.props.user.isAuthenticated) {
+        if (
+          !isEmpty(this.props.user.isRegistered) &&
+          !this.props.user.isRegistered
+        ) {
+          toast.success(
+            <span onClick={this.doRedirect}>
+              Hello {this.props.user.googleProfile.given_name}! Click HERE to
+              update your profile.
+            </span>
+          );
+        } else {
+          this.notify(this.props.user.googleProfile.given_name);
+        }
       }
-      if (this.props.user.userType === 'vendor') {
-        return (
-          <ul className="navbar-nav pl-2">
-            <li className="nav-item mr-1 my-auto">
-              <i className="far fa-bell p-t-5 white" />
-            </li>
-            <li className="nav-item mr-1 my-auto">
-              <span>{`Welcome, ${this.props.user.user[0].name} `}</span>
-            </li>
-            <li className="nav-item">{this.logOutBtn()}</li>
-          </ul>
-        );
+    } else if (
+      !isEmpty(this.props.user.role) &&
+      !isEmpty(this.props.user.isRegistered)
+    ) {
+      if (this.props.user.role !== 'customer') {
+        // this.notify(this.props.user.googleProfile.given_name);
+        this.props.history.push(`/${this.props.user.role}`);
       }
+    }
+  }
+
+  showLinks() {
+    if (!isEmpty(this.props.user.user) && this.props.user.role !== 'customer') {
+      return (
+        <ul className="navbar-nav pl-2">
+          <li className="nav-item mr-1 my-auto">
+            <i className="far fa-bell p-t-5 white" />
+          </li>
+          <li className="nav-item mr-1 my-auto">
+            <span>{`Welcome, ${this.props.user.user.name} `}</span>
+          </li>
+          <li className="nav-item">{this.logOutBtn()}</li>
+        </ul>
+      );
     } else if (!isEmpty(this.props.user.googleProfile)) {
       return (
         <ul className="navbar-nav pl-2">

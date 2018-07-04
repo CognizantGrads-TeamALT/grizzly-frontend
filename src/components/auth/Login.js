@@ -24,7 +24,7 @@ class Login extends Component {
     // If already logged, redirect to portal
     if (!isEmpty(this.props.user)) {
       if (this.props.user.isAuthenticated) {
-        this.props.history.push(`/${this.props.user.userType}`);
+        this.props.history.push(`/${this.props.user.role}`);
       }
     }
   }
@@ -32,7 +32,7 @@ class Login extends Component {
   componentWillReceiveProps(nextProps) {
     // If already logged, redirect to portal
     if (nextProps.user.isAuthenticated) {
-      this.props.history.push(`/${this.props.user.userType}`);
+      this.props.history.push(`/${this.props.user.role}`);
     }
   }
 
@@ -47,7 +47,7 @@ class Login extends Component {
   login(response) {
     if (isEmpty(response.error) && !isEmpty(response.tokenId)) {
       this.props.loginUser(response);
-      // this.props.history.push(`/${this.props.user.userType}`);
+      // this.props.history.push(`/${this.props.user.role}`);
     }
   }
 

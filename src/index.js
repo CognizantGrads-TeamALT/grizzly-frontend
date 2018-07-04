@@ -30,7 +30,7 @@ if (localStorage.GrizzGoogleToken) {
     // Log user out
     store.dispatch(logoutUser());
     // Redirect
-    window.location.href = '/customer';
+    window.location.href = '/';
   } else {
     store.dispatch(loadUserInfo(decoded));
   }

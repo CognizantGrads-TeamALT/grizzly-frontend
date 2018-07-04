@@ -46,7 +46,7 @@ class LoginModal extends Component {
     // If already logged, redirect to portal
     if (!isEmpty(this.props.user)) {
       if (this.props.user.isAuthenticated) {
-        this.props.history.push(`/${this.props.user.userType}`);
+        this.props.history.push(`/${this.props.user.role}`);
       }
     }
   }
@@ -54,21 +54,19 @@ class LoginModal extends Component {
   componentWillReceiveProps(nextProps) {
     // If already logged, redirect to portal
     if (nextProps.user.isAuthenticated) {
-      this.props.history.push(`/${this.props.user.userType}`);
+      this.props.history.push(`/${this.props.user.role}`);
     }
   }
 
   login(response) {
     if (isEmpty(response.error) && !isEmpty(response.tokenId)) {
       this.props.loginUser(response);
-      toast.success('Hello ' + response.profileObj.givenName + '!');
-      // if (isEmpty(this.props.user.user)) {
-      //   this.props.history.push({
-      //     pathname: '/settings',
-      //     state: { tabId: 'ProfileForm' }
-      //   });
-      //   toast.info('Please update your profile.');
-      // }
+      if (!isEmpty(this.props.user) && !this.props.user.loading) {
+        if (this.props.user.isAuthenticated) {
+          this.props.history.push(`/${this.props.user.role}`);
+          toast.success('Hello ' + response.profileObj.givenName + '!');
+        }
+      }
     }
   }
 

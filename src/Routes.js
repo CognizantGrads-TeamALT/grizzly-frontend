@@ -13,16 +13,16 @@ import CustomerDetailedProduct from './components/portal/detailedProduct/Custome
 import CategoryGridList from './components/portal/common/CategoryGridList';
 import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
-import Landing from './components/layout/Landing';
+// import Landing from './components/layout/Landing';
 import ShoppingCart from './components/portal/customer/ShoppingCart';
 export default () => {
   return (
     <div className="surround-parent h-100 griz-portal">
       <Switch>
-        <Route exact path="/" component={Landing} />
+        <Route exact path="/" component={CustomerPortal} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/shoppingcart" component={ShoppingCart} />
-        <Route exact path="/customer" component={CustomerPortal} />
+        {/* <Route exact path="/customer" component={CustomerPortal} /> */}
         <Route exact path="/payment" component={Payment} />
         <PrivateRoute exact path="/settings" component={UserSettings} />
         {/* Make sure the Portal route is always below other routes or they may not load */}
