@@ -96,18 +96,18 @@ class Payment extends Component {
     };
 
     return (
-      <div className="container m-5 p-5 mx-auto griz-portal-parent">
+      <div className="container m-5 p-5 my-auto">
         <div className="row title-size-2em mb-3">
           Confirm Purchase
         </div>
         <div className="row mb-3">
-          <div className="col-9 pl-0">
+          <div className="col-8 pl-0">
             <table className="table">
               <tbody>{this.showOrderContent()}</tbody>
             </table>
           </div>
-          <div className="col-3">
-              <div className="row mx-auto surround-parent w-75 mb-4 title-size-1em">
+          <div className="col-4 mx-auto">
+              <div className="row surround-parent mb-4 title-size-1em">
                 <div className="col">
                   Total: 
                 </div>                
@@ -116,8 +116,8 @@ class Payment extends Component {
                 </div>
                 
               </div>
-              <div className="row mx-auto surround-parent w-75">
-                <div className="col mb-3 surround-parent">
+              <div className="row surround-parent">
+                <div className="pl-3 mr-0 w-100">
                   <PaypalExpressBtn
                     client={client}
                     currency={'AUD'}
@@ -125,12 +125,8 @@ class Payment extends Component {
                     onSuccess={this.onSuccess}
                     onCancel={this.onCancel}
                     onError={this.onError}
-                    style={{width: '100%'}}
+                    style={{width: '100%', minWidth:'100px'}}
                   />
-                </div>
-              </div>
-              <div className="row mx-auto surround-parent w-75">
-                <div className="col">
                   <Link
                     className="btn more-rounded btn-sm plain-b surround-parent w-100"
                     to="/shoppingcart"

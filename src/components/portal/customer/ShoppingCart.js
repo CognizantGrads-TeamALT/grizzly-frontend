@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
 import Spinner from '../../common/Spinner';
 import PropTypes from 'prop-types';
-import { CardBody, CardText } from 'reactstrap';
 import Payment from '../payment/Payment';
 
 import { getProduct, getProductBatch } from '../../../actions/productsActions';
@@ -127,8 +126,7 @@ class ShoppingCart extends Component {
             </Link>
           </div>
           <div className="col-9">
-            <CardBody>
-              <CardText className="text-left row">
+              <div className="text-left row">
                 <div className="col-4">
                   {prod.name}
                 </div>
@@ -158,8 +156,7 @@ class ShoppingCart extends Component {
                     }}
                   />
                 </div>                
-              </CardText>
-            </CardBody>
+              </div>
           </div>
           {this.addToMoney(this.props.product.cart[prod.productId] * prod.price)}
         </div>
@@ -182,7 +179,7 @@ class ShoppingCart extends Component {
               ${this.totalPrice}
             </div>
             <Link
-              className="mt-3 btn orange-b surround-parent w-75 more-rounded"
+              className="mt-3 ml-2 btn orange-b surround-parent w-75 more-rounded"
               to="/payment">
               Checkout
             </Link>
@@ -191,7 +188,6 @@ class ShoppingCart extends Component {
                 to="/">
                 Continue Shopping
             </Link>
-            <Payment />
           </div>
         </div>
       </div>
