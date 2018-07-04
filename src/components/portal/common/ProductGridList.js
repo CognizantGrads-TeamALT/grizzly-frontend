@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import isEmpty from '../../../validation/is-empty';
 import { Link } from 'react-router-dom';
-
+import StarRatings from 'react-star-ratings';
 import ProductImage from '../common/ProductImage';
 
 class ProductGridList extends Component {
@@ -30,13 +30,21 @@ class ProductGridList extends Component {
                 {this.showVendorName(prod.vendorId)}
               </div>
               <div className="fnt-weight-300 dscrptnSize-8">
-                <i className="d-inline griz-yellow-color fas fa-star" />
+                {/* <i className="d-inline griz-yellow-color fas fa-star" />
                 <i className="d-inline griz-yellow-color fas fa-star" />
                 <i className="d-inline griz-yellow-color fas fa-star" />
                 <i className="d-inline griz-yellow-color fas fa-star" />
                 <i className="d-inline griz-yellow-color fas fa-star-half" /> ({Math.floor(
                   Math.random() * 50 + 1
-                )})
+                )}) */}
+                <StarRatings
+                  rating={prod.rating}
+                  starRatedColor="blue"
+                  numberOfStars={5}
+                  name="rating"
+                  starDimension="15px"
+                  starSpacing="1px"
+                />
               </div>
               <div className="fnt-weight-600 surround-parent w-100">
                 AU${prod.price}.00

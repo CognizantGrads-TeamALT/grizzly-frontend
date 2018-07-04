@@ -50,8 +50,8 @@ class Tabs extends Component {
     this.props.getVendors();
     this.props.getCategories();
     // only load inventory data if they're a vendor...
-    if (this.props.userType === 'vendor')
-      this.props.getVendorInventory('0', '2');
+    if (this.props.user.role === 'vendor')
+      this.props.getVendorInventory('0', this.props.user.user.userId);
     this.setState({ activeTab: '1' });
   }
 
@@ -114,7 +114,7 @@ class Tabs extends Component {
                   PRODUCTS
                 </NavLink>
               </NavItem>
-              {this.props.userType === 'admin' && (
+              {this.props.user.role === 'admin' && (
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
@@ -131,7 +131,7 @@ class Tabs extends Component {
                   </NavLink>
                 </NavItem>
               )}
-              {this.props.userType === 'admin' && (
+              {this.props.user.role === 'admin' && (
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
@@ -148,7 +148,7 @@ class Tabs extends Component {
                   </NavLink>
                 </NavItem>
               )}
-              {this.props.userType === 'vendor' && (
+              {this.props.user.role === 'vendor' && (
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
@@ -200,28 +200,28 @@ class Tabs extends Component {
               </TabPane>
               <TabPane tabId="2">
                 <Row>
-                  <Col sm="12 pt-2">
-                    <Vendor userType={this.props.userType} />
+                  <Col sm="12">
+                    <Vendor />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="3">
                 <Row>
-                  <Col sm="12 pt-2">
+                  <Col sm="12">
                     <Categories />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="4">
                 <Row>
-                  <Col sm="12 pt-2">
-                    <Inventory userType={this.props.userType} />
+                  <Col sm="12">
+                    <Inventory />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="addProduct">
                 <Row>
-                  <Col sm="12 pt-2">
+                  <Col sm="12">
                     <ProductForm onCancel={this.onAddProductCancel} />
                   </Col>
                 </Row>
@@ -249,7 +249,7 @@ Tabs.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  userType: state.user.userType,
+  user: state.user,
   product: state.product
 });
 

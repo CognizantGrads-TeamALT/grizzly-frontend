@@ -33,7 +33,11 @@ class Products extends Component {
   }
 
   shouldComponentUpdate() {
-    if (this.props.product.updateOnce || this.props.product.loading || this.props.errors.errorMessage !== "")
+    if (
+      this.props.product.updateOnce ||
+      this.props.product.loading ||
+      this.props.errors.errorMessage !== ''
+    )
       return true;
 
     return false;
@@ -54,11 +58,11 @@ class Products extends Component {
       product_vendor,
       product_category,
       loadingVendors,
-      loadingCategories
+      loadingCategories,
+      loading
     } = this.props.product;
-    //const { errorMessage } = this.props.errors;
     if (!loadingVendors && !loadingCategories) {
-      if (this.props.user.userType === 'admin') {
+      if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
         }
@@ -67,41 +71,46 @@ class Products extends Component {
             key={prod.productId}
             product_category={product_category}
             product_vendor={product_vendor}
-            product={prod}
-            index = {index}
-            userType={this.props.user.userType}
+            prod={prod}
+            index={index}
+            role={this.props.user.role}
             errors={this.props.errors}
           />
         ));
-      } else if (this.props.user.userType === 'vendor') {
+      } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
-        }
-        return products
-          .filter(
-            prod =>
-              prod.vendorId === parseInt(this.props.user.user[0].userId, 10)
-          )
-          .map((prod, index) => (
-            <ProductList
+        } else {
+          return products
+            .filter(
+              prod =>
+                prod.vendorId === this.props.user.user.userId
+            )
+            .map((prod, index) => (
+              <ProductList
               key={prod.productId}
               product_category={product_category}
               product_vendor={product_vendor}
-              product={prod}
+              prod={prod}
               index={index}
-              userType={this.props.user.userType}
+              role={this.props.user.role}
             />
-          ));
+            )
+          );
+        }
       }
-    }
-    else {
-      return (
-        <tr>
-          <td>
-            <Spinner size={'150px'} />
-          </td>
-        </tr>
-      );
+    } else {
+      if (loading) {
+        return (
+          <tr>
+            <td>
+              <Spinner />
+            </td>
+          </tr>
+        );
+      } else if (isEmpty(products) && !(this.props.errors.errorMessage == "")) {
+        toast.info(this.props.errors.errorMessage);
+      }
     }
   }
 
@@ -135,7 +144,7 @@ Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

@@ -60,7 +60,6 @@ class ProductSearchSort extends Component {
     if (isEmpty(this.state.search)) {
       toast.info('Please check your input!');
     } else {
-      console.log(this.state.search);
       this.props.searchProducts(this.state.search, '0');
       this.setState({ search: '' });
     }

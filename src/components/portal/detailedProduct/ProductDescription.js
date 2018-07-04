@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import Button from "react-ions/lib/components/Button";
-import InlineEdit from "react-ions/lib/components/InlineEdit";
-import isEmpty from "../../../validation/is-empty";
+import React, { Component } from 'react';
+import Button from 'react-ions/lib/components/Button';
+import InlineEdit from 'react-ions/lib/components/InlineEdit';
+import StarRatings from 'react-star-ratings';
+import isEmpty from '../../../validation/is-empty';
 import {
   editProduct,
   reloadProducts,
@@ -181,11 +182,10 @@ class ProductDescription extends Component {
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
-      this.setState({
-        isEditingPrice: !this.state.isEditingPrice,
-        [event.target.name]: event.target.value,
-        changed: true
-      
+    this.setState({
+      isEditingPrice: !this.state.isEditingPrice,
+      [event.target.name]: event.target.value,
+      changed: true
     });
   };
 
@@ -235,7 +235,7 @@ class ProductDescription extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.validateProduct()){
+    if (this.validateProduct()) {
       let imageData = [];
       let i;
       // if we haven't edited any images
@@ -274,56 +274,59 @@ class ProductDescription extends Component {
       console.log(newProd);
       if (this.state.changed) {
         this.props.editProduct(newProd);
-        this.setState({shouldCancel: true,
-        showDBError: true})
+        this.setState({
+          shouldCancel: true,
+          showDBError: true
+        });
       }
-  }
+    }
   }
 
-  validateProduct(){
+  validateProduct() {
     var error;
     var valid = true;
-    if(this.state.name.length > 70){
-        valid = false;
-        error = {errmsg: "product name cannot be longer than 70 characters"};
-      }
-    else if(validator.isEmpty(this.state.name)){
-      error = {errmsg: "name field cannot be empty"};
+    if (this.state.name.length > 70) {
+      valid = false;
+      error = { errmsg: 'product name cannot be longer than 70 characters' };
+    } else if (validator.isEmpty(this.state.name)) {
+      error = { errmsg: 'name field cannot be empty' };
+      valid = false;
+    } else if (validator.isEmpty(this.state.desc)) {
+      error = { errmsg: 'description cannot be empty' };
       valid = false;
     }
-    else if(validator.isEmpty(this.state.desc)){
-      error = {errmsg: "description cannot be empty"};
-      valid=false;
-    }
     //Parse float beahaves wierd, 123av-4 would return 123, hence the second check
-    else if(isNaN(parseFloat(this.state.price)) || parseFloat(this.state.price) + "" !== this.state.price + ""){
+    else if(isNaN(parseFloat(this.state.price)) 
+      || parseFloat(this.state.price) + "" !== this.state.price + ""){
       valid=false;
       error = {errmsg: "price must be numeric"};
     }
-    this.setState({error: error});
+    this.setState({ error: error });
     return valid;
   }
 
-  showErrors(){
+  showErrors() {
     //shows an error if a DB action has been sent
-    if(this.state.error !== undefined)
-      return(<ErrorComponent errormsg={this.state.error.errmsg}/>);
-    if(this.state.showDBError){
-      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
+    if (this.state.error !== undefined)
+      return <ErrorComponent errormsg={this.state.error.errmsg} />;
+    if (this.state.showDBError) {
+      return <ErrorComponent errormsg={this.props.errors.errorMessage} />;
     }
   }
 
-  componentDidUpdate(){
-    if(!this.props.errors.waitForError && this.state.shouldCancel){
+  componentDidUpdate() {
+    if (!this.props.errors.waitForError && this.state.shouldCancel) {
       this.props.reloadProducts();
       this.onCancel();
     }
   }
 
   onCancel() {
-    this.setState({shouldCancel: false,
+    this.setState({
+      shouldCancel: false,
       showDBError: false,
-      changed: false});
+      changed: false
+    });
     this.props.WaitForError();
     this.props.history.goBack();
   }
@@ -363,7 +366,7 @@ class ProductDescription extends Component {
       }
       return(
         [returnVal,
-        this.props.user.userType === 'admin' && (
+          this.props.user.role === 'admin' && (
             <Button
               className="d-inline btn far fa-edit d-inline"
               onClick={this.buttonCallBackVendor}
@@ -405,7 +408,7 @@ class ProductDescription extends Component {
       }
       return(
         [returnVal,
-        this.props.user.userType === 'admin' && (
+          this.props.user.role === 'admin' && (
             <Button
               className="d-inline btn far fa-edit d-inline"
               onClick={this.buttonCallBackCat}
@@ -424,7 +427,7 @@ class ProductDescription extends Component {
               <div className="col pl-0">
                 <div className="productTitle d-inline d-inner-inline">
                   {/* if statement for admin */}
-                  {this.props.user.userType === 'admin' ? (
+                  {this.props.user.role === 'admin' ? (
                     <InlineEdit
                       className="d-inline"
                       name="name"
@@ -435,7 +438,7 @@ class ProductDescription extends Component {
                   ) : (
                     <span>{this.state.name}</span>
                   )}
-                  {this.props.user.userType === 'admin' && (
+                  {this.props.user.role === 'admin' && (
                     <Button
                       className="d-inline btn far fa-edit d-inline"
                       onClick={this.buttonCallback}
@@ -445,13 +448,23 @@ class ProductDescription extends Component {
                   
                 </div>
                 <div className="productRating ">
-                  <i className="d-inline fas fa-star fa-xs mr-1" />
-                  <p className="d-inline dscrptnSize-8">4.7</p>
+                  <StarRatings
+                    rating={this.props.product.single.rating}
+                    starRatedColor="blue"
+                    numberOfStars={5}
+                    name="rating"
+                    starDimension="15px"
+                    starSpacing="1px"
+                  />
                 </div>
               </div>
             </div>
-            {!this.state.isEditingImg ? <ProductCarousel prod={this.props.product.single} /> : this.showImgEditor()}
-            {this.props.user.userType === 'admin' &&
+            {!this.state.isEditingImg ? (
+              <ProductCarousel prod={this.props.product.single} />
+            ) : (
+              this.showImgEditor()
+            )}
+            {this.props.user.role === 'admin' &&
               !this.state.isEditingImg && (
                 <Button
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
@@ -460,7 +473,7 @@ class ProductDescription extends Component {
                   Add or remove images
                 </Button>
               )}
-            {this.props.user.userType === 'admin' &&
+            {this.props.user.role === 'admin' &&
               this.state.isEditingImg && (
                 <Button
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
@@ -481,7 +494,7 @@ class ProductDescription extends Component {
             <div className="row align-items-start">
               <div className="col">
                 Product Description
-                {this.props.user.userType === 'admin' && (
+                {this.props.user.role === 'admin' && (
                   <Button
                     className="d-inline btn far fa-edit d-inline"
                     onClick={this.buttonCallbackDesc}
@@ -492,7 +505,7 @@ class ProductDescription extends Component {
             <div className="row align-items-start parent-min-high">
               <div className="col-8">
                 <div className="dscrptnSize-7">
-                  {this.props.user.userType === 'admin' ? (
+                  {this.props.user.role === 'admin' ? (
                     <InlineEdit
                       name="desc"
                       className="d-inline"
@@ -509,7 +522,7 @@ class ProductDescription extends Component {
             <div className="row align-items-end">
               <div className="col d-inline">
                 <div className="d-inline d-inner-inline">
-                  {this.props.user.userType === 'admin' ? (
+                  {this.props.user.role === 'admin' ? (
                     <InlineEdit
                       className="d-inline ml-0 mr-0"
                       name="price"
@@ -520,7 +533,7 @@ class ProductDescription extends Component {
                   ) : (
                     <span>${'' + this.state.price}</span>
                   )}
-                  {this.props.user.userType === 'admin' ? (
+                  {this.props.user.role === 'admin' ? (
                     <Button
                       className="d-inline btn far fa-edit d-inline"
                       onClick={this.buttonCallbackPrice}
@@ -529,12 +542,11 @@ class ProductDescription extends Component {
                     <span className=" vendor-Price-Offer"> 15% off </span>
                   )}
                   {/* if statement to display Edit offers button in vendor only */}
-                  {this.props.user.userType === 'vendor' && (
+                  {this.props.user.role === 'vendor' && (
                     <button
                       className="btn-sm more-rounded btn-light m-0"
                       disabled
                     >
-                      {' '}
                       Edit Offers
                     </button>
                   )}
@@ -544,7 +556,7 @@ class ProductDescription extends Component {
                 <div className="col surround-parent parent-wide">
                   <div className="row surround-parent parent-wide">
                     <div className="col align-self-end surround-parent parent-wide">
-                      {this.props.user.userType === 'admin' && (
+                      {this.props.user.role === 'admin' && (
                         <Button
                           className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                           onClick={this.onSubmit}
@@ -553,7 +565,7 @@ class ProductDescription extends Component {
                           Finish
                         </Button>
                       )}
-                      {this.props.user.userType === 'admin' ? (
+                      {this.props.user.role === 'admin' ? (
                         <Button
                           className="btn more-rounded hover-w-b btn-sm mx-auto surround-parent parent-wide mt-2"
                           onClick={this.onCancel}
