@@ -97,11 +97,13 @@ class Payment extends Component {
 
     return (
       <div className="container paymentContainer rounded-top">
-        <div className="row ">
+        <div className="row">
           <div className="col">
             <table className="table table-striped">
-              <thead className="thead-light">
-                <tr>Your Order:</tr>
+              <thead>
+                <tr>
+                  <th scope="col">Your Order:</th>
+                </tr>
               </thead>
               <tbody>{this.showOrderContent()}</tbody>
             </table>
