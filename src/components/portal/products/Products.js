@@ -68,7 +68,7 @@ class Products extends Component {
             key={prod.productId}
             product_category={product_category}
             product_vendor={product_vendor}
-            product={prod}
+            prod={prod}
             index = {index}
             userType={this.props.user.userType}
             errors={this.props.errors}
@@ -77,24 +77,24 @@ class Products extends Component {
       } else if (this.props.user.userType === 'vendor') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
-        }
-        return products
-          .filter(
-            prod =>
-              prod.vendorId === parseInt(this.props.user.user[0].userId, 10)
-          )
-          .map((prod, index) => (
-            <ProductList
+        } else {
+          return products
+            .filter(
+              prod =>
+                prod.vendorId === parseInt(this.props.user.user[0].userId, 10)
+            )
+            .map((prod, index) => (
+              <ProductList
               key={prod.productId}
               product_category={product_category}
               product_vendor={product_vendor}
-              product={prod}
+              prod={prod}
               index={index}
               userType={this.props.user.userType}
             />
-          )
-        );
-
+            )
+          );
+        }
       }
     } else {
       if (loading) {
@@ -106,7 +106,7 @@ class Products extends Component {
           </tr>
         );
       } else if (isEmpty(products) && !(this.props.errors.errorMessage == "")) {
-        toast.info('No products. Why not add one now!');
+        toast.info(this.props.errors.errorMessage);
       }
     }
   }
