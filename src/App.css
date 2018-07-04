@@ -456,7 +456,7 @@ a:-webkit-any-link {
 
 .cat-scroll-button {
   min-width: 200px;
-  max-width: 250px;
+  width: 100%;
   overflow: auto;
 }
 
@@ -473,12 +473,11 @@ a:-webkit-any-link {
 .vendor-scroll {
   max-height: 7cm;
   overflow: auto;
-  max-width: 250px;
 }
 
 .vendor-scroll-button {
   min-width: 200px;
-  max-width: 250px;
+  width: 100%;
   overflow: auto;
 }
 
