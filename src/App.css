@@ -1376,3 +1376,40 @@ a:hover {
 .bg-lightGrey {
   background-color: #ebe9e9;
 }
+
+/* Payment */
+.paypal-button,
+.paypal-button-number-0,
+.paypal-button-layout-horizontal,
+.paypal-button-shape-pill,
+.paypal-button-branding-branded,
+.paypal-button-number-single,
+.paypal-button-env-sandbox,
+.paypal-button-label-checkout,
+.paypal-button-color-gold,
+.paypal-button-logo-color-blue,
+.paypal-button-container,
+.paypal-button.paypal-button-shape-pill,
+.xcomponent-outlet,
+#xcomponent-paypal-button-e58ed94de8,
+#xcomponent-paypal-button-e58ed94de8 > .xcomponent-outlet,
+#xcomponent-paypal-button-e58ed94de8 > .xcomponent-outlet > iframe,
+#xcomponent-paypal-button-a4a2bc0204,
+#xcomponent-paypal-button-a4a2bc0204 > .xcomponent-outlet,
+#xcomponent-paypal-button-a4a2bc0204 > .xcomponent-outlet > iframe {
+  width: 100%!important;
+  min-width: 200px;
+}
+
+#xcomponent-paypal-button-e58ed94de8,
+#xcomponent-paypal-button-66abd49372 > .xcomponent-outlet,
+.xcomponent-outlet {
+  min-height: 70px;
+}
+
+.three-levels-inner-wide,
+.three-levels-inner-wide > * ,
+.three-levels-inner-wide > * > * {
+  width: 100%!important;
+  min-width: 100%!important;
+}
