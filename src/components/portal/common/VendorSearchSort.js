@@ -69,7 +69,7 @@ class VendorSearchSort extends Component {
 
   render() {
     return (
-      <div className="mt-2 mb-3 row w-100">
+      <div className="mt-3 mb-3 row w-100">
         <div className="col text-center">
           <form
             onSubmit={this.onSearch}

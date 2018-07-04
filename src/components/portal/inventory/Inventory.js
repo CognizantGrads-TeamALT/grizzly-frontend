@@ -4,6 +4,7 @@ import ProductSearchSort from '../common/ProductSearchSort';
 import PropTypes from 'prop-types';
 import Spinner from '../../common/Spinner';
 import InventoryList from './InventoryList';
+import { toast } from 'react-toastify';
 import {
   setProductUpdated,
   getVendorInventory
@@ -52,20 +53,27 @@ class Inventory extends Component {
         <InventoryList key={prod.productId} product={prod} />
       ));
     } else {
-      return (
-        <tr>
-          <td>
-            <Spinner />
-          </td>
-        </tr>
-      );
+      if (loading){
+        return (
+          <tr>
+            <td>
+              <Spinner />
+            </td>
+          </tr>
+        );
+      }
+      else if (isEmpty(vendorInventory) && (this.props.errors.errorMessage == "No inventory was found.")){
+        toast.info('No products were found. Select Add Product to add one now!');
+      }  
     }
   }
 
   render() {
     return (
       <div>
+        <div className="m-3 col">
         <ProductSearchSort />
+        </div>
         <div ref="myscroll" style={{ height: '500px', overflow: 'auto' }}>
           <table className="table table-sm table-hover">
             <thead>
@@ -96,6 +104,7 @@ Inventory.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
+  errors: state.errors,
   user: state.user
 });
 
