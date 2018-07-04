@@ -57,7 +57,6 @@ class Products extends Component {
       loadingCategories,
       loading
     } = this.props.product;
-    //const { errorMessage } = this.props.errors;
     if (!loadingVendors && !loadingCategories) {
       if (this.props.user.userType === 'admin') {
         if (isEmpty(products)) {

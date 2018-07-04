@@ -100,7 +100,7 @@ class ProductList extends Component {
   }
 
   render() {
-    //updated this to get the product from the global state instead of the parent
+    // if we don't filter, it will show all items
     const product = this.props.userType === 'vendor' ? 
     this.props.product.products.filter(
       prod => prod.productId === parseInt(this.props.prod.productId, 10)
