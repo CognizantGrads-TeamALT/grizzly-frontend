@@ -41,9 +41,9 @@ class ShoppingCart extends Component {
 
   // Load their cart from local storage if it is empty...
   componentDidMount() {
-    if (isEmpty(this.props.product.cart)) {
-      this.props.loadCart();
-    }
+    // if (isEmpty(this.props.product.cart)) {
+    this.props.loadCart();
+    // }
   }
 
   onChange(productId, newValue) {
@@ -60,13 +60,14 @@ class ShoppingCart extends Component {
     const cart = this.props.product.cart;
 
     if (!isEmpty(cart) && !this.state.loadingCart) {
-      let productIdArray = '';
+      let productIdArray = "";
       for (var productId in cart) {
         // we don't have data for this product.
         if (isEmpty(this.props.product.products[productId])) {
           // check if productid array is empty and return only the number,
           // else append the array with a comma and the number.
           productIdArray =
+
             productIdArray === ''
               ? productId
               : productIdArray + ',' + productId;
@@ -108,6 +109,7 @@ class ShoppingCart extends Component {
         <p align="center" className="mt-6">
           No items found.
         </p>
+
       );
     }
 

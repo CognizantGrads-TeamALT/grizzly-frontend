@@ -1,9 +1,9 @@
-import * as types from './types';
-import { USER_API_GATEWAY } from './microservices';
-import setAuthToken from '../utils/setAuthToken';
-import axios from 'axios';
-import jwt_decode from 'jwt-decode';
-import isEmpty from '../validation/is-empty';
+import * as types from "./types";
+import { USER_API_GATEWAY } from "./microservices";
+import setAuthToken from "../utils/setAuthToken";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import isEmpty from "../validation/is-empty";
 
 // Get Admins List
 export const getUsers = (role, id) => dispatch => {
@@ -50,7 +50,7 @@ export const loginUser = googleResponse => dispatch => {
   // Save to localStorage
   const { tokenId } = googleResponse;
   // Set token to localStorage
-  localStorage.setItem('GrizzGoogleToken', tokenId);
+  localStorage.setItem("GrizzGoogleToken", tokenId);
   // Set token to Auth header
   setAuthToken(tokenId);
   // Decode Token to get User Data from tokenId, not from tokenObj
@@ -98,7 +98,7 @@ export const getUserByEmail = email => dispatch => {
 export const createOrUpdateProfile = profileData => dispatch => {
   dispatch(setUserLoading());
   axios
-    .put(USER_API_GATEWAY + '/save', profileData)
+    .put(USER_API_GATEWAY + "/save", profileData)
     .then(res =>
       dispatch({
         type: types.USER_PROFILE_UPDATE,
@@ -131,11 +131,28 @@ export const logoutUser = () => dispatch => {
     }
   }
   // Remove token from localStorage
-  localStorage.removeItem('GrizzGoogleToken');
+  localStorage.removeItem("GrizzGoogleToken");
   // Remove auth header for future requests
   setAuthToken(false);
   // Clear current user, isAuthenticated to false
   dispatch(clearCurrentUser());
+};
+
+export const addOrder = newOrder => dispatch => {
+  axios
+    .put(USER_API_GATEWAY + "/addorder", newOrder)
+    .then(res => {
+      dispatch({
+        type: types.ORDER_ADDING,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
 
 // ORDER ACTIONS
