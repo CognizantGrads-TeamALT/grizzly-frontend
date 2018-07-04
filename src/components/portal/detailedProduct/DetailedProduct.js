@@ -33,7 +33,7 @@ class DetailedProduct extends Component {
   }
 
   show() {
-    const { single, loading, product_vendor } = this.props.product;
+    const { single, loading, product_vendor, product_category } = this.props.product;
     //show an error component if there is nothing to show and an error exists.
     if((isEmpty(single) || isEmpty(product_vendor)) && this.props.errors.errorMessage !== ''){
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
@@ -44,6 +44,7 @@ class DetailedProduct extends Component {
       const vendor = this.props.product.product_vendor.filter(
         item => item.vendorId === single.vendorId
       )[0];
+      const category = product_category.filter(item => item.categoryId === single.categoryId)[0];
 
       return (
         <div>
@@ -51,6 +52,7 @@ class DetailedProduct extends Component {
             product={this.props.product}
             history={this.props.history}
             vendor={vendor}
+            category={category}
           />
         </div>
       );
