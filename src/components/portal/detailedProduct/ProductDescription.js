@@ -11,7 +11,7 @@ import {
 import { connect } from "react-redux";
 import ImageUploader from "../products/ImageUploader";
 import ErrorComponent from "../../common/ErrorComponent";
-
+import validator from 'validator';
 import ProductCarousel from '../common/ProductCarousel';
 import { PRODUCT_IMAGE } from "../../../actions/microservices";
 
@@ -108,15 +108,12 @@ class ProductDescription extends Component {
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
-    if (isNaN(parseInt(event.target.value, 10))) {
-      event.target.value = this.state.price;
-    } else {
       this.setState({
         isEditingPrice: !this.state.isEditingPrice,
         [event.target.name]: event.target.value,
         changed: true
-      });
-    }
+      
+    });
   };
 
   buttonCallbackPrice = event => {
@@ -165,43 +162,71 @@ class ProductDescription extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    let imageData = [];
-    let i;
-    // if we haven't edited any images
-    if (isEmpty(this.files)) {
-      imageData = this.props.product.single.imageData;
-    } else {
-      // we have edited images
-      for (i = 0; i < this.files.length; i++) {
-        let img = {
-          imgName: this.files[i].name,
-          base64Image: this.pictures[i].split(',')[1]
-        };
-        imageData.push(img);
+    if(this.validateProduct()){
+      let imageData = [];
+      let i;
+      // if we haven't edited any images
+      if (isEmpty(this.files)) {
+        imageData = this.props.product.single.imageDTO;
+      } else {
+        // we have edited images
+        for (i = 0; i < this.files.length; i++) {
+          let img = {
+            imgName: this.files[i].name,
+            base64Image: this.pictures[i].split(',')[1]
+          };
+          imageData.push(img);
+        }
       }
-    }
 
-    var newProd = {
-      productId: this.props.product.single.productId,
-      categoryId: this.props.product.single.categoryId,
-      name: this.state.name,
-      desc: this.state.desc,
-      price: this.state.price,
-      rating: this.props.product.single.rating,
-      enabled: this.props.product.single.enabled,
-      vendorId: this.props.product.single.vendorId,
-      imageDTO: imageData
-    };
+      var newProd = {
+        productId: this.props.product.single.productId,
+        categoryId: this.props.product.single.categoryId,
+        name: this.state.name,
+        desc: this.state.desc,
+        price: this.state.price,
+        rating: this.props.product.single.rating,
+        enabled: this.props.product.single.enabled,
+        vendorId: this.props.product.single.vendorId,
+        imageDTO: imageData
+      };
 
-    if (this.state.changed) {
-      this.props.editProduct(newProd);
-      this.setState({shouldCancel: true,
-      showDBError: true})
+      if (this.state.changed) {
+        this.props.editProduct(newProd);
+        this.setState({shouldCancel: true,
+        showDBError: true})
+      }
+  }
+  }
+
+  validateProduct(){
+    var error;
+    var valid = true;
+    if(this.state.name.length > 70){
+        valid = false;
+        error = {errmsg: "product name cannot be longer than 70 characters"};
+      }
+    else if(validator.isEmpty(this.state.name)){
+      error = {errmsg: "name field cannot be empty"};
+      valid = false;
     }
+    else if(validator.isEmpty(this.state.desc)){
+      error = {errmsg: "description cannot be empty"};
+      valid=false;
+    }
+    //Parse float beahaves wierd, 123av-4 would return 123, hence the second check
+    else if(isNaN(parseFloat(this.state.price)) || parseFloat(this.state.price) + "" !== this.state.price){
+      valid=false;
+      error = {errmsg: "price must be numeric"};
+    }
+    this.setState({error: error});
+    return valid;
   }
 
   showErrors(){
     //shows an error if a DB action has been sent
+    if(this.state.error !== undefined)
+      return(<ErrorComponent errormsg={this.state.error.errmsg}/>);
     if(this.state.showDBError){
       return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }
