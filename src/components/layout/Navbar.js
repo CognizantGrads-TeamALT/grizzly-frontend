@@ -31,13 +31,9 @@ class Navbar extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if (isEmpty(this.state.search)) {
-      toast.info('Please check your input!');
-    } else {
-      const term = this.state.search;
-      this.setState({ search: '' });
-      this.props.searchProducts(term, '0');
-    }
+    const term = this.state.search;
+    this.setState({ search: '' });
+    this.props.searchProducts(term, '0');
   }
 
   onLogout(e) {
