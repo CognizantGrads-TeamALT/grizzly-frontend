@@ -164,6 +164,8 @@ class InventoryList extends Component {
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
+              starDimension="15px"
+              starSpacing="1px"
             />
           </td>
           <td>
