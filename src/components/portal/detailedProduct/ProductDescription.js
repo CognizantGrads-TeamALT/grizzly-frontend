@@ -17,6 +17,8 @@ import ProductCarousel from '../common/ProductCarousel';
 import { PRODUCT_IMAGE } from "../../../actions/microservices";
 import VendorTypeAhead from "../vendor/VendorTypeAhead";
 import {toast} from "react-toastify";
+import CategoryTypeAhead from "../categories/CategoryTypeAhead";
+import {Update_TypeAhead} from "../../../actions/categoryActions";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -120,6 +122,38 @@ class ProductDescription extends Component {
       isEditingPrice: false,
       isEditingImg: false
     })
+  }
+
+  buttonCallBackCat = () =>{
+    this.setState({editCat: !this.state.editCat,
+      isEditing: false,
+      isEditingDesc: false,
+      isEditingPrice: false,
+      isEditingImg: false
+    })
+  }
+
+  buttonCallBackSaveCat = () => {
+    if(this.props.categoryProp.valid_cat){
+      this.setState({editedCat:true,
+        editCat:false,
+        editVendor: false,
+        isEditing: false,
+        isEditingDesc: false,
+        isEditingPrice: false,
+        isEditingImg: false,
+        changed: true})
+    }
+    else{
+      this.setState({editedCat:false,
+        editCat: false,
+        isEditing: false,
+        isEditingDesc: false,
+        isEditingPrice: false,
+        isEditingImg: false,
+      })
+      toast.warn("category not valid, please choose one from the list. reverting vendor");
+    }
   }
 
   buttonCallBackSaveVendor = () => {
@@ -231,8 +265,13 @@ class ProductDescription extends Component {
       };
 
       if(this.state.editedVendor){
-        newProd.vendorId=this.props.vendorProp.cur_id
+        newProd.vendorId=this.props.vendorProp.cur_id;
       }
+      console.log(this.state.editedCat);
+      if(this.state.editedCat){
+        newProd.categoryId=this.props.categoryProp.cur_id;
+      }
+      console.log(newProd);
       if (this.state.changed) {
         this.props.editProduct(newProd);
         this.setState({shouldCancel: true,
@@ -258,8 +297,6 @@ class ProductDescription extends Component {
     }
     //Parse float beahaves wierd, 123av-4 would return 123, hence the second check
     else if(isNaN(parseFloat(this.state.price)) || parseFloat(this.state.price) + "" !== this.state.price + ""){
-      console.log(isNaN(parseFloat(this.state.price)));
-      console.log(parseFloat(this.state.price) + "" + " " + this.state.price);
       valid=false;
       error = {errmsg: "price must be numeric"};
     }
@@ -308,7 +345,6 @@ class ProductDescription extends Component {
             isExact='false'
             onClickHandler={this.props.Vendor_Update_TypeAhead}
           />
-
         </div>)
       );
     }
@@ -331,6 +367,48 @@ class ProductDescription extends Component {
             <Button
               className="d-inline btn far fa-edit d-inline"
               onClick={this.buttonCallBackVendor}
+              key='2'
+            />
+          )]
+      );
+  }}
+
+  showCat(category){
+    if(this.state.editCat){
+      //editing value, return vendor typeahead and finish button 
+      return(
+        (<div className="d-inline">
+          
+          <CategoryTypeAhead
+              placeholder="Category"
+              onClickHandler={this.props.Update_TypeAhead}
+            />
+            <Button
+              className="d-inline btn far fa-edit d-inline"
+              onClick={this.buttonCallBackSaveCat}
+            />
+        </div>)
+      );
+    }
+    else{
+      //not editing, show vendor or statement to show there is no vendor, plus edit button.
+      var returnVal;
+      if(isEmpty(category)){
+        returnVal= (<p className="d-inline mb-0 mt-2" key='1'>
+          No category Found
+        </p>);
+      }
+      else{
+        returnVal =(<p className="d-inline mb-0 mt-2" key='1'>
+        {category.name}
+        </p>);
+      }
+      return(
+        [returnVal,
+        this.props.user.userType === 'admin' && (
+            <Button
+              className="d-inline btn far fa-edit d-inline"
+              onClick={this.buttonCallBackCat}
               key='2'
             />
           )]
@@ -396,6 +474,10 @@ class ProductDescription extends Component {
 
         <div className="col-6">
           <div className="container surround-parent parent-high">
+          <div className="row align-items-start align-center">
+          <div className="col">
+            {this.showCat(this.props.category)}
+          </div></div>
             <div className="row align-items-start">
               <div className="col">
                 Product Description
@@ -503,10 +585,11 @@ const mapStateToProps = state => ({
   errors: state.errors,
   user: state.user,
   product: state.product,
-  vendorProp: state.vendor
+  vendorProp: state.vendor,
+  categoryProp: state.category
 });
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, WaitForError, getProduct, Vendor_Update_TypeAhead }
+  { editProduct, reloadProducts, WaitForError, getProduct, Vendor_Update_TypeAhead, Update_TypeAhead }
 )(ProductDescription);
