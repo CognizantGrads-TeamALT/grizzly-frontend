@@ -71,13 +71,13 @@ class ProductList extends Component {
     //adding in the same check to category as to vendor, this does not currently throw an error on search due to there only being 5 categories, 
     //all of them are loaded, however if more categores are added this method could face the same problem
     if (!isEmpty(product) && !isEmpty(product_category)) {
-      var filtered = roduct_category.filter(
+      var filtered = product_category.filter(
               item => item.categoryId === product.categoryId)
       var catName;
       if(filtered.length !== 0)
-        catname = filtered[0].name;
+        catName = filtered[0].name;
       else{
-        catname=product.categoryId;
+        catName=product.categoryId;
       }
       return catName;
     }
