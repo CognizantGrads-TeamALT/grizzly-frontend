@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import Button from 'react-ions/lib/components/Button';
 import InlineEdit from 'react-ions/lib/components/InlineEdit';
+import StarRatings from 'react-star-ratings';
 import isEmpty from '../../../validation/is-empty';
 import {
   editProduct,
   reloadProducts,
   WaitForError,
   getProduct
-} from "../../../actions/productsActions";
-import { connect } from "react-redux";
-import ImageUploader from "../products/ImageUploader";
-import ErrorComponent from "../../common/ErrorComponent";
+} from '../../../actions/productsActions';
+import { connect } from 'react-redux';
+import ImageUploader from '../products/ImageUploader';
+import ErrorComponent from '../../common/ErrorComponent';
 import validator from 'validator';
 import ProductCarousel from '../common/ProductCarousel';
 import { PRODUCT_IMAGE } from '../../../actions/microservices';
@@ -108,11 +109,10 @@ class ProductDescription extends Component {
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
     // eslint-disable-next-line
-      this.setState({
-        isEditingPrice: !this.state.isEditingPrice,
-        [event.target.name]: event.target.value,
-        changed: true
-      
+    this.setState({
+      isEditingPrice: !this.state.isEditingPrice,
+      [event.target.name]: event.target.value,
+      changed: true
     });
   };
 
@@ -162,7 +162,7 @@ class ProductDescription extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.validateProduct()){
+    if (this.validateProduct()) {
       let imageData = [];
       let i;
       // if we haven't edited any images
@@ -193,42 +193,45 @@ class ProductDescription extends Component {
 
       if (this.state.changed) {
         this.props.editProduct(newProd);
-        this.setState({shouldCancel: true,
-        showDBError: true})
+        this.setState({
+          shouldCancel: true,
+          showDBError: true
+        });
       }
-  }
+    }
   }
 
-  validateProduct(){
+  validateProduct() {
     var error;
     var valid = true;
-    if(this.state.name.length > 70){
-        valid = false;
-        error = {errmsg: "product name cannot be longer than 70 characters"};
-      }
-    else if(validator.isEmpty(this.state.name)){
-      error = {errmsg: "name field cannot be empty"};
+    if (this.state.name.length > 70) {
+      valid = false;
+      error = { errmsg: 'product name cannot be longer than 70 characters' };
+    } else if (validator.isEmpty(this.state.name)) {
+      error = { errmsg: 'name field cannot be empty' };
+      valid = false;
+    } else if (validator.isEmpty(this.state.desc)) {
+      error = { errmsg: 'description cannot be empty' };
       valid = false;
     }
-    else if(validator.isEmpty(this.state.desc)){
-      error = {errmsg: "description cannot be empty"};
-      valid=false;
-    }
     //Parse float beahaves wierd, 123av-4 would return 123, hence the second check
-    else if(isNaN(parseFloat(this.state.price)) || parseFloat(this.state.price) + "" !== this.state.price){
-      valid=false;
-      error = {errmsg: "price must be numeric"};
+    else if (
+      isNaN(parseFloat(this.state.price)) ||
+      parseFloat(this.state.price) + '' !== this.state.price
+    ) {
+      valid = false;
+      error = { errmsg: 'price must be numeric' };
     }
-    this.setState({error: error});
+    this.setState({ error: error });
     return valid;
   }
 
   showErrors() {
     //shows an error if a DB action has been sent
-    if(this.state.error !== undefined)
-      return(<ErrorComponent errormsg={this.state.error.errmsg}/>);
-    if(this.state.showDBError){
-      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
+    if (this.state.error !== undefined)
+      return <ErrorComponent errormsg={this.state.error.errmsg} />;
+    if (this.state.showDBError) {
+      return <ErrorComponent errormsg={this.props.errors.errorMessage} />;
     }
   }
 
@@ -282,8 +285,14 @@ class ProductDescription extends Component {
                   )}
                 </div>
                 <div className="productRating ">
-                  <i className="d-inline fas fa-star fa-xs mr-1" />
-                  <p className="d-inline dscrptnSize-8">4.7</p>
+                  <StarRatings
+                    rating={this.props.product.single.rating}
+                    starRatedColor="blue"
+                    numberOfStars={5}
+                    name="rating"
+                    starDimension="15px"
+                    starSpacing="1px"
+                  />
                 </div>
               </div>
             </div>
@@ -371,7 +380,6 @@ class ProductDescription extends Component {
                       className="btn-sm more-rounded btn-light m-0"
                       disabled
                     >
-                      {' '}
                       Edit Offers
                     </button>
                   )}

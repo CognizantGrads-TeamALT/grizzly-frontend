@@ -3,6 +3,7 @@ import ConfirmModal from '../common/ConfirmModal';
 import { withRouter } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
+import StarRatings from 'react-star-ratings';
 import { connect } from 'react-redux';
 import {
   toggleBlockProduct,
@@ -114,7 +115,16 @@ class ProductList extends Component {
           <td>{product.name}</td>
           <td>{this.showVendorName(product)}</td>
           <td>{this.showCatName(product)}</td>
-          <td>{product.rating}</td>
+          <td>
+            <StarRatings
+              rating={product.rating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              name="rating"
+              starDimension="15px"
+              starSpacing="1px"
+            />
+          </td>
           <td>
             <div className="row">
               <div className="col p-0">
