@@ -51,7 +51,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         cur_id: action.payload.cur_id,
-        valid_cat: action.payload.valid_cat
+        valid_cat: action.payload.valid_cat,
+        cur_name: action.payload.name
       };
 
     case types.CATEGORY_ADDING:
