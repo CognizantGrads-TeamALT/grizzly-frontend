@@ -1,13 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
-import isEmpty from "../../../validation/is-empty";
-import Spinner from "../../common/Spinner";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import isEmpty from '../../../validation/is-empty';
+import Spinner from '../../common/Spinner';
+import PropTypes from 'prop-types';
 
-import { getProduct, getProductBatch } from "../../../actions/productsActions";
-import { loadCart, saveCart, changeQuantity, removeFromCart } from "../../../actions/cartActions";
+import { getProduct, getProductBatch } from '../../../actions/productsActions';
+import {
+  loadCart,
+  saveCart,
+  changeQuantity,
+  removeFromCart
+} from '../../../actions/cartActions';
 
 import ProductImage from '../common/ProductImage';
 import { toast } from "react-toastify";
@@ -20,7 +25,7 @@ class ShoppingCart extends Component {
       totalPrice: 0,
       triggeredFetch: false,
       quantity: 1
-    }
+    };
 
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -36,9 +41,9 @@ class ShoppingCart extends Component {
 
   // Load their cart from local storage if it is empty...
   componentDidMount() {
-    if (isEmpty(this.props.product.cart)) {
-      this.props.loadCart();
-    }
+    // if (isEmpty(this.props.product.cart)) {
+    this.props.loadCart();
+    // }
   }
 
   onChange(productId, newValue) {
@@ -55,25 +60,28 @@ class ShoppingCart extends Component {
     const cart = this.props.product.cart;
 
     if (!isEmpty(cart) && !this.state.loadingCart) {
-      let productIdArray = '';
+      let productIdArray = "";
       for (var productId in cart) {
         // we don't have data for this product.
         if (isEmpty(this.props.product.products[productId])) {
           // check if productid array is empty and return only the number,
           // else append the array with a comma and the number.
-          productIdArray = (productIdArray === '' ? productId : productIdArray + ',' + productId);
+          productIdArray =
+
+            productIdArray === ''
+              ? productId
+              : productIdArray + ',' + productId;
         }
       }
 
       if (productIdArray !== '') {
         this.props.getProductBatch(productIdArray);
-      } else
-        this.props.product.fetchingCart = false;
+      } else this.props.product.fetchingCart = false;
     }
   }
   // Adding the total price for all the items in cart
   addToMoney(additionalPrice) {
-    this.totalPrice += additionalPrice
+    this.totalPrice += additionalPrice;
   }
 
   show() {
@@ -85,7 +93,10 @@ class ShoppingCart extends Component {
     }
 
     // If we're fetching data from api or loading the cart....
-    if (!isEmpty(this.props.product.cart) && isEmpty(this.props.product.cart_products)) {
+    if (
+      !isEmpty(this.props.product.cart) &&
+      isEmpty(this.props.product.cart_products)
+    ) {
       if (this.props.product.loadingCart || this.props.product.fetchingCart) {
         return (
           <div className="text-center">
@@ -94,7 +105,12 @@ class ShoppingCart extends Component {
         );
       }
     } else if (isEmpty(this.props.product.cart)) {
-      return <p align="center" className="mt-6">No items found.</p>;
+      return (
+        <p align="center" className="mt-6">
+          No items found.
+        </p>
+
+      );
     }
 
     const cartItems = this.props.product.cart_products;
@@ -124,7 +140,7 @@ class ShoppingCart extends Component {
                   min="1"
                   max="50"
                   type="number"
-                  onChange={(e) => this.onChange(prod.productId, e.target.value)}
+                  onChange={e => this.onChange(prod.productId, e.target.value)}
                 />
               </li>
             </ul>
@@ -132,7 +148,7 @@ class ShoppingCart extends Component {
 
           {/* display the totalprice per item according to the quantity */}
           <div align="right" className="col-2 d-inline product-total-price ">
-            <p className="d-inline">             
+            <p className="d-inline">
               ${prod.price * this.props.product.cart[prod.productId]}
             </p>
           </div>
@@ -165,16 +181,20 @@ class ShoppingCart extends Component {
             </h4>
           </div>
         </div>
-        <div align="right" className="row-2 d-inline checkout-btn div-checkout mt-5">
+        <div
+          align="right"
+          className="row-2 d-inline checkout-btn div-checkout mt-5"
+        >
           <Link
             className="d-inline btn continue-btn more-rounded btnCheckOutCart "
-            to="/customer">
-            {" "}
+            to="/"
+          >
             Continue Shopping
           </Link>
           <Link
             className="d-inline btn ml-3 checkout-btn more-rounded btnCheckOutCart"
-            to="/payment">
+            to="/payment"
+          >
             Checkout
           </Link>
         </div>
@@ -186,7 +206,7 @@ class ShoppingCart extends Component {
 ShoppingCart.propTypes = {
   getProduct: PropTypes.func.isRequired,
   getProductBatch: PropTypes.func.isRequired,
-  
+
   loadCart: PropTypes.func.isRequired,
   saveCart: PropTypes.func.isRequired,
   changeQuantity: PropTypes.func.isRequired,

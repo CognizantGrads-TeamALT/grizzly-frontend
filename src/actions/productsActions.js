@@ -1,11 +1,11 @@
-import * as types from './types';
+import * as types from "./types";
 import {
   PRODUCT_API_GATEWAY,
   CATEGORY_API_GATEWAY,
   VENDOR_API_GATEWAY
-} from './microservices';
-import axios from 'axios';
-import isEmpty from '../validation/is-empty';
+} from "./microservices";
+import axios from "axios";
+import isEmpty from "../validation/is-empty";
 
 // Get Product List
 export const getProducts = index => dispatch => {
@@ -82,7 +82,7 @@ export const addProduct = newProd => dispatch => {
   // the page reloads and shows the "spinning wheel" which causes loss in scroll position
   //dispatch(setProductLoading());
   axios
-    .put(PRODUCT_API_GATEWAY + '/add', newProd)
+    .put(PRODUCT_API_GATEWAY + "/add", newProd)
     .then(res => {
       dispatch({
         type: types.PRODUCT_ADDING,
@@ -112,8 +112,8 @@ export const clearCurrentProducts = () => {
 export const clearFilteredProducts = () => {
   return {
     type: types.CLEAR_FILTERED_PRODUCTS
-  }
-}
+  };
+};
 
 // Reload Products
 export const reloadProducts = () => dispatch => {
@@ -147,7 +147,7 @@ export const toggleBlockProduct = (productId, enabled) => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductUpdateOnce());
   axios
-    .post(PRODUCT_API_GATEWAY + `/setBlock/${productId}`, {'enabled': enabled})
+    .post(PRODUCT_API_GATEWAY + `/setBlock/${productId}`, { enabled: enabled })
     .then(res =>
       dispatch({
         type: types.PRODUCTS_TOGGLEBLOCK,
@@ -357,7 +357,7 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
       dispatch({
         type: types.GET_VENDOR_INVENTORY,
         payload: res.data
-      })
+      });
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -371,7 +371,7 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
         payload: err.request.response
       });
     });
-  };
+};
 // edit the inventory of a single product.
 export const editProductInventory = newInfo => dispatch => {
   dispatch(clearErrors(true));
@@ -381,7 +381,7 @@ export const editProductInventory = newInfo => dispatch => {
       dispatch({
         type: types.PRODUCT_INVENTORY_EDITED,
         payload: newInfo
-      }),
+      })
     )
     .catch(err => {
       dispatch({
@@ -419,7 +419,7 @@ export const refreshProductData = (data, filtered) => dispatch => {
       type: types.GET_FILTERED_PRODUCTS,
       payload: data,
       filter: filtered.cur_id
-    })
+    });
   } else {
     dispatch({
       type: types.GET_PRODUCTS,
@@ -428,25 +428,25 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
   if (!isEmpty(data[0])) {
     if (!isEmpty(data[0].productId)) {
-      let vendorIdArray = '';
+      let vendorIdArray = "";
       data
         .filter(prod => prod.vendorId !== 0)
         .map(
           prod =>
-            vendorIdArray === ''
+            vendorIdArray === ""
               ? (vendorIdArray = prod.vendorId)
-              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
+              : (vendorIdArray = vendorIdArray + "," + prod.vendorId)
         );
       dispatch(getVendorBatch(vendorIdArray));
 
-      let categoryIdArray = '';
+      let categoryIdArray = "";
       data
         .filter(prod => prod.categoryId !== 0)
         .map(
           prod =>
-            categoryIdArray === ''
+            categoryIdArray === ""
               ? (categoryIdArray = prod.categoryId)
-              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
+              : (categoryIdArray = categoryIdArray + "," + prod.categoryId)
         );
       dispatch(getCategoryBatch(categoryIdArray));
     }

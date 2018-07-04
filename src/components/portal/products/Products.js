@@ -33,7 +33,11 @@ class Products extends Component {
   }
 
   shouldComponentUpdate() {
-    if (this.props.product.updateOnce || this.props.product.loading || this.props.errors.errorMessage !== "")
+    if (
+      this.props.product.updateOnce ||
+      this.props.product.loading ||
+      this.props.errors.errorMessage !== ''
+    )
       return true;
 
     return false;
@@ -58,7 +62,7 @@ class Products extends Component {
       loading
     } = this.props.product;
     if (!loadingVendors && !loadingCategories) {
-      if (this.props.user.userType === 'admin') {
+      if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
         }
@@ -68,19 +72,19 @@ class Products extends Component {
             product_category={product_category}
             product_vendor={product_vendor}
             prod={prod}
-            index = {index}
-            userType={this.props.user.userType}
+            index={index}
+            role={this.props.user.role}
             errors={this.props.errors}
           />
         ));
-      } else if (this.props.user.userType === 'vendor') {
+      } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
         } else {
           return products
             .filter(
               prod =>
-                prod.vendorId === parseInt(this.props.user.user[0].userId, 10)
+                prod.vendorId === this.props.user.user.userId
             )
             .map((prod, index) => (
               <ProductList
@@ -89,7 +93,7 @@ class Products extends Component {
               product_vendor={product_vendor}
               prod={prod}
               index={index}
-              userType={this.props.user.userType}
+              role={this.props.user.role}
             />
             )
           );
@@ -140,7 +144,7 @@ Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

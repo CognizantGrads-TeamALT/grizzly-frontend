@@ -5,8 +5,9 @@ const initialState = {
   user: null,
   orders: [],
   googleProfile: null,
-  userType: null,
-  isAuthenticated: false
+  role: null,
+  isAuthenticated: false,
+  isRegistered: null
 };
 
 export default function(state = initialState, action) {
@@ -25,42 +26,44 @@ export default function(state = initialState, action) {
       return {
         ...state,
         user: action.payload,
-        userType: action.userType,
-        isAuthenticated: true,
+        role: action.payload.role,
+        isAuthenticated: !isEmpty(action.payload),
         loading: false
       };
     case types.GET_USER_BY_EMAIL:
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
+        role: isEmpty(action.payload.role) ? 'customer' : action.payload.role,
+        isRegistered: !isEmpty(action.payload)
       };
     case types.SET_CURRENT_USER:
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
-        googleProfile: action.payload,
-        userType: 'customer' // TODO : fix this, receive from BE instead.
+        googleProfile: action.payload
       };
     case types.GET_USER_WITH_ORDER:
       return {
         ...state,
         orders: action.payload,
         loading: false
-       };
+      };
     case types.USER_PROFILE_UPDATE:
       return {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload,
-        userType: 'customer' // TODO : fix this, receive from BE instead.
+        role: action.payload.role
       };
     case types.CLEAR_CURRENT_USER:
       return {
         ...state,
         user: null,
         googleProfile: null,
-        userType: null,
+        role: null,
         isAuthenticated: false,
+        isRegistered: null,
         loading: false
       };
     default:

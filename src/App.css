@@ -319,14 +319,14 @@ title-size-2em-inner > * {
   border-radius: 3px !important;
 }
 
-.active.nav-link.admn-vendor-portal {
+Updated upstream .active.nav-link.admn-vendor-portal {
   color: #324d5c !important;
   font-weight: 700;
   background-color: rgb(255, 255, 255) !important;
   border-radius: 3px !important;
 }
 
-.griz-real-body {
+Stashed changes .griz-real-body {
   margin-top: 6%;
 }
 
@@ -1015,7 +1015,7 @@ a:hover {
   display: inline-block;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  content: '';
+  content: "";
 }
 .carousel .control-disabled.control-arrow {
   opacity: 0;
@@ -1389,31 +1389,37 @@ a:hover {
   background-color: #ebe9e9;
 }
 
+/* Payment Page */
 .paymentContainer {
   min-height: 200px;
   margin-top: 150px;
   margin-left: 18%;
+
+  border: #46b29d;
+  border-width: 2x;
+  border-style: solid;
 }
 
 .paymentRightCol {
   min-height: 200px;
-  margin-right: 18%;
+  max-width: 550px;
+  height: inherit;
 }
 
 .btnPayment {
-  margin-top: 18%;
-  margin-left: 28%;
-  background-color: #e37b40;
-  border-color: #e37b40;
-  color: #fff;
+  margin-top: 35%;
+  margin-left: 35%;
 }
 
 .btnPayment:hover {
   color: #020000;
 }
+.payTotalPrice {
+  margin-left: 75%;
+}
 
 .btnReturnCart {
-  margin-left: 33.5%;
+  margin-left: 40%;
   background-color: #f0ca4d;
   border-color: #f0ca4d;
   color: #fff;

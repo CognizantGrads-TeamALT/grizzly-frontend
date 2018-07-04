@@ -27,8 +27,7 @@ class Inventory extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.product.updateOnce)
-      this.props.setProductUpdated();
+    if (this.props.product.updateOnce) this.props.setProductUpdated();
   }
 
   shouldComponentUpdate() {
@@ -40,24 +39,18 @@ class Inventory extends Component {
 
   loadMore() {
     if (this.props.product.vendorHasMore) {
-      this.props.getVendorInventory(this.props.product.vendorIndex, "2");//TODO replace 1 with curr vendor ID
+      this.props.getVendorInventory(
+        this.props.product.vendorIndex,
+        this.props.user.user.userId
+      );
     }
   }
 
   show() {
-    const {
-      vendorInventory,
-      loading
-    } = this.props.product;
-    if (
-      !isEmpty(vendorInventory) &&
-      !loading
-    ) {
+    const { vendorInventory, loading } = this.props.product;
+    if (!isEmpty(vendorInventory) && !loading) {
       return vendorInventory.map(prod => (
-        <InventoryList
-          key={prod.productId}
-          product={prod}
-        />
+        <InventoryList key={prod.productId} product={prod} />
       ));
     } else {
       if (loading){
@@ -111,7 +104,8 @@ Inventory.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  errors: state.errors
+  errors: state.errors,
+  user: state.user
 });
 
 export default connect(
