@@ -187,7 +187,7 @@ class ShoppingCart extends Component {
           <div className="col-5 d-inline checkout-btn div-checkout mt-5">
             <Link
               className="d-inline btn continue-btn more-rounded btnCheckOutCart"
-              to="/customer">
+              to="/">
               {" "}
               Continue Shopping
           </Link>
