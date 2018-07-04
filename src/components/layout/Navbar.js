@@ -8,10 +8,7 @@ import logo from '../../img/logo.png';
 import { GoogleLogin } from 'react-google-login';
 import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
-import { 
-    searchProducts,
-    reloadProducts 
-  } from '../../actions/productsActions';
+import { searchProducts, reloadProducts } from '../../actions/productsActions';
 //import ShoppingCart from '../portal/customer/ShoppingCart';
 
 class Navbar extends Component {
@@ -47,7 +44,6 @@ class Navbar extends Component {
     e.preventDefault();
     this.props.logoutUser();
     toast.info('Bye!');
-    // this.props.clearCurrentProducts();
     if (this.props.history.location.pathname !== '/') {
       window.location.href = '/';
     }
