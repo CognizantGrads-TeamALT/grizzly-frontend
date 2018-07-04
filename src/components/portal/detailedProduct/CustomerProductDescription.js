@@ -39,6 +39,42 @@ class CustomerProductDescription extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  showButtons(product) {
+    if (this.props.user.role === 'customer' || isEmpty(this.props.user.role)) {
+      return (
+        <div>
+          <div className="row mt-2">
+            <button className="btn orange-b surround-parent w-75 more-rounded mb-2">
+              Buy now
+            </button>
+            <button
+              className="btn yellow-b surround-parent w-75 more-rounded mb-2"
+              onClick={() => {
+                this.props.addToCart(product);
+                this.onClick();
+              }}
+            >
+              Add to Cart
+            </button>
+          </div>
+          <div className="row minimal-line-input-div">
+            <input
+              className="text-center d-inline w-50"
+              type="search"
+              name="search"
+              placeholder="Enter Promo code"
+              value={this.state.search}
+              onChange={this.onChange}
+            />
+            <button className="btn more-rounded d-inline plain-blue-b w-25">
+              Go
+            </button>
+          </div>
+        </div>
+      );
+    }
+  }
+
   render() {
     const product = this.props.single;
 
@@ -83,42 +119,15 @@ class CustomerProductDescription extends Component {
               <div className="row fnt-weight-600 title-size-1-5em CustomerDetailedProductPrice">
                 <p className="mb-0">${product.price}</p>
               </div>
-              <div className="row mt-2">
-                <button className="btn orange-b surround-parent w-75 more-rounded mb-2">
-                  Buy now
-                </button>
-                <button
-                  className="btn yellow-b surround-parent w-75 more-rounded mb-2"
-                  onClick={() => {
-                    this.props.addToCart(product);
-                    this.onClick();
-                  }}
-                >
-                  Add to Cart
-                </button>
-                <div className="bottom-border-line w-75 pt-4 mb-3" />
+              <div className="row">
+                <div className="title-size-1em fnt-weight-400" />
               </div>
               <div className="row">
-                <div className="title-size-1em fnt-weight-400">Description</div>
-              </div>
-              <div className="row">
-                <div className="dscrptnSize-7 fnt-weight-300 mb-5">
+                <div className="dscrptnSize-7 fnt-weight-400 mb-5">
                   {product.desc}
                 </div>
               </div>
-              <div className="row minimal-line-input-div">
-                <input
-                  className="text-center d-inline w-50"
-                  type="search"
-                  name="search"
-                  placeholder="Enter Promo code"
-                  value={this.state.search}
-                  onChange={this.onChange}
-                />
-                <button className="btn more-rounded d-inline plain-blue-b w-25">
-                  Go
-                </button>
-              </div>
+              {this.showButtons(product)}
             </div>
           </div>
         </div>
@@ -133,7 +142,8 @@ class CustomerProductDescription extends Component {
 }
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  user: state.user
 });
 
 export default connect(mapStateToProps)(CustomerProductDescription);

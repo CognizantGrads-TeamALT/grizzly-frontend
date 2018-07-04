@@ -49,6 +49,8 @@ class Products extends Component {
       if (!isEmpty(this.props.errors.errorMessage)) {
         toast.info(this.props.errors.errorMessage);
       }
+    } else {
+      toast.info('All products loaded.');
     }
   }
 
@@ -82,21 +84,17 @@ class Products extends Component {
           return <p>No products found.</p>;
         } else {
           return products
-            .filter(
-              prod =>
-                prod.vendorId === this.props.user.user.userId
-            )
+            .filter(prod => prod.vendorId === this.props.user.user.userId)
             .map((prod, index) => (
               <ProductList
-              key={prod.productId}
-              product_category={product_category}
-              product_vendor={product_vendor}
-              prod={prod}
-              index={index}
-              role={this.props.user.role}
-            />
-            )
-          );
+                key={prod.productId}
+                product_category={product_category}
+                product_vendor={product_vendor}
+                prod={prod}
+                index={index}
+                role={this.props.user.role}
+              />
+            ));
         }
       }
     } else {
@@ -108,7 +106,10 @@ class Products extends Component {
             </td>
           </tr>
         );
-      } else if (isEmpty(products) && !(this.props.errors.errorMessage == "")) {
+      } else if (
+        isEmpty(products) &&
+        !isEmpty(this.props.errors.errorMessage)
+      ) {
         toast.info(this.props.errors.errorMessage);
       }
     }

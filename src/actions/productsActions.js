@@ -287,18 +287,22 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 export const searchProducts = (keyword, index) => dispatch => {
   dispatch(clearErrors());
   dispatch(clearCurrentProducts());
-  axios
-    .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
-    .then(res => {
-      dispatch(refreshProductData(res.data));
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.request.response
+  if (isEmpty(keyword)) {
+    dispatch(getProducts());
+  } else {
+    axios
+      .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
+      .then(res => {
+        dispatch(refreshProductData(res.data));
+      })
+      .catch(err => {
+        dispatch(setProductUpdated());
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: err.request.response
+        });
       });
-    });
+  }
 };
 
 // Search Products
