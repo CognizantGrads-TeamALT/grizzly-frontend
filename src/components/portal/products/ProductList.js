@@ -37,7 +37,11 @@ class ProductList extends Component {
   }
 
   onBlockClick() {
-    const product = this.props.product.products[this.props.index];
+    const product = this.props.userType === 'vendor' ? 
+    this.props.product.products.filter(
+      prod => prod.productId === parseInt(this.props.prod.productId, 10)
+    )[0] : 
+    this.props.product.products[this.props.index];
     this.props.toggleBlockProduct(product.productId, !product.enabled);
     //sets it so that errors thrown will be shown, starts a listener to wait for a error.
     this.setState({listenForError: true,
@@ -48,7 +52,11 @@ class ProductList extends Component {
   }
 
   onViewClick() {
-    const product = this.props.product.products[this.props.index];
+    const product = this.props.userType === 'vendor' ? 
+      this.props.product.products.filter(
+        prod => prod.productId === parseInt(this.props.prod.productId, 10)
+      )[0] : 
+      this.props.product.products[this.props.index];
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
@@ -67,7 +75,7 @@ class ProductList extends Component {
   }
 
   showCatName(product) {
-    const { product_category } = this.props;
+    const { product_category } = this.props.product;
     if (!isEmpty(product) && !isEmpty(product_category)) {
       const catName =
         product.categoryId === 0
@@ -80,7 +88,7 @@ class ProductList extends Component {
   }
 
   showVendorName(product) {
-    const { product_vendor } = this.props
+    const { product_vendor } = this.props.product
     if (!isEmpty(product) && !isEmpty(product_vendor)) {
       const vendName =
         product.vendorId === 0
@@ -93,7 +101,12 @@ class ProductList extends Component {
 
   render() {
     //updated this to get the product from the global state instead of the parent
-    const product = this.props.product.products[this.props.index];
+    const product = this.props.userType === 'vendor' ? 
+    this.props.product.products.filter(
+      prod => prod.productId === parseInt(this.props.prod.productId, 10)
+    )[0] : 
+    this.props.product.products[this.props.index];
+    
     if (!isEmpty(product)) {
       return (
         <tr>
