@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import './App.css';
 import Navbar from './components/layout/Navbar';
 import { connect } from 'react-redux';
 import Routes from './Routes';
@@ -32,7 +33,7 @@ class App extends Component {
   }
 }
 const mapStateToProps = state => ({
-  userType: state.user.userType,
+  role: state.user.role,
   errors: state.errors
 });
 export default connect(mapStateToProps)(App);
