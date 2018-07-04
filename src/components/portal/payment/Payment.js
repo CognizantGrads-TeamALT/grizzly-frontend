@@ -96,7 +96,7 @@ class Payment extends Component {
     };
 
     return (
-      <div className="container m-5 p-5 mx-auto">
+      <div className="container m-5 p-5 mx-auto griz-portal-parent">
         <div className="row title-size-2em mb-3">
           Confirm Purchase
         </div>
