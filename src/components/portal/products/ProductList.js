@@ -38,7 +38,7 @@ class ProductList extends Component {
   }
 
   onBlockClick() {
-    const product = this.props.userType === 'vendor' ? 
+    const product = this.props.role === 'vendor' ? 
     this.props.product.products.filter(
       prod => prod.productId === parseInt(this.props.prod.productId, 10)
     )[0] : 
@@ -54,7 +54,7 @@ class ProductList extends Component {
   }
 
   onViewClick() {
-    const product = this.props.userType === 'vendor' ? 
+    const product = this.props.role === 'vendor' ? 
       this.props.product.products.filter(
         prod => prod.productId === parseInt(this.props.prod.productId, 10)
       )[0] : 
@@ -104,6 +104,8 @@ class ProductList extends Component {
       var vendName;
       //if the list has a value, return the name from the list
       if (filtered.length !== 0) vendName = filtered[0].name;
+      //if vendor id is 0, it's been removed
+      else if (product.vendorId === 0) vendName = "None";
       //else just return the vendor id.
       else vendName = product.vendorId;
       return vendName;
@@ -112,12 +114,11 @@ class ProductList extends Component {
 
   render() {
     // if we don't filter, it will show all items
-    const product = this.props.userType === 'vendor' ? 
+    const product = this.props.role === 'vendor' ? 
     this.props.product.products.filter(
       prod => prod.productId === parseInt(this.props.prod.productId, 10)
     )[0] : 
     this.props.product.products[this.props.index];
-    
     if (!isEmpty(product)) {
       return (
         <tr>

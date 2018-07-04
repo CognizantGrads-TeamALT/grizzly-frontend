@@ -49,10 +49,13 @@ class Tabs extends Component {
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();
-    // only load inventory data if they're a vendor...
-    if (this.props.user.role === 'vendor')
-      this.props.getVendorInventory('0', this.props.user.user.userId);
     this.setState({ activeTab: '1' });
+  }
+
+  componentDidUpdate() {
+    // now it always checks for whether the user is a vendor or not
+    if (this.props.user.role === 'vendor')
+    this.props.getVendorInventory('0', this.props.user.user.userId);
   }
 
   // in case its needed.
@@ -104,7 +107,7 @@ class Tabs extends Component {
             <Nav tabs>
               <NavItem className="nav-bar-singular-tab col pl-0 pr-0 tabs-a-underline">
                 <NavLink
-                  className={classnames('nav-link admn-vendor-portal my-auto', {
+                  className={classnames('nav-link admn-vendor-portal my-auto griz-t-color-hover', {
                     active: this.state.activeTab === '1'
                   })}
                   onClick={() => {

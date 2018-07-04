@@ -319,7 +319,7 @@ title-size-2em-inner > * {
   border-radius: 3px !important;
 }
 
-Updated upstream .active.nav-link.admn-vendor-portal {
+.active.nav-link.admn-vendor-portal {
   color: #324d5c !important;
   font-weight: 700;
   background-color: rgb(255, 255, 255) !important;
