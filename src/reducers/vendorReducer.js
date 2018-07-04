@@ -51,7 +51,8 @@ export default function (state = initialState, action) {
       return {
         ...state,
         cur_id: action.payload.cur_id,
-        valid_vendor: action.payload.valid_vendor
+        valid_vendor: action.payload.valid_vendor,
+        cur_name: action.payload.name
       };
     case types.VENDOR_ADDING:
       const currentVendors2 = isEmpty(state.vendors) ? [] : state.vendors;

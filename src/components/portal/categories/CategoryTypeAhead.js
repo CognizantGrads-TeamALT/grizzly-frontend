@@ -106,8 +106,9 @@ class CategoryTypeAhead extends Component {
     this.props.onClickHandler({
       cur_id: e.target.value,
       valid_cat: true,
-      index: 0
-    }); //this.props.pageIndex});
+      index: 0,
+      name: e.target.name
+    }); 
   }
 
   render() {

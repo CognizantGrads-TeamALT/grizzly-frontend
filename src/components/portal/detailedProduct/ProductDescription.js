@@ -38,9 +38,11 @@ class ProductDescription extends Component {
       editVendor: false,
       editedVendor: false,
       editCat: false,
-      editedCat: false
+      editedCat: false,
+      vendorName: !isEmpty(this.props.vendor) ? this.props.vendor.name : '0',
+      categoryName: !isEmpty(this.props.category) ? this.props.category.name : '0'
     };
-
+    //populateNames();
     this.pictures = [];
     this.files = [];
     this.handleCallbackDesc = this.handleCallbackDesc.bind(this);
@@ -137,6 +139,7 @@ class ProductDescription extends Component {
   buttonCallBackSaveCat = () => {
     if(this.props.categoryProp.valid_cat){
       this.setState({editedCat:true,
+        categoryName: this.props.categoryProp.cur_name,
         editCat:false,
         editVendor: false,
         isEditing: false,
@@ -160,6 +163,7 @@ class ProductDescription extends Component {
   buttonCallBackSaveVendor = () => {
     if(this.props.vendorProp.valid_vendor){
       this.setState({editedVendor:true,
+        vendorName: this.props.vendorProp.cur_name,
         editVendor: false,
         isEditing: false,
         isEditingDesc: false,
@@ -359,7 +363,7 @@ class ProductDescription extends Component {
       }
       else{
         returnVal =(<p className="d-inline dscrptnSize-9" key='1'>
-        {' by ' + vendor.name}
+        {' by ' + vendor}
         </p>);
       }
       return(
@@ -401,7 +405,7 @@ class ProductDescription extends Component {
       }
       else{
         returnVal =(<p className="d-inline mb-0 mt-2" key='1'>
-        {category.name}
+        {category}
         </p>);
       }
       return(
@@ -442,7 +446,7 @@ class ProductDescription extends Component {
                       onClick={this.buttonCallback}
                     />
                   )}
-                  {this.showVendor(this.props.vendor)}
+                  {this.showVendor(this.state.vendorName)}
                   
                 </div>
                 <div className="productRating ">
@@ -487,7 +491,7 @@ class ProductDescription extends Component {
           <div className="container surround-parent parent-high">
           <div className="row align-items-start align-center">
           <div className="col">
-            {this.showCat(this.props.category)}
+            {this.showCat(this.state.categoryName)}
           </div></div>
             <div className="row align-items-start">
               <div className="col">
