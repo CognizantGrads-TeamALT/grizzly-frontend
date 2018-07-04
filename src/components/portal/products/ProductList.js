@@ -38,7 +38,7 @@ class ProductList extends Component {
   }
 
   onBlockClick() {
-    const product = this.props.userType === 'vendor' ? 
+    const product = this.props.role === 'vendor' ? 
     this.props.product.products.filter(
       prod => prod.productId === parseInt(this.props.prod.productId, 10)
     )[0] : 
@@ -54,7 +54,7 @@ class ProductList extends Component {
   }
 
   onViewClick() {
-    const product = this.props.userType === 'vendor' ? 
+    const product = this.props.role === 'vendor' ? 
       this.props.product.products.filter(
         prod => prod.productId === parseInt(this.props.prod.productId, 10)
       )[0] : 
@@ -114,12 +114,11 @@ class ProductList extends Component {
 
   render() {
     // if we don't filter, it will show all items
-    const product = this.props.userType === 'vendor' ? 
+    const product = this.props.role === 'vendor' ? 
     this.props.product.products.filter(
       prod => prod.productId === parseInt(this.props.prod.productId, 10)
     )[0] : 
     this.props.product.products[this.props.index];
-    
     if (!isEmpty(product)) {
       return (
         <tr>

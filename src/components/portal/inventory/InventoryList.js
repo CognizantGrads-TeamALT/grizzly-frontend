@@ -20,7 +20,7 @@ class InventoryList extends Component {
       buffer: this.props.product.buffer + '',
       price: this.props.product.price + '',
       pending: this.props.product.pending + '',
-      rating: this.props.product.rating + '',
+      rating: this.props.product.rating,
       togglestate: false,
       changed: false,
       oldvals: {},
@@ -148,7 +148,7 @@ class InventoryList extends Component {
 
   render() {
     const { product } = this.props;
-    if (!this.state.editing) {
+    if(!this.state.editing) {
       return (
         <tr>
           <th scope="row">{this.state.productId}</th>
