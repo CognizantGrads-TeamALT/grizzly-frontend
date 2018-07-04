@@ -125,7 +125,6 @@ class Payment extends Component {
                     onSuccess={this.onSuccess}
                     onCancel={this.onCancel}
                     onError={this.onError}
-                    style={{width: '100%', minWidth:'100px'}}
                   />
                   <Link
                     className="btn more-rounded btn-sm plain-b surround-parent w-100"

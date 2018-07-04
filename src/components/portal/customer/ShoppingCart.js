@@ -179,7 +179,7 @@ class ShoppingCart extends Component {
               ${this.totalPrice}
             </div>
             <Link
-              className="mt-3 ml-2 btn orange-b surround-parent w-75 more-rounded"
+              className="mt-3 btn orange-b surround-parent w-75 more-rounded"
               to="/payment">
               Checkout
             </Link>
