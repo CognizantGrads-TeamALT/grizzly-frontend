@@ -22,16 +22,9 @@ class CustomerPortal extends Component {
     }
   }
   componentDidMount() {
-    // if (this.props.user.role === 'admin') {
-    //   this.props.history.push('/admin');
-    // } else if (this.props.user.role === 'vendor') {
-    //   this.props.history.push('/vendor');
-    // } else {
     // Scroll to top.
     window.scrollTo(0, 0);
-
     this.props.loadCart();
-    // }
   }
 
   componentDidUpdate() {
