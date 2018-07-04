@@ -117,7 +117,6 @@ class ProductList extends Component {
       prod => prod.productId === parseInt(this.props.prod.productId, 10)
     )[0] : 
     this.props.product.products[this.props.index];
-    console.log(this.props.role)
     if (!isEmpty(product)) {
       return (
         <tr>
