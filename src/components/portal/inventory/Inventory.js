@@ -53,7 +53,7 @@ class Inventory extends Component {
         <InventoryList key={prod.productId} product={prod} />
       ));
     } else {
-      if (loading){
+      if (loading) {
         return (
           <tr>
             <td>
@@ -61,10 +61,14 @@ class Inventory extends Component {
             </td>
           </tr>
         );
+      } else if (
+        isEmpty(vendorInventory) &&
+        this.props.errors.errorMessage === 'No inventory was found.'
+      ) {
+        toast.info(
+          'No products were found. Select Add Product to add one now!'
+        );
       }
-      else if (isEmpty(vendorInventory) && (this.props.errors.errorMessage == "No inventory was found.")){
-        toast.info('No products were found. Select Add Product to add one now!');
-      }  
     }
   }
 
@@ -72,7 +76,7 @@ class Inventory extends Component {
     return (
       <div>
         <div className="m-3 col">
-        <ProductSearchSort />
+          <ProductSearchSort />
         </div>
         <div ref="myscroll" style={{ height: '500px', overflow: 'auto' }}>
           <table className="table table-sm table-hover">

@@ -1,5 +1,5 @@
 import * as types from "./types";
-import { USER_API_GATEWAY } from "./microservices";
+import { AUTH_API_GATEWAY, USER_API_GATEWAY } from "./microservices";
 import setAuthToken from "../utils/setAuthToken";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
@@ -73,10 +73,10 @@ export const setCurrentUser = googleProfile => {
 };
 
 // Get user by email
-export const getUserByEmail = email => dispatch => {
+export const getUserByEmail = () => dispatch => {
   dispatch(setUserLoading());
   axios
-    .get(USER_API_GATEWAY + `/get/${email}/`)
+    .get(AUTH_API_GATEWAY + `/auth/userData`)
     .then(res => {
       dispatch({
         type: types.GET_USER_BY_EMAIL,
