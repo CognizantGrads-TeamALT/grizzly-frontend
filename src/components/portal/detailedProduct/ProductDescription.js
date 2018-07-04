@@ -20,6 +20,7 @@ import VendorTypeAhead from "../vendor/VendorTypeAhead";
 import {toast} from "react-toastify";
 import CategoryTypeAhead from "../categories/CategoryTypeAhead";
 import {Update_TypeAhead} from "../../../actions/categoryActions";
+import 'font-awesome/css/font-awesome.min.css';
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -342,7 +343,7 @@ class ProductDescription extends Component {
             ' by '
           </p>
           <Button
-              className="d-inline btn far fa-edit d-inline"
+              className="d-inline btn fa fa-check d-inline"
               onClick={this.buttonCallBackSaveVendor}
             />
           <VendorTypeAhead
@@ -389,7 +390,7 @@ class ProductDescription extends Component {
               onClickHandler={this.props.Update_TypeAhead}
             />
             <Button
-              className="d-inline btn far fa-edit d-inline"
+              className="d-inline btn fa fa-check d-inline"
               onClick={this.buttonCallBackSaveCat}
             />
         </div>)

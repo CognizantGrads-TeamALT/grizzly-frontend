@@ -148,7 +148,7 @@ class InventoryList extends Component {
 
   render() {
     const { product } = this.props;
-    if(!this.state.editing) {
+    if (!this.state.editing) {
       return (
         <tr>
           <th scope="row">{this.state.productId}</th>
@@ -164,6 +164,8 @@ class InventoryList extends Component {
               starRatedColor="blue"
               numberOfStars={5}
               name="rating"
+              starDimension="15px"
+              starSpacing="1px"
             />
           </td>
           <td>
