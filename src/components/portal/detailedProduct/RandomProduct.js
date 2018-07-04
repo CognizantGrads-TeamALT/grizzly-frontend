@@ -5,13 +5,13 @@ import { withRouter } from 'react-router-dom';
 import { getRandomProducts } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
 import Spinner from '../../common/Spinner';
-
+import StarRatings from 'react-star-ratings';
 import ProductImage from '../common/ProductImage';
 
 class RandomProduct extends Component {
   constructor(props) {
     super(props);
-    
+
     this.count = 0;
   }
 
@@ -56,12 +56,14 @@ class RandomProduct extends Component {
                   {this.showVendorName(prod.vendorId)}
                 </div>
                 <div className="fnt-weight-300 dscrptnSize-8">
-                  <i className="d-inline griz-yellow-color fas fa-star" />
-                  <i className="d-inline griz-yellow-color fas fa-star" />
-                  <i className="d-inline griz-yellow-color fas fa-star" />
-                  <i className="d-inline griz-yellow-color fas fa-star" />
-                  <i className="d-inline griz-yellow-color fas fa-star-half" />{' '}
-                  ({Math.floor(Math.random() * 50 + 1)})
+                  <StarRatings
+                    rating={prod.rating}
+                    starRatedColor="blue"
+                    numberOfStars={5}
+                    name="rating"
+                    starDimension="15px"
+                    starSpacing="1px"
+                  />
                 </div>
                 <div className="fnt-weight-600 surround-parent w-100">
                   ${prod.price}
@@ -76,13 +78,21 @@ class RandomProduct extends Component {
 
   render() {
     if (isEmpty(this.props.product.random_products))
-      return <div className="row straight-grid"><Spinner size={'150px'} /></div>;
+      return (
+        <div className="row straight-grid">
+          <Spinner size={'150px'} />
+        </div>
+      );
     else {
       let result = this.showProducts();
       if (this.count > 0)
         return <div className="row straight-grid">{result}</div>;
       else
-      return <div className="row straight-grid"><p>No similar products found :(</p></div>;
+        return (
+          <div className="row straight-grid">
+            <p>No similar products found :(</p>
+          </div>
+        );
     }
   }
 }

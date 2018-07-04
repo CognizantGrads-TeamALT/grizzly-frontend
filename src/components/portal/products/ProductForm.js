@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import TextFieldGroup from '../../common/TextFieldGroup';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { addProduct, clearErrors, WaitForError  } from '../../../actions/productsActions';
+import {
+  addProduct,
+  clearErrors,
+  WaitForError
+} from '../../../actions/productsActions';
 import {
   searchCategories,
   Update_TypeAhead
@@ -32,7 +36,7 @@ class ProductForm extends Component {
       valid_cat: false,
       valid_vendor: false,
       display_error: false,
-      intervalID: "",
+      intervalID: '',
       errors: [],
       shouldCancel: false,
       showDBErrors: false
@@ -56,16 +60,17 @@ class ProductForm extends Component {
     });
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     //if no errors have been thrown and cancel has been triggered, cancel.
-    if(!this.props.errors.waitForError && this.state.shouldCancel){
+    if (!this.props.errors.waitForError && this.state.shouldCancel) {
       this.cancel();
       this.props.WaitForError();
-     }
+    }
   }
 
   cancel() {
-    this.setState({errors: [],
+    this.setState({
+      errors: [],
       modal: false,
       category: '',
       name: '',
@@ -77,9 +82,9 @@ class ProductForm extends Component {
       valid_cat: false,
       valid_vendor: false,
       shouldCancel: false,
-      showDBErrors: false});
+      showDBErrors: false
+    });
     this.props.onCancel();
-    
   }
 
   onSubmit(e) {
@@ -103,7 +108,7 @@ class ProductForm extends Component {
       rating: this.state.rating,
       enabled: true,
       vendorId:
-        this.props.user.userType === 'admin'
+        this.props.user.role === 'admin'
           ? this.props.vendor.cur_id
           : this.props.user.user[0].userId,
       imageDTO: imageData
@@ -113,14 +118,16 @@ class ProductForm extends Component {
     let validationErrors = this.validateProduct(newProd);
     if (validationErrors.length > 0) {
       //add any errors to the state
-      this.setState({errors: validationErrors})
+      this.setState({ errors: validationErrors });
     }
     // No validation errors found!
     else {
       this.props.addProduct(newProd);
       //add product, set should cancel to true, this will trigger the closure of the window If no error is thrown.
-      this.setState({shouldCancel: true, 
-                    showDBErrors: true})
+      this.setState({
+        shouldCancel: true,
+        showDBErrors: true
+      });
     }
   }
 
@@ -192,11 +199,7 @@ class ProductForm extends Component {
 
   showErrors(){
     if(this.state.errors.length !==0){
-
       return(<ErrorComponent errormsg={this.state.errors[0].msg} />)
-    }
-    else if(this.state.showDBErrors && this.props.errors.errorMessage !== ''){
-      return(<ErrorComponent errormsg={this.props.errors.errorMessage}/>)
     }
   }
 
@@ -247,10 +250,10 @@ class ProductForm extends Component {
               value={this.state.price}
               onChange={this.onChange}
             />
-            {this.props.user.userType === 'admin' && (
+            {this.props.user.role === 'admin' && (
               <VendorTypeAhead
                 placeholder="Vendor"
-                isExact='true'
+                isExact="true"
                 onClickHandler={this.props.Vendor_Update_TypeAhead}
               />
             )}
@@ -292,5 +295,12 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead, Vendor_Update_TypeAhead, clearErrors, WaitForError })(withRouter(ProductForm));
-
+  {
+    addProduct,
+    searchCategories,
+    Update_TypeAhead,
+    Vendor_Update_TypeAhead,
+    clearErrors,
+    WaitForError
+  }
+)(withRouter(ProductForm));

@@ -78,6 +78,7 @@ class VendorForm extends Component {
         shouldToggle: true,
         showDBErrors: true
       });
+      this.onToggle();
     }
   }
 

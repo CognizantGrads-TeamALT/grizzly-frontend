@@ -49,10 +49,13 @@ class Tabs extends Component {
     this.props.getProducts();
     this.props.getVendors();
     this.props.getCategories();
-    // only load inventory data if they're a vendor...
-    if (this.props.userType === 'vendor')
-      this.props.getVendorInventory('0', '2');
     this.setState({ activeTab: '1' });
+  }
+
+  componentDidUpdate() {
+    // now it always checks for whether the user is a vendor or not
+    if (this.props.user.role === 'vendor')
+    this.props.getVendorInventory('0', this.props.user.user.userId);
   }
 
   // in case its needed.
@@ -104,7 +107,7 @@ class Tabs extends Component {
             <Nav tabs>
               <NavItem className="nav-bar-singular-tab col pl-0 pr-0 tabs-a-underline">
                 <NavLink
-                  className={classnames('nav-link admn-vendor-portal my-auto', {
+                  className={classnames('nav-link admn-vendor-portal my-auto griz-t-color-hover', {
                     active: this.state.activeTab === '1'
                   })}
                   onClick={() => {
@@ -114,7 +117,7 @@ class Tabs extends Component {
                   PRODUCTS
                 </NavLink>
               </NavItem>
-              {this.props.userType === 'admin' && (
+              {this.props.user.role === 'admin' && (
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
@@ -131,7 +134,7 @@ class Tabs extends Component {
                   </NavLink>
                 </NavItem>
               )}
-              {this.props.userType === 'admin' && (
+              {this.props.user.role === 'admin' && (
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
@@ -148,7 +151,7 @@ class Tabs extends Component {
                   </NavLink>
                 </NavItem>
               )}
-              {this.props.userType === 'vendor' && (
+              {this.props.user.role === 'vendor' && (
                 <NavItem className="nav-bar-singular-tab col pl-0 pr-0">
                   <NavLink
                     className={classnames(
@@ -200,28 +203,28 @@ class Tabs extends Component {
               </TabPane>
               <TabPane tabId="2">
                 <Row>
-                  <Col sm="12 pt-2">
-                    <Vendor userType={this.props.userType} />
+                  <Col sm="12">
+                    <Vendor />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="3">
                 <Row>
-                  <Col sm="12 pt-2">
+                  <Col sm="12">
                     <Categories />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="4">
                 <Row>
-                  <Col sm="12 pt-2">
-                    <Inventory userType={this.props.userType} />
+                  <Col sm="12">
+                    <Inventory />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="addProduct">
                 <Row>
-                  <Col sm="12 pt-2">
+                  <Col sm="12">
                     <ProductForm onCancel={this.onAddProductCancel} />
                   </Col>
                 </Row>
@@ -249,7 +252,7 @@ Tabs.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  userType: state.user.userType,
+  user: state.user,
   product: state.product
 });
 

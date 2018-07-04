@@ -105,7 +105,8 @@ class VendorTypeAhead extends Component {
     this.props.onClickHandler({
       cur_id: e.target.value,
       valid_vendor: true,
-      index: 0
+      index: 0,
+      name: e.target.name
     });
   }
   render() {

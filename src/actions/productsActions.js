@@ -33,8 +33,6 @@ export const getProducts = index => dispatch => {
       // This will keep requesting data if it gets a 500 or 403 error...
       // Should be removed once we actually implement a feature to error or retry x times.
       //if (index === 0) dispatch(getProducts(index));
-      
-
     });
 };
 
@@ -112,8 +110,8 @@ export const clearCurrentProducts = () => {
 export const clearFilteredProducts = () => {
   return {
     type: types.CLEAR_FILTERED_PRODUCTS
-  }
-}
+  };
+};
 
 // Reload Products
 export const reloadProducts = () => dispatch => {
@@ -147,7 +145,7 @@ export const toggleBlockProduct = (productId, enabled) => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductUpdateOnce());
   axios
-    .post(PRODUCT_API_GATEWAY + `/setBlock/${productId}`, {'enabled': enabled})
+    .post(PRODUCT_API_GATEWAY + `/setBlock/${productId}`, { enabled: enabled })
     .then(res =>
       dispatch({
         type: types.PRODUCTS_TOGGLEBLOCK,
@@ -160,7 +158,6 @@ export const toggleBlockProduct = (productId, enabled) => dispatch => {
         type: types.GET_ERRORS,
         payload: err.request.response
       });
-
     });
 };
 
@@ -173,9 +170,9 @@ export const editProduct = newInfo => dispatch => {
       dispatch({
         type: types.PRODUCT_EDITED,
         payload: newInfo
-      })
-      dispatch(stopWaitingForError());}
-    )
+      });
+      dispatch(stopWaitingForError());
+    })
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,
@@ -188,15 +185,15 @@ export const editProduct = newInfo => dispatch => {
 export const clearErrors = values => dispatch => {
   dispatch({
     type: types.CLEAR_ERRORS
-  })
-}
-  export const WaitForError = () => {
-    return {type: types.START_WAITING}
-  }
+  });
+};
+export const WaitForError = () => {
+  return { type: types.START_WAITING };
+};
 
-  export const stopWaitingForError = () => {
-    return {type: types.STOP_WAITING}
-  }
+export const stopWaitingForError = () => {
+  return { type: types.STOP_WAITING };
+};
 
 // Product Editing
 export const setProductEditing = () => {
@@ -290,18 +287,22 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 export const searchProducts = (keyword, index) => dispatch => {
   dispatch(clearErrors());
   dispatch(clearCurrentProducts());
-  axios
-    .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
-    .then(res => {
-      dispatch(refreshProductData(res.data));
-    })
-    .catch(err => {
-      dispatch(setProductUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.request.response
+  if (isEmpty(keyword)) {
+    dispatch(getProducts());
+  } else {
+    axios
+      .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
+      .then(res => {
+        dispatch(refreshProductData(res.data));
+      })
+      .catch(err => {
+        dispatch(setProductUpdated());
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: err.request.response
+        });
       });
-    });
+  }
 };
 
 // Search Products
@@ -357,7 +358,7 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
       dispatch({
         type: types.GET_VENDOR_INVENTORY,
         payload: res.data
-      })
+      });
     })
     .catch(err => {
       dispatch(setProductUpdated());
@@ -371,7 +372,7 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
         payload: err.request.response
       });
     });
-  };
+};
 // edit the inventory of a single product.
 export const editProductInventory = newInfo => dispatch => {
   dispatch(clearErrors(true));
@@ -381,7 +382,7 @@ export const editProductInventory = newInfo => dispatch => {
       dispatch({
         type: types.PRODUCT_INVENTORY_EDITED,
         payload: newInfo
-      }),
+      })
     )
     .catch(err => {
       dispatch({
@@ -419,7 +420,7 @@ export const refreshProductData = (data, filtered) => dispatch => {
       type: types.GET_FILTERED_PRODUCTS,
       payload: data,
       filter: filtered.cur_id
-    })
+    });
   } else {
     dispatch({
       type: types.GET_PRODUCTS,
