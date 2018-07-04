@@ -67,10 +67,10 @@ class Payment extends Component {
     let totalCost = this.calcOrderPrice();
 
     let orderItems = Object.keys(cart).map(function(prodId) {
-      return ({
+      return {
         productId: parseInt(prodId),
         quantity: cart[prodId]
-      });
+      };
     });
 
     const newOrder = {
@@ -81,7 +81,8 @@ class Payment extends Component {
       shipped_on: "2018-06-15",
       orderItemDTO: orderItems
     };
-    addOrder(newOrder);
+    console.log(newOrder);
+    this.props.addOrder(newOrder);
   }
   onCancel(data) {
     console.log("The payment was cancelled!", data);
@@ -142,7 +143,8 @@ Payment.propTypes = {
   getProductBatch: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
   loadCart: PropTypes.func.isRequired,
-  saveCart: PropTypes.func.isRequired
+  saveCart: PropTypes.func.isRequired,
+  addOrder: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   product: state.product
@@ -151,6 +153,7 @@ export default connect(
   mapStateToProps,
   {
     getProductBatch,
+    addOrder,
 
     loadCart,
     saveCart
