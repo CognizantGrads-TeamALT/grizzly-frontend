@@ -85,7 +85,7 @@ class VendorTypeAhead extends Component {
               >
                 {'No results found'}
               </button>,
-              <br key={0 + 10000} />
+              <br key={0 + 1000} />
             ]
           });
           this.props.clearCurrentVendors();
@@ -114,8 +114,9 @@ class VendorTypeAhead extends Component {
     }, 900);
     return (
       <div className={this.props.extraClassNames}>
-        <div className="vendor-scroll">
-          <TextFieldGroup
+        <div className="vendor-scroll d-absolute inner-mb-0">
+          <TextFieldGroup 
+            className="mt-0"
             placeholder={this.props.placeholder}
             name="vendor"
             value={this.state.vendor}
@@ -125,7 +126,7 @@ class VendorTypeAhead extends Component {
             }}
           />
         </div>
-        <div className="d-absolute bg-white">
+        <div className="vendor-typeahead-position bg-white">
           {this.state.vendorList}
         </div>
       </div>

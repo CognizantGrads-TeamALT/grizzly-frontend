@@ -71,7 +71,7 @@ class CategoryTypeAhead extends Component {
                 >
                   {listItem.name}
                 </button>,
-                <br key={listItem.id + 10000} />
+                <br key={listItem.id + 300} />
               ];
             }, this)
           });
@@ -113,7 +113,7 @@ class CategoryTypeAhead extends Component {
   render() {
     const catSearch = _.debounce(e => {
       this.searchCat(e);
-    }, 600);
+    }, 0);
     return (
       <div className={this.props.extraClassNames}>
         <div className="d-inline-block w-100">
@@ -130,7 +130,7 @@ class CategoryTypeAhead extends Component {
             }}
           />
           </div>
-        <div className="d-absolute bg-white">{this.state.categoryList}</div>
+        <div className="cat-typeahead-position bg-white">{this.state.categoryList}</div>
         </div>
       </div>
     );
