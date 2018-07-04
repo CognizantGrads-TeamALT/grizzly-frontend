@@ -45,7 +45,7 @@ class Navbar extends Component {
     this.props.logoutUser();
     toast.info('Bye!');
     if (this.props.history.location.pathname !== '/') {
-      window.location.href = '/';
+      this.props.history.push('/');
       this.props.reloadProducts(); // NOTE: this causes a flicker on going to customer, then admin, then
     }
   }
@@ -104,9 +104,10 @@ class Navbar extends Component {
       !isEmpty(this.props.user.role) &&
       !isEmpty(this.props.user.isRegistered)
     ) {
-      if (this.props.user.role !== 'customer') {
-        // this.notify(this.props.user.googleProfile.given_name);
-        this.props.history.push(`/${this.props.user.role}`);
+      if (this.props.user.isAuthenticated) {
+        if (this.props.user.role !== 'customer') {
+          this.props.history.push(`/${this.props.user.role}`);
+        }
       }
     }
   }
