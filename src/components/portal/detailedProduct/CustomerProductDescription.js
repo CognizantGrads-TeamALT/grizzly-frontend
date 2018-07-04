@@ -1,22 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from '../../../validation/is-empty';
-import unavailable from '../../../img/unavailable.png';
-import { Carousel } from 'react-responsive-carousel';
 import RandomProduct from './RandomProduct';
-import { PRODUCT_IMAGE } from '../../../actions/microservices';
 //import ImageLoader from 'react-load-image';
 //import Spinner from '../../common/Spinner';
 import Button from 'react-ions/lib/components/Button';
 import ProductCarousel from '../common/ProductCarousel';
+import { toast } from 'react-toastify';
+
 class CustomerProductDescription extends Component {
   constructor() {
     super();
     this.state = {
       search: '',
-      clicks: 0
     };
     this.onChange = this.onChange.bind(this);
+    
   }
 
   componentDidMount() {
@@ -27,67 +26,22 @@ class CustomerProductDescription extends Component {
   // Fixes no-op error.
   componentWillUnmount() {
     this.props.product.single = null;
+    this.props.product.random_products = null; // needed.
   }
 
   onCancel = event => {
     this.props.history.goBack();
+    toast.success('Bye!');
   };
 
   onClick = event => {
-    this.props.cart.push(this.props.product);
-    // this.setState({ clicks: this.state.clicks + 1 });
-    // console.log(this.clicks);
+    toast.success('Product has been added to the cart!');
   }
-  
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
-  showCarousel(product) {
-    if (!isEmpty(product.imageDTO)) {
-      return product.imageDTO.map((imgInfo, index) => (
-        // stops complaining about "UNIQUE KEYS" THANKS REACT.
-        // UNABLE TO IMPLEMENT IMAGELOADER HERE, THE THUMBNAILS NEVER LOAD.
-        /*<ImageLoader src={PRODUCT_IMAGE + imgInfo.imgName} key={index}>
-          <img
-            key={index}
-            className="img-responsive"
-            alt={product.name}
-          />
-          <img
-            src={unavailable}
-            className="img-responsive"
-            alt={product.name}
-          />
-          <Spinner size={'150px'}/>
-        </ImageLoader>*/
-        <div key={index}>
-          <img src={PRODUCT_IMAGE + imgInfo.imgName} className="img-responsive" alt="" />
-        </div>
-      ));
-    }
-  }
-
-  showImg(product) {
-    // If the product details has no images.
-    if (isEmpty(product.imageDTO)) {
-      return (
-        <img
-          src={unavailable}
-          className="img-responsive"
-          alt={product.name}
-        />
-      );
-    // Return the loaded image.
-    } else {
-      return (
-        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
-          {this.showCarousel(product)}
-        </Carousel>
-      );
-    }
-  }
-
+  
   render() {
     const product = this.props.single;
 
@@ -112,8 +66,8 @@ class CustomerProductDescription extends Component {
               </div>
               <div className="row fnt-weight-400 title-size-1em CustomerDetailedProductPrice">
                 {product.vendorId === 0 ||
-                isEmpty(product.vendorId) ||
-                isEmpty(this.props.vendor)
+                  isEmpty(product.vendorId) ||
+                  isEmpty(this.props.vendor)
                   ? ''
                   : ' by ' + this.props.vendor.name}
               </div>
@@ -126,7 +80,8 @@ class CustomerProductDescription extends Component {
                 </button>
                 <button
                   className="btn yellow-b surround-parent w-75 more-rounded mb-2"
-                  onClick={() => this.props.addToCart(product)}
+                  onClick={() => {this.props.addToCart(product);
+                  this.onClick();}}
                 >
                   Add to Cart
                 </button>

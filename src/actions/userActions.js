@@ -6,23 +6,22 @@ import jwt_decode from "jwt-decode";
 import isEmpty from "../validation/is-empty";
 
 // Get Admins List
-export const getUsers = (userType, id) => dispatch => {
+export const getUsers = (role, id) => dispatch => {
   dispatch(setUserLoading());
   axios
-    .get(USER_API_GATEWAY + `/get/${userType}/${id}/`)
+    .get(USER_API_GATEWAY + `/get/${role}/${id}/`)
     .then(res =>
       dispatch({
         type: types.GET_USERS,
-        payload: res.data,
-        userType: userType
+        payload: res.data
       })
     )
     .catch(err => {
-      dispatch(setUserUpdated());
       dispatch({
         type: types.GET_ERRORS,
         payload: err.request.response
       });
+      dispatch(setUserUpdated());
     });
 };
 
@@ -78,18 +77,20 @@ export const getUserByEmail = email => dispatch => {
   dispatch(setUserLoading());
   axios
     .get(USER_API_GATEWAY + `/get/${email}/`)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: types.GET_USER_BY_EMAIL,
         payload: res.data
-      })
-    )
-    .catch(err => {
-      dispatch(setUserUpdated());
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.response.data
       });
+      dispatch(setUserUpdated());
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: types.GET_USER_BY_EMAIL,
+        payload: {}
+      });
+      dispatch(setUserUpdated());
     });
 };
 
@@ -105,11 +106,11 @@ export const createOrUpdateProfile = profileData => dispatch => {
       })
     )
     .catch(err => {
-      dispatch(setUserUpdated());
       dispatch({
         type: types.GET_ERRORS,
-        payload: err.response.data
+        payload: err.request.response
       });
+      dispatch(setUserUpdated());
     });
 };
 
@@ -155,21 +156,22 @@ export const addOrder = newOrder => dispatch => {
 };
 
 // ORDER ACTIONS
-// Get User Orders 
+// Get User Orders
 export const getUserOrder = userId => dispatch => {
   dispatch(setUserLoading());
-  axios.get(USER_API_GATEWAY + `/get/orders/${userId}`)
-  .then(res =>
-    dispatch({
-      type: types.GET_USER_WITH_ORDER,
-      payload: res.data
-    })
-  )
-  .catch(err => {
-    dispatch(setUserUpdated());
-    dispatch({
-      type: types.GET_ERRORS,
-      payload: err.response.data
+  axios
+    .get(USER_API_GATEWAY + `/get/orders/${userId}`)
+    .then(res =>
+      dispatch({
+        type: types.GET_USER_WITH_ORDER,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.request.response
+      });
+      dispatch(setUserUpdated());
     });
-  })
 };
