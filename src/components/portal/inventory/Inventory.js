@@ -62,7 +62,7 @@ class Inventory extends Component {
           </tr>
         );
       }
-      else if (isEmpty(vendorInventory) && (this.props.errors.errorMessage == "No inventory was found.")){
+      else if (isEmpty(vendorInventory) && (this.props.errors.errorMessage === "No inventory was found.")){
         toast.info('No products were found. Select Add Product to add one now!');
       }  
     }

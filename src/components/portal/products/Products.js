@@ -108,7 +108,7 @@ class Products extends Component {
             </td>
           </tr>
         );
-      } else if (isEmpty(products) && !(this.props.errors.errorMessage == "")) {
+      } else if (isEmpty(products) && !(this.props.errors.errorMessage === "")) {
         toast.info(this.props.errors.errorMessage);
       }
     }
