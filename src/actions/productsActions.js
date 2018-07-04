@@ -400,7 +400,7 @@ export const filterProductsByCategory = inputs => dispatch => {
   axios
     .get(
       PRODUCT_API_GATEWAY +
-        `/bycategory/${inputs.cur_id}/${inputs.index}/default`
+        `/byCategory/${inputs.cur_id}/${inputs.index}/default`
     )
     .then(res => {
       dispatch(refreshProductData(res.data, inputs));
