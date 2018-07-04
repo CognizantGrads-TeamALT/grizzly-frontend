@@ -96,38 +96,49 @@ class Payment extends Component {
     };
 
     return (
-      <div className="container paymentContainer rounded-top">
-        <div className="row ">
-          <div className="col">
-            <table className="table table-striped">
-              <thead className="thead-light">
-                <tr>Your Order:</tr>
-              </thead>
+      <div className="container m-5 p-5 mx-auto">
+        <div className="row title-size-2em mb-3">
+          Confirm Purchase
+        </div>
+        <div className="row mb-3">
+          <div className="col-9 pl-0">
+            <table className="table">
               <tbody>{this.showOrderContent()}</tbody>
             </table>
           </div>
-          <div className="col paymentRightCol left-border-line">
-            <div className="row btnPayment">
-              <PaypalExpressBtn
-                client={client}
-                currency={'AUD'}
-                total={this.calcOrderPrice()}
-                onSuccess={this.onSuccess}
-                onCancel={this.onCancel}
-                onError={this.onError}
-              />
-            </div>
-            <div className="row mt-3">
-              <Link
-                className="btn more-rounded btn-sm orange-b btnReturnCart"
-                to="/shoppingcart"
-              >
-                Return to Cart
-              </Link>
-            </div>
-            <div className="row mt-4 payTotalPrice">
-              Total Price: ${this.calcOrderPrice()}.00
-            </div>
+          <div className="col-3">
+              <div className="row mx-auto surround-parent w-75 mb-4 title-size-1em">
+                <div className="col">
+                  Total: 
+                </div>                
+                <div className="col bottom-border">
+                  ${this.calcOrderPrice()}.00
+                </div>
+                
+              </div>
+              <div className="row mx-auto surround-parent w-75">
+                <div className="col mb-3 surround-parent">
+                  <PaypalExpressBtn
+                    client={client}
+                    currency={'AUD'}
+                    total={this.calcOrderPrice()}
+                    onSuccess={this.onSuccess}
+                    onCancel={this.onCancel}
+                    onError={this.onError}
+                    style={{width: '100%'}}
+                  />
+                </div>
+              </div>
+              <div className="row mx-auto surround-parent w-75">
+                <div className="col">
+                  <Link
+                    className="btn more-rounded btn-sm plain-b surround-parent w-100"
+                    to="/shoppingcart"
+                  >
+                    Return to Cart
+                  </Link>
+                </div>
+              </div>
           </div>
         </div>
       </div>

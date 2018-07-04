@@ -326,7 +326,7 @@ title-size-2em-inner > * {
   border-radius: 3px !important;
 }
 
-Stashed changes .griz-real-body {
+.griz-real-body {
   margin-top: 6%;
 }
 
@@ -1302,10 +1302,7 @@ a:hover {
   color: #020000;
 }
 /*Shopping cart page*/
-.h2TextColour
-{
-  -webkit-text-fill-color: #45b29d;
-}
+
 .btnCartCustomer {
   margin-left: 33.5%;
   background-color: #f0ca4d;
@@ -1348,13 +1345,6 @@ a:hover {
   border-color: #45b29d;
 }
 
-.h4-totalprice{
-  
-  margin-left: 400px;
-  margin-right: 20px;
-  margin-bottom: 40px;
-
-}
 .picCustomerDetailedProductCol {
   margin-top: 2%;
 }
@@ -1390,15 +1380,6 @@ a:hover {
 }
 
 /* Payment Page */
-.paymentContainer {
-  min-height: 200px;
-  margin-top: 150px;
-  margin-left: 18%;
-
-  border: #46b29d;
-  border-width: 2x;
-  border-style: solid;
-}
 
 .paymentRightCol {
   min-height: 200px;
@@ -1406,20 +1387,11 @@ a:hover {
   height: inherit;
 }
 
-.btnPayment {
-  margin-top: 35%;
-  margin-left: 35%;
-}
-
 .btnPayment:hover {
   color: #020000;
 }
-.payTotalPrice {
-  margin-left: 75%;
-}
 
 .btnReturnCart {
-  margin-left: 40%;
   background-color: #f0ca4d;
   border-color: #f0ca4d;
   color: #fff;
