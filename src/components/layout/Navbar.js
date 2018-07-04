@@ -46,8 +46,8 @@ class Navbar extends Component {
     toast.info('Bye!');
     if (this.props.history.location.pathname !== '/') {
       window.location.href = '/';
+      this.props.reloadProducts(); // NOTE: this causes a flicker on going to customer, then admin, then
     }
-    this.props.reloadProducts(); // NOTE: this causes a flicker on going to customer, then admin, then
   }
 
   login(response) {
