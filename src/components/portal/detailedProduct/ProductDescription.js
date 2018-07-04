@@ -8,12 +8,15 @@ import {
   WaitForError,
   getProduct
 } from "../../../actions/productsActions";
+import {Vendor_Update_TypeAhead} from "../../../actions/vendorActions";
 import { connect } from "react-redux";
 import ImageUploader from "../products/ImageUploader";
 import ErrorComponent from "../../common/ErrorComponent";
 import validator from 'validator';
 import ProductCarousel from '../common/ProductCarousel';
 import { PRODUCT_IMAGE } from "../../../actions/microservices";
+import VendorTypeAhead from "../vendor/VendorTypeAhead";
+import {toast} from "react-toastify";
 
 class ProductDescription extends Component {
   constructor(props) {
@@ -28,7 +31,11 @@ class ProductDescription extends Component {
       price: this.props.product.single.price,
       changed: false,
       shouldCancel: false,
-      showDBError: false
+      showDBError: false,
+      editVendor: false,
+      editedVendor: false,
+      editCat: false,
+      editedCat: false
     };
 
     this.pictures = [];
@@ -42,6 +49,7 @@ class ProductDescription extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.onDrop = this.onDrop.bind(this);
+    this.showVendor = this.showVendor.bind(this);
   }
 
   // Fixes no-op error.
@@ -104,6 +112,37 @@ class ProductDescription extends Component {
       isEditingImg: false
     });
   };
+
+  buttonCallBackVendor = () =>{
+    this.setState({editVendor: !this.state.editVendor,
+      isEditing: false,
+      isEditingDesc: false,
+      isEditingPrice: false,
+      isEditingImg: false
+    })
+  }
+
+  buttonCallBackSaveVendor = () => {
+    if(this.props.vendorProp.valid_vendor){
+      this.setState({editedVendor:true,
+        editVendor: false,
+        isEditing: false,
+        isEditingDesc: false,
+        isEditingPrice: false,
+        isEditingImg: false,
+        changed: true})
+    }
+    else{
+      this.setState({editedVendor:false,
+        editVendor: false,
+        isEditing: false,
+        isEditingDesc: false,
+        isEditingPrice: false,
+        isEditingImg: false,
+      })
+      toast.warn("vendor not valid, please choose one from the list. reverting vendor");
+    }
+  }
 
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
@@ -191,6 +230,9 @@ class ProductDescription extends Component {
         imageDTO: imageData
       };
 
+      if(this.state.editedVendor){
+        newProd.vendorId=this.props.vendorProp.cur_id
+      }
       if (this.state.changed) {
         this.props.editProduct(newProd);
         this.setState({shouldCancel: true,
@@ -215,7 +257,9 @@ class ProductDescription extends Component {
       valid=false;
     }
     //Parse float beahaves wierd, 123av-4 would return 123, hence the second check
-    else if(isNaN(parseFloat(this.state.price)) || parseFloat(this.state.price) + "" !== this.state.price){
+    else if(isNaN(parseFloat(this.state.price)) || parseFloat(this.state.price) + "" !== this.state.price + ""){
+      console.log(isNaN(parseFloat(this.state.price)));
+      console.log(parseFloat(this.state.price) + "" + " " + this.state.price);
       valid=false;
       error = {errmsg: "price must be numeric"};
     }
@@ -247,6 +291,52 @@ class ProductDescription extends Component {
     this.props.history.goBack();
   }
 
+  showVendor(vendor){
+    if(this.state.editVendor){
+      //editing value, return vendor typeahead and finish button 
+      return(
+        (<div className="d-inline">
+          <p className="d-inline dscrptnSize-9">
+            ' by '
+          </p>
+          <Button
+              className="d-inline btn far fa-edit d-inline"
+              onClick={this.buttonCallBackSaveVendor}
+            />
+          <VendorTypeAhead
+            placeholder="Vendor"
+            isExact='false'
+            onClickHandler={this.props.Vendor_Update_TypeAhead}
+          />
+
+        </div>)
+      );
+    }
+    else{
+      //not editing, show vendor or statement to show there is no vendor, plus edit button.
+      var returnVal;
+      if(isEmpty(vendor)){
+        returnVal= (<p className="d-inline dscrptnSize-9" key='1'>
+          ' by No Vendor Found'
+        </p>);
+      }
+      else{
+        returnVal =(<p className="d-inline dscrptnSize-9" key='1'>
+        {' by ' + vendor.name}
+        </p>);
+      }
+      return(
+        [returnVal,
+        this.props.user.userType === 'admin' && (
+            <Button
+              className="d-inline btn far fa-edit d-inline"
+              onClick={this.buttonCallBackVendor}
+              key='2'
+            />
+          )]
+      );
+  }}
+
   render() {
     return (
       <div className="row mt-4 parent-min-half-high">
@@ -267,17 +357,14 @@ class ProductDescription extends Component {
                   ) : (
                     <span>{this.state.name}</span>
                   )}
-                  <p className="d-inline dscrptnSize-9">
-                    {!isEmpty(this.props.vendor) &&
-                      ' by ' + this.props.vendor.name}
-                  </p>
-
                   {this.props.user.userType === 'admin' && (
                     <Button
                       className="d-inline btn far fa-edit d-inline"
                       onClick={this.buttonCallback}
                     />
                   )}
+                  {this.showVendor(this.props.vendor)}
+                  
                 </div>
                 <div className="productRating ">
                   <i className="d-inline fas fa-star fa-xs mr-1" />
@@ -415,10 +502,11 @@ class ProductDescription extends Component {
 const mapStateToProps = state => ({
   errors: state.errors,
   user: state.user,
-  product: state.product
+  product: state.product,
+  vendorProp: state.vendor
 });
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, WaitForError, getProduct }
+  { editProduct, reloadProducts, WaitForError, getProduct, Vendor_Update_TypeAhead }
 )(ProductDescription);
