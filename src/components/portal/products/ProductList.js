@@ -69,25 +69,38 @@ class ProductList extends Component {
 
   showCatName(product) {
     const { product_category } = this.props;
+    //adding in the same check to category as to vendor, this does not currently throw an error on search due to there only being 5 categories, 
+    //all of them are loaded, however if more categores are added this method could face the same problem
     if (!isEmpty(product) && !isEmpty(product_category)) {
-      const catName =
-        product.categoryId === 0
-          ? product.categoryId
-          : product_category.filter(
-              item => item.categoryId === product.categoryId
-            )[0].name;
+      var filtered = roduct_category.filter(
+              item => item.categoryId === product.categoryId)
+      var catName;
+      if(filtered.length !== 0)
+        catname = filtered[0].name;
+      else{
+        catname=product.categoryId;
+      }
       return catName;
     }
   }
 
   showVendorName(product) {
-    const { product_vendor } = this.props;
+    const { product_vendor } = this.props
+      //this method would fail on search, if a product in the search hadn't already been loaded, the vendor wouldn't be in product_vendor
+      //causing filtered[0].name to crash with a cannot read property of undefined error
+      //check if any required fields are empty
     if (!isEmpty(product) && !isEmpty(product_vendor)) {
-      const vendName =
-        product.vendorId === 0
-          ? product.vendorId
-          : product_vendor.filter(item => item.vendorId === product.vendorId)[0]
-              .name;
+      //create a filtered list of vendors that match the product vendor
+      //this list should only ever have a length of 1 or 0
+      var filtered = product_vendor.filter(item => item.vendorId === 
+        product.vendorId);
+      var vendName;
+      //if the list has a value, return the name from the list
+        if(filtered.length !==0)
+          vendName = filtered[0].name;
+      //else just return the vendor id.
+        else
+          vendName = product.vendorId;
       return vendName;
     }
   }
