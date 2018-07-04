@@ -39,7 +39,7 @@ class ProductGridList extends Component {
                 )}) */}
                 <StarRatings
                   rating={prod.rating}
-                  starRatedColor="blue"
+                  starRatedColor="#f0ca4d"
                   numberOfStars={5}
                   name="rating"
                   starDimension="15px"

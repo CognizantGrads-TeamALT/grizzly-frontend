@@ -161,7 +161,7 @@ class InventoryList extends Component {
           <td>
             <StarRatings
               rating={this.state.rating}
-              starRatedColor="blue"
+              starRatedColor="#f0ca4d"
               numberOfStars={5}
               name="rating"
               starDimension="15px"
@@ -173,7 +173,7 @@ class InventoryList extends Component {
               buttonLabel={this.state.editing ? 'Done' : 'Edit'}
               title="Edit Product"
               confirmText={'Edit ' + product.name}
-              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
+              buttonClass="btn more-rounded orange-b btn-sm my-2 my-sm-0 mr-sm-2"
               onSubmit={this.onEditClick}
               shouldPopup={this.state.editing}
               onCancel={this.onCancel}
@@ -232,7 +232,7 @@ class InventoryList extends Component {
           <td>
             <StarRatings
               rating={this.state.rating}
-              starRatedColor="blue"
+              starRatedColor="#f0ca4d"
               numberOfStars={5}
               name="rating"
               starDimension="15px"
@@ -244,7 +244,7 @@ class InventoryList extends Component {
               buttonLabel={this.state.editing ? 'Done' : 'Edit'}
               title="Edit Product"
               confirmText={'Edit ' + product.name}
-              buttonClass="btn btn-outline-warning btn-sm my-2 my-sm-0 mr-sm-2"
+              buttonClass="btn more-rounded orange-b btn-sm my-2 my-sm-0 mr-sm-2"
               onSubmit={this.onEditClick}
               shouldPopup={this.state.editing}
               onCancel={this.onCancel}
