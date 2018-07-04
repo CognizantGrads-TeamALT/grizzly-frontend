@@ -1,11 +1,11 @@
-import * as types from "./types";
+import * as types from './types';
 import {
   PRODUCT_API_GATEWAY,
   CATEGORY_API_GATEWAY,
   VENDOR_API_GATEWAY
-} from "./microservices";
-import axios from "axios";
-import isEmpty from "../validation/is-empty";
+} from './microservices';
+import axios from 'axios';
+import isEmpty from '../validation/is-empty';
 
 // Get Product List
 export const getProducts = index => dispatch => {
@@ -33,8 +33,6 @@ export const getProducts = index => dispatch => {
       // This will keep requesting data if it gets a 500 or 403 error...
       // Should be removed once we actually implement a feature to error or retry x times.
       //if (index === 0) dispatch(getProducts(index));
-      
-
     });
 };
 
@@ -82,7 +80,7 @@ export const addProduct = newProd => dispatch => {
   // the page reloads and shows the "spinning wheel" which causes loss in scroll position
   //dispatch(setProductLoading());
   axios
-    .put(PRODUCT_API_GATEWAY + "/add", newProd)
+    .put(PRODUCT_API_GATEWAY + '/add', newProd)
     .then(res => {
       dispatch({
         type: types.PRODUCT_ADDING,
@@ -160,7 +158,6 @@ export const toggleBlockProduct = (productId, enabled) => dispatch => {
         type: types.GET_ERRORS,
         payload: err.request.response
       });
-
     });
 };
 
@@ -173,9 +170,9 @@ export const editProduct = newInfo => dispatch => {
       dispatch({
         type: types.PRODUCT_EDITED,
         payload: newInfo
-      })
-      dispatch(stopWaitingForError());}
-    )
+      });
+      dispatch(stopWaitingForError());
+    })
     .catch(err => {
       dispatch({
         type: types.GET_ERRORS,
@@ -188,15 +185,15 @@ export const editProduct = newInfo => dispatch => {
 export const clearErrors = values => dispatch => {
   dispatch({
     type: types.CLEAR_ERRORS
-  })
-}
-  export const WaitForError = () => {
-    return {type: types.START_WAITING}
-  }
+  });
+};
+export const WaitForError = () => {
+  return { type: types.START_WAITING };
+};
 
-  export const stopWaitingForError = () => {
-    return {type: types.STOP_WAITING}
-  }
+export const stopWaitingForError = () => {
+  return { type: types.STOP_WAITING };
+};
 
 // Product Editing
 export const setProductEditing = () => {
@@ -428,25 +425,25 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
   if (!isEmpty(data[0])) {
     if (!isEmpty(data[0].productId)) {
-      let vendorIdArray = "";
+      let vendorIdArray = '';
       data
         .filter(prod => prod.vendorId !== 0)
         .map(
           prod =>
-            vendorIdArray === ""
+            vendorIdArray === ''
               ? (vendorIdArray = prod.vendorId)
-              : (vendorIdArray = vendorIdArray + "," + prod.vendorId)
+              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
         );
       dispatch(getVendorBatch(vendorIdArray));
 
-      let categoryIdArray = "";
+      let categoryIdArray = '';
       data
         .filter(prod => prod.categoryId !== 0)
         .map(
           prod =>
-            categoryIdArray === ""
+            categoryIdArray === ''
               ? (categoryIdArray = prod.categoryId)
-              : (categoryIdArray = categoryIdArray + "," + prod.categoryId)
+              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
         );
       dispatch(getCategoryBatch(categoryIdArray));
     }

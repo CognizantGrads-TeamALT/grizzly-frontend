@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from '../../../validation/is-empty';
 import RandomProduct from './RandomProduct';
-//import ImageLoader from 'react-load-image';
-//import Spinner from '../../common/Spinner';
+import StarRatings from 'react-star-ratings';
 import Button from 'react-ions/lib/components/Button';
 import ProductCarousel from '../common/ProductCarousel';
 import { toast } from 'react-toastify';
@@ -12,10 +11,9 @@ class CustomerProductDescription extends Component {
   constructor() {
     super();
     this.state = {
-      search: '',
+      search: ''
     };
     this.onChange = this.onChange.bind(this);
-    
   }
 
   componentDidMount() {
@@ -31,17 +29,16 @@ class CustomerProductDescription extends Component {
 
   onCancel = event => {
     this.props.history.goBack();
-    toast.success('Bye!');
   };
 
   onClick = event => {
     toast.success('Product has been added to the cart!');
-  }
+  };
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  
+
   render() {
     const product = this.props.single;
 
@@ -57,7 +54,9 @@ class CustomerProductDescription extends Component {
         <div className="container containerCustomerProductView">
           <div className="row">
             <div className="col-5 picCustomerDetailedProductCol text-left">
-              <div className="row"><ProductCarousel prod={product} /></div>
+              <div className="row">
+                <ProductCarousel prod={product} />
+              </div>
             </div>
 
             <div className="col-5 containerCustomerProductDesc text-left">
@@ -66,10 +65,20 @@ class CustomerProductDescription extends Component {
               </div>
               <div className="row fnt-weight-400 title-size-1em CustomerDetailedProductPrice">
                 {product.vendorId === 0 ||
-                  isEmpty(product.vendorId) ||
-                  isEmpty(this.props.vendor)
+                isEmpty(product.vendorId) ||
+                isEmpty(this.props.vendor)
                   ? ''
                   : ' by ' + this.props.vendor.name}
+              </div>
+              <div className="row fnt-weight-400 title-size-1em CustomerDetailedProductPrice">
+                <StarRatings
+                  rating={product.rating}
+                  starRatedColor="blue"
+                  numberOfStars={5}
+                  name="rating"
+                  starDimension="15px"
+                  starSpacing="1px"
+                />
               </div>
               <div className="row fnt-weight-600 title-size-1-5em CustomerDetailedProductPrice">
                 <p className="mb-0">${product.price}</p>
@@ -80,8 +89,10 @@ class CustomerProductDescription extends Component {
                 </button>
                 <button
                   className="btn yellow-b surround-parent w-75 more-rounded mb-2"
-                  onClick={() => {this.props.addToCart(product);
-                  this.onClick();}}
+                  onClick={() => {
+                    this.props.addToCart(product);
+                    this.onClick();
+                  }}
                 >
                   Add to Cart
                 </button>
@@ -125,6 +136,4 @@ const mapStateToProps = state => ({
   product: state.product
 });
 
-export default connect(
-  mapStateToProps,
-)(CustomerProductDescription);
+export default connect(mapStateToProps)(CustomerProductDescription);

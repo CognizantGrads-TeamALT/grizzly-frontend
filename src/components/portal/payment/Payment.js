@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import isEmpty from "../../../validation/is-empty";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import PaypalExpressBtn from "react-paypal-express-checkout";
-import { getProductBatch } from "../../../actions/productsActions";
-import { loadCart, saveCart } from "../../../actions/cartActions";
-import { addOrder } from "../../../actions/userActions";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import isEmpty from '../../../validation/is-empty';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import PaypalExpressBtn from 'react-paypal-express-checkout';
+import { getProductBatch } from '../../../actions/productsActions';
+import { loadCart, saveCart } from '../../../actions/cartActions';
+import { addOrder } from '../../../actions/userActions';
 
 class Payment extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class Payment extends Component {
       totalPrice: 0,
       triggeredFetch: false
     };
-
+    // eslint-disable-next-line
     let orderFetched = false;
     this.calcOrderPrice = this.calcOrderPrice.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
@@ -29,21 +29,17 @@ class Payment extends Component {
     this.triggeredFetch = true;
     let { cart, cart_products } = this.props.product;
 
-    let productIdArray = "";
+    let productIdArray = '';
     if (!this.orderFetched || isEmpty(cart_products)) {
       for (var productId in cart) {
         productIdArray =
-          productIdArray === "" ? productId : productIdArray + "," + productId;
+          productIdArray === '' ? productId : productIdArray + ',' + productId;
       }
 
       this.props.getProductBatch(productIdArray);
       this.orderFetched = true;
     }
 
-    // console.log("cart");
-    // console.log(cart);
-    // console.log("cart_products");
-    // console.log(cart_products);
     return cart_products.map(prod => (
       <tr key={prod.productId}>
         <td>
@@ -68,7 +64,7 @@ class Payment extends Component {
 
     let orderItems = Object.keys(cart).map(function(prodId) {
       return {
-        productId: parseInt(prodId),
+        productId: parseInt(prodId, 10),
         quantity: cart[prodId]
       };
     });
@@ -77,26 +73,26 @@ class Payment extends Component {
       user_id: 1,
       txn_id: payment.paymentID,
       cost: totalCost,
-      departing_location: "Melbourne City",
-      shipped_on: "2018-06-15",
+      departing_location: 'Melbourne City',
+      shipped_on: '2018-06-15',
       orderItemDTO: orderItems
     };
     console.log(newOrder);
     this.props.addOrder(newOrder);
   }
   onCancel(data) {
-    console.log("The payment was cancelled!", data);
+    console.log('The payment was cancelled!', data);
   }
 
   onError(err) {
-    console.log("Error loading Paypal script!", err);
+    console.log('Error loading Paypal script!', err);
   }
 
   render() {
     const client = {
       sandbox:
-        "AWiPslSzOb4c5wFKr0wWQyE2t5yZ_hOpEHFKbWPyb5P0m-Zlmi_VHwiCMnqo2rU0EQb61FbQPfLUftUx",
-      production: "YOUR-PRODUCTION-APP-ID"
+        'AWiPslSzOb4c5wFKr0wWQyE2t5yZ_hOpEHFKbWPyb5P0m-Zlmi_VHwiCMnqo2rU0EQb61FbQPfLUftUx',
+      production: 'YOUR-PRODUCTION-APP-ID'
     };
 
     return (
@@ -114,7 +110,7 @@ class Payment extends Component {
             <div className="row btnPayment">
               <PaypalExpressBtn
                 client={client}
-                currency={"AUD"}
+                currency={'AUD'}
                 total={this.calcOrderPrice()}
                 onSuccess={this.onSuccess}
                 onCancel={this.onCancel}
