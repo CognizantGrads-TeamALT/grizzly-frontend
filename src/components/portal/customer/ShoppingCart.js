@@ -148,7 +148,7 @@ class ShoppingCart extends Component {
 
           {/* display the totalprice per item according to the quantity */}
 
-          <div align="right" className="col-2 align d-inline product-total-price ">
+          <div align="right" className="col-2 align d-inline product-total-price">
 
             <p className="d-inline">
               ${prod.price * this.props.product.cart[prod.productId]}
@@ -184,7 +184,7 @@ class ShoppingCart extends Component {
         <div className="row-1 checkout">
           <div className="col-5 d-inline checkout-btn div-checkout mt-5">
             <Link
-              className="d-inline btn continue-btn more-rounded btnCheckOutCart "
+              className="d-inline btn continue-btn more-rounded btnCheckOutCart"
               to="/customer">
               {" "}
               Continue Shopping
