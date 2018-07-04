@@ -267,11 +267,9 @@ class ProductDescription extends Component {
       if(this.state.editedVendor){
         newProd.vendorId=this.props.vendorProp.cur_id;
       }
-      console.log(this.state.editedCat);
       if(this.state.editedCat){
         newProd.categoryId=this.props.categoryProp.cur_id;
       }
-      console.log(newProd);
       if (this.state.changed) {
         this.props.editProduct(newProd);
         this.setState({
