@@ -104,6 +104,8 @@ class ProductList extends Component {
       var vendName;
       //if the list has a value, return the name from the list
       if (filtered.length !== 0) vendName = filtered[0].name;
+      //if vendor id is 0, it's been removed
+      else if (product.vendorId === 0) vendName = "None";
       //else just return the vendor id.
       else vendName = product.vendorId;
       return vendName;
