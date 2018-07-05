@@ -30,6 +30,7 @@ class Products extends Component {
 
   componentDidUpdate() {
     if (this.props.product.updateOnce) this.props.setProductUpdated();
+  
   }
 
   shouldComponentUpdate() {
@@ -39,7 +40,6 @@ class Products extends Component {
       this.props.errors.errorMessage !== ''
     )
       return true;
-
     return false;
   }
 
@@ -54,6 +54,14 @@ class Products extends Component {
     }
   }
 
+  toastId = null;
+
+  notify = (errorMessage) => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info(errorMessage);
+    }
+  };
+
   show() {
     const {
       products,
@@ -61,29 +69,48 @@ class Products extends Component {
       product_category,
       loadingVendors,
       loadingCategories,
-      loading
+      loading,
+      products_filtered
     } = this.props.product;
     if (!loadingVendors && !loadingCategories) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
         }
-        return products.map((prod, index) => (
-          <ProductList
-            key={prod.productId}
-            product_category={product_category}
-            product_vendor={product_vendor}
-            prod={prod}
-            index={index}
-            role={this.props.user.role}
-            errors={this.props.errors}
-          />
-        ));
+        else {
+          if (!isEmpty(products_filtered)) {
+            return products_filtered.map((prod, index) => (
+              <ProductList
+                key={prod.productId}
+                product_category={product_category}
+                product_vendor={product_vendor}
+                prod={prod}
+                index={index}
+                role={this.props.user.role}
+                errors={this.props.errors}
+              />
+            ));
+          }
+          else {
+            return products.map((prod, index) => (
+              <ProductList
+                key={prod.productId}
+                product_category={product_category}
+                product_vendor={product_vendor}
+                prod={prod}
+                index={index}
+                role={this.props.user.role}
+                errors={this.props.errors}
+              />
+            ));
+          }
+        }
       } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
         } else {
-          return products
+          if (!isEmpty(products_filtered)) {
+            return products_filtered
             .filter(prod => prod.vendorId === this.props.user.user.userId)
             .map((prod, index) => (
               <ProductList
@@ -95,6 +122,21 @@ class Products extends Component {
                 role={this.props.user.role}
               />
             ));
+          }
+          else {
+            return products
+            .filter(prod => prod.vendorId === this.props.user.user.userId)
+            .map((prod, index) => (
+              <ProductList
+                key={prod.productId}
+                product_category={product_category}
+                product_vendor={product_vendor}
+                prod={prod}
+                index={index}
+                role={this.props.user.role}
+              />
+            ));
+          }
         }
       }
     } else {
@@ -110,7 +152,7 @@ class Products extends Component {
         isEmpty(products) &&
         !isEmpty(this.props.errors.errorMessage)
       ) {
-        toast.info(this.props.errors.errorMessage);
+        this.notify(this.props.errors.errorMessage)
       }
     }
   }
