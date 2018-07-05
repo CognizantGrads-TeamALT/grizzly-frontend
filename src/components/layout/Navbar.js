@@ -72,11 +72,12 @@ class Navbar extends Component {
         <Link
           className="dropdown-item"
           to={{
-            pathname: '/admin'
+            pathname: `/${this.props.user.role}`
           }}
         >
           Admin Page
         </Link>
+      
         <div className="dropdown-divider" />
         <a className="dropdown-item" onClick={this.onLogout}>
           Log out
