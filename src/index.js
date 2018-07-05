@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import jwt_decode from 'jwt-decode';
 import { loadUserInfo, logoutUser } from './actions/userActions';
 import setAuthToken from './utils/setAuthToken';
+import { startJWTRefreshChecker } from './utils/RefreshToken';
 import store from './store';
 
 // Check for timeout, log user out if needed
@@ -42,4 +43,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+// Refresh token when expired (log user out after 10 refreshes)
+startJWTRefreshChecker();
+
 registerServiceWorker();

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import logo from '../../img/logo.png';
 import { GoogleLogin } from 'react-google-login';
+import glogo from '../../img/g-logo.jpg';
 import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
 import { searchProducts, reloadProducts } from '../../actions/productsActions';
@@ -22,6 +23,7 @@ class Navbar extends Component {
     this.onLogout = this.onLogout.bind(this);
     this.doRedirect = this.doRedirect.bind(this);
     this.login = this.login.bind(this);
+    this.showSearch=this.showSearch.bind(this);
   }
 
   onChange(e) {
@@ -130,7 +132,7 @@ class Navbar extends Component {
             <span>{`Welcome, <${
               this.props.user.googleProfile.given_name
             }> `}</span>
-          </li >
+          </li>
           <li className="nav-item mr-1 my-auto">{this.showCartLink()}</li>
           <li className="nav-item dropdown my-auto">
             <a
@@ -177,24 +179,58 @@ class Navbar extends Component {
       return (
         <ul className="navbar-nav pl-2">
           {this.showCartLink()}
+          <div />
+          <img src={glogo} alt="glogo" className="googleLogo" />
           <li className="nav-item mr-1 my-auto">
             <GoogleLogin
               clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
-              buttonText="Login"
+              buttonText="Sign in with Google"
               onSuccess={this.login}
               onFailure={this.login}
-              className="btn more-rounded parent-wide min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0"
+              className="gButton"
             />
           </li>
         </ul>
       );
   }
+
+  showSearch(){
+    if(this.props.user.role !== 'admin' && this.props.user.role !== 'vendor'){
+      return(
+        <form onSubmit={this.onSubmit} className="form-inline">
+        <div className="search-form-custom">
+          <input
+            className="form-control left-rounded border-right-0 border col-8"
+            type="search"
+            name="search"
+            placeholder="Search"
+            value={this.state.search}
+            onChange={this.onChange}
+          />
+          <span className="input-group-append-more">
+            <button
+              onClick={this.onSubmit}
+              className="btn btn-outline-success right-rounded border-left-0 border"
+              type="button"
+            >
+              <i className="fa fa-search" />
+            </button>
+          </span>
+        </div>
+      </form>
+      )
+
+      
+    }
+    
+  }
+
   showCartLink() {
     return (
-        <Link
-          className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
-          to="/shoppingcart"
-        />
+      <Link
+        className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
+        to="/shoppingcart"
+      />
     );
   }
 
@@ -222,27 +258,9 @@ class Navbar extends Component {
             className="collapse navbar-collapse mx-auto align-center"
             id="mobile-nav"
           >
-            <form onSubmit={this.onSubmit} className="form-inline">
-              <div className="search-form-custom">
-                <input
-                  className="form-control left-rounded border-right-0 border col-8"
-                  type="search"
-                  name="search"
-                  placeholder="Search"
-                  value={this.state.search}
-                  onChange={this.onChange}
-                />
-                <span className="input-group-append-more">
-                  <button
-                    onClick={this.onSubmit}
-                    className="btn btn-outline-success right-rounded border-left-0 border"
-                    type="button"
-                  >
-                    <i className="fa fa-search" />
-                  </button>
-                </span>
-              </div>
-            </form>
+          {this.showSearch()}
+            
+           
             <div className="ml-2 search-form-custom nav justify-content-end">
               {this.showLinks()}
             </div>
