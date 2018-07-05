@@ -37,7 +37,7 @@ class CategoriesList extends Component {
     this.setState({listenForError: true,
       block: true,
       count: 0,
-    intervalId: setInterval(this.waitForResponce, 10)})
+    intervalId: setInterval(this.waitForResponce, 100)})
   }
 
   waitForResponce(){
