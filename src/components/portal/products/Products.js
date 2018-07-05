@@ -79,26 +79,24 @@ class Products extends Component {
         }
         else {
           if (!isEmpty(products_filtered)) {
-            return products_filtered.map((prod, index) => (
+            return products_filtered.map((prod) => (
               <ProductList
                 key={prod.productId}
                 product_category={product_category}
                 product_vendor={product_vendor}
                 prod={prod}
-                index={index}
                 role={this.props.user.role}
                 errors={this.props.errors}
               />
             ));
           }
           else {
-            return products.map((prod, index) => (
+            return products.map((prod) => (
               <ProductList
                 key={prod.productId}
                 product_category={product_category}
                 product_vendor={product_vendor}
                 prod={prod}
-                index={index}
                 role={this.props.user.role}
                 errors={this.props.errors}
               />
@@ -112,13 +110,12 @@ class Products extends Component {
           if (!isEmpty(products_filtered)) {
             return products_filtered
             .filter(prod => prod.vendorId === this.props.user.user.userId)
-            .map((prod, index) => (
+            .map((prod) => (
               <ProductList
                 key={prod.productId}
                 product_category={product_category}
                 product_vendor={product_vendor}
                 prod={prod}
-                index={index}
                 role={this.props.user.role}
               />
             ));
@@ -126,13 +123,12 @@ class Products extends Component {
           else {
             return products
             .filter(prod => prod.vendorId === this.props.user.user.userId)
-            .map((prod, index) => (
+            .map((prod) => (
               <ProductList
                 key={prod.productId}
                 product_category={product_category}
                 product_vendor={product_vendor}
                 prod={prod}
-                index={index}
                 role={this.props.user.role}
               />
             ));
