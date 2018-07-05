@@ -10,6 +10,7 @@ import ProductCategoryRow from './common/ProductCategoryRow';
 import isEmpty from '../../validation/is-empty';
 import Spinner from '../common/Spinner';
 
+
 class CustomerPortal extends Component {
   constructor(props) {
     super(props);

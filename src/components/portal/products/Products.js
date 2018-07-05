@@ -66,9 +66,11 @@ class Products extends Component {
     if (!loadingVendors && !loadingCategories) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
+          console.log("in no admin");
           return <p>No products found.</p>;
         }
         return products.map((prod, index) => (
+          
           <ProductList
             key={prod.productId}
             product_category={product_category}
@@ -110,7 +112,8 @@ class Products extends Component {
         isEmpty(products) &&
         !isEmpty(this.props.errors.errorMessage)
       ) {
-        toast.info(this.props.errors.errorMessage);
+        console.log("in her");
+        toast.info("this.props.errors.errorMessage");
       }
     }
   }

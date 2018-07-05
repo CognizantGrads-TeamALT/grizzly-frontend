@@ -5,9 +5,16 @@ import isEmpty from '../../../validation/is-empty';
 import { Link } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import ProductImage from '../common/ProductImage';
+import { toast } from 'react-toastify';
 
 class ProductGridList extends Component {
+constructor(props){
+  super(props);
+
+  this.count = 0;
+}
   show() {
+    this.count=0;
     const products = this.props.product.products;
     let prodArray = [];
     if (!isEmpty(products)) {
@@ -54,6 +61,13 @@ class ProductGridList extends Component {
         </div>
       ));
     }
+    else{
+      if(this.count === 0)
+        this.count =1;
+      else{
+      toast.info("Please, search properly");
+      this.count =0;
+    }}
   }
 
   showVendorName(vendorId) {
