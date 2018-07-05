@@ -26,6 +26,7 @@ class Profile extends Component {
             </div>
             <button
               type="button"
+              disabled
               className="btn btn-link d-inline p-1 my-auto profile-blue-color profile-small-link float-right"
             >
               Edit
