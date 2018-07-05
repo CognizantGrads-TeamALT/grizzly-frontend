@@ -27,6 +27,11 @@ class CustomerProductDescription extends Component {
     this.props.product.random_products = null; // needed.
   }
 
+  buyNow(product){
+    this.props.addToCart(product)
+    this.props.history.push("/shoppingcart");
+  }
+
   onCancel = event => {
     this.props.history.goBack();
   };
@@ -44,7 +49,8 @@ class CustomerProductDescription extends Component {
       return (
         <div>
           <div className="row mt-2">
-            <button className="btn orange-b surround-parent w-75 more-rounded mb-2">
+            <button className="btn orange-b surround-parent w-75 more-rounded mb-2"
+            onClick={() => {this.buyNow(product)}}>
               Buy now
             </button>
             <button
