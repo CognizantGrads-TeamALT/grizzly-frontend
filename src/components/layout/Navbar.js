@@ -54,15 +54,36 @@ class Navbar extends Component {
 
   logOutBtn() {
     return (
-      <button
-        className="btn more-rounded ml-2 hover-w-b btn-sm mr-sm-2 parent-wide min-navbar-button-width"
-        type="button"
-        onClick={this.onLogout}
+      <li className="nav-item dropdown my-auto">
+      <a
+        className="nav-link dropdown-toggle"
+        data-toggle="dropdown"
+        role="button"
+        aria-haspopup="true"
+        aria-expanded="false"
       >
-        Log out
-      </button>
-    );
-  }
+        <img
+          src={this.props.user.googleProfile.picture}
+          className="nav-bar-profile-img"
+          alt="google profile"
+        />
+      </a>
+      <div className="dropdown-menu right-anchor">
+        <Link
+          className="dropdown-item"
+          to={{
+            pathname: '/admin'
+          }}
+        >
+          Admin Page
+        </Link>
+        <div className="dropdown-divider" />
+        <a className="dropdown-item" onClick={this.onLogout}>
+          Log out
+        </a>
+      </div>
+    </li>
+    );}
 
   doRedirect() {
     this.props.history.push({
@@ -118,7 +139,7 @@ class Navbar extends Component {
           <li className="nav-item mr-1 my-auto">
             <span>{`Welcome, ${this.props.user.user.name} `}</span>
           </li>
-          <li className="nav-item">{this.logOutBtn()}</li>
+          {this.logOutBtn()}
         </ul>
       );
     } else if (!isEmpty(this.props.user.googleProfile)) {
