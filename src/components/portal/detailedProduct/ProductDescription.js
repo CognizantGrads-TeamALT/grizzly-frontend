@@ -20,7 +20,7 @@ import VendorTypeAhead from "../vendor/VendorTypeAhead";
 import {toast} from "react-toastify";
 import CategoryTypeAhead from "../categories/CategoryTypeAhead";
 import {Update_TypeAhead} from "../../../actions/categoryActions";
-import 'font-awesome/css/font-awesome.min.css';
+// import 'font-awesome/css/font-awesome.min.css';
 
 class ProductDescription extends Component {
   constructor(props) {

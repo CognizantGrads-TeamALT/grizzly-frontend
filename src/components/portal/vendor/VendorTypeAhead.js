@@ -11,7 +11,7 @@ import {
 } from '../../../actions/vendorActions';
 import isEmpty from '../../../validation/is-empty';
 import { addProduct } from '../../../actions/productsActions';
-import { setTimeout } from 'timers';
+
 
 class VendorTypeAhead extends Component {
   constructor(props) {
@@ -22,11 +22,17 @@ class VendorTypeAhead extends Component {
       vendor: '',
       vendorList: [],
       cur_id: '',
-      valid_vendor: false
+      valid_vendor: false,
+      count: 0
     };
     this.onChange = this.onChange.bind(this);
     this.setVendorName = this.setVendorName.bind(this);
+    this.waitForResponse = this.waitForResponse.bind(this);
+    this.vendorSearch = _.debounce(e => {
+      this.searchVend(e)
+    }, 350);
   }
+
   populate(param) {
     var options = param.map(vendor => ({
       id: vendor.vendorId,
@@ -34,63 +40,73 @@ class VendorTypeAhead extends Component {
     }));
     return options;
   }
+
   onChange(e, persist = false) {
     this.setState({ [e.target.name]: e.target.value });
     if (persist) e.persist();
   }
+
   searchVend(e) {
     this.setState({ valid_vendor: false });
     this.props.Vendor_Update_TypeAhead({
       cur_id: '',
       valid_vendor: false
     });
-
     if (isEmpty(e.target.value)) {
       this.setState({ vendorList: [] });
-      this.props.clearCurrentVendors();
-    } else {
+    }
+    else {
       this.props.searchVendors(e.target.value);
+      this.setState({ intervalId: setInterval(this.waitForResponse, 50) });
+    }
+  }
+  waitForResponse() {
+    if (!isEmpty(this.props.vendor.vendors) && !this.props.vendor.loading) 
+    {
+      clearInterval(this.state.intervalId);
       var list;
-      setTimeout(() => {
-        if (!isEmpty(this.props.vendor.vendors) && !this.props.vendor.loading) {
-          const { vendors } = this.props.vendor;
-          list = this.populate(vendors);
-          this.setState({
-            vendorList: list.map(function(listItem) {
-              return [
-                <button
-                  className="btn btn-sm btn-outline-info  vendor-scroll-button"
-                  key={listItem.id}
-                  type="button"
-                  name={listItem.name}
-                  value={listItem.id}
-                  onClick={this.setVendorName}
-                >
-                  {listItem.name}
-                </button>,
-                <br key={listItem.id + 10000} />
-              ];
-            }, this)
-          });
-        } else {
-          this.setState({
-            vendorList: [
-              <button
-                className="btn btn-sm btn-outline-info vendor-scroll-button"
-                key={0}
-                type="button"
-                name={'No Results'}
-                value={0}
-                onClick={this.setVendorName}
-              >
-                {'No results found'}
-              </button>,
-              <br key={0 + 10000} />
-            ]
-          });
-          this.props.clearCurrentVendors();
-        }
-      }, 1000);
+      const { vendors } = this.props.vendor;
+      list = this.populate(vendors);
+      this.setState({
+        count: 0,
+        vendorList: list.map(function (listItem) {
+          return [
+            <button
+              className="btn btn-sm btn-outline-info z-index-5000 d-absolute vendor-scroll-button"
+              key={listItem.id}
+              type="button"
+              name={listItem.name}
+              value={listItem.id}
+              onClick={this.setVendorName}
+            >
+              {listItem.name}
+            </button>,
+            <br key={listItem.id + 300} />
+          ];
+        }, this)
+      });
+    } else if (this.state.count > 10) {
+      clearInterval(this.state.intervalId);
+      this.setState({
+        count: 0,
+        vendorList: [
+          <button
+            className="btn btn-sm btn-outline-info vendor-scroll-button"
+            key={0}
+            type="button"
+            name={'No Results'}
+            value={0}
+            onClick={this.setVendorName}
+          >
+            {'No results found'}
+          </button>,
+          <br key={0 + 1000} />
+        ]
+      });
+      this.props.clearCurrentVendors();
+    }
+    else {
+      this.setState({ count: this.state.count + 1 });
     }
   }
 
@@ -110,25 +126,20 @@ class VendorTypeAhead extends Component {
     });
   }
   render() {
-    const vendorSearch = _.debounce(e => {
-      this.searchVend(e);
-    }, 900);
     return (
       <div className={this.props.extraClassNames}>
-        <div className="vendor-scroll w-100">
-          <div className="z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-            <TextFieldGroup
-              placeholder={this.props.placeholder}
-              name="vendor"
-              value={this.state.vendor}
-              onChange={event => {
-                // eslint-disable-next-line
-                this.onChange(event, true), vendorSearch(event);
-              }}
-            />
-          </div>
+        <div className="vendor-scroll d-absolute inner-mb-0">
+          <TextFieldGroup
+            placeholder={this.props.placeholder}
+            name="vendor"
+            value={this.state.vendor}
+            onChange={event => {
+              // eslint-disable-next-line
+              this.onChange(event, true), this.vendorSearch(event);
+            }}
+          />
         </div>
-        <div className="d-absolute bg-white w-100">
+        <div className="vendor-typeahead-position bg-white">
           {this.state.vendorList}
         </div>
       </div>

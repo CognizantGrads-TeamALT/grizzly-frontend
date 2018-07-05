@@ -458,6 +458,13 @@ a:-webkit-any-link {
   min-width: 200px;
   width: 100%;
   overflow: auto;
+  float: bottom;
+}
+
+.vendor-typeahead-position,
+.cat-typeahead-position{
+ position: absolute;
+ margin-bottom: 4px;
 }
 
 /* Admin/Vendor Portal */

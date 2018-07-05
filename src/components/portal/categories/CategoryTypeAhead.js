@@ -7,10 +7,11 @@ import { withRouter } from 'react-router-dom';
 import { addProduct } from '../../../actions/productsActions';
 import {
   searchCategories,
-  Update_TypeAhead
+  Update_TypeAhead,
+  clearCurrentCategories
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
-import { setTimeout } from 'timers';
+
 
 class CategoryTypeAhead extends Component {
   constructor(props) {
@@ -21,10 +22,15 @@ class CategoryTypeAhead extends Component {
       category: '',
       categoryList: [],
       cur_id: '',
-      valid_cat: false
+      valid_cat: false,
+      count: 0
     };
+    this.waitForResponse = this.waitForResponse.bind(this);
     this.onChange = this.onChange.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);
+    this.catSearch = _.debounce(e => {
+      this.searchCat(e)
+    }, 350);
   }
 
   populate(param) {
@@ -50,48 +56,61 @@ class CategoryTypeAhead extends Component {
       this.setState({ categoryList: [] });
     } else {
       this.props.searchCategories(e.target.value);
+      this.setState({ intervalId: setInterval(this.waitForResponse, 50) });
+    }
+  }
+
+  waitForResponse() {
+    if (
+      !isEmpty(this.props.category.categories) &&
+      !this.props.category.loading
+    ) {
+      clearInterval(this.state.intervalId);
       var list;
-      setTimeout(() => {
-        if (
-          !isEmpty(this.props.category.categories) &&
-          !this.props.category.loading
-        ) {
-          const { categories } = this.props.category;
-          list = this.populate(categories);
-          this.setState({
-            categoryList: list.map(function(listItem) {
-              return [
-                <button
-                  className="btn btn-outline-info z-index-5000 d-absolute btn-sm cat-scroll-button"
-                  key={listItem.id}
-                  type="button"
-                  name={listItem.name}
-                  value={listItem.id}
-                  onClick={this.setCategoryName}
-                >
-                  {listItem.name}
-                </button>,
-                <br key={listItem.id + 10000} />
-              ];
-            }, this)
-          });
-        } else {
-          this.setState({
-            categoryList: [
-              <button
-                className='btn btn-sm btn-outline-info z-index-5000 d-absolute cat-scroll-button'
-                key={0}
-                type="button"
-                name={"No Results"}
-                value={0}
-                onClick={() => {return;}}
-              >
-                {'No results found'}
-              </button>
-            ]
-          });
-        }
-      }, 1000);
+      const { categories } = this.props.category;
+      list = this.populate(categories);
+      this.setState({
+        count: 0,
+        categoryList: list.map(function (listItem) {
+          return [
+            <button
+              className="btn btn-outline-info z-index-5000 d-absolute btn-sm cat-scroll-button"
+              key={listItem.id}
+              type="button"
+              name={listItem.name}
+              value={listItem.id}
+              onClick={this.setCategoryName}
+            >
+              {listItem.name}
+            </button>,
+            <br key={listItem.id + 300} />
+          ];
+        }, this)
+      });
+
+    }
+    else if (this.state.count > 10) {
+      clearInterval(this.state.intervalId);
+      this.setState({
+        count: 0,
+        categoryList: [
+          <button
+            className="btn btn-sm btn-outline-info cat-scroll-button"
+            key={0}
+            type="button"
+            name={'No Results'}
+            value={0}
+            onClick={this.setCategoryName}
+          >
+            {'No results found'}
+          </button>,
+          <br key={0 + 1000} />
+        ]
+      });
+      this.props.clearCurrentCategories();
+    }
+    else {
+      this.setState({ count: this.state.count + 1 });
     }
   }
 
@@ -108,30 +127,27 @@ class CategoryTypeAhead extends Component {
       valid_cat: true,
       index: 0,
       name: e.target.name
-    }); 
+    });
   }
 
   render() {
-    const catSearch = _.debounce(e => {
-      this.searchCat(e);
-    }, 600);
     return (
       <div className={this.props.extraClassNames}>
         <div className="d-inline-block w-100">
           <div className="cat-scroll z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-          <TextFieldGroup
-            placeholder={this.props.placeholder}
-            name="category"
-            value={this.state.category}
-            autocomplete="off"
-            onChange={event => {
-              // DO NOT DELETE THE COMMENT BELOW
-              // eslint-disable-next-line
-              this.onChange(event, true), catSearch(event);
-            }}
-          />
+            <TextFieldGroup
+              placeholder={this.props.placeholder}
+              name="category"
+              value={this.state.category}
+              autocomplete="off"
+              onChange={event => {
+                // DO NOT DELETE THE COMMENT BELOW
+                // eslint-disable-next-line
+                this.onChange(event, true), this.catSearch(event);
+              }}
+            />
           </div>
-        <div className="d-absolute bg-white">{this.state.categoryList}</div>
+          <div className="cat-typeahead-position bg-white">{this.state.categoryList}</div>
         </div>
       </div>
     );
@@ -158,5 +174,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead }
+  { addProduct, searchCategories, Update_TypeAhead, clearCurrentCategories }
 )(withRouter(CategoryTypeAhead));
