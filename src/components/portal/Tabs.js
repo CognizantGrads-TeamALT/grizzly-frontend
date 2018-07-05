@@ -33,7 +33,6 @@ import {
   filterProductsByCategory
 } from '../../actions/productsActions';
 import ProductForm from '../portal/products/ProductForm';
-import isEmpty from '../../validation/is-empty';
 
 class Tabs extends Component {
   constructor(props) {
@@ -235,9 +234,9 @@ class Tabs extends Component {
                 </Row>
               </TabPane>
               <TabPane tabId="addProduct">
-                  <div className="12 pt-4 mt-4">
-                    <ProductForm onCancel={this.onAddProductCancel} />
-                  </div>
+                <div className="12 pt-4 mt-4">
+                  <ProductForm onCancel={this.onAddProductCancel} />
+                </div>
               </TabPane>
             </TabContent>
           </div>
