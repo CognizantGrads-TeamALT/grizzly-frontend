@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import logo from '../../img/logo.png';
 import { GoogleLogin } from 'react-google-login';
+import glogo from '../../img/g-logo.jpg';
 import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
 import { searchProducts, reloadProducts } from '../../actions/productsActions';
@@ -131,7 +132,7 @@ class Navbar extends Component {
             <span>{`Welcome, <${
               this.props.user.googleProfile.given_name
             }> `}</span>
-          </li >
+          </li>
           <li className="nav-item mr-1 my-auto">{this.showCartLink()}</li>
           <li className="nav-item dropdown my-auto">
             <a
@@ -178,13 +179,15 @@ class Navbar extends Component {
       return (
         <ul className="navbar-nav pl-2">
           {this.showCartLink()}
+          <div />
+          <img src={glogo} alt="glogo" className="googleLogo" />
           <li className="nav-item mr-1 my-auto">
             <GoogleLogin
               clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
-              buttonText="Login"
+              buttonText="Sign in with Google"
               onSuccess={this.login}
               onFailure={this.login}
-              className="btn more-rounded parent-wide min-navbar-button-width hover-w-b btn-sm my-2 my-sm-0"
+              className="gButton"
             />
           </li>
         </ul>
@@ -224,10 +227,10 @@ class Navbar extends Component {
 
   showCartLink() {
     return (
-        <Link
-          className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
-          to="/shoppingcart"
-        />
+      <Link
+        className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
+        to="/shoppingcart"
+      />
     );
   }
 
