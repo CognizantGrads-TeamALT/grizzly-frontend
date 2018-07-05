@@ -43,5 +43,8 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+// Refresh token when expired (log user out after 10 refreshes)
 startJWTRefreshChecker();
+
 registerServiceWorker();
