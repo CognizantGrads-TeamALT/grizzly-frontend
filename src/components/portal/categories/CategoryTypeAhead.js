@@ -7,7 +7,8 @@ import { withRouter } from 'react-router-dom';
 import { addProduct } from '../../../actions/productsActions';
 import {
   searchCategories,
-  Update_TypeAhead
+  Update_TypeAhead,
+  clearCurrentCategories
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
 
@@ -24,12 +25,12 @@ class CategoryTypeAhead extends Component {
       valid_cat: false,
       count: 0
     };
-
+    this.waitForResponse = this.waitForResponse.bind(this);
     this.onChange = this.onChange.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);
     this.catSearch = _.debounce(e => {
       this.searchCat(e)
-    }, 250);
+    }, 350);
   }
 
   populate(param) {
@@ -55,20 +56,22 @@ class CategoryTypeAhead extends Component {
       this.setState({ categoryList: [] });
     } else {
       this.props.searchCategories(e.target.value);
-      this.setState({intervalId: setInterval(this.waitForResponse(), 50)});
+      this.setState({ intervalId: setInterval(this.waitForResponse, 50) });
     }
   }
 
-  waitForResponse(){
+  waitForResponse() {
     if (
       !isEmpty(this.props.category.categories) &&
       !this.props.category.loading
     ) {
+      clearInterval(this.state.intervalId);
       var list;
       const { categories } = this.props.category;
       list = this.populate(categories);
       this.setState({
-        categoryList: list.map(function(listItem) {
+        count: 0,
+        categoryList: list.map(function (listItem) {
           return [
             <button
               className="btn btn-outline-info z-index-5000 d-absolute btn-sm cat-scroll-button"
@@ -84,17 +87,32 @@ class CategoryTypeAhead extends Component {
           ];
         }, this)
       });
+
+    }
+    else if (this.state.count > 10) {
       clearInterval(this.state.intervalId);
-      this.setState({count: 0})
+      this.setState({
+        count: 0,
+        categoryList: [
+          <button
+            className="btn btn-sm btn-outline-info cat-scroll-button"
+            key={0}
+            type="button"
+            name={'No Results'}
+            value={0}
+            onClick={this.setCategoryName}
+          >
+            {'No results found'}
+          </button>,
+          <br key={0 + 1000} />
+        ]
+      });
+      this.props.clearCurrentCategories();
     }
-    else if(this.state.count > 10){
-      clearInterval(this.state.intervalId);
-      this.setState({count: 0})
+    else {
+      this.setState({ count: this.state.count + 1 });
     }
-    else{
-      this.setState({count: this.state.count+1});
-    }
-}
+  }
 
   setCategoryName(e) {
     this.setState({
@@ -109,30 +127,27 @@ class CategoryTypeAhead extends Component {
       valid_cat: true,
       index: 0,
       name: e.target.name
-    }); 
+    });
   }
 
   render() {
-    // const catSearch = _.debounce(e => {
-    //   func: this.searchCat(e)
-    // }, 100);
     return (
       <div className={this.props.extraClassNames}>
         <div className="d-inline-block w-100">
           <div className="cat-scroll z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-          <TextFieldGroup
-            placeholder={this.props.placeholder}
-            name="category"
-            value={this.state.category}
-            autocomplete="on"
-            onChange={event => {
-              // DO NOT DELETE THE COMMENT BELOW
-              // eslint-disable-next-line
-              this.onChange(event, true), this.catSearch(event);
-            }}
-          />
+            <TextFieldGroup
+              placeholder={this.props.placeholder}
+              name="category"
+              value={this.state.category}
+              autocomplete="off"
+              onChange={event => {
+                // DO NOT DELETE THE COMMENT BELOW
+                // eslint-disable-next-line
+                this.onChange(event, true), this.catSearch(event);
+              }}
+            />
           </div>
-        <div className="cat-typeahead-position bg-white">{this.state.categoryList}</div>
+          <div className="cat-typeahead-position bg-white">{this.state.categoryList}</div>
         </div>
       </div>
     );
@@ -159,5 +174,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead }
+  { addProduct, searchCategories, Update_TypeAhead, clearCurrentCategories }
 )(withRouter(CategoryTypeAhead));
