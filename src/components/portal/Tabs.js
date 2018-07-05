@@ -94,7 +94,7 @@ class Tabs extends Component {
     } else if (this.state.activeTab === '3') {
       this.props.getCategories();
     } else if (this.state.activeTab === '4') {
-      // Get Inventory
+      this.props.getVendorInventory('0', this.props.user.user.userId);
     }
   }
 
@@ -234,9 +234,9 @@ class Tabs extends Component {
                 </Row>
               </TabPane>
               <TabPane tabId="addProduct">
-                  <div className="12 pt-4 mt-4">
-                    <ProductForm onCancel={this.onAddProductCancel} />
-                  </div>
+                <div className="12 pt-4 mt-4">
+                  <ProductForm onCancel={this.onAddProductCancel} />
+                </div>
               </TabPane>
             </TabContent>
           </div>

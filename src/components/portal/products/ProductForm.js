@@ -110,7 +110,7 @@ class ProductForm extends Component {
       vendorId:
         this.props.user.role === 'admin'
           ? this.props.vendor.cur_id
-          : this.props.user.user[0].userId,
+          : this.props.user.user.userId,
       imageDTO: imageData
     };
 
@@ -150,11 +150,13 @@ class ProductForm extends Component {
 
     // vendor ID is populated from typeahead
     if (!this.props.vendor.valid_vendor) {
-      errors.push({
-        msg:
-          "Invalid vendor. Please select one from the vendor field's search results.",
-        debug: 'Invalid vendorId: ' + this.props.vendor.cur_id
-      });
+      if (this.props.user.role === 'admin') {
+        errors.push({
+          msg:
+            "Invalid vendor. Please select one from the vendor field's search results.",
+          debug: 'Invalid vendorId: ' + this.props.vendor.cur_id
+        });
+      }
     }
 
     // empty field validation
@@ -197,9 +199,9 @@ class ProductForm extends Component {
     return errors;
   }
 
-  showErrors(){
-    if(this.state.errors.length !==0){
-      return(<ErrorComponent errormsg={this.state.errors[0].msg} />)
+  showErrors() {
+    if (this.state.errors.length !== 0) {
+      return <ErrorComponent errormsg={this.state.errors[0].msg} />;
     }
   }
 

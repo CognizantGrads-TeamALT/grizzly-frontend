@@ -35,7 +35,9 @@ export default function(state = initialState, action) {
         ...state,
         user: action.payload,
         role: isEmpty(action.payload.role) ? 'customer' : action.payload.role,
-        isRegistered: !isEmpty(action.payload)
+        isRegistered:
+          !isEmpty(action.payload.address) ||
+          !isEmpty(action.payload.contact_num)
       };
     case types.SET_CURRENT_USER:
       return {
