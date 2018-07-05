@@ -43,11 +43,11 @@ export function shouldRefreshJWT() {
 }
 
 export function startJWTRefreshChecker() {
-  // start the refresh checker (checking once / min)
+  // start the refresh checker (checking once / 5min)
   // console.log('Start checking');
   return localStorage.setItem(
     CHECK_JWT_REFRESH_TIMER_KEY,
-    setInterval(checkJWTRefresh, 60000)
+    setInterval(checkJWTRefresh, 300000)
   );
 }
 
