@@ -15,7 +15,7 @@ const TextFieldGroup = ({
   classes
 }) => {
   return (
-    <div className="form-group">
+    <div className="form-group mt-1">
       <input
         type={type}
         className={classnames(`form-control z-index-5000 ${classes}`, {

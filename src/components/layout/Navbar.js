@@ -41,7 +41,7 @@ class Navbar extends Component {
     toast.info('Bye!');
     if (this.props.history.location.pathname !== '/') {
       this.props.history.push('/');
-      // this.props.reloadProducts();
+      // this.props.reloadProducts(); // Add back if needed or issue fixed
     }
   }
 
