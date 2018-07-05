@@ -131,8 +131,8 @@ class Navbar extends Component {
             <span>{`Welcome, <${
               this.props.user.googleProfile.given_name
             }> `}</span>
-          </li>
-          {this.showCartLink()}
+          </li >
+          <li className="nav-item mr-1 my-auto">{this.showCartLink()}</li>
           <li className="nav-item dropdown my-auto">
             <a
               className="nav-link dropdown-toggle"
@@ -164,15 +164,6 @@ class Navbar extends Component {
                   state: { tabId: '2' }
                 }}
               >
-                Cart
-              </Link>
-              <Link
-                className="dropdown-item"
-                to={{
-                  pathname: '/settings',
-                  state: { tabId: '3' }
-                }}
-              >
                 Order History
               </Link>
               <div className="dropdown-divider" />
@@ -201,12 +192,10 @@ class Navbar extends Component {
   }
   showCartLink() {
     return (
-      <li>
         <Link
           className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
           to="/shoppingcart"
         />
-      </li>
     );
   }
 

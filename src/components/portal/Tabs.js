@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import isEmpty from '../../validation/is-empty';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -54,8 +55,18 @@ class Tabs extends Component {
 
   componentDidUpdate() {
     // now it always checks for whether the user is a vendor or not
-    if (this.props.user.role === 'vendor')
-      this.props.getVendorInventory('0', this.props.user.user.userId);
+    if (this.props.user.role === 'vendor') {
+      if (isEmpty(this.props.product.vendorInventory)) {
+        this.props.getVendorInventory('0', this.props.user.user.userId);
+      } else {
+        if (
+          this.props.product.vendorInventory.length < 25 &&
+          this.props.product.vendorHasMore
+        ) {
+          this.props.getVendorInventory('0', this.props.user.user.userId);
+        }
+      }
+    }
   }
 
   // in case its needed.
@@ -223,11 +234,9 @@ class Tabs extends Component {
                 </Row>
               </TabPane>
               <TabPane tabId="addProduct">
-                <Row>
-                  <Col sm="12">
+                  <div className="12 pt-4 mt-4">
                     <ProductForm onCancel={this.onAddProductCancel} />
-                  </Col>
-                </Row>
+                  </div>
               </TabPane>
             </TabContent>
           </div>

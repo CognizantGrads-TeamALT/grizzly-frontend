@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
 import Spinner from '../../common/Spinner';
 import PropTypes from 'prop-types';
+// import Payment from '../payment/Payment';
 
 import { getProduct, getProductBatch } from '../../../actions/productsActions';
 import {
@@ -116,90 +117,80 @@ class ShoppingCart extends Component {
     const cartItems = this.props.product.cart_products;
     this.totalPrice = 0;
     return cartItems.map(prod => (
-      <div key={prod.productId} className="container">
-        <div className="row products-information">
-          <div className="col-3 d-inline products-image">
+        <div className="row m-3" key={prod.productId}>
+          <div className="col-3 my-auto mx-auto">
             <Link
-              className="align-content-center"
-              to={`/customerdetailedproduct/${prod.productId}`}
-            >
-              <ProductImage prod={prod} />
+                to={`/customerdetailedproduct/${prod.productId}`}
+              >
+                <ProductImage prod={prod} />
             </Link>
           </div>
-          <div className="col-4  d-inline product-price-quantity" align="left">
-            <h6 className="d-inline align-content-center ">{prod.name}</h6>
+          <div className="col-9">
+              <div className="text-left row">
+                <div className="col-4">
+                  {prod.name}
+                </div>
+                <div className="col-2">
+                  ${prod.price} x
+                </div>
+                <div className="col-2 pl-0">
+                  <input
+                    name="quantity"
+                    className="quantity-select "
+                    value={this.props.product.cart[prod.productId]}
+                    min="1"
+                    max="50"
+                    type="number"
+                    onChange={e => this.onChange(prod.productId, e.target.value)}
+                  />
+                </div>
+                <div className="col-2">
+                  ${prod.price * this.props.product.cart[prod.productId]}
+                </div>
+                <div className="col-2 pl-0">
+                  <button
+                    className="d-inline more-rounded red-b fas fa-times"
+                    onClick={(event) => {
+                      this.props.removeFromCart(prod.productId);
+                      this.onClick();
+                    }}
+                  />
+                </div>                
+              </div>
           </div>
-          <div className="col-3 d-inline align-content-right mr-0" align="center">
-            <ul className="d-inline">
-              <li id="price" className="d-inline mr-3 ">
-                ${prod.price} x
-              </li>
-              <li className="d-inline">
-                <input
-                  name="quantity"
-                  className="quantity-select"
-                  value={this.props.product.cart[prod.productId]}
-                  min="1"
-                  max="50"
-                  type="number"
-                  onChange={e => this.onChange(prod.productId, e.target.value)}
-                />
-              </li>
-            </ul>
-          </div>
-
-          {/* display the totalprice per item according to the quantity */}
-
-          <div align="right" className="col-2 align d-inline product-total-price">
-
-            <p className="d-inline">
-              ${prod.price * this.props.product.cart[prod.productId]}
-            </p>
-            <button
-              className=" ml-4 d-inline more-rounded hover-w-b fas fa-times"
-              onClick={(event) => {
-                this.props.removeFromCart(prod.productId);
-                this.onClick();
-              }}
-            />
-          </div>
+          {this.addToMoney(this.props.product.cart[prod.productId] * prod.price)}
         </div>
-        <hr width="100%" />
-        {this.addToMoney(this.props.product.cart[prod.productId] * prod.price)}
-      </div>
     ));
   }
 
   render() {
     return (
-      <div className="shopping cart container">
-        <div className="row-2 mt-8 items-in-cart">
-          <h2 className="ml-5 h2TextColour">Items in Your Cart</h2>
-          <hr width="100%" />
+      <div className="col m-5 p-5 mx-auto griz-portal-parent">
+        <div className="row m-2 title-size-2em mb-3 my-auto">
+          Items in Your Cart
         </div>
-        <div>{this.show()}</div>
-        <div align="right" className="row-1 mb-4 totalprice">
-          <h4 className="d-inline h4-totalprice">
-            Total: ${this.totalPrice}
-          </h4>
-        </div>
-        <div className="row-1 checkout">
-          <div className="col-5 d-inline checkout-btn div-checkout mt-5">
+        <div className="row mb-5 mt-5">
+          <div className="col-8">
+              {this.show()}
+          </div>
+          <div className="col-4 pl-0 text-left">
+            <div className="mt-2 fnt-weight-500 title-size-1-5em">Total:</div>
+            <div className="fnt-weight-400 title-size-1em">
+              ${this.totalPrice}
+            </div>
             <Link
-              className="d-inline btn continue-btn more-rounded btnCheckOutCart"
-              to="/">
-              {" "}
-              Continue Shopping
-          </Link>
-            <Link
-              className="d-inline btn ml-3 checkout-btn more-rounded btnCheckOutCart"
+              className="mt-3 btn orange-b surround-parent w-75 more-rounded"
               to="/payment">
               Checkout
-          </Link>
+            </Link>
+            <Link
+                className="mt-3 btn plain-b surround-parent w-75 more-rounded"
+                to="/">
+                Continue Shopping
+            </Link>
           </div>
         </div>
       </div>
-
     );
   }
 }

@@ -215,7 +215,7 @@ class ProductForm extends Component {
       this.searchCat(e);
     }, 200);
     return (
-      <div className="row">
+      <div className="row mx-auto">
         <div className="col-5">
           <ImageUploader
             withIcon={true}

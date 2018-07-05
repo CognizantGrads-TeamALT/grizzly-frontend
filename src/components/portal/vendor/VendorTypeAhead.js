@@ -130,7 +130,6 @@ class VendorTypeAhead extends Component {
       <div className={this.props.extraClassNames}>
         <div className="vendor-scroll d-absolute inner-mb-0">
           <TextFieldGroup
-            className="mt-0"
             placeholder={this.props.placeholder}
             name="vendor"
             value={this.state.vendor}
