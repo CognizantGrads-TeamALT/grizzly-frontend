@@ -114,6 +114,6 @@ export function refreshExpiredJWT() {
 }
 
 function getJWTRefreshCount() {
-  console.log('Counting');
+//  console.log('Counting');
   return parseInt(localStorage.JWT_REFRESH_COUNT_KEY || '0', 10);
 }
