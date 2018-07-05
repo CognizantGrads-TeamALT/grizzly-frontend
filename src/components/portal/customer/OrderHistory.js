@@ -15,7 +15,7 @@ class OrderHistory extends Component {
     this.state = {
       userId: 1
     };
-    this.props.getUserOrder(this.state.userId);
+    this.props.getUserOrder();
     if (
       isEmpty(this.props.product.products) ||
       this.props.product.products.length < 20 // Quantity reduced after search, need to load more/again. TODO: Fix this.

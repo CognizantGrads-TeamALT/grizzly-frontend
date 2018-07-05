@@ -76,7 +76,7 @@ export const setCurrentUser = googleProfile => {
 export const getUserByEmail = () => dispatch => {
   dispatch(setUserLoading());
   axios
-    .get(AUTH_API_GATEWAY + `/auth/userData`)
+    .get(AUTH_API_GATEWAY + `/userData`)
     .then(res => {
       dispatch({
         type: types.GET_USER_BY_EMAIL,
@@ -132,6 +132,9 @@ export const logoutUser = () => dispatch => {
       }
     }
   }
+
+  axios.put(AUTH_API_GATEWAY + '/logout');
+
   // Remove token from localStorage
   localStorage.removeItem('GrizzGoogleToken');
   // Remove auth header for future requests
@@ -142,7 +145,7 @@ export const logoutUser = () => dispatch => {
 
 export const addOrder = newOrder => dispatch => {
   axios
-    .put(USER_API_GATEWAY + '/addorder', newOrder)
+    .put(USER_API_GATEWAY + '/addOrder', newOrder)
     .then(res => {
       dispatch({
         type: types.ORDER_ADDING,
@@ -159,10 +162,10 @@ export const addOrder = newOrder => dispatch => {
 
 // ORDER ACTIONS
 // Get User Orders
-export const getUserOrder = userId => dispatch => {
+export const getUserOrder = () => dispatch => {
   dispatch(setUserLoading());
   axios
-    .get(USER_API_GATEWAY + `/get/orders/${userId}`)
+    .get(USER_API_GATEWAY + `/get/orders`)
     .then(res =>
       dispatch({
         type: types.GET_USER_WITH_ORDER,
