@@ -110,7 +110,7 @@ class ProductForm extends Component {
       vendorId:
         this.props.user.role === 'admin'
           ? this.props.vendor.cur_id
-          : this.props.user.user.userId,
+          : this.props.user.user.vendorId,
       imageDTO: imageData
     };
 

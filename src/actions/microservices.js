@@ -1,4 +1,4 @@
-const AUTH_API_PROD      = 'https://api.alt.ausgrads.academy';
+const AUTH_API_PROD      = 'https://api.alt.ausgrads.academy/auth';
 const CATEGORY_API_PROD  = 'https://api.alt.ausgrads.academy/category';
 const PRODUCT_API_PROD   = 'https://api.alt.ausgrads.academy/product';
 const USER_API_PROD      = 'https://api.alt.ausgrads.academy/user';
@@ -7,11 +7,11 @@ const VENDOR_API_PROD    = 'https://api.alt.ausgrads.academy/vendor';
 const PRODUCT_IMAGE_PROD = 'https://api.alt.ausgrads.academy/productimgs/';
 const VENDOR_IMAGE_PROD  = 'https://api.alt.ausgrads.academy/vendorimgs/';
 
-const AUTH_API_DEV      = 'http://localhost:8765';
-const CATEGORY_API_DEV  = 'http://localhost:10001';
-const PRODUCT_API_DEV   = 'http://localhost:10005';
-const USER_API_DEV      = 'http://localhost:10002';
-const VENDOR_API_DEV    = 'http://localhost:10000';
+const AUTH_API_DEV      = 'http://localhost:8765/auth';
+const CATEGORY_API_DEV  = 'http://localhost:8765/category';
+const PRODUCT_API_DEV   = 'http://localhost:8765/product';
+const USER_API_DEV      = 'http://localhost:8765/user';
+const VENDOR_API_DEV    = 'http://localhost:8765/vendor';
 
 // prod = true, test = true, dev = false
 let PRODUCTION = false;
