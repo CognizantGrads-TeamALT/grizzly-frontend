@@ -23,6 +23,7 @@ class Navbar extends Component {
     this.onLogout = this.onLogout.bind(this);
     this.doRedirect = this.doRedirect.bind(this);
     this.login = this.login.bind(this);
+    this.showSearch=this.showSearch.bind(this);
   }
 
   onChange(e) {
@@ -192,6 +193,38 @@ class Navbar extends Component {
         </ul>
       );
   }
+
+  showSearch(){
+    if(this.props.user.role !== 'admin' && this.props.user.role !== 'vendor'){
+      return(
+        <form onSubmit={this.onSubmit} className="form-inline">
+        <div className="search-form-custom">
+          <input
+            className="form-control left-rounded border-right-0 border col-8"
+            type="search"
+            name="search"
+            placeholder="Search"
+            value={this.state.search}
+            onChange={this.onChange}
+          />
+          <span className="input-group-append-more">
+            <button
+              onClick={this.onSubmit}
+              className="btn btn-outline-success right-rounded border-left-0 border"
+              type="button"
+            >
+              <i className="fa fa-search" />
+            </button>
+          </span>
+        </div>
+      </form>
+      )
+
+      
+    }
+    
+  }
+
   showCartLink() {
     return (
       <Link
@@ -225,27 +258,9 @@ class Navbar extends Component {
             className="collapse navbar-collapse mx-auto align-center"
             id="mobile-nav"
           >
-            <form onSubmit={this.onSubmit} className="form-inline">
-              <div className="search-form-custom">
-                <input
-                  className="form-control left-rounded border-right-0 border col-8"
-                  type="search"
-                  name="search"
-                  placeholder="Search"
-                  value={this.state.search}
-                  onChange={this.onChange}
-                />
-                <span className="input-group-append-more">
-                  <button
-                    onClick={this.onSubmit}
-                    className="btn btn-outline-success right-rounded border-left-0 border"
-                    type="button"
-                  >
-                    <i className="fa fa-search" />
-                  </button>
-                </span>
-              </div>
-            </form>
+          {this.showSearch()}
+            
+           
             <div className="ml-2 search-form-custom nav justify-content-end">
               {this.showLinks()}
             </div>
