@@ -69,18 +69,6 @@ class UserSettings extends Component {
                   this.toggle('2');
                 }}
               >
-                Cart
-              </NavLink>
-            </NavItem>
-            <NavItem className="tabs-a-underline">
-              <NavLink
-                className={classnames('nav-link profile-nav', {
-                  active: this.state.activeTab === '3'
-                })}
-                onClick={() => {
-                  this.toggle('3');
-                }}
-              >
                 Order History
               </NavLink>
             </NavItem>
@@ -91,8 +79,7 @@ class UserSettings extends Component {
             <TabPane tabId="1">
               <UserProfile onShowProfileForm={this.onShowProfileForm} />
             </TabPane>
-            <TabPane tabId="2" />
-            <TabPane tabId="3">
+            <TabPane tabId="2">
               <OrderHistory />
             </TabPane>
             <TabPane tabId="ProfileForm">
