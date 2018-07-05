@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import isEmpty from '../../../validation/is-empty';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -70,22 +71,26 @@ class Payment extends Component {
     });
 
     const newOrder = {
-      user_id: 1,
+      user_id: isEmpty(this.props.user.user.userId)
+        ? this.props.user.user.userId
+        : 1,
       txn_id: payment.paymentID,
       cost: totalCost,
       departing_location: 'Melbourne City',
       shipped_on: '2018-06-15',
       orderItemDTO: orderItems
     };
-    console.log(newOrder);
     this.props.addOrder(newOrder);
+    toast.success('Your order is being processed. Thank you!');
   }
   onCancel(data) {
-    console.log('The payment was cancelled!', data);
+    // console.log('The payment was cancelled!', data);
+    toast.info('The payment was cancelled!');
   }
 
   onError(err) {
-    console.log('Error loading Paypal script!', err);
+    // console.log('Error loading Paypal script!', err);
+    toast.info('Oopppsss!!! Something went wrong!');
   }
 
   render() {
@@ -145,7 +150,8 @@ Payment.propTypes = {
   addOrder: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  user: state.user
 });
 export default connect(
   mapStateToProps,

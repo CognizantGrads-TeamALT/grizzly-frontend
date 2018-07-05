@@ -9,7 +9,6 @@ import { GoogleLogin } from 'react-google-login';
 import { logoutUser, loginUser } from '../../actions/userActions';
 import isEmpty from '../../validation/is-empty';
 import { searchProducts, reloadProducts } from '../../actions/productsActions';
-//import ShoppingCart from '../portal/customer/ShoppingCart';
 
 class Navbar extends Component {
   constructor() {
@@ -42,7 +41,7 @@ class Navbar extends Component {
     toast.info('Bye!');
     if (this.props.history.location.pathname !== '/') {
       this.props.history.push('/');
-      this.props.reloadProducts(); // NOTE: this causes a flicker on going to customer, then admin, then
+      // this.props.reloadProducts();
     }
   }
 
@@ -162,15 +161,6 @@ class Navbar extends Component {
                 to={{
                   pathname: '/settings',
                   state: { tabId: '2' }
-                }}
-              >
-                Cart
-              </Link>
-              <Link
-                className="dropdown-item"
-                to={{
-                  pathname: '/settings',
-                  state: { tabId: '3' }
                 }}
               >
                 Order History

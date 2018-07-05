@@ -29,18 +29,25 @@ class ProfileForm extends Component {
   componentDidMount() {
     const { user } = this.props.user;
     if (!isEmpty(user)) {
-      this.setState({ contact_num: user.contact_num, address: user.address });
+      if (!isEmpty(user.contact_num)) {
+        this.setState({ contact_num: user.contact_num });
+      }
+      if (!isEmpty(user.address)) {
+        this.setState({ address: user.address });
+      }
     }
   }
 
   componentDidUpdate(prevProps) {
     const { user } = this.props.user;
-    if (!isEmpty(user)) {
-      if (isEmpty(this.state.contact_num)) {
-        this.setState({ contact_num: user.contact_num });
-      }
+    if (!isEmpty(user.address)) {
       if (isEmpty(this.state.address)) {
         this.setState({ address: user.address });
+      }
+    }
+    if (!isEmpty(user.contact_num)) {
+      if (isEmpty(this.state.contact_num)) {
+        this.setState({ contact_num: user.contact_num });
       }
     }
   }
@@ -83,11 +90,14 @@ class ProfileForm extends Component {
     const { user } = this.props.user;
     let contact_num = '';
     let address = '';
-    if (!isEmpty(user)) {
+    if (!isEmpty(user.contact_num)) {
       contact_num = user.contact_num;
-      address = user.address;
     } else {
       contact_num = parseInt(this.state.contact_num, 10);
+    }
+    if (!isEmpty(user.address)) {
+      address = user.address;
+    } else {
       address = this.state.address;
     }
     this.setState({
@@ -128,7 +138,9 @@ class ProfileForm extends Component {
                 <TextFieldGroup
                   placeholder="* Contact Number"
                   name="contact_num"
-                  value={contact_num}
+                  value={
+                    String(contact_num) === 'NaN' ? '' : String(contact_num)
+                  }
                   onChange={event => this.onChange(event, this.validateNumber)}
                   error={errors.contact_num}
                 />
