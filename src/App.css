@@ -326,7 +326,7 @@ title-size-2em-inner > * {
   border-radius: 3px !important;
 }
 
-Stashed changes .griz-real-body {
+.griz-real-body {
   margin-top: 6%;
 }
 
@@ -456,7 +456,7 @@ a:-webkit-any-link {
 
 .cat-scroll-button {
   min-width: 200px;
-  max-width: 250px;
+  width: 100%;
   overflow: auto;
 }
 
@@ -473,12 +473,11 @@ a:-webkit-any-link {
 .vendor-scroll {
   max-height: 7cm;
   overflow: auto;
-  max-width: 250px;
 }
 
 .vendor-scroll-button {
   min-width: 200px;
-  max-width: 250px;
+  width: 100%;
   overflow: auto;
 }
 
@@ -1302,10 +1301,7 @@ a:hover {
   color: #020000;
 }
 /*Shopping cart page*/
-.h2TextColour
-{
-  -webkit-text-fill-color: #45b29d;
-}
+
 .btnCartCustomer {
   margin-left: 33.5%;
   background-color: #f0ca4d;
@@ -1348,13 +1344,6 @@ a:hover {
   border-color: #45b29d;
 }
 
-.h4-totalprice{
-  
-  margin-left: 400px;
-  margin-right: 20px;
-  margin-bottom: 40px;
-
-}
 .picCustomerDetailedProductCol {
   margin-top: 2%;
 }
@@ -1377,53 +1366,49 @@ a:hover {
 
 .quantity-select {
   text-align: right;
-  width: 3rem;
-  padding-right: 0.3rem;
-  height: 2.1rem;
+  font-size: .8em;
+  width: 1.9rem;
+  height: 1.9rem;
   border-radius: 0.5rem;
-  margin-bottom: 0.3rem;
-  margin-top: 0.2rem;
 }
 
 .bg-lightGrey {
   background-color: #ebe9e9;
 }
 
-/* Payment Page */
-.paymentContainer {
-  min-height: 200px;
-  margin-top: 150px;
-  margin-left: 18%;
-
-  border: #46b29d;
-  border-width: 2x;
-  border-style: solid;
+/* Payment */
+.paypal-button,
+.paypal-button-number-0,
+.paypal-button-layout-horizontal,
+.paypal-button-shape-pill,
+.paypal-button-branding-branded,
+.paypal-button-number-single,
+.paypal-button-env-sandbox,
+.paypal-button-label-checkout,
+.paypal-button-color-gold,
+.paypal-button-logo-color-blue,
+.paypal-button-container,
+.paypal-button.paypal-button-shape-pill,
+.xcomponent-outlet,
+#xcomponent-paypal-button-e58ed94de8,
+#xcomponent-paypal-button-e58ed94de8 > .xcomponent-outlet,
+#xcomponent-paypal-button-e58ed94de8 > .xcomponent-outlet > iframe,
+#xcomponent-paypal-button-a4a2bc0204,
+#xcomponent-paypal-button-a4a2bc0204 > .xcomponent-outlet,
+#xcomponent-paypal-button-a4a2bc0204 > .xcomponent-outlet > iframe {
+  width: 100%!important;
+  min-width: 200px;
 }
 
-.paymentRightCol {
-  min-height: 200px;
-  max-width: 550px;
-  height: inherit;
+#xcomponent-paypal-button-e58ed94de8,
+#xcomponent-paypal-button-66abd49372 > .xcomponent-outlet,
+.xcomponent-outlet {
+  min-height: 70px;
 }
 
-.btnPayment {
-  margin-top: 35%;
-  margin-left: 35%;
-}
-
-.btnPayment:hover {
-  color: #020000;
-}
-.payTotalPrice {
-  margin-left: 75%;
-}
-
-.btnReturnCart {
-  margin-left: 40%;
-  background-color: #f0ca4d;
-  border-color: #f0ca4d;
-  color: #fff;
-}
-.btnReturnCart:hover {
-  color: #020000;
+.three-levels-inner-wide,
+.three-levels-inner-wide > * ,
+.three-levels-inner-wide > * > * {
+  width: 100%!important;
+  min-width: 100%!important;
 }

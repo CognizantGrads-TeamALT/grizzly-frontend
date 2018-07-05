@@ -115,18 +115,20 @@ class VendorTypeAhead extends Component {
     }, 900);
     return (
       <div className={this.props.extraClassNames}>
-        <div className="vendor-scroll">
-          <TextFieldGroup
-            placeholder={this.props.placeholder}
-            name="vendor"
-            value={this.state.vendor}
-            onChange={event => {
-              // eslint-disable-next-line
-              this.onChange(event, true), vendorSearch(event);
-            }}
-          />
+        <div className="vendor-scroll w-100">
+          <div className="z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
+            <TextFieldGroup
+              placeholder={this.props.placeholder}
+              name="vendor"
+              value={this.state.vendor}
+              onChange={event => {
+                // eslint-disable-next-line
+                this.onChange(event, true), vendorSearch(event);
+              }}
+            />
+          </div>
         </div>
-        <div className="d-absolute bg-white">
+        <div className="d-absolute bg-white w-100">
           {this.state.vendorList}
         </div>
       </div>

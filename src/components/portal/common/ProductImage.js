@@ -23,7 +23,7 @@ class ProductImage extends Component {
             style={{
               opacity: loading ? 0.5 : 1,
               objectFit: 'cover',
-              width: '150px'
+              height: '150px'
             }}
           />
         )}

@@ -58,7 +58,7 @@ class RandomProduct extends Component {
                 <div className="fnt-weight-300 dscrptnSize-8">
                   <StarRatings
                     rating={prod.rating}
-                    starRatedColor="blue"
+                    starRatedColor="#f0ca4d"
                     numberOfStars={5}
                     name="rating"
                     starDimension="15px"
