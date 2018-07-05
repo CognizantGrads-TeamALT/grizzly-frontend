@@ -46,6 +46,14 @@ class Inventory extends Component {
     }
   }
 
+  toastId = null;
+
+  notify = (errorMessage) => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info(errorMessage);
+    }
+  };
+
   show() {
     const { vendorInventory, loading } = this.props.product;
     if (!isEmpty(vendorInventory) && !loading) {
@@ -63,11 +71,9 @@ class Inventory extends Component {
         );
       } else if (
         isEmpty(vendorInventory) &&
-        this.props.errors.errorMessage === 'No inventory was found.'
+        !(this.props.errors.errorMessage === "")
       ) {
-        toast.info(
-          'No products were found. Select Add Product to add one now!'
-        );
+        this.notify(this.props.errors.errorMessage)
       }
     }
   }
