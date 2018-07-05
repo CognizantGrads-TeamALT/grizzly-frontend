@@ -1,6 +1,6 @@
-import * as types from '../actions/types';
-import isEmpty from '../validation/is-empty';
-import { saveCart } from '../actions/cartActions';
+import * as types from "../actions/types";
+import isEmpty from "../validation/is-empty";
+import { saveCart } from "../actions/cartActions";
 
 const initialState = {
   // Stores ALL products. Shouldn't clear this.
@@ -52,7 +52,7 @@ export default function(state = initialState, action) {
       };
     case types.GET_PRODUCTS:
       let hasMore =
-        action.payload.length < 25 || isEmpty(action.payload.length)
+        action.payload.length < 30 || isEmpty(action.payload.length)
           ? false
           : true;
       let currentProducts = isEmpty(state.products) ? [] : state.products;
@@ -63,7 +63,7 @@ export default function(state = initialState, action) {
             ...new Map(
               currentProducts
                 .concat(action.payload)
-                .map(o => [o['productId'], o])
+                .map(o => [o["productId"], o])
             ).values()
           ];
       return {
@@ -76,17 +76,23 @@ export default function(state = initialState, action) {
       };
     case types.ADD_TO_CART:
       var newCart = isEmpty(state.cart) ? {} : state.cart;
-      newCart[action.product.productId] = isEmpty(newCart[action.product.productId]) ? 1 : newCart[action.product.productId]+1; // quantity.
+      newCart[action.product.productId] = isEmpty(
+        newCart[action.product.productId]
+      )
+        ? 1
+        : newCart[action.product.productId] + 1; // quantity.
       saveCart(newCart);
 
-      let currentProducts2 = isEmpty(state.cart_products) ? [] : state.cart_products;
+      let currentProducts2 = isEmpty(state.cart_products)
+        ? []
+        : state.cart_products;
       let newProducts2 = isEmpty(action.product)
         ? currentProducts2
         : [
             ...new Map(
               currentProducts2
                 .concat(action.product)
-                .map(o => [o['productId'], o])
+                .map(o => [o["productId"], o])
             ).values()
           ];
 
@@ -94,7 +100,7 @@ export default function(state = initialState, action) {
         ...state,
         cart: newCart,
         cart_products: newProducts2
-      }
+      };
     case types.ADJUST_CART_QUANTITY:
       newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.productId] = action.quantity;
@@ -118,10 +124,12 @@ export default function(state = initialState, action) {
       };
     case types.GET_FILTERED_PRODUCTS:
       hasMore = // hasMore should should a different veriable, as you're loading filtered products.
-      action.payload.length < 25 || isEmpty(action.payload.length)
-        ? false
-        : true;
-      currentProducts = isEmpty(state.products_filtered) ? [] : state.products_filtered;
+        action.payload.length < 25 || isEmpty(action.payload.length)
+          ? false
+          : true;
+      currentProducts = isEmpty(state.products_filtered)
+        ? []
+        : state.products_filtered;
       index = isEmpty(state.products_filtered) ? 1 : state.index + 1;
       newProducts = isEmpty(action.payload)
         ? currentProducts
@@ -129,20 +137,20 @@ export default function(state = initialState, action) {
             ...new Map(
               currentProducts
                 .concat(action.payload)
-                .map(o => [o['productId'], o])
+                .map(o => [o["productId"], o])
             ).values()
           ];
       // Save the filtered into the main list.
       let currentProducts5 = isEmpty(state.products) ? [] : state.products;
       let newMainProducts = isEmpty(action.payload)
-          ? currentProducts5
-          : [
-              ...new Map(
-                currentProducts5
-                  .concat(action.payload)
-                  .map(o => [o['productId'], o])
-              ).values()
-            ];
+        ? currentProducts5
+        : [
+            ...new Map(
+              currentProducts5
+                .concat(action.payload)
+                .map(o => [o["productId"], o])
+            ).values()
+          ];
       return {
         ...state,
         products: newMainProducts,
@@ -155,10 +163,12 @@ export default function(state = initialState, action) {
       };
     case types.GET_VENDOR_INVENTORY:
       const VendorhasMore =
-      action.payload.length < 25 || isEmpty(action.payload.length)
-        ? false
-        : true;
-      const currentVendorProducts = isEmpty(state.vendorInventory) ? [] : state.vendorInventory;
+        action.payload.length < 25 || isEmpty(action.payload.length)
+          ? false
+          : true;
+      const currentVendorProducts = isEmpty(state.vendorInventory)
+        ? []
+        : state.vendorInventory;
       const VendorIndex = isEmpty(state.products) ? 1 : state.vendorIndex + 1;
       const newVendorProducts = isEmpty(action.payload)
         ? currentVendorProducts
@@ -166,14 +176,14 @@ export default function(state = initialState, action) {
             ...new Map(
               currentVendorProducts
                 .concat(action.payload)
-                .map(o => [o['productId'], o])
+                .map(o => [o["productId"], o])
             ).values()
           ];
       return {
         ...state,
         vendorInventory: newVendorProducts,
         vendorHasMore: VendorhasMore,
-        vendorIndex: VendorIndex,
+        vendorIndex: VendorIndex
       };
     case types.GET_PRODUCT:
       return {
@@ -188,7 +198,7 @@ export default function(state = initialState, action) {
             ...new Map(
               currentProducts3
                 .concat(action.payload)
-                .map(o => [o['productId'], o])
+                .map(o => [o["productId"], o])
             ).values()
           ];
       return {
@@ -209,7 +219,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         products: newProducts2,
-        hasMore: hasMore2,
+        hasMore: hasMore2
       };
     case types.PRODUCTS_DELETING:
       return {
@@ -229,14 +239,16 @@ export default function(state = initialState, action) {
         )
       };
     case types.GET_PRODUCTS_CART:
-      currentProducts2 = isEmpty(state.cart_products) ? [] : state.cart_products;
+      currentProducts2 = isEmpty(state.cart_products)
+        ? []
+        : state.cart_products;
       newProducts2 = isEmpty(action.payload)
         ? currentProducts2
         : [
             ...new Map(
               currentProducts2
                 .concat(action.payload)
-                .map(o => [o['productId'], o])
+                .map(o => [o["productId"], o])
             ).values()
           ];
 
@@ -247,7 +259,7 @@ export default function(state = initialState, action) {
             ...new Map(
               currentProducts
                 .concat(action.payload)
-                .map(o => [o['productId'], o])
+                .map(o => [o["productId"], o])
             ).values()
           ];
       return {
@@ -299,13 +311,13 @@ export default function(state = initialState, action) {
         ...state,
         products_filtered: null,
         products_filtered_last: null
-      }
+      };
     case types.LOAD_CART:
       return {
         ...state,
         cart: action.payload,
         loadingCart: false
-    }
+      };
     default:
       return state;
   }
