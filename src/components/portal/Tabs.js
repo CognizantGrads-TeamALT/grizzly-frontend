@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import isEmpty from '../../validation/is-empty';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -234,11 +235,9 @@ class Tabs extends Component {
                 </Row>
               </TabPane>
               <TabPane tabId="addProduct">
-                <Row>
-                  <Col sm="12">
+                  <div className="12 pt-4 mt-4">
                     <ProductForm onCancel={this.onAddProductCancel} />
-                  </Col>
-                </Row>
+                  </div>
               </TabPane>
             </TabContent>
           </div>

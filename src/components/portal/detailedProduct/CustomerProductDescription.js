@@ -109,7 +109,7 @@ class CustomerProductDescription extends Component {
               <div className="row fnt-weight-400 title-size-1em CustomerDetailedProductPrice">
                 <StarRatings
                   rating={product.rating}
-                  starRatedColor="blue"
+                  starRatedColor="#f0ca4d"
                   numberOfStars={5}
                   name="rating"
                   starDimension="15px"

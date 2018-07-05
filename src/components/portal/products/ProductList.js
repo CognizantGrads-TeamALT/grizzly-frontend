@@ -129,7 +129,7 @@ class ProductList extends Component {
           <td>
             <StarRatings
               rating={product.rating}
-              starRatedColor="blue"
+              starRatedColor="#f0ca4d"
               numberOfStars={5}
               name="rating"
               starDimension="15px"
