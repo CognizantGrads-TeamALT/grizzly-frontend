@@ -84,7 +84,7 @@ class Products extends Component {
           return <p>No products found.</p>;
         } else {
           return products
-            .filter(prod => prod.vendorId === this.props.user.user.userId)
+            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
             .map((prod, index) => (
               <ProductList
                 key={prod.productId}
