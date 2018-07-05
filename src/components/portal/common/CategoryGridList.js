@@ -38,7 +38,7 @@ class CategoryGridList extends Component {
     ) {
       const filteredProducts = this.props.product.products_filtered;
 
-      return filteredProducts.map(prod => (
+      return filteredProducts.filter(prod => prod.enabled !== false).map(prod => (
         <div className="card text-left mb-2" key={prod.productId}>
           <div className="card-body">
             <div className="row">
