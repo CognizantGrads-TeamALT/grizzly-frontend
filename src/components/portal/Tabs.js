@@ -53,7 +53,7 @@ class Tabs extends Component {
     this.setState({ activeTab: '1' });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(PrevProps) {
     // now it always checks for whether the user is a vendor or not
     if (this.props.user.role === 'vendor') {
       if (isEmpty(this.props.product.vendorInventory)) {
@@ -66,6 +66,11 @@ class Tabs extends Component {
           this.props.getVendorInventory('0', this.props.user.user.vendorId);
         }
       }
+    }
+    if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
+      console.log('fil')
+      this.props.clearCurrentProducts();
+      this.props.getProducts();
     }
   }
 

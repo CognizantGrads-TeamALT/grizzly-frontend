@@ -112,6 +112,14 @@
   z-index: 5000;
 }
 
+.z-index-500 {
+  z-index: 500;
+}
+
+.z-index-600 {
+  z-index: 600;
+}
+
 /* Typography */
 .title-size-2em-inner,
 title-size-2em-inner > * {
@@ -187,6 +195,10 @@ title-size-2em-inner > * {
 
 .form-control.left-rounded {
   padding-left: 24px;
+}
+
+.move-left {
+  margin-left: -12%;
 }
 
 .search-form-custom::before,

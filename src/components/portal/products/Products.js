@@ -30,7 +30,6 @@ class Products extends Component {
 
   componentDidUpdate() {
     if (this.props.product.updateOnce) this.props.setProductUpdated();
-  
   }
 
   shouldComponentUpdate() {
