@@ -20,16 +20,9 @@ class ProductCategoryRow extends Component {
   }
 
   show() {
-    const { product_category, loading } = this.props.product;
-    let categoryArray = [];
-    if (!isEmpty(product_category) && !loading) {
-      for (let i = 0; i < 5; i++) {
-        if (isEmpty(product_category[i])) {
-          break;
-        }
-        categoryArray.push(product_category[i]);
-      }
-      return categoryArray.map((cat, index) => (
+    const { categories, loading } = this.props.category;
+    if (!isEmpty(categories) && !loading) {
+      return categories.map((cat, index) => (
         <div className="col" key={index}>
           <Link
             to={`/category/${cat.name}/${cat.categoryId}`}
