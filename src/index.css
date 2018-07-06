@@ -47,7 +47,7 @@ body > #root > .App,
   background-color: #4285f4;
   color: #fff;
   height: 30px;
-  width: 122px;
+  width: 122px !important;
   border: none;
   text-align: center;
   font-size: 12px;
