@@ -20,7 +20,7 @@ import VendorTypeAhead from "../vendor/VendorTypeAhead";
 import {toast} from "react-toastify";
 import CategoryTypeAhead from "../categories/CategoryTypeAhead";
 import {Update_TypeAhead} from "../../../actions/categoryActions";
-//Why did you comment this out? icons for accept change to category/vendor don't work without it!
+//Why did you comment this out? icons for accept change to category/vendor don't work without it
 import 'font-awesome/css/font-awesome.min.css';
 
 class ProductDescription extends Component {

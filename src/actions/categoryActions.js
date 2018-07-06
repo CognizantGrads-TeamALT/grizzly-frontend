@@ -2,6 +2,7 @@ import * as types from "./types";
 import { PRODUCT_API_GATEWAY, CATEGORY_API_GATEWAY } from "./microservices";
 import axios from "axios";
 import { reloadProducts } from "./productsActions";
+import isEmpty from "../validation/is-empty";
 
 // Get Category List
 export const getCategories = index => dispatch => {
@@ -184,12 +185,14 @@ export const toggleBlockCategory = (categoryId, enabled) => dispatch => {
   dispatch(setCategoryUpdateOnce());
   axios
     .post(CATEGORY_API_GATEWAY + `/setBlock/${categoryId}`, {'enabled': enabled})
-    .then(res =>
+    .then(res =>{
       dispatch({
         type: types.CATEGORY_TOGGLEBLOCK,
         payload: res.data
-      })
-    )
+      });
+      if(enabled===false)
+        dispatch(disableCategoryProducts(categoryId, true));
+    })
     .catch(err => {
       dispatch(setCategoryUpdated());
       dispatch({
@@ -200,9 +203,11 @@ export const toggleBlockCategory = (categoryId, enabled) => dispatch => {
 };
 
 // Disable products when deleting a category. No data is needed back.
-export const disableCategoryProducts = id => dispatch => {
+export const disableCategoryProducts = (id, block) => dispatch => {
+  if(isEmpty(block))
+    block=false;
   axios
-    .post(PRODUCT_API_GATEWAY + `/setBlockByCategory/${id}`)
+    .post(PRODUCT_API_GATEWAY + `/setBlockByCategory/${id}/${block}`)
     .then(res => {
       dispatch(reloadProducts());
     })
