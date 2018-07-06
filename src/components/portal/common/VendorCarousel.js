@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import isEmpty from '../../../validation/is-empty';
+// import isEmpty from '../../../validation/is-empty';
 import Slider from 'react-slick';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 class VendorCarousel extends Component {
   fetchBanners() {
     let imageArray = [];
@@ -21,39 +21,42 @@ class VendorCarousel extends Component {
     return imageArray;
   }
   show() {
-    const { products, loading } = this.props.product;
-    let prodArray = [];
     let bannerArray = this.fetchBanners();
-    // let currentImage = 0;
-    if (!isEmpty(products) && !loading) {
-      for (let i = 2; i < 28; i += 6) {
-        prodArray.push(products[i]);
-      }
-      // In case hitting refresh causes crashes
-      if (!isEmpty(prodArray)) {
-        return prodArray.map(
-          (prod, index) =>
-            !isEmpty(prod) && (
-              <Link
-                key={prod.productId}
-                to={`/customerdetailedproduct/${prod.productId}`}
-              >
-                <img
-                  src={bannerArray[index]}
-                  className="rounded parent-wide custCarousel"
-                  style={{
-                    height: '385px',
-                    width: 'auto',
-                    display: 'block',
-                    objectFit: 'cover'
-                  }}
-                  alt=""
-                />
-              </Link>
-            )
-        );
-      }
-    }
+
+    // const { products, loading } = this.props.product;
+    // let prodArray = [];
+    // // let currentImage = 0;
+    // if (!isEmpty(products) && !loading) {
+    //   for (let i = 2; i < 28; i += 6) {
+    //     prodArray.push(products[i]);
+    //   }
+    //   // In case hitting refresh causes crashes
+    //   if (!isEmpty(prodArray)) {
+    //     return prodArray.map(
+    return bannerArray.map(
+      (src, index) => (
+        // (prod, index) =>
+        //   !isEmpty(prod) &&
+        //   (
+        <div key={index}>
+          <img
+            // src={bannerArray[index]}
+            src={src}
+            className="rounded parent-wide custCarousel"
+            style={{
+              height: '350px',
+              width: 'auto',
+              display: 'block',
+              objectFit: 'cover'
+            }}
+            alt=""
+          />
+        </div>
+      )
+      // )
+    );
+    //   }
+    // }
   }
 
   render() {
