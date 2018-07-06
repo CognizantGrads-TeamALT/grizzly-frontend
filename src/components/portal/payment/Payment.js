@@ -28,7 +28,7 @@ class Payment extends Component {
 
   componentDidMount() {
     let { cart, cart_products } = this.props.product;
-    if (isEmpty(cart) && isEmpty(cart_products)) {
+    if (isEmpty(cart) || isEmpty(cart_products)) {
       this.props.history.push('/');
     }
   }

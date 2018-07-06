@@ -31,13 +31,6 @@ class ShoppingCart extends Component {
 
     this.triggeredFetch = false;
     this.totalPrice = 0;
-
-    if (
-      isEmpty(this.props.product.cart) &&
-      isEmpty(this.props.product.cart_products)
-    ) {
-      this.props.loadCart();
-    }
   }
 
   // Will update the totalPrice once the cart is cleared
@@ -47,7 +40,10 @@ class ShoppingCart extends Component {
 
   // Load their cart from local storage if it is empty...
   componentDidMount() {
-    if (isEmpty(this.props.product.cart)) {
+    if (
+      isEmpty(this.props.product.cart) ||
+      isEmpty(this.props.product.cart_products)
+    ) {
       this.props.loadCart();
     }
   }
