@@ -429,27 +429,21 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
   if (!isEmpty(data[0])) {
     if (!isEmpty(data[0].productId)) {
-      let vendorIdArray = '';
+      let vendorIdArray = [];
       data
         .filter(prod => prod.vendorId !== 0)
-        .map(
-          prod =>
-            vendorIdArray === ''
-              ? (vendorIdArray = prod.vendorId)
-              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
-        );
-      dispatch(getVendorBatch(vendorIdArray));
+        .map(prod => (vendorIdArray.push(prod.vendorId)));
 
-      let categoryIdArray = '';
+      let cleanVendorIdArray = [...new Set(vendorIdArray)];
+      dispatch(getVendorBatch(cleanVendorIdArray.join()));
+
+      let categoryIdArray = [];
       data
         .filter(prod => prod.categoryId !== 0)
-        .map(
-          prod =>
-            categoryIdArray === ''
-              ? (categoryIdArray = prod.categoryId)
-              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
-        );
-      dispatch(getCategoryBatch(categoryIdArray));
+        .map(prod => (categoryIdArray.push(prod.categoryId)));
+
+      let cleanCategoryIdArray = [...new Set(categoryIdArray)];
+      dispatch(getCategoryBatch(cleanCategoryIdArray.join()));
     }
   }
 };
