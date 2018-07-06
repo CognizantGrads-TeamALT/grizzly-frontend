@@ -19,7 +19,7 @@ class Products extends Component {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-          this.refs.myscroll.scrollHeight &&
+        this.refs.myscroll.scrollHeight &&
         !this.props.product.loadingVendors &&
         !this.props.product.loadingCategories
       ) {
@@ -66,11 +66,13 @@ class Products extends Component {
     if (!loadingVendors && !loadingCategories) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
-          console.log("in no admin");
-          return <p>No products found.</p>;
+          return (
+          <tr>
+            <td>No products found.</td>
+        </tr>);
         }
+
         return products.map((prod, index) => (
-          
           <ProductList
             key={prod.productId}
             product_category={product_category}
@@ -81,6 +83,7 @@ class Products extends Component {
             errors={this.props.errors}
           />
         ));
+
       } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
@@ -112,7 +115,6 @@ class Products extends Component {
         isEmpty(products) &&
         !isEmpty(this.props.errors.errorMessage)
       ) {
-        console.log("in her");
         toast.info("this.props.errors.errorMessage");
       }
     }

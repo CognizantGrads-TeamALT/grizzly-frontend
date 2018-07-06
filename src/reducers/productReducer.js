@@ -48,7 +48,9 @@ export default function(state = initialState, action) {
       return {
         ...state,
         updateOnce: false,
-        loading: false
+        loading: false,
+        loadingCategories: false,
+        loadingVendors:false
       };
     case types.GET_PRODUCTS:
       let hasMore =
@@ -74,6 +76,16 @@ export default function(state = initialState, action) {
         loadingVendors: true,
         loadingCategories: true
       };
+      // No products found message 
+      case types.SEARCH_PRODUCT_FAILED:
+      return {
+        ...state,
+        updateOnce: true,
+        loadingVendors: false,
+        loadingCategories: false
+      };
+
+
     case types.ADD_TO_CART:
       var newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.product.productId] = isEmpty(
