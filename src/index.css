@@ -30,19 +30,16 @@ body > #root > .App,
 }
 
 .googleLogo {
-  /* border: 2px #4285f4; */
-  /* thin solid ; */
-  /* border-color: #4285f4; */
   height: 30px;
   border-top-style: solid;
-  border-top-width: 2px;
+  border-top-width: 1px;
   border-top-color: #4285f4;
   border-right-style: none;
   border-bottom-style: solid;
-  border-bottom-width: 2px;
+  border-bottom-width: 1px;
   border-bottom-color: #4285f4;
   border-left-style: solid;
-  border-left-width: 2px;
+  border-left-width: 1px;
   border-left-color: #4285f4;
 }
 
@@ -50,10 +47,10 @@ body > #root > .App,
   background-color: #4285f4;
   color: #fff;
   height: 30px;
-  width: 110px;
+  width: 122px !important;
   border: none;
   text-align: center;
-  font-size: 11px;
+  font-size: 12px;
   display: block;
   transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
   font-family: Roboto, arial, sans-serif;

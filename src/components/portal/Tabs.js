@@ -56,14 +56,19 @@ class Tabs extends Component {
   componentDidUpdate(PrevProps) {
     // now it always checks for whether the user is a vendor or not
     if (this.props.user.role === 'vendor') {
-      if (isEmpty(this.props.product.vendorInventory)) {
+      if (
+        isEmpty(this.props.product.vendorInventory) &&
+        this.props.product.vendorHasMore
+      ) {
         this.props.getVendorInventory('0', this.props.user.user.vendorId);
       } else {
-        if (
-          this.props.product.vendorInventory.length < 25 &&
-          this.props.product.vendorHasMore
-        ) {
-          this.props.getVendorInventory('0', this.props.user.user.vendorId);
+        if (!isEmpty(this.props.product.vendorInventory)) {
+          if (
+            this.props.product.vendorInventory.length < 25 &&
+            this.props.product.vendorHasMore
+          ) {
+            this.props.getVendorInventory('0', this.props.user.user.vendorId);
+          }
         }
       }
     }
