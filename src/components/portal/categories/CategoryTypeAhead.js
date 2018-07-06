@@ -4,7 +4,7 @@ import TextFieldGroup from '../../common/TextFieldGroup';
 import isEmpty from '../../../validation/is-empty';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { addProduct } from '../../../actions/productsActions';
+import { addProduct, clearFilteredProducts } from '../../../actions/productsActions';
 import {
   searchCategories,
   Update_TypeAhead,
@@ -131,8 +131,10 @@ class CategoryTypeAhead extends Component {
     });
   }
 
-  clearCategoryName = () => {
+  clearTypeAhead = () => {
     this.setState(this.baseState);
+    this.props.clearCurrentCategories();
+    this.props.clearFilteredProducts();
   }
 
   render() {
@@ -152,7 +154,7 @@ class CategoryTypeAhead extends Component {
                 this.onChange(event, true), this.catSearch(event);
               }}
             />
-            <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearCategoryName}><i className="far fa-times-circle d-inline"></i></div>
+            <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}><i className="far fa-times-circle d-inline"></i></div>
           </div>
           </div>
           <div className="cat-typeahead-position bg-white">{this.state.categoryList}</div>
@@ -182,5 +184,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead, clearCurrentCategories }
+  { addProduct, searchCategories, Update_TypeAhead, clearCurrentCategories, clearFilteredProducts }
 )(withRouter(CategoryTypeAhead));
