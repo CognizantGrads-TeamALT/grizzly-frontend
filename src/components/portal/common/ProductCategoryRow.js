@@ -24,13 +24,13 @@ class ProductCategoryRow extends Component {
     let categoryArray = [];
     if (!isEmpty(product_category) && !loading) {
       for (let i = 0; i < 5; i++) {
-        if (isEmpty(product_category[i])){
+        if (isEmpty(product_category[i])) {
           break;
         }
         categoryArray.push(product_category[i]);
       }
-      return categoryArray.map(cat => (
-        <div className="col" key={cat.categoryId}>
+      return categoryArray.map((cat, index) => (
+        <div className="col" key={index}>
           <Link
             to={`/category/${cat.name}/${cat.categoryId}`}
             className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
@@ -45,9 +45,9 @@ class ProductCategoryRow extends Component {
   displayAllCategories() {
     const { categories, loading } = this.props.category;
     if (!isEmpty(categories) && !loading) {
-      return categories.map(cat => (
+      return categories.map((cat, index) => (
         <Link
-          key={cat.categoryId}
+          key={index}
           to={`/category/${cat.name}/${cat.categoryId}`}
           className="dropdown-item more-rounded"
         >

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
-
 class VendorCarousel extends Component {
   fetchBanners() {
     let imageArray = [];
@@ -32,31 +30,28 @@ class VendorCarousel extends Component {
         prodArray.push(products[i]);
       }
       // In case hitting refresh causes crashes
-      if (
-        !isEmpty(prodArray) &&
-        !isEmpty(prodArray[0]) &&
-        !isEmpty(prodArray[0].productId)
-      ) {
-        return prodArray.map((prod, index) => (
-          <Link
-            key={prod.productId}
-            to={`/customerdetailedproduct/${prod.productId}`}
-          >
-            <img
-              src={bannerArray[index]}
-              className="rounded parent-wide custCarousel"
-              style={{
-                height: '385px',
-                width: 'auto',
-                display: 'block',
-                objectFit: 'cover'
-              }}
-              alt=""
-            />
-          </Link>
-        ));
-      } else {
-        return <Spinner size={'150px'} />;
+      if (!isEmpty(prodArray)) {
+        return prodArray.map(
+          (prod, index) =>
+            !isEmpty(prod) && (
+              <Link
+                key={prod.productId}
+                to={`/customerdetailedproduct/${prod.productId}`}
+              >
+                <img
+                  src={bannerArray[index]}
+                  className="rounded parent-wide custCarousel"
+                  style={{
+                    height: '385px',
+                    width: 'auto',
+                    display: 'block',
+                    objectFit: 'cover'
+                  }}
+                  alt=""
+                />
+              </Link>
+            )
+        );
       }
     }
   }
