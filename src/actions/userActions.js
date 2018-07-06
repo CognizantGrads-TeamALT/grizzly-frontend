@@ -123,11 +123,13 @@ export const clearCurrentUser = () => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
-  if (!isEmpty(window.gapi.auth2)) {
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    if (auth2 != null) {
-      auth2.signOut();
-      auth2.disconnect();
+  if (!isEmpty(window.gapi)) {
+    if (!isEmpty(window.gapi.auth2)) {
+      const auth2 = window.gapi.auth2.getAuthInstance();
+      if (auth2 != null) {
+        auth2.signOut();
+        auth2.disconnect();
+      }
     }
   }
 

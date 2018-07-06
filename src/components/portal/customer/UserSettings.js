@@ -63,7 +63,7 @@ class UserSettings extends Component {
             <NavItem className="tabs-a-underline">
               <NavLink
                 className={classnames('nav-link profile-nav', {
-                  active: this.state.activeTab === '3'
+                  active: this.state.activeTab === '2'
                 })}
                 onClick={() => {
                   this.toggle('2');
