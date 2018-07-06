@@ -2,6 +2,7 @@ import * as types from "./types";
 import { PRODUCT_API_GATEWAY, VENDOR_API_GATEWAY } from "./microservices";
 import axios from "axios";
 import { reloadProducts } from "./productsActions";
+import isEmpty from "../validation/is-empty";
 
 // Get Vendor List
 export const getVendors = index => dispatch => {
@@ -175,11 +176,14 @@ export const toggleBlockVendor = (vendorId, enabled) => dispatch => {
   dispatch(setVendorUpdateOnce());
   axios
     .post(VENDOR_API_GATEWAY + `/setBlock/${vendorId}`, {'enabled': enabled})
-    .then(res =>
-      dispatch({
-        type: types.VENDOR_TOGGLEBLOCK,
-        payload: res.data
-      })
+    .then(res =>{
+      // dispatch({
+      //   type: types.VENDOR_TOGGLEBLOCK,
+      //   payload: res.data
+      // });
+      if(enabled===false)
+        dispatch(disableVendorProducts(vendorId, true));
+    }
     )
     .catch(err => {
       dispatch(setVendorUpdated());
@@ -191,9 +195,11 @@ export const toggleBlockVendor = (vendorId, enabled) => dispatch => {
 };
 
 // Disable products when deleting a vendor. No data is needed back.
-export const disableVendorProducts = id => dispatch => {
+export const disableVendorProducts = (id, block) => dispatch => {
+  if(isEmpty(block))
+    block=false;
   axios
-    .post(PRODUCT_API_GATEWAY + `/setBlockByVendor/${id}`)
+    .post(PRODUCT_API_GATEWAY + `/setBlockByVendor/${id}/${block}`)
     .then(res => {
       dispatch(reloadProducts());
     })
