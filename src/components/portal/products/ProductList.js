@@ -38,11 +38,10 @@ class ProductList extends Component {
   }
 
   onBlockClick() {
-    const product = this.props.role === 'vendor' ? 
-    this.props.product.products.filter(
+    const product = this.props.product.products.filter(
       prod => prod.productId === parseInt(this.props.prod.productId, 10)
-    )[0] : 
-    this.props.product.products[this.props.index];
+    )[0];
+
     this.props.toggleBlockProduct(product.productId, !product.enabled);
     //sets it so that errors thrown will be shown, starts a listener to wait for a error.
     this.setState({
@@ -54,11 +53,9 @@ class ProductList extends Component {
   }
 
   onViewClick() {
-    const product = this.props.role === 'vendor' ? 
-      this.props.product.products.filter(
-        prod => prod.productId === parseInt(this.props.prod.productId, 10)
-      )[0] : 
-      this.props.product.products[this.props.index];
+    const product = this.props.product.products.filter(
+      prod => prod.productId === parseInt(this.props.prod.productId, 10)
+    )[0];
     this.props.history.push(`/detailedproduct/${product.productId}`);
   }
 
@@ -113,12 +110,10 @@ class ProductList extends Component {
   }
 
   render() {
-    // if we don't filter, it will show all items
-    const product = this.props.role === 'vendor' ? 
-    this.props.product.products.filter(
+    const product = this.props.product.products.filter(
       prod => prod.productId === parseInt(this.props.prod.productId, 10)
-    )[0] : 
-    this.props.product.products[this.props.index];
+    )[0];
+
     if (!isEmpty(product)) {
       return (
         <tr>
