@@ -3,6 +3,10 @@ import { AUTH_API_GATEWAY, USER_API_GATEWAY } from './microservices';
 import setAuthToken from '../utils/setAuthToken';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import {
+  startJWTRefreshChecker,
+  stopJWTRefreshChecker
+} from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
 
 // Get Admins List
@@ -51,6 +55,7 @@ export const loginUser = googleResponse => dispatch => {
   const { tokenId } = googleResponse;
   // Set token to localStorage
   localStorage.setItem('GrizzGoogleToken', tokenId);
+  startJWTRefreshChecker();
   // Set token to Auth header
   setAuthToken(tokenId);
   // Decode Token to get User Data from tokenId, not from tokenObj
@@ -123,11 +128,13 @@ export const clearCurrentUser = () => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
-  if (!isEmpty(window.gapi.auth2)) {
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    if (auth2 != null) {
-      auth2.signOut();
-      auth2.disconnect();
+  if (!isEmpty(window.gapi)) {
+    if (!isEmpty(window.gapi.auth2)) {
+      const auth2 = window.gapi.auth2.getAuthInstance();
+      if (auth2 != null) {
+        auth2.signOut();
+        auth2.disconnect();
+      }
     }
   }
 
@@ -135,6 +142,8 @@ export const logoutUser = () => dispatch => {
 
   // Remove token from localStorage
   localStorage.removeItem('GrizzGoogleToken');
+  stopJWTRefreshChecker();
+  localStorage.removeItem('check_jwt_refresh_timer');
   // Remove auth header for future requests
   setAuthToken(false);
   // Clear current user, isAuthenticated to false

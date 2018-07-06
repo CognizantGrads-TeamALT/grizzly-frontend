@@ -38,7 +38,6 @@ export function checkJWTRefresh() {
 
 export function shouldRefreshJWT() {
   // console.log('Should Refresh?');
-  console.log(getJWTRefreshCount() < MAX_JWT_REFRESHES);
   return getJWTRefreshCount() < MAX_JWT_REFRESHES;
 }
 
@@ -114,6 +113,6 @@ export function refreshExpiredJWT() {
 }
 
 function getJWTRefreshCount() {
-//  console.log('Counting');
+  //  console.log('Counting');
   return parseInt(localStorage.JWT_REFRESH_COUNT_KEY || '0', 10);
 }

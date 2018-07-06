@@ -14,7 +14,7 @@ class ProductGridList extends Component {
       for (let i = 0; i < products.length; i++) {
         prodArray.push(products[i]);
       }
-      return prodArray.map(prod => (
+      return prodArray.filter(prod => prod.enabled !== false).map(prod => (
         <div key={prod.productId} className="col-md-2 col-sm-4 imageGrid mt-3">
           <Link
             to={`/customerdetailedproduct/${prod.productId}`}
@@ -30,13 +30,6 @@ class ProductGridList extends Component {
                 {this.showVendorName(prod.vendorId)}
               </div>
               <div className="fnt-weight-300 dscrptnSize-8">
-                {/* <i className="d-inline griz-yellow-color fas fa-star" />
-                <i className="d-inline griz-yellow-color fas fa-star" />
-                <i className="d-inline griz-yellow-color fas fa-star" />
-                <i className="d-inline griz-yellow-color fas fa-star" />
-                <i className="d-inline griz-yellow-color fas fa-star-half" /> ({Math.floor(
-                  Math.random() * 50 + 1
-                )}) */}
                 <StarRatings
                   rating={prod.rating}
                   starRatedColor="#f0ca4d"

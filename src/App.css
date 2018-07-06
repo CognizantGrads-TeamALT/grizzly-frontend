@@ -112,6 +112,14 @@
   z-index: 5000;
 }
 
+.z-index-500 {
+  z-index: 500;
+}
+
+.z-index-600 {
+  z-index: 600;
+}
+
 /* Typography */
 .title-size-2em-inner,
 title-size-2em-inner > * {
@@ -187,6 +195,10 @@ title-size-2em-inner > * {
 
 .form-control.left-rounded {
   padding-left: 24px;
+}
+
+.move-left {
+  margin-left: -12%;
 }
 
 .search-form-custom::before,
@@ -277,7 +289,6 @@ title-size-2em-inner > * {
   background: white;
   z-index: 9001; /* OVER 9000!!!!! */
 }
-
 .navbar-inner-height > * > .nav-bar-singular-tab {
   margin-top: 0.7em;
 }

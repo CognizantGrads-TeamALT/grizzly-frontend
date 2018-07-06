@@ -39,7 +39,6 @@ class Products extends Component {
       this.props.errors.errorMessage !== ''
     )
       return true;
-
     return false;
   }
 
@@ -54,6 +53,14 @@ class Products extends Component {
     }
   }
 
+  toastId = null;
+
+  notify = (errorMessage) => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info(errorMessage);
+    }
+  };
+
   show() {
     const {
       products,
@@ -61,40 +68,70 @@ class Products extends Component {
       product_category,
       loadingVendors,
       loadingCategories,
-      loading
+      loading,
+      products_filtered
     } = this.props.product;
     if (!loadingVendors && !loadingCategories) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
           return <p>No products found.</p>;
         }
-        return products.map((prod, index) => (
-          <ProductList
-            key={prod.productId}
-            product_category={product_category}
-            product_vendor={product_vendor}
-            prod={prod}
-            index={index}
-            role={this.props.user.role}
-            errors={this.props.errors}
-          />
-        ));
-      } else if (this.props.user.role === 'vendor') {
-        if (isEmpty(products)) {
-          return <p>No products found.</p>;
-        } else {
-          return products
-            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
-            .map((prod, index) => (
+        else {
+          if (!isEmpty(products_filtered)) {
+            return products_filtered.map((prod) => (
               <ProductList
                 key={prod.productId}
                 product_category={product_category}
                 product_vendor={product_vendor}
                 prod={prod}
-                index={index}
+                role={this.props.user.role}
+                errors={this.props.errors}
+              />
+            ));
+          }
+          else {
+            return products.map((prod) => (
+              <ProductList
+                key={prod.productId}
+                product_category={product_category}
+                product_vendor={product_vendor}
+                prod={prod}
+                role={this.props.user.role}
+                errors={this.props.errors}
+              />
+            ));
+          }
+        }
+      } else if (this.props.user.role === 'vendor') {
+        if (isEmpty(products)) {
+          return <p>No products found.</p>;
+        } else {
+          if (!isEmpty(products_filtered)) {
+            return products_filtered
+            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
+            .map((prod) => (
+              <ProductList
+                key={prod.productId}
+                product_category={product_category}
+                product_vendor={product_vendor}
+                prod={prod}
                 role={this.props.user.role}
               />
             ));
+          }
+          else {
+            return products
+            .filter(prod => prod.vendorId === this.props.user.user.userId)
+            .map((prod) => (
+              <ProductList
+                key={prod.productId}
+                product_category={product_category}
+                product_vendor={product_vendor}
+                prod={prod}
+                role={this.props.user.role}
+              />
+            ));
+          }
         }
       }
     } else {
@@ -110,7 +147,7 @@ class Products extends Component {
         isEmpty(products) &&
         !isEmpty(this.props.errors.errorMessage)
       ) {
-        toast.info(this.props.errors.errorMessage);
+        this.notify(this.props.errors.errorMessage)
       }
     }
   }
