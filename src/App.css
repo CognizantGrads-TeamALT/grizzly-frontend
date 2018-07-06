@@ -278,6 +278,10 @@ title-size-2em-inner > * {
   z-index: 9001; /* OVER 9000!!!!! */
 }
 
+.gButton {
+  width: 112px !important; /* Firefox needs that extra 2px. */
+}
+
 .navbar-inner-height > * > .nav-bar-singular-tab {
   margin-top: 0.7em;
 }
