@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import Spinner from "../../common/Spinner";
-import isEmpty from "../../../validation/is-empty";
-import Slider from "react-slick";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Spinner from '../../common/Spinner';
+import isEmpty from '../../../validation/is-empty';
+import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
 
 class VendorCarousel extends Component {
   fetchBanners() {
     let imageArray = [];
-    imageArray.push("http://akshaybhasme.com/imgs/watch_banner_big.jpg");
+    imageArray.push('http://akshaybhasme.com/imgs/watch_banner_big.jpg');
     imageArray.push(
-      "https://www.atomos.com/assets/images/home/UNLEASH-banner.jpg"
+      'https://www.atomos.com/assets/images/home/UNLEASH-banner.jpg'
     );
-    imageArray.push("https://mymobile.com.au/media/wysiwyg/note8banner.png");
+    imageArray.push('https://mymobile.com.au/media/wysiwyg/note8banner.png');
     imageArray.push(
-      "https://www.affordablelaptops.com.au/contents/media/b_gigabyte-gaming-laptop-notebook-banner.jpg"
+      'https://www.affordablelaptops.com.au/contents/media/b_gigabyte-gaming-laptop-notebook-banner.jpg'
     );
     imageArray.push(
-      "http://froothieinternationalstore.com/skin/frontend/tricore/default/images/Blender%20category%20banner.jpg"
+      'http://froothieinternationalstore.com/skin/frontend/tricore/default/images/Blender%20category%20banner.jpg'
     );
     return imageArray;
   }
@@ -31,7 +31,12 @@ class VendorCarousel extends Component {
       for (let i = 2; i < 28; i += 6) {
         prodArray.push(products[i]);
       }
-      if (!isEmpty(prodArray)) {
+      // In case hitting refresh causes crashes
+      if (
+        !isEmpty(prodArray) &&
+        !isEmpty(prodArray[0]) &&
+        !isEmpty(prodArray[0].productId)
+      ) {
         return prodArray.map((prod, index) => (
           <Link
             key={prod.productId}
@@ -41,17 +46,17 @@ class VendorCarousel extends Component {
               src={bannerArray[index]}
               className="rounded parent-wide custCarousel"
               style={{
-                height: "385px",
-                width: "auto",
-                display: "block",
-                objectFit: "cover"
+                height: '385px',
+                width: 'auto',
+                display: 'block',
+                objectFit: 'cover'
               }}
               alt=""
             />
           </Link>
         ));
       } else {
-        return <Spinner size={"150px"} />;
+        return <Spinner size={'150px'} />;
       }
     }
   }

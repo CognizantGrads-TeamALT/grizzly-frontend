@@ -20,11 +20,14 @@ class ProductCategoryRow extends Component {
   }
 
   show() {
-    const { categories, loading } = this.props.category;
+    const { product_category, loading } = this.props.product;
     let categoryArray = [];
-    if (!isEmpty(categories) && !loading) {
+    if (!isEmpty(product_category) && !loading) {
       for (let i = 0; i < 5; i++) {
-        categoryArray.push(categories[i]);
+        if (isEmpty(product_category[i])){
+          break;
+        }
+        categoryArray.push(product_category[i]);
       }
       return categoryArray.map(cat => (
         <div className="col" key={cat.categoryId}>

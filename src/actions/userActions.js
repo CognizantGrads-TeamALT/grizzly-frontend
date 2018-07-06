@@ -3,6 +3,10 @@ import { AUTH_API_GATEWAY, USER_API_GATEWAY } from './microservices';
 import setAuthToken from '../utils/setAuthToken';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import {
+  startJWTRefreshChecker,
+  stopJWTRefreshChecker
+} from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
 
 // Get Admins List
@@ -51,6 +55,7 @@ export const loginUser = googleResponse => dispatch => {
   const { tokenId } = googleResponse;
   // Set token to localStorage
   localStorage.setItem('GrizzGoogleToken', tokenId);
+  startJWTRefreshChecker();
   // Set token to Auth header
   setAuthToken(tokenId);
   // Decode Token to get User Data from tokenId, not from tokenObj
@@ -76,7 +81,7 @@ export const setCurrentUser = googleProfile => {
 export const getUserByEmail = () => dispatch => {
   dispatch(setUserLoading());
   axios
-    .get(AUTH_API_GATEWAY + `/auth/userData`)
+    .get(AUTH_API_GATEWAY + `/userData`)
     .then(res => {
       dispatch({
         type: types.GET_USER_BY_EMAIL,
@@ -123,15 +128,22 @@ export const clearCurrentUser = () => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
-  if (!isEmpty(window.gapi.auth2)) {
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    if (auth2 != null) {
-      auth2.signOut();
-      auth2.disconnect();
+  if (!isEmpty(window.gapi)) {
+    if (!isEmpty(window.gapi.auth2)) {
+      const auth2 = window.gapi.auth2.getAuthInstance();
+      if (auth2 != null) {
+        auth2.signOut();
+        auth2.disconnect();
+      }
     }
   }
+
+  axios.put(AUTH_API_GATEWAY + '/logout');
+
   // Remove token from localStorage
   localStorage.removeItem('GrizzGoogleToken');
+  stopJWTRefreshChecker();
+  localStorage.removeItem('check_jwt_refresh_timer');
   // Remove auth header for future requests
   setAuthToken(false);
   // Clear current user, isAuthenticated to false
@@ -140,7 +152,7 @@ export const logoutUser = () => dispatch => {
 
 export const addOrder = newOrder => dispatch => {
   axios
-    .put(USER_API_GATEWAY + '/addorder', newOrder)
+    .put(USER_API_GATEWAY + '/addOrder', newOrder)
     .then(res => {
       dispatch({
         type: types.ORDER_ADDING,
@@ -157,10 +169,10 @@ export const addOrder = newOrder => dispatch => {
 
 // ORDER ACTIONS
 // Get User Orders
-export const getUserOrder = userId => dispatch => {
+export const getUserOrder = () => dispatch => {
   dispatch(setUserLoading());
   axios
-    .get(USER_API_GATEWAY + `/get/orders/${userId}`)
+    .get(USER_API_GATEWAY + `/get/orders`)
     .then(res =>
       dispatch({
         type: types.GET_USER_WITH_ORDER,

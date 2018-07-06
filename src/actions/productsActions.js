@@ -41,7 +41,7 @@ export const getProduct = productId => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductLoading());
   axios
-    .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
+    .get(PRODUCT_API_GATEWAY + `/get/${productId}`)
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT,
@@ -361,7 +361,7 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
   // which results in losing the scroll wheel position...
   //dispatch(setProductLoading());
   axios
-    .get(PRODUCT_API_GATEWAY + `/getInventory/${index}/${VendorID}`)
+    .get(PRODUCT_API_GATEWAY + `/getInventory/${index}`)
     .then(res => {
       dispatch({
         type: types.GET_VENDOR_INVENTORY,
@@ -437,27 +437,21 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
   if (!isEmpty(data[0])) {
     if (!isEmpty(data[0].productId)) {
-      let vendorIdArray = '';
+      let vendorIdArray = [];
       data
         .filter(prod => prod.vendorId !== 0)
-        .map(
-          prod =>
-            vendorIdArray === ''
-              ? (vendorIdArray = prod.vendorId)
-              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
-        );
-      dispatch(getVendorBatch(vendorIdArray));
+        .map(prod => (vendorIdArray.push(prod.vendorId)));
 
-      let categoryIdArray = '';
+      let cleanVendorIdArray = [...new Set(vendorIdArray)];
+      dispatch(getVendorBatch(cleanVendorIdArray.join()));
+
+      let categoryIdArray = [];
       data
         .filter(prod => prod.categoryId !== 0)
-        .map(
-          prod =>
-            categoryIdArray === ''
-              ? (categoryIdArray = prod.categoryId)
-              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
-        );
-      dispatch(getCategoryBatch(categoryIdArray));
+        .map(prod => (categoryIdArray.push(prod.categoryId)));
+
+      let cleanCategoryIdArray = [...new Set(categoryIdArray)];
+      dispatch(getCategoryBatch(cleanCategoryIdArray.join()));
     }
   }
 };
