@@ -45,11 +45,13 @@ export const addCategory = newCat => dispatch => {
   dispatch(setCategoryAdding());
   axios
     .put(CATEGORY_API_GATEWAY + "/add", newCat)
-    .then(res =>
+    .then(res =>{
       dispatch({
         type: types.CATEGORY_ADDING,
         payload: res.data
       })
+    dispatch(stopWaitingForError())
+  }
     )
     .catch(err => {
       dispatch(setCategoryUpdated());
