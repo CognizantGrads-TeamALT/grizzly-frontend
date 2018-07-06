@@ -44,7 +44,7 @@ class VendorCarousel extends Component {
             src={src}
             className="rounded parent-wide custCarousel"
             style={{
-              height: '350px',
+              height: '385px',
               width: 'auto',
               display: 'block',
               objectFit: 'cover'
