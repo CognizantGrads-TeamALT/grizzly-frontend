@@ -41,7 +41,7 @@ export const getProduct = productId => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductLoading());
   axios
-    .get(PRODUCT_API_GATEWAY + `/getDetails/${productId}`)
+    .get(PRODUCT_API_GATEWAY + `/get/${productId}`)
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT,
@@ -353,7 +353,7 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
   // which results in losing the scroll wheel position...
   //dispatch(setProductLoading());
   axios
-    .get(PRODUCT_API_GATEWAY + `/getInventory/${index}/${VendorID}`)
+    .get(PRODUCT_API_GATEWAY + `/getInventory/${index}`)
     .then(res => {
       dispatch({
         type: types.GET_VENDOR_INVENTORY,

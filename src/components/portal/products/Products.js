@@ -109,7 +109,7 @@ class Products extends Component {
         } else {
           if (!isEmpty(products_filtered)) {
             return products_filtered
-            .filter(prod => prod.vendorId === this.props.user.user.userId)
+            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
             .map((prod) => (
               <ProductList
                 key={prod.productId}

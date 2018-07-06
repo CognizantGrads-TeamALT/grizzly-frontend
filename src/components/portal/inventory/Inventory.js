@@ -41,7 +41,7 @@ class Inventory extends Component {
     if (this.props.product.vendorHasMore) {
       this.props.getVendorInventory(
         this.props.product.vendorIndex,
-        this.props.user.user.userId
+        this.props.user.user.vendorId
       );
     }
   }
