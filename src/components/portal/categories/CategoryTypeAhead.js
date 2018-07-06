@@ -31,6 +31,7 @@ class CategoryTypeAhead extends Component {
     this.catSearch = _.debounce(e => {
       this.searchCat(e)
     }, 350);
+    this.baseState = this.state;
   }
 
   populate(param) {
@@ -130,11 +131,16 @@ class CategoryTypeAhead extends Component {
     });
   }
 
+  clearCategoryName = () => {
+    this.setState(this.baseState);
+  }
+
   render() {
     return (
       <div className={this.props.extraClassNames}>
         <div className="d-inline-block w-100">
-          <div className="cat-scroll z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
+          <div className="cat-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
+          <div className="form-group w-75">
             <TextFieldGroup
               placeholder={this.props.placeholder}
               name="category"
@@ -146,6 +152,8 @@ class CategoryTypeAhead extends Component {
                 this.onChange(event, true), this.catSearch(event);
               }}
             />
+            <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearCategoryName}><i className="far fa-times-circle d-inline"></i></div>
+          </div>
           </div>
           <div className="cat-typeahead-position bg-white">{this.state.categoryList}</div>
         </div>
