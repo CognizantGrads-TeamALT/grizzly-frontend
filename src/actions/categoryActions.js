@@ -50,7 +50,7 @@ export const addCategory = newCat => dispatch => {
         type: types.CATEGORY_ADDING,
         payload: res.data
       })
-    dispatch(stopWaitingForError())
+      dispatch(stopWaitingForError())
   }
     )
     .catch(err => {
