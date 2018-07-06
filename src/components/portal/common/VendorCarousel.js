@@ -18,7 +18,7 @@ class VendorCarousel extends Component {
       'https://www.affordablelaptops.com.au/contents/media/b_gigabyte-gaming-laptop-notebook-banner.jpg'
     );
     imageArray.push(
-      'http://froothieinternationalstore.com/skin/frontend/tricore/default/images/Blender%20category%20banner.jpg'
+      'https://www.hamiltonbeach.com/media/cat-headers/category_banner_hbpro.jpg'
     );
     return imageArray;
   }
