@@ -40,9 +40,12 @@ class ShoppingCart extends Component {
 
   // Load their cart from local storage if it is empty...
   componentDidMount() {
-    // if (isEmpty(this.props.product.cart)) {
-    this.props.loadCart();
-    // }
+    if (
+      isEmpty(this.props.product.cart) ||
+      isEmpty(this.props.product.cart_products)
+    ) {
+      this.props.loadCart();
+    }
   }
 
   onChange(productId, newValue) {
@@ -72,7 +75,7 @@ class ShoppingCart extends Component {
         }
       }
 
-      if (productIdArray !== '') {
+      if (!isEmpty(productIdArray)) {
         this.props.getProductBatch(productIdArray);
       } else this.props.product.fetchingCart = false;
     }
@@ -166,14 +169,16 @@ class ShoppingCart extends Component {
             <div className="fnt-weight-400 title-size-1em">
               ${this.totalPrice}
             </div>
+            {!isEmpty(this.props.product.cart) && (
+              <Link
+                className="mt-3 btn orange-b surround-parent w-75 more-rounded"
+                to="/payment"
+              >
+                Checkout
+              </Link>
+            )}
             <Link
-              className="mt-3 btn orange-b surround-parent w-75 more-rounded"
-              to="/payment"
-            >
-              Checkout
-            </Link>
-            <Link
-              className="mt-3 btn plain-b surround-parent w-75 more-rounded"
+              className="mt-3 btn btn-outline-success surround-parent w-75 more-rounded"
               to="/"
             >
               Continue Shopping

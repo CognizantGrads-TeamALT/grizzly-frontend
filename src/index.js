@@ -18,12 +18,11 @@ import store from './store';
 // Check for timeout, log user out if needed
 // Check for token
 if (localStorage.GrizzGoogleToken) {
-  //Set auth token header auth
-  setAuthToken(localStorage.GrizzGoogleToken);
+  // Refresh token when expired (log user out after 10 refreshes)
+  startJWTRefreshChecker();
+
   //Decode token and get user info and expiration
   const decoded = jwt_decode(localStorage.GrizzGoogleToken);
-  //Set user and isAuthenticated
-  // store.dispatch(setCurrentUser(decoded));
 
   // Check for expired token
   const currentTime = Date.now() / 1000;
@@ -33,6 +32,8 @@ if (localStorage.GrizzGoogleToken) {
     // Redirect
     window.location.href = '/';
   } else {
+    //Set auth token header auth
+    setAuthToken(localStorage.GrizzGoogleToken);
     store.dispatch(loadUserInfo(decoded));
   }
 }
@@ -43,8 +44,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
-// Refresh token when expired (log user out after 10 refreshes)
-startJWTRefreshChecker();
-
 registerServiceWorker();

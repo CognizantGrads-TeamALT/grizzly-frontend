@@ -26,6 +26,13 @@ class Payment extends Component {
     this.onError = this.onError.bind(this);
   }
 
+  componentDidMount() {
+    let { cart, cart_products } = this.props.product;
+    if (isEmpty(cart) || isEmpty(cart_products)) {
+      this.props.history.push('/');
+    }
+  }
+
   showOrderContent() {
     this.triggeredFetch = true;
     let { cart, cart_products } = this.props.product;
@@ -33,12 +40,15 @@ class Payment extends Component {
     let productIdArray = '';
     if (!this.orderFetched || isEmpty(cart_products)) {
       for (var productId in cart) {
-        productIdArray =
-          productIdArray === '' ? productId : productIdArray + ',' + productId;
+        productIdArray = isEmpty(productIdArray)
+          ? productId
+          : productIdArray + ',' + productId;
       }
 
-      this.props.getProductBatch(productIdArray);
-      this.orderFetched = true;
+      if (!isEmpty(productIdArray)) {
+        this.props.getProductBatch(productIdArray);
+        this.orderFetched = true;
+      }
     }
 
     return cart_products.map(prod => (
@@ -102,9 +112,7 @@ class Payment extends Component {
 
     return (
       <div className="container m-5 p-5 my-auto">
-        <div className="row title-size-2em mb-3">
-          Confirm Purchase
-        </div>
+        <div className="row title-size-2em mb-3">Confirm Purchase</div>
         <div className="row mb-3">
           <div className="col-8 pl-0">
             <table className="table">
@@ -112,33 +120,30 @@ class Payment extends Component {
             </table>
           </div>
           <div className="col-4 mx-auto">
-              <div className="row surround-parent mb-4 title-size-1em">
-                <div className="col">
-                  Total: 
-                </div>                
-                <div className="col bottom-border">
-                  ${this.calcOrderPrice()}.00
-                </div>
-                
+            <div className="row surround-parent mb-4 title-size-1em">
+              <div className="col">Total:</div>
+              <div className="col bottom-border">
+                ${this.calcOrderPrice()}.00
               </div>
-              <div className="row surround-parent">
-                <div className="pl-3 mr-0 w-100">
-                  <PaypalExpressBtn
-                    client={client}
-                    currency={'AUD'}
-                    total={this.calcOrderPrice()}
-                    onSuccess={this.onSuccess}
-                    onCancel={this.onCancel}
-                    onError={this.onError}
-                  />
-                  <Link
-                    className="btn more-rounded btn-sm plain-b surround-parent w-100"
-                    to="/shoppingcart"
-                  >
-                    Return to Cart
-                  </Link>
-                </div>
+            </div>
+            <div className="row surround-parent">
+              <div className="pl-3 mr-0 w-100">
+                <PaypalExpressBtn
+                  client={client}
+                  currency={'AUD'}
+                  total={this.calcOrderPrice()}
+                  onSuccess={this.onSuccess}
+                  onCancel={this.onCancel}
+                  onError={this.onError}
+                />
+                <Link
+                  className="btn btn-outline-success more-rounded btn-sm surround-parent w-100"
+                  to="/shoppingcart"
+                >
+                  Return to Cart
+                </Link>
               </div>
+            </div>
           </div>
         </div>
       </div>
