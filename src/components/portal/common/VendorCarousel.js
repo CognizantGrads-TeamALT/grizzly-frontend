@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Spinner from '../../common/Spinner';
-import isEmpty from '../../../validation/is-empty';
+// import isEmpty from '../../../validation/is-empty';
 import Slider from 'react-slick';
-import { Link } from 'react-router-dom';
-
+// import { Link } from 'react-router-dom';
 class VendorCarousel extends Component {
   fetchBanners() {
     let imageArray = [];
@@ -18,47 +16,47 @@ class VendorCarousel extends Component {
       'https://www.affordablelaptops.com.au/contents/media/b_gigabyte-gaming-laptop-notebook-banner.jpg'
     );
     imageArray.push(
-      'http://froothieinternationalstore.com/skin/frontend/tricore/default/images/Blender%20category%20banner.jpg'
+      'https://www.hamiltonbeach.com/media/cat-headers/category_banner_hbpro.jpg'
     );
     return imageArray;
   }
   show() {
-    const { products, loading } = this.props.product;
-    let prodArray = [];
     let bannerArray = this.fetchBanners();
-    // let currentImage = 0;
-    if (!isEmpty(products) && !loading) {
-      for (let i = 2; i < 28; i += 6) {
-        prodArray.push(products[i]);
-      }
-      // In case hitting refresh causes crashes
-      if (
-        !isEmpty(prodArray) &&
-        !isEmpty(prodArray[0]) &&
-        !isEmpty(prodArray[0].productId)
-      ) {
-        return prodArray.map((prod, index) => (
-          <Link
-            key={prod.productId}
-            to={`/customerdetailedproduct/${prod.productId}`}
-          >
-            <img
-              src={bannerArray[index]}
-              className="rounded parent-wide custCarousel"
-              style={{
-                height: '385px',
-                width: 'auto',
-                display: 'block',
-                objectFit: 'cover'
-              }}
-              alt=""
-            />
-          </Link>
-        ));
-      } else {
-        return <Spinner size={'150px'} />;
-      }
-    }
+
+    // const { products, loading } = this.props.product;
+    // let prodArray = [];
+    // // let currentImage = 0;
+    // if (!isEmpty(products) && !loading) {
+    //   for (let i = 2; i < 28; i += 6) {
+    //     prodArray.push(products[i]);
+    //   }
+    //   // In case hitting refresh causes crashes
+    //   if (!isEmpty(prodArray)) {
+    //     return prodArray.map(
+    return bannerArray.map(
+      (src, index) => (
+        // (prod, index) =>
+        //   !isEmpty(prod) &&
+        //   (
+        <div key={index}>
+          <img
+            // src={bannerArray[index]}
+            src={src}
+            className="rounded parent-wide custCarousel"
+            style={{
+              height: '385px',
+              width: 'auto',
+              display: 'block',
+              objectFit: 'cover'
+            }}
+            alt=""
+          />
+        </div>
+      )
+      // )
+    );
+    //   }
+    // }
   }
 
   render() {

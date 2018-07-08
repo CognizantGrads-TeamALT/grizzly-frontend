@@ -20,7 +20,8 @@ class CategoryForm extends Component {
       name: this.props.category.name,
       description: this.props.category.description,
       errors: [],
-      shouldToggle: false
+      shouldToggle: false,
+      
     };
     this.onToggle = this.onToggle.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -39,7 +40,7 @@ class CategoryForm extends Component {
 
   componentDidUpdate(){
     //closes module if close has been triggered with no errors
-    if(!this.props.errors.waitForError && this.state.shouldCancel){
+    if(!this.props.errors.waitForError && this.state.shouldToggle){
       this.onToggle();
       this.props.WaitForError();
      }
