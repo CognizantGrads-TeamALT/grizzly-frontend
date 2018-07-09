@@ -89,7 +89,6 @@ export const addProduct = newProd => dispatch => {
       dispatch(stopWaitingForError());
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
-      //dispatch(setProductPosted());
     })
     .catch(err => {
       dispatch({
@@ -429,21 +428,27 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
   if (!isEmpty(data[0])) {
     if (!isEmpty(data[0].productId)) {
-      let vendorIdArray = [];
+      let vendorIdArray = '';
       data
         .filter(prod => prod.vendorId !== 0)
-        .map(prod => (vendorIdArray.push(prod.vendorId)));
+        .map(
+          prod =>
+            vendorIdArray === ''
+              ? (vendorIdArray = prod.vendorId)
+              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
+        );
+      dispatch(getVendorBatch(vendorIdArray));
 
-      let cleanVendorIdArray = [...new Set(vendorIdArray)];
-      dispatch(getVendorBatch(cleanVendorIdArray.join()));
-
-      let categoryIdArray = [];
+      let categoryIdArray = '';
       data
         .filter(prod => prod.categoryId !== 0)
-        .map(prod => (categoryIdArray.push(prod.categoryId)));
-
-      let cleanCategoryIdArray = [...new Set(categoryIdArray)];
-      dispatch(getCategoryBatch(cleanCategoryIdArray.join()));
+        .map(
+          prod =>
+            categoryIdArray === ''
+              ? (categoryIdArray = prod.categoryId)
+              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
+        );
+      dispatch(getCategoryBatch(categoryIdArray));
     }
   }
 };

@@ -48,6 +48,8 @@ class CategoryTypeAhead extends Component {
   }
 
   searchCat(e) {
+    console.log(e.target.value);
+    console.log(this.state.categoryList);
     this.setState({ valid_cat: false });
     this.props.Update_TypeAhead({
       cur_id: '',
@@ -90,7 +92,7 @@ class CategoryTypeAhead extends Component {
       });
 
     }
-    else if (this.state.count > 10) {
+    else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
       this.setState({
         count: 0,
@@ -132,7 +134,9 @@ class CategoryTypeAhead extends Component {
   }
 
   clearTypeAhead = () => {
-    this.setState(this.baseState);
+    this.setState(this.baseState)
+    clearInterval(this.state.intervalId);
+    this.setState({categoryList: []});
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
   }
@@ -157,7 +161,7 @@ class CategoryTypeAhead extends Component {
             <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}><i className="far fa-times-circle d-inline"></i></div>
           </div>
           </div>
-          <div className="cat-typeahead-position bg-white">{this.state.categoryList}</div>
+          <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>
         </div>
       </div>
     );

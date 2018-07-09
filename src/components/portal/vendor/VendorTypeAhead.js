@@ -85,7 +85,7 @@ class VendorTypeAhead extends Component {
           ];
         }, this)
       });
-    } else if (this.state.count > 10) {
+    } else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
       this.setState({
         count: 0,
@@ -138,8 +138,8 @@ class VendorTypeAhead extends Component {
               this.onChange(event, true), this.vendorSearch(event);
             }}
           />
-        </div>
-        <div className="vendor-typeahead-position bg-white">
+        </div><br/>
+        <div className="vendor-typeahead-position bg-white z-index-5000">
           {this.state.vendorList}
         </div>
       </div>
