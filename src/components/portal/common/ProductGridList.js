@@ -6,13 +6,20 @@ import { Link } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import ProductImage from '../common/ProductImage';
 import { toast } from 'react-toastify';
-
+import addtocart from '../../../img/addtocart.png';
 class ProductGridList extends Component {
   constructor(props) {
     super(props);
 
     this.count = 0;
     this.getCategoryEnabled = this.getCategoryEnabled.bind(this);
+  }
+
+  toastId = null;
+  onClick(e) {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info('Added to cart!');
+    }
   }
 
   show() {
@@ -29,7 +36,7 @@ class ProductGridList extends Component {
           if (!this.getCategoryEnabled(prod.categoryId)) return '';
           else
             return (
-              <div key={prod.productId} className="col-lg-3 imageGrid mt-3">
+              <div key={prod.productId} className="col-lg-2 imageGrid mt-3">
                 <Link
                   to={`/customerdetailedproduct/${prod.productId}`}
                   className="img-thumbnail surround-parent h-100 w-100 card product-card"
@@ -58,6 +65,21 @@ class ProductGridList extends Component {
                     </div>
                   </div>
                 </Link>
+                <div className="col pl-0 text-right">
+                  <button
+                    className="btn btn-light"
+                    onClick={() => {
+                      this.props.addToCart(prod);
+                      this.onClick();
+                    }}
+                  >
+                    <img
+                      src={addtocart}
+                      alt="Add to cart"
+                      style={{ width: '20px' }}
+                    />
+                  </button>
+                </div>
               </div>
             );
         }, this);
