@@ -75,21 +75,17 @@ class Categories extends Component {
     return (
       <div>
         <CategorySearchSort />
-        <div ref="myscroll" style={{ height: '555px', overflowX: 'hidden', overflowY: 'auto' }}>
-          <div className="overflow-normal-page">
-            <table className="table table-sm table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">Category Name</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Products</th>
-                  <th scope="col" />
-                </tr>
-              </thead>
-              <tbody>{this.show()}</tbody>
-            </table>
-          </div>
-        </div>
+        <table className="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Category Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Products</th>
+              <th scope="col" />
+            </tr>
+          </thead>
+          <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+        </table>
       </div>
     );
   }

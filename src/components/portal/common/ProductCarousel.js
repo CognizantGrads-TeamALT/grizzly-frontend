@@ -38,7 +38,7 @@ class ProductCarousel extends Component {
       // Return the loaded image.
     } else {
       return (
-        <Carousel infiniteLoop={true} autoPlay={true} width="300px">
+        <Carousel infiniteLoop={true} autoPlay={true} width="400px">
           {this.showCarousel(product)}
         </Carousel>
       );

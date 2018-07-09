@@ -15,17 +15,18 @@ class CustomerPortal extends Component {
   constructor(props) {
     super(props);
 
+    this.props.loadCart();
+  }
+  componentDidMount() {
+    // Scroll to top.
+    window.scrollTo(0, 0);
+
     if (
       isEmpty(this.props.product.products) ||
       this.props.product.products.length < 15 // Quantity reduced after search, need to load more/again. TODO: Fix this.
     ) {
       this.props.getProducts();
     }
-    this.props.loadCart();
-  }
-  componentDidMount() {
-    // Scroll to top.
-    window.scrollTo(0, 0);
   }
 
   componentDidUpdate() {

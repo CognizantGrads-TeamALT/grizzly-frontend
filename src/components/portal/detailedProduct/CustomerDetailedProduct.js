@@ -88,9 +88,10 @@ class CustomerDetailedProduct extends Component {
     const {
       loadingCategories,
       loadingVendors,
-      product_vendor
+      product_vendor,
+      fresh
     } = this.props.product;
-    if (loadingVendors || loadingCategories) {
+    if (loadingVendors || loadingCategories || fresh) {
       return <Spinner size={'150px'} />;
     } else {
       if (isEmpty(single) || isEmpty(product_vendor)) {

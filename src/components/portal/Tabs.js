@@ -42,22 +42,29 @@ class Tabs extends Component {
     this.clear = this.clear.bind(this);
     this.onAddProductCancel = this.onAddProductCancel.bind(this);
     this.state = {
-      activeTab: ''
+      activeTab: '1'
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //this.clear();
-    if (isEmpty(this.props.product.products)) {
-      this.props.getProducts();
+    if (isEmpty(this.props.product.products) &&
+      !this.props.product.loadingCategories &&
+      !this.props.product.loadingVendors &&
+      !this.props.product.loading &&
+      this.props.product.fresh) {
+        this.props.getProducts();
     }
-    if (isEmpty(this.props.vendor.vendors)) {
-      this.props.getVendors();
+
+    if (isEmpty(this.props.vendor.vendors) &&
+      !this.props.vendor.loading) {
+        this.props.getVendors();
     }
-    if (isEmpty(this.props.category.categories)) {
-      this.props.getCategories();
+
+    if (isEmpty(this.props.category.categories) &&
+      !this.props.category.loading) {
+        this.props.getCategories();
     }
-    this.setState({ activeTab: '1' });
   }
 
   componentDidUpdate(PrevProps) {
@@ -79,10 +86,11 @@ class Tabs extends Component {
         }
       }
     }
-    if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
-      this.props.clearCurrentProducts();
-      this.props.getProducts();
-    }
+
+    //if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
+    //  this.props.clearCurrentProducts();
+    //  this.props.getProducts();
+    //}
   }
 
   // in case its needed.
