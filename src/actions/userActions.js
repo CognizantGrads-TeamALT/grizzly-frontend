@@ -8,6 +8,7 @@ import {
   stopJWTRefreshChecker
 } from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
+import { emptyCart } from './cartActions';
 
 // Get Admins List
 export const getUsers = (role, id) => dispatch => {
@@ -136,6 +137,7 @@ export const logoutUser = () => dispatch => {
         auth2.disconnect();
       }
     }
+    emptyCart();
   }
 
   axios.put(AUTH_API_GATEWAY + '/logout');
