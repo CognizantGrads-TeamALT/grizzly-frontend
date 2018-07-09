@@ -31,7 +31,7 @@ class ProductCategoryRow extends Component {
   displayAllCategories() {
     const { categories, loading } = this.props.category;
     if (!isEmpty(categories) && !loading) {
-      return categories.map((cat, index) => (
+      return categories.filter(cat => cat.enabled !== false).map((cat, index) => (
         <Link
           key={index}
           to={`/category/${cat.name}/${cat.categoryId}`}
