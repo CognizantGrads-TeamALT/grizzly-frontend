@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
-import {
-  searchCategories,
-  sortCategoriesByParamCustomer
-} from '../../../actions/categoryActions';
 import { getProducts } from '../../../actions/productsActions';
 
 class ProductCategoryRow extends Component {
@@ -14,23 +10,13 @@ class ProductCategoryRow extends Component {
     if (isEmpty(this.props.product.products)) {
       this.props.getProducts();
     }
-    if (isEmpty(this.props.category.categories)) {
-      this.props.sortCategoriesByParamCustomer('0', 'count');
-    }
   }
 
   show() {
-    const { product_category, loading } = this.props.product;
-    let categoryArray = [];
-    if (!isEmpty(product_category) && !loading) {
-      for (let i = 0; i < 5; i++) {
-        if (isEmpty(product_category[i])){
-          break;
-        }
-        categoryArray.push(product_category[i]);
-      }
-      return categoryArray.map(cat => (
-        <div className="col" key={cat.categoryId}>
+    const { categories, loading } = this.props.category;
+    if (!isEmpty(categories) && !loading) {
+      return categories.filter(cat => cat.enabled !== false).map((cat, index) => (
+        <div className="col" key={index}>
           <Link
             to={`/category/${cat.name}/${cat.categoryId}`}
             className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
@@ -45,9 +31,9 @@ class ProductCategoryRow extends Component {
   displayAllCategories() {
     const { categories, loading } = this.props.category;
     if (!isEmpty(categories) && !loading) {
-      return categories.map(cat => (
+      return categories.filter(cat => cat.enabled !== false).map((cat, index) => (
         <Link
-          key={cat.categoryId}
+          key={index}
           to={`/category/${cat.name}/${cat.categoryId}`}
           className="dropdown-item more-rounded"
         >
@@ -89,8 +75,6 @@ class ProductCategoryRow extends Component {
 }
 
 ProductCategoryRow.propTypes = {
-  searchCategories: PropTypes.func.isRequired,
-  sortCategoriesByParamCustomer: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
 
   product: PropTypes.object.isRequired,
@@ -105,8 +89,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    searchCategories,
-    sortCategoriesByParamCustomer,
     getProducts
   }
 )(ProductCategoryRow);

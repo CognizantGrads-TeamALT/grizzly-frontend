@@ -8,6 +8,7 @@ import {
   stopJWTRefreshChecker
 } from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
+import { emptyCart } from './cartActions';
 
 // Get Admins List
 export const getUsers = (role, id) => dispatch => {
@@ -90,7 +91,6 @@ export const getUserByEmail = () => dispatch => {
       dispatch(setUserUpdated());
     })
     .catch(err => {
-      console.log(err);
       dispatch({
         type: types.GET_USER_BY_EMAIL,
         payload: {}
@@ -136,6 +136,7 @@ export const logoutUser = () => dispatch => {
         auth2.disconnect();
       }
     }
+    emptyCart();
   }
 
   axios.put(AUTH_API_GATEWAY + '/logout');

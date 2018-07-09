@@ -27,18 +27,21 @@ class CustomerProductDescription extends Component {
     this.props.product.random_products = null; // needed.
   }
 
-  buyNow(product){
-    this.props.addToCart(product)
-    this.props.history.push("/shoppingcart");
+  buyNow(product) {
+    this.props.addToCart(product);
+    this.props.history.push('/shoppingcart');
   }
 
   onCancel = event => {
     this.props.history.goBack();
   };
 
-  onClick = event => {
-    toast.success('Product has been added to the cart!');
-  };
+  toastId = null;
+  onClick(e) {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info('Added to cart!');
+    }
+  }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -49,8 +52,12 @@ class CustomerProductDescription extends Component {
       return (
         <div>
           <div className="row mt-2">
-            <button className="btn orange-b surround-parent w-75 more-rounded mb-2"
-            onClick={() => {this.buyNow(product)}}>
+            <button
+              className="btn orange-b surround-parent w-75 more-rounded mb-2"
+              onClick={() => {
+                this.buyNow(product);
+              }}
+            >
               Buy now
             </button>
             <button
@@ -64,15 +71,20 @@ class CustomerProductDescription extends Component {
             </button>
           </div>
           <div className="row minimal-line-input-div">
+            {/* disable until implement */}
             <input
               className="text-center d-inline w-50"
               type="search"
               name="search"
+              disabled="true"
               placeholder="Enter Promo code"
               value={this.state.search}
               onChange={this.onChange}
             />
-            <button className="btn more-rounded d-inline plain-blue-b w-25">
+            <button
+              className="btn more-rounded d-inline plain-blue-b w-25"
+              disabled="true"
+            >
               Go
             </button>
           </div>

@@ -24,10 +24,22 @@ export const getProducts = index => dispatch => {
       dispatch(refreshProductData(res.data));
     })
     .catch(err => {
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.request.response
-      });
+      if (!isEmpty(err.responce)) {
+        //if refresh product data throws an error it will not have a .responce value, causing an error.
+        //this fixes that eventuality
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: err.request.response
+        });
+      } else {
+        //note: this probably wont be a connection error, but rather a coding/generally bad error if this gets thrown
+        //... but the end user doesn't need to know that.
+        //the payload will fail the try{json.parse(...)} and cause the fallback to the default connection error message.
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: 'connection Error'
+        });
+      }
       dispatch(setProductUpdated());
       // For development purposes. The micro-services take time to initialise.
       // This will keep requesting data if it gets a 500 or 403 error...
@@ -89,7 +101,6 @@ export const addProduct = newProd => dispatch => {
       dispatch(stopWaitingForError());
       dispatch(getVendorBatch(res.data.vendorId));
       dispatch(getCategoryBatch(res.data.categoryId));
-      //dispatch(setProductPosted());
     })
     .catch(err => {
       dispatch({
@@ -284,7 +295,7 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 };
 
 // Search Products
-export const searchProducts = (keyword, index) => dispatch => {
+export const searchProducts = (keyword, index, nav) => dispatch => {
   dispatch(clearErrors());
   dispatch(clearCurrentProducts());
   if (isEmpty(keyword)) {
@@ -293,7 +304,15 @@ export const searchProducts = (keyword, index) => dispatch => {
     axios
       .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
       .then(res => {
-        dispatch(refreshProductData(res.data));
+        // dispatch(refreshProductData(res.data));
+        if (nav) {
+          dispatch({
+            type: types.SEARCH_RESULTS,
+            payload: res.data
+          });
+        } else {
+          dispatch(refreshProductData(res.data));
+        }
       })
       .catch(err => {
         dispatch(setProductUpdated());
@@ -306,10 +325,10 @@ export const searchProducts = (keyword, index) => dispatch => {
 };
 
 // Search Products
-export const getRandomProducts = (keyword, index) => dispatch => {
+export const getRandomProducts = catId => dispatch => {
   dispatch(clearErrors());
   axios
-    .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
+    .get(PRODUCT_API_GATEWAY + `/byCategory/${catId}/0/default`)
     .then(res => {
       dispatch({
         type: types.GET_RANDOM_PRODUCTS,
@@ -432,7 +451,7 @@ export const refreshProductData = (data, filtered) => dispatch => {
       let vendorIdArray = [];
       data
         .filter(prod => prod.vendorId !== 0)
-        .map(prod => (vendorIdArray.push(prod.vendorId)));
+        .map(prod => vendorIdArray.push(prod.vendorId));
 
       let cleanVendorIdArray = [...new Set(vendorIdArray)];
       dispatch(getVendorBatch(cleanVendorIdArray.join()));
@@ -440,7 +459,7 @@ export const refreshProductData = (data, filtered) => dispatch => {
       let categoryIdArray = [];
       data
         .filter(prod => prod.categoryId !== 0)
-        .map(prod => (categoryIdArray.push(prod.categoryId)));
+        .map(prod => categoryIdArray.push(prod.categoryId));
 
       let cleanCategoryIdArray = [...new Set(categoryIdArray)];
       dispatch(getCategoryBatch(cleanCategoryIdArray.join()));

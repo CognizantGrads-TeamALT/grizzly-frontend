@@ -11,15 +11,6 @@ import {
 import ErrorComponent from '../../common/ErrorComponent';
 
 class DetailedProduct extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeTab: 0
-    };
-
-    this.props.getProduct(this.props.match.params.productId);
-  }
-
   componentDidMount() {
     this.props.getProduct(this.props.match.params.productId);
   }

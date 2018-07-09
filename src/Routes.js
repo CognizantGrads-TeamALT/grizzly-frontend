@@ -13,11 +13,13 @@ import CategoryGridList from './components/portal/common/CategoryGridList';
 import { Switch } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import ShoppingCart from './components/portal/customer/ShoppingCart';
+import SearchResults from './components/portal/common/SearchResults';
 export default () => {
   return (
-    <div className="surround-parent h-100 griz-portal">
+    <div className="surround-parent h-100 griz-portal only-scroll-down">
       <Switch>
         <Route exact path="/" component={CustomerPortal} />
+        <Route exact path="/results" component={SearchResults} />
         <Route exact path="/shoppingcart" component={ShoppingCart} />
         <Route exact path="/payment" component={Payment} />
         <PrivateRoute exact path="/settings" component={UserSettings} />

@@ -79,7 +79,11 @@ class ProfileForm extends Component {
       };
       this.props.createOrUpdateProfile(profileData);
       toast.success('Profile updated!');
-      this.props.onCancel();
+      if (this.props.previousPath === '/shoppingcart') {
+        this.props.history.push('/shoppingcart');
+      } else {
+        this.props.onCancel();
+      }
     } else {
       toast.info('Please check your input!');
       this.setState({ isValid: false });
@@ -112,7 +116,11 @@ class ProfileForm extends Component {
   onToggle(e) {
     e.preventDefault();
     this.resetForm();
-    this.props.onCancel();
+    if (this.props.previousPath === '/shoppingcart') {
+      this.props.history.push('/shoppingcart');
+    } else {
+      this.props.onCancel();
+    }
   }
 
   render() {

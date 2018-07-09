@@ -23,18 +23,26 @@ class Navbar extends Component {
     this.onLogout = this.onLogout.bind(this);
     this.doRedirect = this.doRedirect.bind(this);
     this.login = this.login.bind(this);
-    this.showSearch=this.showSearch.bind(this);
+    this.showSearch = this.showSearch.bind(this);
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  toastId = null;
   onSubmit(e) {
     e.preventDefault();
-    const term = this.state.search;
-    this.setState({ search: '' });
-    this.props.searchProducts(term, '0');
+    if (isEmpty(this.state.search)) {
+      if (!toast.isActive(this.toastId)) {
+        this.toastId = toast.info('Please enter some keywords!');
+      }
+    } else {
+      const term = this.state.search;
+      this.setState({ search: '' });
+      this.props.searchProducts(term, '0', 'nav');
+      this.props.history.push('/results');
+    }
   }
 
   onLogout(e) {
@@ -56,36 +64,37 @@ class Navbar extends Component {
   logOutBtn() {
     return (
       <li className="nav-item dropdown my-auto">
-      <a
-        className="nav-link dropdown-toggle"
-        data-toggle="dropdown"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <img
-          src={this.props.user.googleProfile.picture}
-          className="nav-bar-profile-img"
-          alt="google profile"
-        />
-      </a>
-      <div className="dropdown-menu right-anchor">
-        <Link
-          className="dropdown-item"
-          to={{
-            pathname: `/${this.props.user.role}`
-          }}
+        <a
+          className="nav-link dropdown-toggle"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
         >
-          Admin Page
-        </Link>
-      
-        <div className="dropdown-divider" />
-        <a className="dropdown-item" onClick={this.onLogout}>
-          Log out
+          <img
+            src={this.props.user.googleProfile.picture}
+            className="nav-bar-profile-img"
+            alt="google profile"
+          />
         </a>
-      </div>
-    </li>
-    );}
+        <div className="dropdown-menu right-anchor">
+          <Link
+            className="dropdown-item"
+            to={{
+              pathname: `/${this.props.user.role}`
+            }}
+          >
+            Admin Page
+          </Link>
+
+          <div className="dropdown-divider" />
+          <a className="dropdown-item" onClick={this.onLogout}>
+            Log out
+          </a>
+        </div>
+      </li>
+    );
+  }
 
   doRedirect() {
     this.props.history.push({
@@ -110,10 +119,15 @@ class Navbar extends Component {
           !this.props.user.isRegistered
         ) {
           toast.success(
-            <span onClick={this.doRedirect}>
-              Hello {this.props.user.googleProfile.given_name}! Click HERE to
-              update your profile.
-            </span>
+            <div>
+              <span onClick={this.doRedirect}>
+                Hello {this.props.user.googleProfile.given_name}!
+              </span>
+              <br />
+              <span onClick={this.doRedirect}>
+                Click HERE to update your profile.
+              </span>
+            </div>
           );
         } else {
           this.notify(this.props.user.googleProfile.given_name);
@@ -216,35 +230,32 @@ class Navbar extends Component {
       );
   }
 
-  showSearch(){
-    if(this.props.user.role !== 'admin' && this.props.user.role !== 'vendor'){
-      return(
+  showSearch() {
+    if (this.props.user.role !== 'admin' && this.props.user.role !== 'vendor') {
+      return (
         <form onSubmit={this.onSubmit} className="form-inline">
-        <div className="search-form-custom">
-          <input
-            className="form-control left-rounded border-right-0 border col-8"
-            type="search"
-            name="search"
-            placeholder="Search"
-            value={this.state.search}
-            onChange={this.onChange}
-          />
-          <span className="input-group-append-more">
-            <button
-              onClick={this.onSubmit}
-              className="btn btn-outline-success right-rounded border-left-0 border"
-              type="button"
-            >
-              <i className="fa fa-search" />
-            </button>
-          </span>
-        </div>
-      </form>
-      )
-
-      
+          <div className="search-form-custom">
+            <input
+              className="form-control left-rounded border-right-0 border col-8"
+              type="search"
+              name="search"
+              placeholder="Search"
+              value={this.state.search}
+              onChange={this.onChange}
+            />
+            <span className="input-group-append-more">
+              <button
+                onClick={this.onSubmit}
+                className="btn btn-outline-success right-rounded border-left-0 border"
+                type="button"
+              >
+                <i className="fa fa-search" />
+              </button>
+            </span>
+          </div>
+        </form>
+      );
     }
-    
   }
 
   showCartLink() {
@@ -280,9 +291,8 @@ class Navbar extends Component {
             className="collapse navbar-collapse mx-auto align-center"
             id="mobile-nav"
           >
-          {this.showSearch()}
-            
-           
+            {this.showSearch()}
+
             <div className="ml-2 search-form-custom nav justify-content-end">
               {this.showLinks()}
             </div>

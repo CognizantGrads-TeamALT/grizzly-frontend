@@ -3,6 +3,11 @@
 }
 
 /* General */
+.only-scroll-down {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .parent-wide {
   width: 100%;
   min-width: 100%;
@@ -291,7 +296,7 @@ title-size-2em-inner > * {
   top: 0;
   min-width: 100%;
   background: white;
-  z-index: 9001; /* OVER 9000!!!!! */
+  z-index: 1000; /* OVER 9000!!!!! */
 }
 .navbar-inner-height > * > .nav-bar-singular-tab {
   margin-top: 0.7em;
@@ -342,7 +347,11 @@ title-size-2em-inner > * {
 }
 
 .griz-real-body {
-  margin-top: 6%;
+  margin-top: 4%;
+}
+
+.more-top-margin {
+  margin-top: 2%;
 }
 
 a:not([href]):not([tabindex]).active {
@@ -1366,9 +1375,6 @@ a:hover {
   border-color: #45b29d;
 }
 
-.picCustomerDetailedProductCol {
-  margin-top: 2%;
-}
 .picCustomerDetailedProduct {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 8px 0 rgba(0, 0, 0, 0.19);
 }
@@ -1376,7 +1382,8 @@ a:hover {
   margin-left: 14%;
 }
 
-.containerCustomerProductDesc {
+.containerCustomerProductDesc,
+.picCustomerDetailedProductCol {
   margin-top: 3%;
   margin-left: 2%;
 }
@@ -1396,6 +1403,11 @@ a:hover {
 
 .bg-lightGrey {
   background-color: #ebe9e9;
+}
+
+/* Modal */
+.modal-dialog {
+  margin-top: 100px;
 }
 
 /* Payment */

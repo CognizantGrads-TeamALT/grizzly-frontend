@@ -6,6 +6,9 @@ const initialState = {
   // Stores ALL products. Shouldn't clear this.
   products: [],
 
+  // Search Results
+  results: [],
+
   // Stores ALL product categories.
   product_category: [],
 
@@ -49,6 +52,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         updateOnce: false,
+        loading: false
+      };
+    case types.SEARCH_RESULTS:
+      return {
+        ...state,
+        results: isEmpty(action.payload)
+          ? []
+          : action.payload.filter(prod => prod.enabled !== false),
         loading: false
       };
     case types.GET_PRODUCTS:
@@ -207,13 +218,14 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
+      let randomResults = isEmpty(action.payload)
+        ? []
+        : action.payload.filter(prod => prod.enabled !== false);
       return {
         ...state,
         products: newProducts3,
         random_products:
-          action.payload.length > 12
-            ? action.payload.slice(0, 12)
-            : action.payload
+          randomResults.length > 12 ? randomResults.slice(0, 12) : randomResults
       };
     case types.PRODUCT_ADDING:
       currentProducts2 = isEmpty(state.products) ? [] : state.products;

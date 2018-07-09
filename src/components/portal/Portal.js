@@ -16,7 +16,7 @@ class Portal extends Component {
     return (
       <div className="griz-portal ">
         <div className="row d-absolute position-fixed w-100 toggle-portal-appearance">
-          <div className="col-2 position-static griz-dark-blue-bg h-95 p-3">
+          <div className="col-2 position-static griz-dark-blue-bg h-95 pt-3">
             <Profile />
           </div>
           <div className="col-10 position-inherit overflow-normal-page pl-0 pr-0 h-100 w-100">

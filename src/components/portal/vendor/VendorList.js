@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { toggleBlockVendor, deleteVendor } from "../../../actions/vendorActions";
 import ErrorComponent from "../../common/ErrorComponent";
+import VendorForm from './VendorForm';
 
 class VendorList extends Component {
   constructor(props) {
@@ -63,12 +64,13 @@ class VendorList extends Component {
         <td>
         <div className="row">
             <div className="col pr-0">
-              <button
-                className="btn more-rounded blue-b btn-sm mr-sm-2 d-inline "
-                type="button"
-              >
-                View
-              </button>
+              <VendorForm
+                  vendor={vendor}
+                  buttonLabel="Edit"
+                  title="Edit Vendor"
+                  actionLabel="Edit"
+                  buttonClass="btn more-rounded blue-b btn-sm mr-sm-2 d-inline"
+                />
             </div>
             <div className="col p-0">
               <ConfirmModal
