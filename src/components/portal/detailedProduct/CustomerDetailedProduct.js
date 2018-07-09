@@ -48,8 +48,12 @@ class CustomerDetailedProduct extends Component {
 
     // load "random" products
     const single = this.state.single || this.props.product.single;
-    if (!isEmpty(single) && !this.fetchedRandom && this.state.id === this.props.match.params.productId) {
-      this.props.getRandomProducts(single.name.split(' ').pop(), '0');
+    if (
+      !isEmpty(single) &&
+      !this.fetchedRandom &&
+      this.state.id === this.props.match.params.productId
+    ) {
+      this.props.getRandomProducts(single.categoryId);
       this.fetchedRandom = true;
     }
   }
@@ -75,7 +79,11 @@ class CustomerDetailedProduct extends Component {
   show() {
     // From state or from props.
     const single = this.state.single || this.props.product.single;
-    const { loadingCategories, loadingVendors, product_vendor } = this.props.product;
+    const {
+      loadingCategories,
+      loadingVendors,
+      product_vendor
+    } = this.props.product;
     if (loadingVendors || loadingCategories) {
       return <Spinner size={'150px'} />;
     } else {
