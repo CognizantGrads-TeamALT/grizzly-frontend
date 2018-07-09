@@ -81,10 +81,7 @@ class CustomerProductDescription extends Component {
               value={this.state.search}
               onChange={this.onChange}
             />
-            <button
-              className="btn more-rounded d-inline plain-blue-b w-25"
-              disabled="true"
-            >
+            <button disabled className="btn more-rounded d-inline plain-blue-b w-25">
               Go
             </button>
           </div>

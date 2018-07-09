@@ -157,7 +157,8 @@ class CategoryTypeAhead extends Component {
                 this.onChange(event, true), this.catSearch(event);
               }}
             />
-            <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}><i className="far fa-times-circle d-inline"></i></div>
+            <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}>
+            <i className="far fa-times-circle d-inline"></i></div>
           </div>
           </div>
           <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>

@@ -316,6 +316,7 @@ export const searchProducts = (keyword, index, nav) => dispatch => {
       })
       .catch(err => {
         dispatch(setProductUpdated());
+        dispatch(searchProductFailed());
         dispatch({
           type: types.GET_ERRORS,
           payload: err.request.response
@@ -323,6 +324,13 @@ export const searchProducts = (keyword, index, nav) => dispatch => {
       });
   }
 };
+
+//Search product Failed - no results found
+export const searchProductFailed = (keyword, index) => dispatch => {
+  dispatch({
+    type: types.SEARCH_PRODUCT_FAILED
+  })
+}
 
 // Search Products
 export const getRandomProducts = catId => dispatch => {
