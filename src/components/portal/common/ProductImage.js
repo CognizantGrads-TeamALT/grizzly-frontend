@@ -23,8 +23,8 @@ class ProductImage extends Component {
             style={{
               opacity: loading ? 0.5 : 1,
               objectFit: 'cover',
-              height: '150px',
-              width: '150px'
+              height: '200px',
+              width: '300px'
             }}
           />
         )}
@@ -43,8 +43,8 @@ class ProductImage extends Component {
           className="img-responsive"
           style={{
             objectFit: 'cover',
-            height: '150px',
-            width: '150px'
+            height: '200px',
+            width: '300px'
           }}
         />
       );

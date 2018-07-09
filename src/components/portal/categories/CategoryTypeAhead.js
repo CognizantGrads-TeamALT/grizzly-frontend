@@ -89,7 +89,7 @@ class CategoryTypeAhead extends Component {
       });
 
     }
-    else if (this.state.count > 10) {
+    else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
       this.setState({
         count: 0,
@@ -100,7 +100,7 @@ class CategoryTypeAhead extends Component {
             type="button"
             name={'No Results'}
             value={0}
-            onClick={this.setCategoryName}
+            onClick={this.clearTypeAhead}
           >
             {'No results found'}
           </button>,
@@ -131,7 +131,11 @@ class CategoryTypeAhead extends Component {
   }
 
   clearTypeAhead = () => {
-    this.setState(this.baseState);
+    this.setState(this.baseState)
+    clearInterval(this.state.intervalId);
+        //this shouldn't be nessessary because this.basestate should do this anyway
+    //but it doesn't, don't know why, this works
+    this.setState({categoryList: []});
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
   }
@@ -156,7 +160,7 @@ class CategoryTypeAhead extends Component {
             <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}><i className="far fa-times-circle d-inline"></i></div>
           </div>
           </div>
-          <div className="cat-typeahead-position bg-white">{this.state.categoryList}</div>
+          <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>
         </div>
       </div>
     );

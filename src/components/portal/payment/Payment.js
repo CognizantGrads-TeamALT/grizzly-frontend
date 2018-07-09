@@ -137,6 +137,7 @@ class Payment extends Component {
                 <PaypalExpressBtn
                   client={client}
                   currency={'AUD'}
+                  shipping={1}
                   total={this.calcOrderPrice()}
                   onSuccess={this.onSuccess}
                   onCancel={this.onCancel}

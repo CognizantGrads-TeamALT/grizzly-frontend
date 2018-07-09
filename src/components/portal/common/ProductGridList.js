@@ -51,7 +51,7 @@ class ProductGridList extends Component {
                       />
                     </div>
                     <div className="fnt-weight-600 surround-parent w-100">
-                      AU${prod.price}.00
+                      ${prod.price}
                     </div>
                   </div>
                 </Link>
