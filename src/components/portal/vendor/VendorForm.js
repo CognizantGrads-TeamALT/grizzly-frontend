@@ -9,15 +9,16 @@ import { addVendor, WaitForError } from "../../../actions/vendorActions";
 import validator from 'validator';
 import _ from 'lodash';
 import ErrorComponent from "../../common/ErrorComponent";
+import isEmpty from '../../../validation/is-empty';
 
 class VendorForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      name: "",
-      website: "",
-      contactNum: "",
+      name: !isEmpty(this.props.vendor) ? this.props.vendor.name : '',
+      website: !isEmpty(this.props.vendor) ? this.props.vendor.website : '',
+      contactNum: !isEmpty(this.props.vendor) ? this.props.vendor.contactNum : '',
       email: "",
       bio: "",
       errors: [],
@@ -133,8 +134,8 @@ class VendorForm extends Component {
       <div className="form-group mb-0">
         <input
           type="button"
-          value="Add Vendor"
-          className="btn more-rounded hover-w-b btn-sm mx-auto w-75 my-2 my-sm-0"
+          value={this.props.buttonLabel}
+          className={this.props.buttonClass}
           onClick={this.onToggle}
         />
         <Modal
@@ -142,7 +143,7 @@ class VendorForm extends Component {
           toggle={this.toggle}
           className={this.props.className}
         >
-          <ModalHeader toggle={this.onToggle}>Add Vendor</ModalHeader>
+          <ModalHeader toggle={this.onToggle}>{this.props.title}</ModalHeader>
           <ModalBody>
             <form onSubmit={this.onSubmit}>
               <div className="row">
@@ -215,7 +216,6 @@ VendorForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  vendor: state.vendor,
   errors: state.errors
 });
 
