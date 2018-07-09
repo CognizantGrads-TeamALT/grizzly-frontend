@@ -162,7 +162,6 @@ class ProductDescription extends Component {
       });
     } else {
       this.setState({
-        editedCat: false,
         editCat: false,
         isEditing: false,
         isEditingDesc: false,
@@ -174,6 +173,26 @@ class ProductDescription extends Component {
       );
     }
   };
+
+  buttonCallBackCancelCat = () => {
+    this.setState({
+      editCat: false,
+      isEditing: false,
+      isEditingDesc: false,
+      isEditingPrice: false,
+      isEditingImg: false
+    });
+  }
+
+  buttonCallBackCancelVendor = () => {
+    this.setState({
+      editVendor: false,
+      isEditing: false,
+      isEditingDesc: false,
+      isEditingPrice: false,
+      isEditingImg: false
+    });
+  }
 
   buttonCallBackSaveVendor = () => {
     if (this.props.vendorProp.valid_vendor) {
@@ -189,7 +208,6 @@ class ProductDescription extends Component {
       });
     } else {
       this.setState({
-        editedVendor: false,
         editVendor: false,
         isEditing: false,
         isEditingDesc: false,
@@ -366,6 +384,10 @@ class ProductDescription extends Component {
             className="d-inline btn fa fa-check d-inline"
             onClick={this.buttonCallBackSaveVendor}
           />
+          <Button
+            className="d-inline btn fa fa-times d-inline"
+            onClick={this.buttonCallBackCancelVendor}
+          />
           <VendorTypeAhead
             placeholder="Vendor"
             isExact="false"
@@ -402,19 +424,26 @@ class ProductDescription extends Component {
     }
   }
 
+  
+
   showCat(category) {
     if (this.state.editCat) {
       //editing value, return vendor typeahead and finish button
       return (
         <div className="d-inline">
+                    <Button
+            className="d-inline btn fa fa-check d-inline"
+            onClick={this.buttonCallBackSaveCat}
+          />
+          <Button
+            className="d-inline btn fa fa-times d-inline"
+            onClick={this.buttonCallBackCancelCat}
+          />
           <CategoryTypeAhead
             placeholder="Category"
             onClickHandler={this.props.Update_TypeAhead}
           />
-          <Button
-            className="d-inline btn fa fa-check d-inline"
-            onClick={this.buttonCallBackSaveCat}
-          />
+
         </div>
       );
     } else {
