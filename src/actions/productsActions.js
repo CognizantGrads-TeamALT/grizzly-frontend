@@ -9,6 +9,7 @@ import isEmpty from '../validation/is-empty';
 
 // Get Product List
 export const getProducts = index => dispatch => {
+  console.log("in get product");
   dispatch(clearErrors());
   // Default the index to 0 if not given.
   index = index == null ? 0 : index;
@@ -431,6 +432,7 @@ export const filterProductsByCategory = inputs => dispatch => {
 };
 
 export const refreshProductData = (data, filtered) => dispatch => {
+  console.log("in ref prod");
   if (filtered) {
     dispatch({
       type: types.GET_FILTERED_PRODUCTS,
@@ -438,6 +440,7 @@ export const refreshProductData = (data, filtered) => dispatch => {
       filter: filtered.cur_id
     });
   } else {
+    console.log("getting products");
     dispatch({
       type: types.GET_PRODUCTS,
       payload: data
@@ -449,6 +452,9 @@ export const refreshProductData = (data, filtered) => dispatch => {
       data
         .filter(prod => prod.vendorId !== 0)
         .map(prod => vendorIdArray.push(prod.vendorId));
+
+        let cleanVendorIdArray = [...new Set(vendorIdArray)];
+        dispatch(getVendorBatch(cleanVendorIdArray.join()));
 
       let categoryIdArray = [];
       data
