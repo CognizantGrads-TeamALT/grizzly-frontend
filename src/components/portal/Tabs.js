@@ -198,24 +198,27 @@ class Tabs extends Component {
                 <Row>
                   <Col sm="12">
                     <div className="m-3 row">
-                      <div className="col">
+                      <div className="col text-left">
                         <ProductSearchSort />
                       </div>
-                      <div className="col">
+                      <div className="col text-center">
                         <CategoryTypeAhead
                           placeholder="Filter by category"
-                          extraClassNames="btn-group mr-2 surround-parent w-100"
+                          extraClassNames="btn-group mr-2 surround-parent w-75"
                           onClickHandler={this.props.filterProductsByCategory}
                           pageIndex={this.props.product.index}
                         />
                       </div>
-                      <div className="col text-right">
+                      <div className="col text-center">
                         <button
                           className="btn more-rounded hover-w-b btn-sm mx-auto w-75"
                           onClick={this.onAddProduct}
                         >
                           Add Product
                         </button>
+                      </div>
+                      <div className="col text-right">
+                        Clear all filters
                       </div>
                     </div>
                     <Products />
