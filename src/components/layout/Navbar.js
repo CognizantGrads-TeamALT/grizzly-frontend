@@ -40,7 +40,7 @@ class Navbar extends Component {
     } else {
       const term = this.state.search;
       this.setState({ search: '' });
-      this.props.searchProducts(term, '0');
+      this.props.searchProducts(term, '0', 'nav');
       this.props.history.push('/results');
     }
   }

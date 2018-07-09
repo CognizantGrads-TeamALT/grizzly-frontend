@@ -284,7 +284,7 @@ export const getCategoryBatch = categoryIdArray => dispatch => {
 };
 
 // Search Products
-export const searchProducts = (keyword, index) => dispatch => {
+export const searchProducts = (keyword, index, nav) => dispatch => {
   dispatch(clearErrors());
   dispatch(clearCurrentProducts());
   if (isEmpty(keyword)) {
@@ -294,10 +294,14 @@ export const searchProducts = (keyword, index) => dispatch => {
       .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
       .then(res => {
         // dispatch(refreshProductData(res.data));
-        dispatch({
-          type: types.SEARCH_RESULTS,
-          payload: res.data
-        });
+        if (nav) {
+          dispatch({
+            type: types.SEARCH_RESULTS,
+            payload: res.data
+          });
+        } else {
+          dispatch(refreshProductData(res.data));
+        }
       })
       .catch(err => {
         dispatch(setProductUpdated());
