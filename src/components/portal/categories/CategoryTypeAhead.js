@@ -12,11 +12,9 @@ import {
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
 
-
 class CategoryTypeAhead extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       modal: false,
       category: '',
@@ -25,6 +23,7 @@ class CategoryTypeAhead extends Component {
       valid_cat: false,
       count: 0
     };
+
     this.waitForResponse = this.waitForResponse.bind(this);
     this.onChange = this.onChange.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);

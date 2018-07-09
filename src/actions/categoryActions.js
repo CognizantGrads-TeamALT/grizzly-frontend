@@ -190,8 +190,9 @@ export const toggleBlockCategory = (categoryId, enabled) => dispatch => {
         type: types.CATEGORY_TOGGLEBLOCK,
         payload: res.data
       });
-      if(enabled===false)
-        dispatch(disableCategoryProducts(categoryId, true));
+      // disabled because this should not be blocking all products.
+      //if(enabled===false)
+      //  dispatch(disableCategoryProducts(categoryId, true));
     })
     .catch(err => {
       dispatch(setCategoryUpdated());
