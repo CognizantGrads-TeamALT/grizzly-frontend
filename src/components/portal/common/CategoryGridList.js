@@ -82,8 +82,8 @@ class CategoryGridList extends Component {
 
   render() {
     return (
-      <div className="col">
-        <div className="row mb-3">
+      <div className="col-11 only-scroll-down more-top-margin mx-auto">
+        <div className="row mb-4 mt-3">
           <div className="col-9 my-auto">
             <h1 className="text-left text-uppercase font-weight-bold my-auto mb-4 d-inline">
               {this.props.match.params.searchParam}
