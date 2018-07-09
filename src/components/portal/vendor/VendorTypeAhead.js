@@ -96,7 +96,7 @@ class VendorTypeAhead extends Component {
             type="button"
             name={'No Results'}
             value={0}
-            onClick={this.setVendorName}
+            onClick={this.clearTypeAhead}
           >
             {'No results found'}
           </button>,
@@ -113,7 +113,10 @@ class VendorTypeAhead extends Component {
   clearTypeAhead = () => {
     this.setState(this.baseState)
     clearInterval(this.state.intervalId);
-    this.setState({vendorList: []});
+    //this shouldn't be nessessary because this.basestate should do this anyway
+    //but it doesn't, don't know why, this works
+    this.setState({vendorList: [],
+    vendor: ''});
     this.props.clearCurrentVendors();
     this.props.clearFilteredProducts();
   }

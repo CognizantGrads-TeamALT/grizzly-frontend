@@ -136,6 +136,8 @@ class CategoryTypeAhead extends Component {
   clearTypeAhead = () => {
     this.setState(this.baseState)
     clearInterval(this.state.intervalId);
+        //this shouldn't be nessessary because this.basestate should do this anyway
+    //but it doesn't, don't know why, this works
     this.setState({categoryList: []});
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
