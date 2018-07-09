@@ -7,7 +7,8 @@ import StarRatings from 'react-star-ratings';
 import { connect } from 'react-redux';
 import {
   toggleBlockProduct,
-  deleteProduct
+  deleteProduct,
+  clearFilteredProducts
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
 import ErrorComponent from '../../common/ErrorComponent';
@@ -26,6 +27,10 @@ class ProductList extends Component {
     this.onViewClick = this.onViewClick.bind(this);
     this.closeError = this.closeError.bind(this);
     this.waitForResponce = this.waitForResponce.bind(this);
+  }
+
+  componentWillMount(){
+    this.props.clearFilteredProducts()
   }
 
   closeError() {
@@ -196,5 +201,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { toggleBlockProduct, deleteProduct }
+  { toggleBlockProduct, deleteProduct, clearFilteredProducts }
 )(withRouter(ProductList));
