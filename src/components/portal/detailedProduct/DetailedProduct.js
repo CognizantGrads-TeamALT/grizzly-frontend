@@ -16,8 +16,6 @@ class DetailedProduct extends Component {
     this.state = {
       activeTab: 0
     };
-
-    this.props.getProduct(this.props.match.params.productId);
   }
 
   componentDidMount() {
