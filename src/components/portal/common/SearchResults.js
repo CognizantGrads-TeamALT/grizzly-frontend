@@ -68,7 +68,7 @@ class SearchResults extends Component {
   }
 
   render() {
-    return <div className="row straight-grid">{this.show()}</div>;
+    return <div className="row straight-grid more-top-margin ml-3 mr-3">{this.show()}</div>;
   }
 }
 
