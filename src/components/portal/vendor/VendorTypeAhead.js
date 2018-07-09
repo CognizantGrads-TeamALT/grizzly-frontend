@@ -151,14 +151,16 @@ class VendorTypeAhead extends Component {
               this.onChange(event, true), this.vendorSearch(event);
             }}
           />
-          <div className="btn pl-0 move-left d-inline z-index-5000" onClick={this.clearTypeAhead}><i className="far fa-times-circle d-inline"></i></div>
-        </div><br/>
+          <div className="btn pl-0 move-left d-inline z-index-5000" onClick={this.clearTypeAhead}>
+          <i className="far fa-times-circle d-inline"></i></div>
+        </div>
+        </div>
         <div className="vendor-typeahead-position bg-white z-index-5000">
           {this.state.vendorList}
         </div>
       </div>
       </div>
-      </div>
+      
     );
   }
 }

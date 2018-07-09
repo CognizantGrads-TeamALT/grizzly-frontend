@@ -47,7 +47,7 @@ class SearchResults extends Component {
       ));
     } else {
       return (
-        <div className="col-lg-3 imageGrid mt-3">
+        <div className="row mt-5 ml-5" >
           <p>No results found.</p>
         </div>
       );
