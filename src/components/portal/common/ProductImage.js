@@ -24,7 +24,7 @@ class ProductImage extends Component {
               opacity: loading ? 0.5 : 1,
               objectFit: 'cover',
               height: '200px',
-              width: '300px'
+              width: '100%'
             }}
           />
         )}
@@ -44,7 +44,7 @@ class ProductImage extends Component {
           style={{
             objectFit: 'cover',
             height: '200px',
-            width: '300px'
+            width: '100%'
           }}
         />
       );
