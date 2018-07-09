@@ -6,6 +6,9 @@ const initialState = {
   // Stores ALL products. Shouldn't clear this.
   products: [],
 
+  // Search Results
+  results: [],
+
   // Stores ALL product categories.
   product_category: [],
 
@@ -52,6 +55,14 @@ export default function(state = initialState, action) {
         loading: false,
         loadingCategories: false,
         loadingVendors:false
+      };
+    case types.SEARCH_RESULTS:
+      return {
+        ...state,
+        results: isEmpty(action.payload)
+          ? []
+          : action.payload.filter(prod => prod.enabled !== false),
+        loading: false
       };
     case types.GET_PRODUCTS:
       let hasMore =

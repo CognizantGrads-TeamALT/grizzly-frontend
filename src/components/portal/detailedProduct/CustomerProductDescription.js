@@ -27,18 +27,21 @@ class CustomerProductDescription extends Component {
     this.props.product.random_products = null; // needed.
   }
 
-  buyNow(product){
-    this.props.addToCart(product)
-    this.props.history.push("/shoppingcart");
+  buyNow(product) {
+    this.props.addToCart(product);
+    this.props.history.push('/shoppingcart');
   }
 
   onCancel = event => {
     this.props.history.goBack();
   };
 
-  onClick = event => {
-    toast.success('Product has been added to the cart!');
-  };
+  toastId = null;
+  onClick(e) {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info('Added to cart!');
+    }
+  }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
@@ -49,8 +52,12 @@ class CustomerProductDescription extends Component {
       return (
         <div>
           <div className="row mt-2">
-            <button className="btn orange-b surround-parent w-75 more-rounded mb-2"
-            onClick={() => {this.buyNow(product)}}>
+            <button
+              className="btn orange-b surround-parent w-75 more-rounded mb-2"
+              onClick={() => {
+                this.buyNow(product);
+              }}
+            >
               Buy now
             </button>
             <button

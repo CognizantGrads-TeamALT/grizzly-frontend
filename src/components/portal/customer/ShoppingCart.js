@@ -52,8 +52,11 @@ class ShoppingCart extends Component {
     this.props.changeQuantity(productId, newValue);
   }
 
+  toastId = null;
   onClick(e) {
-    toast.success('Your product has been removed');
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info('Your product has been removed');
+    }
   }
 
   // This will fetch the items from the API.
