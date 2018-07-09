@@ -14,7 +14,7 @@ class Portal extends Component {
 
   render() {
     return (
-      <div className="griz-portal ">
+      <div className="griz-portal">
         <div className="row d-absolute position-fixed w-100 toggle-portal-appearance">
           <div className="col-2 position-static griz-dark-blue-bg h-95 pt-3">
             <Profile />
