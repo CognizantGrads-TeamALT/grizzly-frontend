@@ -91,7 +91,6 @@ export const getUserByEmail = () => dispatch => {
       dispatch(setUserUpdated());
     })
     .catch(err => {
-      console.log(err);
       dispatch({
         type: types.GET_USER_BY_EMAIL,
         payload: {}
