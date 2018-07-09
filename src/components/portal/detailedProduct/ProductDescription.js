@@ -15,11 +15,11 @@ import ImageUploader from '../products/ImageUploader';
 import ErrorComponent from '../../common/ErrorComponent';
 import validator from 'validator';
 import ProductCarousel from '../common/ProductCarousel';
-import { PRODUCT_IMAGE } from "../../../actions/microservices";
-import VendorTypeAhead from "../vendor/VendorTypeAhead";
-import {toast} from "react-toastify";
-import CategoryTypeAhead from "../categories/CategoryTypeAhead";
-import {Update_TypeAhead} from "../../../actions/categoryActions";
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+import VendorTypeAhead from '../vendor/VendorTypeAhead';
+import { toast } from 'react-toastify';
+import CategoryTypeAhead from '../categories/CategoryTypeAhead';
+import { Update_TypeAhead } from '../../../actions/categoryActions';
 //Icons for accept change to category/vendor don't work without it
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -182,7 +182,7 @@ class ProductDescription extends Component {
       isEditingPrice: false,
       isEditingImg: false
     });
-  }
+  };
 
   buttonCallBackCancelVendor = () => {
     this.setState({
@@ -192,7 +192,7 @@ class ProductDescription extends Component {
       isEditingPrice: false,
       isEditingImg: false
     });
-  }
+  };
 
   buttonCallBackSaveVendor = () => {
     if (this.props.vendorProp.valid_vendor) {
@@ -320,6 +320,7 @@ class ProductDescription extends Component {
           showDBError: true
         });
       }
+      this.props.reloadProducts();
     }
   }
 
@@ -371,6 +372,7 @@ class ProductDescription extends Component {
       changed: false
     });
     this.props.WaitForError();
+    this.props.reloadProducts();
     this.props.history.goBack();
   }
 
@@ -424,14 +426,12 @@ class ProductDescription extends Component {
     }
   }
 
-  
-
   showCat(category) {
     if (this.state.editCat) {
       //editing value, return vendor typeahead and finish button
       return (
         <div className="d-inline">
-                    <Button
+          <Button
             className="d-inline btn fa fa-check d-inline"
             onClick={this.buttonCallBackSaveCat}
           />
@@ -443,7 +443,6 @@ class ProductDescription extends Component {
             placeholder="Category"
             onClickHandler={this.props.Update_TypeAhead}
           />
-
         </div>
       );
     } else {
@@ -521,7 +520,8 @@ class ProductDescription extends Component {
               this.showImgEditor()
             )}
             {this.props.user.role === 'admin' &&
-              !this.state.isEditingImg && !this.state.changed && (
+              !this.state.isEditingImg &&
+              !this.state.changed && (
                 <Button
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                   onClick={this.buttonCallbackImg}
