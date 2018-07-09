@@ -65,9 +65,7 @@ export const loginUser = googleResponse => dispatch => {
   // Set current user
   dispatch(loadUserInfo(decoded));
 
-  if (res.data.role === 'admin' || res.data.role === 'vendor') {
-    dispatch(clearFilteredProducts())
-  }
+  dispatch(clearFilteredProducts())
 };
 
 export const loadUserInfo = decoded => dispatch => {
