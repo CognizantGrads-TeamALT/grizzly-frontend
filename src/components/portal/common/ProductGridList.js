@@ -67,7 +67,7 @@ constructor(props){
       if(this.count === 0)
         this.count =1;
       else{
-      toast.info("Please, search properly");
+      toast.info("Please, search some keywords");
       this.count =0;
     }}
   }
