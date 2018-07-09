@@ -13,11 +13,7 @@ import isEmpty from '../../../validation/is-empty';
 import { toast } from 'react-toastify';
 
 class Products extends Component {
-  constructor(props)
-  {
-    super(props);
-    // this.props.errors.errorMessage = "false"
-  }
+  
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener('scroll', e => {
@@ -153,11 +149,10 @@ class Products extends Component {
         );
       } else if (
         isEmpty(products) &&
-        !isEmpty(this.props.errors.errorMessage)
+        !isEmpty(this.props.errors.errorMessage )
       ) {
         this.notify(this.props.errors.errorMessage)
-        // this.props.erros.errorMessage = "true"
-            }
+        }
     }
   }
 
