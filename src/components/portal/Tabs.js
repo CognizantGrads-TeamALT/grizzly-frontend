@@ -39,6 +39,7 @@ class Tabs extends Component {
     super(props);
     this.onToggle = this.onToggle.bind(this);
     this.onAddProduct = this.onAddProduct.bind(this);
+    this.clear = this.clear.bind(this);
     this.onAddProductCancel = this.onAddProductCancel.bind(this);
     this.state = {
       activeTab: ''
@@ -198,24 +199,31 @@ class Tabs extends Component {
                 <Row>
                   <Col sm="12">
                     <div className="m-3 row">
-                      <div className="col">
+                      <div className="col-4 text-left">
                         <ProductSearchSort />
                       </div>
-                      <div className="col">
+                      <div className="col-3 text-center">
                         <CategoryTypeAhead
                           placeholder="Filter by category"
-                          extraClassNames="btn-group mr-2 surround-parent w-100"
+                          extraClassNames="btn-group mr-2 surround-parent w-75"
                           onClickHandler={this.props.filterProductsByCategory}
                           pageIndex={this.props.product.index}
                         />
                       </div>
-                      <div className="col text-right">
+                      <div className="col-3 text-center">
                         <button
                           className="btn more-rounded hover-w-b btn-sm mx-auto w-75"
                           onClick={this.onAddProduct}
                         >
                           Add Product
                         </button>
+                      </div>
+                      <div className="col-2 text-right">
+                        Clear all filters
+                          <div className="btn pl-0 ml-1 my-auto d-inline z-index-600" 
+                            onClick={this.clear}>
+                            <i className="far fa-times-circle d-inline"></i>
+                          </div>
                       </div>
                     </div>
                     <Products />

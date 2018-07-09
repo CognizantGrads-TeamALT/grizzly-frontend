@@ -176,6 +176,10 @@ title-size-2em-inner > * {
 }
 
 /* Buttons */
+.btn-group,
+.d-webkit-inline-box {
+  display: -webkit-inline-box!important;
+}
 
 .btn-group > .btn-group:not(:first-child) > .btn,
 .btn-group > .btn:not(:first-child),
@@ -203,7 +207,7 @@ title-size-2em-inner > * {
 }
 
 .move-left {
-  margin-left: -12%;
+  margin-left: -25px;
 }
 
 .search-form-custom::before,
@@ -485,6 +489,16 @@ a:-webkit-any-link {
 .cat-typeahead-position{
  position: absolute;
  margin-bottom: 4px;
+}
+
+/* Category Row List */
+@media (max-width: 830px) {
+  .col.displayAllCategories-buttons {
+    display: none;
+  }
+  .dropdown.categoryDropDownMenu {
+    margin-top: 3em;
+  }
 }
 
 /* Admin/Vendor Portal */

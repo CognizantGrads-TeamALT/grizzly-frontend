@@ -32,6 +32,10 @@ class RandomProduct extends Component {
     }
   }
 
+  returnToTop = () => {
+   window.scrollTo(0, 0);
+  }
+
   showProducts() {
     if (!isEmpty(this.props.product.random_products)) {
       return this.props.product.random_products
@@ -45,6 +49,7 @@ class RandomProduct extends Component {
               to={`/customerdetailedproduct/${prod.productId}`}
               className="img-thumbnail surround-parent h-100 w-100 card product-card"
               key={prod.productId}
+              onClick={this.returnToTop}
             >
               <ProductImage prod={prod} />
               <div className="card-body inner-product-card text-left surround-parent h-100 w-100">
