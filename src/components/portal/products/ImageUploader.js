@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import FlipMove from 'react-flip-move';
 import UploadIcon from '../../../img/UploadIcon.svg';
 import md5 from 'js-md5';
+import Button from 'react-ions/lib/components/Button';
 
 class ImageUploader extends Component {
   constructor(props) {
@@ -13,9 +14,20 @@ class ImageUploader extends Component {
       notAcceptedFileType: [],
       notAcceptedFileSize: []
     };
+    this.startingImages = this.props.startingImages;
+    this.startingFiles = this.props.startingFiles;
     this.inputElement = '';
     this.onDropFile = this.onDropFile.bind(this);
     this.triggerFileUpload = this.triggerFileUpload.bind(this);
+    this.restoreStarting = this.restoreStarting.bind(this);
+
+    this.resetCallback = this.props.resetCallback;
+  }
+
+  // Restore the "starting files"
+  restoreStarting() {
+    this.setState({ pictures: this.startingImages, files: this.startingFiles });
+    this.resetCallback();
   }
 
   /*
@@ -118,7 +130,7 @@ class ImageUploader extends Component {
    Render the upload icon
    */
   renderIcon() {
-    if (this.props.withIcon) {
+    if (this.props.withIcon && !this.props.disabled) {
       return <img src={UploadIcon} className="uploadIcon" alt="Upload Icon" />;
     }
   }
@@ -127,11 +139,25 @@ class ImageUploader extends Component {
 	 Render label
 	 */
   renderLabel() {
-    if (this.props.withLabel) {
+    if (this.props.withLabel && !this.props.disabled) {
       return (
         <p className={this.props.labelClass} style={this.props.labelStyles}>
           {this.props.label}
         </p>
+      );
+    } else {
+      return (
+        <div>
+          <p className={this.props.labelClass} style={this.props.labelStyles}>
+            Your changes have been saved. You must click the Finish button to finalise.
+          </p>
+          <Button
+            onClick={this.restoreStarting}
+            className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
+          >
+            Reset changes
+          </Button>
+        </div>
       );
     }
   }
@@ -217,12 +243,14 @@ class ImageUploader extends Component {
     return this.state.pictures.map((picture, index) => {
       return (
         <div key={index} className="uploadPictureContainer">
-          <div
-            className="deleteImage"
-            onClick={() => this.removeImage(picture)}
-          >
-            X
-          </div>
+          {!this.props.disabled && (
+            <div
+              className="deleteImage"
+              onClick={() => this.removeImage(picture)}
+            >
+              X
+            </div>
+          )}
           <img src={picture} className="uploadPicture" alt="preview" />
         </div>
       );
@@ -239,22 +267,26 @@ class ImageUploader extends Component {
           {this.renderIcon()}
           {this.renderLabel()}
           <div className="errorsContainer">{this.renderErrors()}</div>
-          <button
-            type={this.props.buttonType}
-            className={'chooseFileButton ' + this.props.buttonClassName}
-            style={this.props.buttonStyles}
-            onClick={this.triggerFileUpload}
-          >
-            {this.props.buttonText}
-          </button>
-          <input
-            type="file"
-            ref={input => (this.inputElement = input)}
-            name={this.props.name}
-            multiple={!this.props.singleImage}
-            onChange={this.onDropFile}
-            accept={this.props.accept}
-          />
+          {!this.props.disabled && (
+            <div>
+              <button
+                type={this.props.buttonType}
+                className={'chooseFileButton ' + this.props.buttonClassName}
+                style={this.props.buttonStyles}
+                onClick={this.triggerFileUpload}
+              >
+                {this.props.buttonText}
+              </button>
+              <input
+                type="file"
+                ref={input => (this.inputElement = input)}
+                name={this.props.name}
+                multiple={!this.props.singleImage}
+                onChange={this.onDropFile}
+                accept={this.props.accept}
+              />
+            </div>
+          )}
           {this.props.withPreview ? this.renderPreview() : null}
         </div>
       </div>
