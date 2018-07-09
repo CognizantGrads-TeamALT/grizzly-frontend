@@ -475,7 +475,7 @@ a:-webkit-any-link {
 /*categoryscrolllist*/
 .cat-scroll {
   max-height: 7cm;
-  overflow: auto;
+  /*overflow: auto;*/
 }
 
 .cat-scroll-button {

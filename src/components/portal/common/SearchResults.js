@@ -5,15 +5,12 @@ import isEmpty from '../../../validation/is-empty';
 import { Link } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import ProductImage from '../common/ProductImage';
+import Magnify from '../../common/Magnify';
 
 class SearchResults extends Component {
   show() {
     const { results } = this.props.product;
-    // let prodArray = [];
     if (!isEmpty(results)) {
-      // for (let i = 0; i < results.length; i++) {
-      //   prodArray.push(results[i]);
-      // }
       return results.filter(prod => prod.enabled !== false).map(prod => (
         <div key={prod.productId} className="col-lg-3 imageGrid mt-3">
           <Link
@@ -46,11 +43,18 @@ class SearchResults extends Component {
         </div>
       ));
     } else {
-      return (
-        <div className="mt-5 ml-5" >
-          <p>No results found.</p>
-        </div>
-      );
+      if (isEmpty(this.props.product.loading) || this.props.product.loading) {
+        return (
+          <div className="text-center">
+            <Magnify />
+          </div>
+        );
+      } else
+        return (
+          <div className="text-center">
+            <span>No results found.</span>
+          </div>
+        );
     }
   }
 
@@ -68,7 +72,11 @@ class SearchResults extends Component {
   }
 
   render() {
-    return <div className="row straight-grid more-top-margin ml-3 mr-3">{this.show()}</div>;
+    return (
+      <div className="row straight-grid more-top-margin ml-3 mr-3">
+        {this.show()}
+      </div>
+    );
   }
 }
 

@@ -48,9 +48,15 @@ class Tabs extends Component {
 
   componentWillMount() {
     //this.clear();
-    this.props.getProducts();
-    this.props.getVendors();
-    this.props.getCategories();
+    if (isEmpty(this.props.product.products)) {
+      this.props.getProducts();
+    }
+    if (isEmpty(this.props.vendor.vendors)) {
+      this.props.getVendors();
+    }
+    if (isEmpty(this.props.category.categories)) {
+      this.props.getCategories();
+    }
     this.setState({ activeTab: '1' });
   }
 
@@ -74,7 +80,6 @@ class Tabs extends Component {
       }
     }
     if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
-      console.log('fil')
       this.props.clearCurrentProducts();
       this.props.getProducts();
     }
@@ -275,12 +280,16 @@ Tabs.propTypes = {
   setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
   getVendorInventory: PropTypes.func.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired
+  filterProductsByCategory: PropTypes.func.isRequired,
+  vendor: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  product: state.product
+  product: state.product,
+  vendor: state.vendor,
+  category: state.category
 });
 
 export default connect(
