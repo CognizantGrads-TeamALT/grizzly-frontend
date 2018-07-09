@@ -11,7 +11,8 @@ import {
 } from '../../../actions/productsActions';
 import {
   searchCategories,
-  Update_TypeAhead
+  Update_TypeAhead,
+  reloadCategories
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
 import CategoryTypeAhead from '../categories/CategoryTypeAhead';
@@ -130,6 +131,7 @@ class ProductForm extends Component {
         shouldCancel: true,
         showDBErrors: true
       });
+      this.props.reloadCategories();
       //this.props.reloadProducts();
     }
   }
@@ -288,6 +290,7 @@ ProductForm.propTypes = {
   addProduct: PropTypes.func.isRequired,
   reloadProducts: PropTypes.func.isRequired,
   searchCategories: PropTypes.func.isRequired,
+  reloadCategories: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired
 };
 
@@ -305,6 +308,7 @@ export default connect(
     addProduct,
     reloadProducts,
     searchCategories,
+    reloadCategories,
     Update_TypeAhead,
     Vendor_Update_TypeAhead,
     clearErrors,
