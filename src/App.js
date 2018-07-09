@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="App h-100">
+        <div className="App">
           <ToastContainer
             className="toast"
             position="top-center"
@@ -24,7 +24,7 @@ class App extends Component {
             pauseOnHover={false}
           />
           <Navbar />
-          <div className="griz-real-body griz-portal-parent h-100 surround-parent">
+          <div className="griz-real-body griz-portal-parent surround-parent">
             <Routes />
           </div>
         </div>

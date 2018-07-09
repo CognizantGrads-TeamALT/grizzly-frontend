@@ -9,6 +9,7 @@ import {
 } from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
 import { emptyCart } from './cartActions';
+import { clearFilteredProducts } from './productsActions';
 
 // Get Admins List
 export const getUsers = (role, id) => dispatch => {
@@ -63,6 +64,10 @@ export const loginUser = googleResponse => dispatch => {
   const decoded = jwt_decode(tokenId);
   // Set current user
   dispatch(loadUserInfo(decoded));
+
+  if (res.data.role === 'admin' || res.data.role === 'vendor') {
+    dispatch(clearFilteredProducts())
+  }
 };
 
 export const loadUserInfo = decoded => dispatch => {
@@ -88,6 +93,7 @@ export const getUserByEmail = () => dispatch => {
         type: types.GET_USER_BY_EMAIL,
         payload: res.data
       });
+
       dispatch(setUserUpdated());
     })
     .catch(err => {
@@ -166,6 +172,7 @@ export const addOrder = newOrder => dispatch => {
         payload: err.response.data
       });
     });
+  emptyCart();
 };
 
 // ORDER ACTIONS

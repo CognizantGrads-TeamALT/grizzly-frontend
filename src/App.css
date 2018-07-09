@@ -298,6 +298,24 @@ title-size-2em-inner > * {
   background: white;
   z-index: 1000; /* OVER 9000!!!!! */
 }
+
+tbody {
+  display: block;
+  min-height: 300px;
+
+  height: 70vh;
+  overflow: auto;
+  width: calc( 100% - .1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+
+thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;/* even columns width , fix width of table too*/
+  width: calc( 100% - .1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+
+
 .navbar-inner-height > * > .nav-bar-singular-tab {
   margin-top: 0.7em;
 }
@@ -347,7 +365,11 @@ title-size-2em-inner > * {
 }
 
 .griz-real-body {
-  margin-top: 4%;
+  margin-top: 75px;
+}
+
+.below-navbar {
+  margin-top: 100px !important;
 }
 
 .more-top-margin {
@@ -475,7 +497,7 @@ a:-webkit-any-link {
 /*categoryscrolllist*/
 .cat-scroll {
   max-height: 7cm;
-  overflow: auto;
+  /*overflow: auto;*/
 }
 
 .cat-scroll-button {

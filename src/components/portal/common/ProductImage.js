@@ -3,7 +3,7 @@ import isEmpty from '../../../validation/is-empty';
 
 import unavailable from '../../../img/unavailable.png';
 import { PRODUCT_IMAGE } from '../../../actions/microservices';
-import spinner from "../../common/spinner.svg";
+import spinner from '../../common/spinner.svg';
 
 import ProgressiveImage from 'react-progressive-image';
 
@@ -13,13 +13,16 @@ class ProductImage extends Component {
     let imgInfo = product.imageDTO[0];
 
     return (
-      <ProgressiveImage src={PRODUCT_IMAGE + imgInfo.imgName} placeholder={spinner}>
+      <ProgressiveImage
+        src={PRODUCT_IMAGE + imgInfo.imgName}
+        placeholder={spinner}
+      >
         {(src, loading) => (
           <img
             key={product.productId}
             src={src}
             alt={product.name}
-            className="img-responsive"
+            className="img-responsive image-thumb"
             style={{
               opacity: loading ? 0.5 : 1,
               objectFit: 'cover',
@@ -48,7 +51,7 @@ class ProductImage extends Component {
           }}
         />
       );
-    // Return the loaded image.
+      // Return the loaded image.
     } else {
       return this.getImg(product);
     }
@@ -60,4 +63,4 @@ class ProductImage extends Component {
   }
 }
 
-export default (ProductImage);
+export default ProductImage;

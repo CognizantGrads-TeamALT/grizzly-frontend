@@ -33,18 +33,15 @@ class RandomProduct extends Component {
   }
 
   returnToTop = () => {
-   window.scrollTo(0, 0);
-  }
+    window.scrollTo(0, 0);
+  };
 
   showProducts() {
     if (!isEmpty(this.props.product.random_products)) {
       return this.props.product.random_products
         .filter(item => item.productId !== this.props.productId)
         .map(prod => (
-          <div
-            key={prod.productId}
-            className="col-md-3 imageGrid mt-3"
-          >
+          <div key={prod.productId} className="col-md-3 imageGrid mt-3">
             <Link
               to={`/customerdetailedproduct/${prod.productId}`}
               className="img-thumbnail surround-parent h-100 w-100 card product-card"

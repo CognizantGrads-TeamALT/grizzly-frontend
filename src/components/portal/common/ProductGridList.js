@@ -8,25 +8,25 @@ import ProductImage from '../common/ProductImage';
 import { toast } from 'react-toastify';
 
 class ProductGridList extends Component {
-constructor(props){
-  super(props);
+  constructor(props) {
+    super(props);
 
-  this.count = 0;
-  this.getCategoryEnabled = this.getCategoryEnabled.bind(this);
-}
+    this.count = 0;
+    this.getCategoryEnabled = this.getCategoryEnabled.bind(this);
+  }
 
   show() {
-    this.count=0;
+    this.count = 0;
     const products = this.props.product.products;
     let prodArray = [];
     if (!isEmpty(products)) {
       for (let i = 0; i < products.length; i++) {
         prodArray.push(products[i]);
       }
-      return prodArray.filter(prod => prod.enabled !== false).map(
-        function(prod) {
-          if (!this.getCategoryEnabled(prod.categoryId))
-            return '';
+      return prodArray
+        .filter(prod => prod.enabled !== false)
+        .map(function(prod) {
+          if (!this.getCategoryEnabled(prod.categoryId)) return '';
           else
             return (
               <div key={prod.productId} className="col-lg-3 imageGrid mt-3">
@@ -60,16 +60,14 @@ constructor(props){
                 </Link>
               </div>
             );
-        }, this
-      );
+        }, this);
+    } else {
+      if (this.count === 0) this.count = 1;
+      else {
+        toast.info('Please enter some keywords');
+        this.count = 0;
+      }
     }
-    else{
-      if(this.count === 0)
-        this.count =1;
-      else{
-      toast.info("Please, search some keywords");
-      this.count =0;
-    }}
   }
 
   getCategoryEnabled(categoryId) {

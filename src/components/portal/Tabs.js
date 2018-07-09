@@ -42,16 +42,29 @@ class Tabs extends Component {
     this.clear = this.clear.bind(this);
     this.onAddProductCancel = this.onAddProductCancel.bind(this);
     this.state = {
-      activeTab: ''
+      activeTab: '1'
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     //this.clear();
-    this.props.getProducts();
-    this.props.getVendors();
-    this.props.getCategories();
-    this.setState({ activeTab: '1' });
+    if (isEmpty(this.props.product.products) &&
+      !this.props.product.loadingCategories &&
+      !this.props.product.loadingVendors &&
+      !this.props.product.loading &&
+      this.props.product.fresh) {
+        this.props.getProducts();
+    }
+
+    if (isEmpty(this.props.vendor.vendors) &&
+      !this.props.vendor.loading) {
+        this.props.getVendors();
+    }
+
+    if (isEmpty(this.props.category.categories) &&
+      !this.props.category.loading) {
+        this.props.getCategories();
+    }
   }
 
   componentDidUpdate(PrevProps) {
@@ -73,11 +86,11 @@ class Tabs extends Component {
         }
       }
     }
-    if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
-      console.log('fil')
-      this.props.clearCurrentProducts();
-      this.props.getProducts();
-    }
+
+    //if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
+    //  this.props.clearCurrentProducts();
+    //  this.props.getProducts();
+    //}
   }
 
   // in case its needed.
@@ -275,12 +288,16 @@ Tabs.propTypes = {
   setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
   getVendorInventory: PropTypes.func.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired
+  filterProductsByCategory: PropTypes.func.isRequired,
+  vendor: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  product: state.product
+  product: state.product,
+  vendor: state.vendor,
+  category: state.category
 });
 
 export default connect(
