@@ -92,7 +92,6 @@ export const getUserByEmail = () => dispatch => {
       console.log(res.data);
       if(res.data.role == 'admin' || res.data.role == 'vendor'){
         dispatch(clearFilteredProducts())
-        console.log(res);
       }
 
       dispatch(setUserUpdated());
