@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import {
   addProduct,
+  reloadProducts,
   clearErrors,
   WaitForError
 } from '../../../actions/productsActions';
@@ -128,6 +129,7 @@ class ProductForm extends Component {
         shouldCancel: true,
         showDBErrors: true
       });
+      this.props.reloadProducts();
     }
   }
 
@@ -283,6 +285,7 @@ class ProductForm extends Component {
 
 ProductForm.propTypes = {
   addProduct: PropTypes.func.isRequired,
+  reloadProducts: PropTypes.func.isRequired,
   searchCategories: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired
 };
@@ -299,6 +302,7 @@ export default connect(
   mapStateToProps,
   {
     addProduct,
+    reloadProducts,
     searchCategories,
     Update_TypeAhead,
     Vendor_Update_TypeAhead,
