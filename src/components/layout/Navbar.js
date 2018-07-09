@@ -30,11 +30,19 @@ class Navbar extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  toastId = null;
   onSubmit(e) {
     e.preventDefault();
-    const term = this.state.search;
-    this.setState({ search: '' });
-    this.props.searchProducts(term, '0');
+    if (isEmpty(this.state.search)) {
+      if (!toast.isActive(this.toastId)) {
+        this.toastId = toast.info('Please enter some keywords!');
+      }
+    } else {
+      const term = this.state.search;
+      this.setState({ search: '' });
+      this.props.searchProducts(term, '0');
+      this.props.history.push('/results');
+    }
   }
 
   onLogout(e) {

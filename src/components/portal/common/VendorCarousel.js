@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 class VendorCarousel extends Component {
   fetchBanners() {
     let imageArray = [];
-    imageArray.push('http://akshaybhasme.com/imgs/watch_banner_big.jpg');
+    imageArray.push('https://akshaybhasme.com/imgs/watch_banner_big.jpg');
     imageArray.push(
       'https://www.atomos.com/assets/images/home/UNLEASH-banner.jpg'
     );
@@ -44,7 +44,7 @@ class VendorCarousel extends Component {
             src={src}
             className="rounded parent-wide custCarousel"
             style={{
-              height: '350px',
+              height: '385px',
               width: 'auto',
               display: 'block',
               objectFit: 'cover'

@@ -293,7 +293,11 @@ export const searchProducts = (keyword, index) => dispatch => {
     axios
       .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
       .then(res => {
-        dispatch(refreshProductData(res.data));
+        // dispatch(refreshProductData(res.data));
+        dispatch({
+          type: types.SEARCH_RESULTS,
+          payload: res.data
+        });
       })
       .catch(err => {
         dispatch(setProductUpdated());
@@ -432,7 +436,7 @@ export const refreshProductData = (data, filtered) => dispatch => {
       let vendorIdArray = [];
       data
         .filter(prod => prod.vendorId !== 0)
-        .map(prod => (vendorIdArray.push(prod.vendorId)));
+        .map(prod => vendorIdArray.push(prod.vendorId));
 
       let cleanVendorIdArray = [...new Set(vendorIdArray)];
       dispatch(getVendorBatch(cleanVendorIdArray.join()));
@@ -440,7 +444,7 @@ export const refreshProductData = (data, filtered) => dispatch => {
       let categoryIdArray = [];
       data
         .filter(prod => prod.categoryId !== 0)
-        .map(prod => (categoryIdArray.push(prod.categoryId)));
+        .map(prod => categoryIdArray.push(prod.categoryId));
 
       let cleanCategoryIdArray = [...new Set(categoryIdArray)];
       dispatch(getCategoryBatch(cleanCategoryIdArray.join()));

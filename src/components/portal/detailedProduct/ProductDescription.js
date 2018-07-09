@@ -8,18 +8,18 @@ import {
   reloadProducts,
   WaitForError,
   getProduct
-} from "../../../actions/productsActions";
-import {Vendor_Update_TypeAhead} from "../../../actions/vendorActions";
-import { connect } from "react-redux";
-import ImageUploader from "../products/ImageUploader";
-import ErrorComponent from "../../common/ErrorComponent";
+} from '../../../actions/productsActions';
+import { Vendor_Update_TypeAhead } from '../../../actions/vendorActions';
+import { connect } from 'react-redux';
+import ImageUploader from '../products/ImageUploader';
+import ErrorComponent from '../../common/ErrorComponent';
 import validator from 'validator';
 import ProductCarousel from '../common/ProductCarousel';
-import { PRODUCT_IMAGE } from "../../../actions/microservices";
-import VendorTypeAhead from "../vendor/VendorTypeAhead";
-import {toast} from "react-toastify";
-import CategoryTypeAhead from "../categories/CategoryTypeAhead";
-import {Update_TypeAhead} from "../../../actions/categoryActions";
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+import VendorTypeAhead from '../vendor/VendorTypeAhead';
+import { toast } from 'react-toastify';
+import CategoryTypeAhead from '../categories/CategoryTypeAhead';
+import { Update_TypeAhead } from '../../../actions/categoryActions';
 // import 'font-awesome/css/font-awesome.min.css';
 
 class ProductDescription extends Component {
@@ -41,7 +41,9 @@ class ProductDescription extends Component {
       editCat: false,
       editedCat: false,
       vendorName: !isEmpty(this.props.vendor) ? this.props.vendor.name : '0',
-      categoryName: !isEmpty(this.props.category) ? this.props.category.name : '0'
+      categoryName: !isEmpty(this.props.category)
+        ? this.props.category.name
+        : '0'
     };
     //populateNames();
     this.pictures = [];
@@ -119,70 +121,80 @@ class ProductDescription extends Component {
     });
   };
 
-  buttonCallBackVendor = () =>{
-    this.setState({editVendor: !this.state.editVendor,
+  buttonCallBackVendor = () => {
+    this.setState({
+      editVendor: !this.state.editVendor,
       isEditing: false,
       isEditingDesc: false,
       isEditingPrice: false,
       isEditingImg: false
-    })
-  }
+    });
+  };
 
-  buttonCallBackCat = () =>{
-    this.setState({editCat: !this.state.editCat,
+  buttonCallBackCat = () => {
+    this.setState({
+      editCat: !this.state.editCat,
       isEditing: false,
       isEditingDesc: false,
       isEditingPrice: false,
       isEditingImg: false
-    })
-  }
+    });
+  };
 
   buttonCallBackSaveCat = () => {
-    if(this.props.categoryProp.valid_cat){
-      this.setState({editedCat:true,
+    if (this.props.categoryProp.valid_cat) {
+      this.setState({
+        editedCat: true,
         categoryName: this.props.categoryProp.cur_name,
-        editCat:false,
+        editCat: false,
         editVendor: false,
         isEditing: false,
         isEditingDesc: false,
         isEditingPrice: false,
         isEditingImg: false,
-        changed: true})
-    }
-    else{
-      this.setState({editedCat:false,
+        changed: true
+      });
+    } else {
+      this.setState({
+        editedCat: false,
         editCat: false,
         isEditing: false,
         isEditingDesc: false,
         isEditingPrice: false,
-        isEditingImg: false,
-      })
-      toast.warn("category not valid, please choose one from the list. reverting vendor");
+        isEditingImg: false
+      });
+      toast.warn(
+        'category not valid, please choose one from the list. reverting vendor'
+      );
     }
-  }
+  };
 
   buttonCallBackSaveVendor = () => {
-    if(this.props.vendorProp.valid_vendor){
-      this.setState({editedVendor:true,
+    if (this.props.vendorProp.valid_vendor) {
+      this.setState({
+        editedVendor: true,
         vendorName: this.props.vendorProp.cur_name,
         editVendor: false,
         isEditing: false,
         isEditingDesc: false,
         isEditingPrice: false,
         isEditingImg: false,
-        changed: true})
-    }
-    else{
-      this.setState({editedVendor:false,
+        changed: true
+      });
+    } else {
+      this.setState({
+        editedVendor: false,
         editVendor: false,
         isEditing: false,
         isEditingDesc: false,
         isEditingPrice: false,
-        isEditingImg: false,
-      })
-      toast.warn("vendor not valid, please choose one from the list. reverting vendor");
+        isEditingImg: false
+      });
+      toast.warn(
+        'vendor not valid, please choose one from the list. reverting vendor'
+      );
     }
-  }
+  };
 
   handleCallbackPrice = event => {
     //DO NOT DELETE THE COMMENT BELOW
@@ -269,11 +281,11 @@ class ProductDescription extends Component {
         imageDTO: imageData
       };
 
-      if(this.state.editedVendor){
-        newProd.vendorId=this.props.vendorProp.cur_id;
+      if (this.state.editedVendor) {
+        newProd.vendorId = this.props.vendorProp.cur_id;
       }
-      if(this.state.editedCat){
-        newProd.categoryId=this.props.categoryProp.cur_id;
+      if (this.state.editedCat) {
+        newProd.categoryId = this.props.categoryProp.cur_id;
       }
       if (this.state.changed) {
         this.props.editProduct(newProd);
@@ -299,10 +311,12 @@ class ProductDescription extends Component {
       valid = false;
     }
     //Parse float beahaves wierd, 123av-4 would return 123, hence the second check
-    else if(isNaN(parseFloat(this.state.price)) 
-      || parseFloat(this.state.price) + "" !== this.state.price + ""){
-      valid=false;
-      error = {errmsg: "price must be numeric"};
+    else if (
+      isNaN(parseFloat(this.state.price)) ||
+      parseFloat(this.state.price) + '' !== this.state.price + ''
+    ) {
+      valid = false;
+      error = { errmsg: 'price must be numeric' };
     }
     this.setState({ error: error });
     return valid;
@@ -310,7 +324,7 @@ class ProductDescription extends Component {
 
   showErrors() {
     //shows an error if a DB action has been sent
-    if (this.state.error !== undefined)
+    if (!isEmpty(this.state.error))
       return <ErrorComponent errormsg={this.state.error.errmsg} />;
     if (this.state.showDBError) {
       return <ErrorComponent errormsg={this.props.errors.errorMessage} />;
@@ -334,92 +348,95 @@ class ProductDescription extends Component {
     this.props.history.goBack();
   }
 
-  showVendor(vendor){
-    if(this.state.editVendor){
-      //editing value, return vendor typeahead and finish button 
-      return(
-        (<div className="d-inline">
-          <p className="d-inline dscrptnSize-9">
-            ' by '
-          </p>
+  showVendor(vendor) {
+    if (this.state.editVendor) {
+      //editing value, return vendor typeahead and finish button
+      return (
+        <div className="d-inline">
+          <p className="d-inline dscrptnSize-9">' by '</p>
           <Button
-              className="d-inline btn fa fa-check d-inline"
-              onClick={this.buttonCallBackSaveVendor}
-            />
+            className="d-inline btn fa fa-check d-inline"
+            onClick={this.buttonCallBackSaveVendor}
+          />
           <VendorTypeAhead
             placeholder="Vendor"
-            isExact='false'
+            isExact="false"
             onClickHandler={this.props.Vendor_Update_TypeAhead}
           />
-        </div>)
+        </div>
       );
-    }
-    else{
+    } else {
       //not editing, show vendor or statement to show there is no vendor, plus edit button.
       var returnVal;
-      if(isEmpty(vendor)){
-        returnVal= (<p className="d-inline dscrptnSize-9" key='1'>
-          ' by No Vendor Found'
-        </p>);
+      if (isEmpty(vendor)) {
+        returnVal = (
+          <p className="d-inline dscrptnSize-9" key="1">
+            ' by No Vendor Found'
+          </p>
+        );
+      } else {
+        returnVal = (
+          <p className="d-inline dscrptnSize-9" key="1">
+            {' by ' + vendor}
+          </p>
+        );
       }
-      else{
-        returnVal =(<p className="d-inline dscrptnSize-9" key='1'>
-        {' by ' + vendor}
-        </p>);
-      }
-      return(
-        [returnVal,
-          this.props.user.role === 'admin' && (
-            <Button
-              className="d-inline btn far fa-edit d-inline"
-              onClick={this.buttonCallBackVendor}
-              key='2'
-            />
-          )]
-      );
-  }}
+      return [
+        returnVal,
+        this.props.user.role === 'admin' && (
+          <Button
+            className="d-inline btn far fa-edit d-inline"
+            onClick={this.buttonCallBackVendor}
+            key="2"
+          />
+        )
+      ];
+    }
+  }
 
-  showCat(category){
-    if(this.state.editCat){
-      //editing value, return vendor typeahead and finish button 
-      return(
-        (<div className="d-inline">
-          
+  showCat(category) {
+    if (this.state.editCat) {
+      //editing value, return vendor typeahead and finish button
+      return (
+        <div className="d-inline">
           <CategoryTypeAhead
-              placeholder="Category"
-              onClickHandler={this.props.Update_TypeAhead}
-            />
-            <Button
-              className="d-inline btn fa fa-check d-inline"
-              onClick={this.buttonCallBackSaveCat}
-            />
-        </div>)
+            placeholder="Category"
+            onClickHandler={this.props.Update_TypeAhead}
+          />
+          <Button
+            className="d-inline btn fa fa-check d-inline"
+            onClick={this.buttonCallBackSaveCat}
+          />
+        </div>
       );
-    }
-    else{
+    } else {
       //not editing, show vendor or statement to show there is no vendor, plus edit button.
       var returnVal;
-      if(isEmpty(category)){
-        returnVal= (<p className="d-inline mb-0 mt-2" key='1'>
-          No category Found
-        </p>);
+      if (isEmpty(category)) {
+        returnVal = (
+          <p className="d-inline mb-0 mt-2" key="1">
+            No category Found
+          </p>
+        );
+      } else {
+        returnVal = (
+          <p className="d-inline mb-0 mt-2" key="1">
+            {category}
+          </p>
+        );
       }
-      else{
-        returnVal =(<p className="d-inline mb-0 mt-2" key='1'>
-        {category}
-        </p>);
-      }
-      return(
-        [returnVal,
-          this.props.user.role === 'admin' && (
-            <Button
-              className="d-inline btn far fa-edit d-inline"
-              onClick={this.buttonCallBackCat}
-              key='2'
-            />
-          )]
-      );
-  }}
+      return [
+        returnVal,
+        this.props.user.role === 'admin' && (
+          <Button
+            className="d-inline btn far fa-edit d-inline"
+            onClick={this.buttonCallBackCat}
+            key="2"
+          />
+        )
+      ];
+    }
+  }
 
   render() {
     return (
@@ -448,7 +465,6 @@ class ProductDescription extends Component {
                     />
                   )}
                   {this.showVendor(this.state.vendorName)}
-                  
                 </div>
                 <div className="productRating ">
                   <StarRatings
@@ -490,10 +506,9 @@ class ProductDescription extends Component {
 
         <div className="col-6">
           <div className="container surround-parent parent-high">
-          <div className="row align-items-start align-center">
-          <div className="col">
-            {this.showCat(this.state.categoryName)}
-          </div></div>
+            <div className="row align-items-start align-center">
+              <div className="col">{this.showCat(this.state.categoryName)}</div>
+            </div>
             <div className="row align-items-start">
               <div className="col">
                 Product Description
@@ -606,5 +621,12 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { editProduct, reloadProducts, WaitForError, getProduct, Vendor_Update_TypeAhead, Update_TypeAhead }
+  {
+    editProduct,
+    reloadProducts,
+    WaitForError,
+    getProduct,
+    Vendor_Update_TypeAhead,
+    Update_TypeAhead
+  }
 )(ProductDescription);
