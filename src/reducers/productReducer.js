@@ -7,7 +7,7 @@ const initialState = {
   products: [],
 
   // Search Results
-  // results: [],
+  results: [],
 
   // Stores ALL product categories.
   product_category: [],
