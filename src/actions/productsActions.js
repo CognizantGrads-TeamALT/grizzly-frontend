@@ -329,8 +329,8 @@ export const searchProducts = (keyword, index, nav) => dispatch => {
 export const searchProductFailed = (keyword, index) => dispatch => {
   dispatch({
     type: types.SEARCH_PRODUCT_FAILED
-  })
-}
+  });
+};
 
 // Search Products
 export const getRandomProducts = catId => dispatch => {
