@@ -86,6 +86,7 @@ class ProductForm extends Component {
       showDBErrors: false
     });
     this.props.onCancel();
+    this.props.reloadProducts();
   }
 
   onSubmit(e) {

@@ -9,7 +9,7 @@ import {
 } from "../../../actions/categoryActions";
 import CategoriesList from "./CategoriesList";
 import isEmpty from "../../../validation/is-empty";
-import ErrorComponent from "../../common/ErrorComponent";
+
 
 class Categories extends Component {
   componentDidMount() {
@@ -46,18 +46,9 @@ class Categories extends Component {
 
   show() {
     const { categories, loading } = this.props.category;
-    const { errorMessage } = this.props.errors;
+    // const { errorMessage } = this.props.errors;
     //show errors if finsihed loading, no cats were found and an error message exists
-    if ((isEmpty(categories) && !loading && errorMessage !== "")) {
-      return (
-        <tr>
-          <td>
-            <ErrorComponent errormsg={this.props.errors.errorMessage} />
-          </td>
-        </tr>
-      )
-    }
-    else if (loading) {
+   if (loading) {
       return (
         <tr>
           <td>

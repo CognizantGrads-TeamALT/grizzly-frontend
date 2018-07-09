@@ -16,7 +16,7 @@ class ProductCategoryRow extends Component {
     const { categories, loading } = this.props.category;
     if (!isEmpty(categories) && !loading) {
       return categories.filter(cat => cat.enabled !== false).map((cat, index) => (
-        <div className="col" key={index}>
+        <div className="col displayAllCategories-buttons" key={index}>
           <Link
             to={`/category/${cat.name}/${cat.categoryId}`}
             className="btn more-rounded parent-wide hover-t-b btn-sm my-2 my-sm-0 mr-sm-2"
@@ -45,10 +45,10 @@ class ProductCategoryRow extends Component {
 
   render() {
     return (
-      <div className="mb-4">
-        <div className="row">
+      <div className="mb-4 mt-4">
+        <div className="row mt-4">
           <div className="col">
-            <div className="dropdown">
+            <div className="dropdown categoryDropDownMenu">
               <button
                 className="btn dropdown-toggle more-rounded parent-wide hover-w-b btn-sm my-2 my-sm-0 mr-sm-2"
                 type="button"

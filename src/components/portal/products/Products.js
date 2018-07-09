@@ -19,7 +19,7 @@ class Products extends Component {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-          this.refs.myscroll.scrollHeight &&
+        this.refs.myscroll.scrollHeight &&
         !this.props.product.loadingVendors &&
         !this.props.product.loadingCategories
       ) {
@@ -74,7 +74,10 @@ class Products extends Component {
     if (!loadingVendors && !loadingCategories) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
-          return <p>No products found.</p>;
+          return (
+          <tr>
+            <td>No products found.</td>
+        </tr>);
         }
         else {
           if (!isEmpty(products_filtered)) {

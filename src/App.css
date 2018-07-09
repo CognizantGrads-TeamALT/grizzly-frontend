@@ -491,6 +491,16 @@ a:-webkit-any-link {
  margin-bottom: 4px;
 }
 
+/* Category Row List */
+@media (max-width: 830px) {
+  .col.displayAllCategories-buttons {
+    display: none;
+  }
+  .dropdown.categoryDropDownMenu {
+    margin-top: 3em;
+  }
+}
+
 /* Admin/Vendor Portal */
 .collapsable-block-appearance > .collapsable-block-trigger:parent {
   display: none;

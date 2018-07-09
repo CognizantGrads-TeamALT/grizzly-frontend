@@ -17,14 +17,20 @@ class CustomerDetailedProduct extends Component {
     this.state = {
       single: null,
       id: null
+      
     };
-
     this.addToCart = this.addToCart.bind(this);
     this.fetchedRandom = false;
   }
 
   addToCart(single) {
     this.props.addToCart(single);
+  }
+
+
+  componentWillMount(){
+
+    window.scrollTo(0, 0)
   }
 
   componentDidMount() {
