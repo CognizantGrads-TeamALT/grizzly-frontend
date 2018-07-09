@@ -56,3 +56,15 @@ body > #root > .App,
   font-family: Roboto, arial, sans-serif;
   cursor: pointer;
 }
+
+.image-thumb {
+  margin-bottom: 15px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.image-thumb:hover {
+  margin-bottom: 15px;
+  transform: scale(1.1);
+  opacity: 0.9;
+}
