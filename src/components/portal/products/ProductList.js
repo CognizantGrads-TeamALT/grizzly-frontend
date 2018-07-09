@@ -23,8 +23,10 @@ class ProductList extends Component {
       showError: false,
       listenForError: false,
       count: 0,
-      testCount: 0
+      testCount: 0,
+      loaded: false
     };
+    this.loaded = false;
     this.onBlockClick = this.onBlockClick.bind(this);
     this.onViewClick = this.onViewClick.bind(this);
     this.closeError = this.closeError.bind(this);
