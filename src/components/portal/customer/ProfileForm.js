@@ -116,7 +116,11 @@ class ProfileForm extends Component {
   onToggle(e) {
     e.preventDefault();
     this.resetForm();
-    this.props.onCancel();
+    if (this.props.previousPath === '/shoppingcart') {
+      this.props.history.push('/shoppingcart');
+    } else {
+      this.props.onCancel();
+    }
   }
 
   render() {
