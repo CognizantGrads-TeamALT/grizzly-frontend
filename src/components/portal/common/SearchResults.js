@@ -21,7 +21,7 @@ class SearchResults extends Component {
             className="img-thumbnail surround-parent h-100 w-100 card product-card"
           >
             <ProductImage prod={prod} />
-            <div className="card-body inner-product-card surround-parent h-100 w-100">
+            <div className="card-body inner-product-card text-left surround-parent h-100 w-100">
               <div className="inner-product-card card-text fnt-weight-400 surround-parent w-100">
                 {prod.name}
               </div>
