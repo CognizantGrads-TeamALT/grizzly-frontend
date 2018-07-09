@@ -28,6 +28,8 @@ class ShoppingCart extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.goToPayment = this.goToPayment.bind(this);
+    this.doRedirect = this.doRedirect.bind(this);
 
     this.triggeredFetch = false;
     this.totalPrice = 0;
@@ -86,6 +88,34 @@ class ShoppingCart extends Component {
   // Adding the total price for all the items in cart
   addToMoney(additionalPrice) {
     this.totalPrice += additionalPrice;
+  }
+
+  doRedirect() {
+    this.props.history.push({
+      pathname: '/settings',
+      state: { tabId: 'ProfileForm', previousPath: '/shoppingcart' }
+    });
+  }
+
+  toast_Id = null;
+  goToPayment() {
+    if (this.props.user.isAuthenticated) {
+      if (!this.props.user.isRegistered) {
+        if (!toast.isActive(this.toast_Id)) {
+          toast.info(
+            <span onClick={this.doRedirect}>
+              Click HERE to update your address!
+            </span>
+          );
+        }
+      } else {
+        this.props.history.push('/payment');
+      }
+    } else {
+      if (!toast.isActive(this.toast_Id)) {
+        toast.info('Please sign in first!');
+      }
+    }
   }
 
   show() {
@@ -173,12 +203,12 @@ class ShoppingCart extends Component {
               ${this.totalPrice}
             </div>
             {!isEmpty(this.props.product.cart) && (
-              <Link
+              <button
                 className="mt-3 btn orange-b surround-parent w-75 more-rounded"
-                to="/payment"
+                onClick={this.goToPayment}
               >
                 Checkout
-              </Link>
+              </button>
             )}
             <Link
               className="mt-3 btn btn-outline-success surround-parent w-75 more-rounded"
@@ -205,7 +235,8 @@ ShoppingCart.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  user: state.user
 });
 
 export default connect(

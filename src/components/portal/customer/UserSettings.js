@@ -11,7 +11,8 @@ class UserSettings extends Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: this.props.location.state.tabId
+      activeTab: this.props.location.state.tabId,
+      previousPath: this.props.location.state.previousPath
     };
     this.onProfileFormCancel = this.onProfileFormCancel.bind(this);
     this.onShowProfileForm = this.onShowProfileForm.bind(this);
@@ -83,7 +84,10 @@ class UserSettings extends Component {
               <OrderHistory />
             </TabPane>
             <TabPane tabId="ProfileForm">
-              <ProfileForm onCancel={this.onProfileFormCancel} />
+              <ProfileForm
+                onCancel={this.onProfileFormCancel}
+                previousPath={this.state.previousPath}
+              />
             </TabPane>
           </TabContent>
         </Col>
