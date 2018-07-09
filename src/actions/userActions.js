@@ -9,6 +9,7 @@ import {
 } from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
 import { emptyCart } from './cartActions';
+import { clearFilteredProducts } from './productsActions';
 
 // Get Admins List
 export const getUsers = (role, id) => dispatch => {
@@ -87,7 +88,13 @@ export const getUserByEmail = () => dispatch => {
       dispatch({
         type: types.GET_USER_BY_EMAIL,
         payload: res.data
-      });
+      });      
+      console.log(res.data);
+      if(res.data.role == 'admin' || res.data.role == 'vendor'){
+        dispatch(clearFilteredProducts())
+        console.log(res);
+      }
+
       dispatch(setUserUpdated());
     })
     .catch(err => {
