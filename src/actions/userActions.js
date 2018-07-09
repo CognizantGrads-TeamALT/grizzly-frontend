@@ -89,7 +89,6 @@ export const getUserByEmail = () => dispatch => {
         type: types.GET_USER_BY_EMAIL,
         payload: res.data
       });      
-      console.log(res.data);
       if(res.data.role == 'admin' || res.data.role == 'vendor'){
         dispatch(clearFilteredProducts())
       }
