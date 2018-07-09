@@ -130,7 +130,7 @@ class ProductForm extends Component {
         shouldCancel: true,
         showDBErrors: true
       });
-      this.props.reloadProducts();
+      //this.props.reloadProducts();
     }
   }
 

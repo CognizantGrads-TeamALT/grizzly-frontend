@@ -35,6 +35,7 @@ class ProductDescription extends Component {
       desc: this.props.product.single.desc,
       price: this.props.product.single.price,
       changed: false,
+      changedImg: false,
       shouldCancel: false,
       showDBError: false,
       editVendor: false,
@@ -68,7 +69,7 @@ class ProductDescription extends Component {
   }
 
   resetImgEditor() {
-    this.setState({ changed: false, isEditingImg: true });
+    this.setState({ changedImg: false, isEditingImg: true });
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -106,7 +107,8 @@ class ProductDescription extends Component {
     this.setState({
       isEditingImg: false,
       [event.target.name]: event.target.value,
-      changed: true
+      changed: true,
+      changedImg: true
     });
   };
 
@@ -270,7 +272,7 @@ class ProductDescription extends Component {
         maxFileSize={262144}
         startingImages={imageData}
         startingFiles={imageNames}
-        disabled={this.state.changed}
+        disabled={this.state.changedImg}
         resetCallback={this.resetImgEditor}
       />
     );
@@ -320,7 +322,6 @@ class ProductDescription extends Component {
           showDBError: true
         });
       }
-      this.props.reloadProducts();
     }
   }
 
@@ -369,7 +370,8 @@ class ProductDescription extends Component {
     this.setState({
       shouldCancel: false,
       showDBError: false,
-      changed: false
+      changed: false,
+      changedImg: false
     });
     this.props.WaitForError();
     this.props.reloadProducts();
@@ -514,14 +516,14 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            {!this.state.isEditingImg && !this.state.changed ? (
+            {!this.state.isEditingImg && !this.state.changedImg ? (
               <ProductCarousel prod={this.props.product.single} />
             ) : (
               this.showImgEditor()
             )}
             {this.props.user.role === 'admin' &&
               !this.state.isEditingImg &&
-              !this.state.changed && (
+              !this.state.changedImg && (
                 <Button
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                   onClick={this.buttonCallbackImg}
@@ -530,13 +532,13 @@ class ProductDescription extends Component {
                 </Button>
               )}
             {this.props.user.role === 'admin' &&
-              (this.state.isEditingImg || this.state.changed) && (
+              (this.state.isEditingImg || this.state.changedImg) && (
                 <Button
-                  disabled={this.state.changed}
+                  disabled={this.state.changedImg}
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                   onClick={this.handleCallbackImg}
                 >
-                  {!this.state.changed ? 'Save changes' : 'Saved changes'}
+                  {!this.state.changedImg ? 'Save changes' : 'Saved changes'}
                 </Button>
               )}
           </div>
