@@ -15,12 +15,13 @@ import ImageUploader from '../products/ImageUploader';
 import ErrorComponent from '../../common/ErrorComponent';
 import validator from 'validator';
 import ProductCarousel from '../common/ProductCarousel';
-import { PRODUCT_IMAGE } from '../../../actions/microservices';
-import VendorTypeAhead from '../vendor/VendorTypeAhead';
-import { toast } from 'react-toastify';
-import CategoryTypeAhead from '../categories/CategoryTypeAhead';
-import { Update_TypeAhead } from '../../../actions/categoryActions';
-// import 'font-awesome/css/font-awesome.min.css';
+import { PRODUCT_IMAGE } from "../../../actions/microservices";
+import VendorTypeAhead from "../vendor/VendorTypeAhead";
+import {toast} from "react-toastify";
+import CategoryTypeAhead from "../categories/CategoryTypeAhead";
+import {Update_TypeAhead} from "../../../actions/categoryActions";
+//Icons for accept change to category/vendor don't work without it
+import 'font-awesome/css/font-awesome.min.css';
 
 class ProductDescription extends Component {
   constructor(props) {

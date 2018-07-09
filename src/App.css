@@ -287,7 +287,7 @@ title-size-2em-inner > * {
   top: 0;
   min-width: 100%;
   background: white;
-  z-index: 9001; /* OVER 9000!!!!! */
+  z-index: 1000; /* OVER 9000!!!!! */
 }
 .navbar-inner-height > * > .nav-bar-singular-tab {
   margin-top: 0.7em;
@@ -1392,6 +1392,11 @@ a:hover {
 
 .bg-lightGrey {
   background-color: #ebe9e9;
+}
+
+/* Modal */
+.modal-dialog {
+  margin-top: 100px;
 }
 
 /* Payment */

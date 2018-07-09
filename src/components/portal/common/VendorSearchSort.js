@@ -132,9 +132,10 @@ class VendorSearchSort extends Component {
         <div className="col" />
         <div className="col text-right">
           <VendorForm
-            buttonLabel="addVendor"
-            title="addVendor"
-            actionLabel="addVendor"
+            buttonLabel="Add Vendor"
+            title="Add Vendor"
+            actionLabel="Add Vendor"
+            buttonClass="btn more-rounded hover-w-b btn-sm mx-auto w-75 surround-parent my-2 my-sm-0"
           />
         </div>
       </div>
