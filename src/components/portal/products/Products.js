@@ -6,8 +6,7 @@ import ProductList from './ProductList';
 import {
   getProducts,
   setProductUpdated,
-  filterProductsByCategory,
-  clearFilteredProducts
+  filterProductsByCategory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
 //import ErrorComponent from "../../common/ErrorComponent"
@@ -22,13 +21,12 @@ class Products extends Component {
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
         this.refs.myscroll.scrollHeight &&
         !this.props.product.loadingVendors &&
-        !this.props.product.loadingCategories
+        !this.props.product.loadingCategories &&
+        !this.props.product.loading
       ) {
         this.loadMore();
       }
     });
-
-    this.props.clearFilteredProducts();
   }
 
   componentDidUpdate() {
@@ -38,8 +36,9 @@ class Products extends Component {
   shouldComponentUpdate() {
     if (
       this.props.product.updateOnce ||
-      this.props.product.loading ||
-      this.props.errors.errorMessage !== ''
+      this.props.product.loading// || // disabled because of infinite scroll position.
+      //this.props.product.loadingVendors ||
+      //this.props.product.loadingCategories
     )
       return true;
     return false;
@@ -72,15 +71,16 @@ class Products extends Component {
       loadingVendors,
       loadingCategories,
       loading,
-      products_filtered
+      products_filtered,
+      fresh
     } = this.props.product;
-    if (!loadingVendors && !loadingCategories) {
+    if (!loadingVendors && !loadingCategories && !fresh) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
           return (
-          <tr>
-            <td>No products found.</td>
-        </tr>);
+            <tr>
+              <td>No products found :(</td>
+            </tr>);
         }
         else {
           if (!isEmpty(products_filtered)) {
@@ -110,7 +110,10 @@ class Products extends Component {
         }
       } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
-          return <p>No products found.</p>;
+          return (
+            <tr>
+              <td>No products found :(</td>
+            </tr>);
         } else {
           if (!isEmpty(products_filtered)) {
             return products_filtered
@@ -160,26 +163,19 @@ class Products extends Component {
 
   render() {
     return (
-      <div
-        ref="myscroll"
-        style={{ height: '555px', overflowX: 'hidden', overflowY: 'auto' }}
-      >
-        <div className="overflow-normal-page">
-          <table className="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Products Name</th>
-                <th scope="col">Vendor</th>
-                <th scope="col">Category</th>
-                <th scope="col">Rating</th>
-                <th scope="col" />
-              </tr>
-            </thead>
-            <tbody>{this.show()}</tbody>
-          </table>
-        </div>
-      </div>
+      <table className="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Products Name</th>
+            <th scope="col">Vendor</th>
+            <th scope="col">Category</th>
+            <th scope="col">Rating</th>
+            <th scope="col" />
+          </tr>
+        </thead>
+        <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+      </table>
     );
   }
 }
@@ -187,7 +183,7 @@ class Products extends Component {
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  clearFilteredProducts: PropTypes.func.isRequired,
+
   filterProductsByCategory: PropTypes.func.isRequired,
 
   product: PropTypes.object.isRequired,
@@ -201,5 +197,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated, filterProductsByCategory, clearFilteredProducts }
+  { getProducts, setProductUpdated, filterProductsByCategory }
 )(Products);

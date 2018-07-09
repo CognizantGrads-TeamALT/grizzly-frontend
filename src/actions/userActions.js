@@ -88,10 +88,12 @@ export const getUserByEmail = () => dispatch => {
       dispatch({
         type: types.GET_USER_BY_EMAIL,
         payload: res.data
-      });      
-      if(res.data.role == 'admin' || res.data.role == 'vendor'){
-        dispatch(clearFilteredProducts())
-      }
+      });
+
+      // why?
+      //if(res.data.role === 'admin' || res.data.role === 'vendor'){
+      //  dispatch(clearFilteredProducts())
+      //}
 
       dispatch(setUserUpdated());
     })
