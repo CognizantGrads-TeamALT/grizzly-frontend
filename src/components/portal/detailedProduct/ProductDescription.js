@@ -59,11 +59,16 @@ class ProductDescription extends Component {
     this.onCancel = this.onCancel.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.showVendor = this.showVendor.bind(this);
+    this.resetImgEditor = this.resetImgEditor.bind(this);
   }
 
   // Fixes no-op error.
   componentWillUnmount() {
     this.props.product.single = null;
+  }
+
+  resetImgEditor() {
+    this.setState({ changed: false, isEditingImg: true });
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -247,6 +252,8 @@ class ProductDescription extends Component {
         maxFileSize={262144}
         startingImages={imageData}
         startingFiles={imageNames}
+        disabled={this.state.changed}
+        resetCallback={this.resetImgEditor}
       />
     );
   }
@@ -479,13 +486,13 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            {!this.state.isEditingImg ? (
+            {!this.state.isEditingImg && !this.state.changed ? (
               <ProductCarousel prod={this.props.product.single} />
             ) : (
               this.showImgEditor()
             )}
             {this.props.user.role === 'admin' &&
-              !this.state.isEditingImg && (
+              !this.state.isEditingImg && !this.state.changed && (
                 <Button
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                   onClick={this.buttonCallbackImg}
@@ -494,12 +501,13 @@ class ProductDescription extends Component {
                 </Button>
               )}
             {this.props.user.role === 'admin' &&
-              this.state.isEditingImg && (
+              (this.state.isEditingImg || this.state.changed) && (
                 <Button
+                  disabled={this.state.changed}
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                   onClick={this.handleCallbackImg}
                 >
-                  Save changes
+                  {!this.state.changed ? 'Save changes' : 'Saved changes'}
                 </Button>
               )}
           </div>
