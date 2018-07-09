@@ -24,21 +24,21 @@ export const getProducts = index => dispatch => {
       dispatch(refreshProductData(res.data));
     })
     .catch(err => {
-      if(!isEmpty(err.responce)){
-        //if refresh product data throws an error it will not have a .responce value, causing an error. 
+      if (!isEmpty(err.responce)) {
+        //if refresh product data throws an error it will not have a .responce value, causing an error.
         //this fixes that eventuality
         dispatch({
           type: types.GET_ERRORS,
           payload: err.request.response
-       });}
-      else{
+        });
+      } else {
         //note: this probably wont be a connection error, but rather a coding/generally bad error if this gets thrown
         //... but the end user doesn't need to know that.
         //the payload will fail the try{json.parse(...)} and cause the fallback to the default connection error message.
         dispatch({
           type: types.GET_ERRORS,
-          payload: "connection Error"
-        })
+          payload: 'connection Error'
+        });
       }
       dispatch(setProductUpdated());
       // For development purposes. The micro-services take time to initialise.
@@ -325,10 +325,10 @@ export const searchProducts = (keyword, index, nav) => dispatch => {
 };
 
 // Search Products
-export const getRandomProducts = (keyword, index) => dispatch => {
+export const getRandomProducts = catId => dispatch => {
   dispatch(clearErrors());
   axios
-    .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
+    .get(PRODUCT_API_GATEWAY + `/byCategory/${catId}/0/default`)
     .then(res => {
       dispatch({
         type: types.GET_RANDOM_PRODUCTS,
@@ -453,8 +453,8 @@ export const refreshProductData = (data, filtered) => dispatch => {
         .filter(prod => prod.vendorId !== 0)
         .map(prod => vendorIdArray.push(prod.vendorId));
 
-        let cleanVendorIdArray = [...new Set(vendorIdArray)];
-        dispatch(getVendorBatch(cleanVendorIdArray.join()));
+      let cleanVendorIdArray = [...new Set(vendorIdArray)];
+      dispatch(getVendorBatch(cleanVendorIdArray.join()));
 
       let categoryIdArray = [];
       data
