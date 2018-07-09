@@ -443,7 +443,6 @@ class ProductDescription extends Component {
             placeholder="Category"
             onClickHandler={this.props.Update_TypeAhead}
           />
-
         </div>
       );
     } else {
