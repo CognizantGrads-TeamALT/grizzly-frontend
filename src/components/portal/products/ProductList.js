@@ -9,6 +9,9 @@ import {
   toggleBlockProduct,
   deleteProduct
 } from '../../../actions/productsActions';
+import {
+  reloadCategories
+} from '../../../actions/categoryActions';
 import isEmpty from '../../../validation/is-empty';
 import ErrorComponent from '../../common/ErrorComponent';
 
@@ -35,6 +38,7 @@ class ProductList extends Component {
   onDeleteClick(id) {
     this.props.deleteProduct(id);
     this.setState({ listenForError: true });
+    this.props.reloadCategories();
   }
 
   onBlockClick() {
@@ -184,6 +188,8 @@ class ProductList extends Component {
 ProductList.propTypes = {
   toggleBlockProduct: PropTypes.func.isRequired,
   deleteProduct: PropTypes.func.isRequired,
+  
+  reloadCategories: PropTypes.func.isRequired,
 
   errors: PropTypes.object.isRequired,
   product: PropTypes.object.isRequired
@@ -196,5 +202,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { toggleBlockProduct, deleteProduct }
+  { toggleBlockProduct, deleteProduct, reloadCategories }
 )(withRouter(ProductList));
