@@ -6,7 +6,8 @@ import ProductList from './ProductList';
 import {
   getProducts,
   setProductUpdated,
-  filterProductsByCategory
+  filterProductsByCategory,
+  clearFilteredProducts
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
 //import ErrorComponent from "../../common/ErrorComponent"
@@ -26,6 +27,8 @@ class Products extends Component {
         this.loadMore();
       }
     });
+
+    this.props.clearFilteredProducts();
   }
 
   componentDidUpdate() {
@@ -184,8 +187,10 @@ class Products extends Component {
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
+  clearFilteredProducts: PropTypes.func.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired,
+
   product: PropTypes.object.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -196,5 +201,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated, filterProductsByCategory }
+  { getProducts, setProductUpdated, filterProductsByCategory, clearFilteredProducts }
 )(Products);

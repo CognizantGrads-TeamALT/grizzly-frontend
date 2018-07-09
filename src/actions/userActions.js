@@ -173,6 +173,7 @@ export const addOrder = newOrder => dispatch => {
         payload: err.response.data
       });
     });
+  emptyCart();
 };
 
 // ORDER ACTIONS

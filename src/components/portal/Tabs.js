@@ -48,9 +48,15 @@ class Tabs extends Component {
 
   componentWillMount() {
     //this.clear();
-    this.props.getProducts();
-    this.props.getVendors();
-    this.props.getCategories();
+    if (isEmpty(this.props.product.products)) {
+      this.props.getProducts();
+    }
+    if (isEmpty(this.props.vendor.vendors)) {
+      this.props.getVendors();
+    }
+    if (isEmpty(this.props.category.categories)) {
+      this.props.getCategories();
+    }
     this.setState({ activeTab: '1' });
   }
 
@@ -74,7 +80,6 @@ class Tabs extends Component {
       }
     }
     if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
-      console.log('fil')
       this.props.clearCurrentProducts();
       this.props.getProducts();
     }
@@ -205,7 +210,7 @@ class Tabs extends Component {
                       <div className="col-3 text-center">
                         <CategoryTypeAhead
                           placeholder="Filter by category"
-                          extraClassNames="btn-group mr-2 surround-parent w-75"
+                          extraClassNames="btn-group mr-2 w-75"
                           onClickHandler={this.props.filterProductsByCategory}
                           pageIndex={this.props.product.index}
                         />
@@ -219,10 +224,10 @@ class Tabs extends Component {
                         </button>
                       </div>
                       <div className="col-2 text-right">
-                        Clear all filters
-                          <div className="btn pl-0 ml-1 my-auto d-inline z-index-600" 
-                            onClick={this.clear}>
-                            <i className="far fa-times-circle d-inline"></i>
+                          <div className="btn pl-0 my-auto d-inline z-index-600" 
+                              onClick={this.clear}>
+                              Clear all filters
+                            <i className="far fa-times-circle d-inline ml-2"></i>
                           </div>
                       </div>
                     </div>
@@ -275,12 +280,16 @@ Tabs.propTypes = {
   setProductUpdated: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
   getVendorInventory: PropTypes.func.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired
+  filterProductsByCategory: PropTypes.func.isRequired,
+  vendor: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  product: state.product
+  product: state.product,
+  vendor: state.vendor,
+  category: state.category
 });
 
 export default connect(
