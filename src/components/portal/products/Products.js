@@ -6,14 +6,18 @@ import ProductList from './ProductList';
 import {
   getProducts,
   setProductUpdated,
-  filterProductsByCategory,
-  clearFilteredProducts
+  filterProductsByCategory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
 //import ErrorComponent from "../../common/ErrorComponent"
 import { toast } from 'react-toastify';
 
 class Products extends Component {
+  constructor(props)
+  {
+    super(props);
+    // this.props.errors.errorMessage = "false"
+  }
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener('scroll', e => {
@@ -27,8 +31,6 @@ class Products extends Component {
         this.loadMore();
       }
     });
-
-    this.props.clearFilteredProducts();
   }
 
   componentDidUpdate() {
@@ -154,7 +156,8 @@ class Products extends Component {
         !isEmpty(this.props.errors.errorMessage)
       ) {
         this.notify(this.props.errors.errorMessage)
-      }
+        // this.props.erros.errorMessage = "true"
+            }
     }
   }
 
@@ -187,10 +190,8 @@ class Products extends Component {
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  clearFilteredProducts: PropTypes.func.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired,
-
   product: PropTypes.object.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -201,5 +202,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated, filterProductsByCategory, clearFilteredProducts }
+  { getProducts, setProductUpdated, filterProductsByCategory }
 )(Products);
