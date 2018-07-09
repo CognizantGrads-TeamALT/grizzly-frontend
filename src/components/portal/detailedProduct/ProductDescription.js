@@ -15,11 +15,11 @@ import ImageUploader from '../products/ImageUploader';
 import ErrorComponent from '../../common/ErrorComponent';
 import validator from 'validator';
 import ProductCarousel from '../common/ProductCarousel';
-import { PRODUCT_IMAGE } from "../../../actions/microservices";
-import VendorTypeAhead from "../vendor/VendorTypeAhead";
-import {toast} from "react-toastify";
-import CategoryTypeAhead from "../categories/CategoryTypeAhead";
-import {Update_TypeAhead} from "../../../actions/categoryActions";
+import { PRODUCT_IMAGE } from '../../../actions/microservices';
+import VendorTypeAhead from '../vendor/VendorTypeAhead';
+import { toast } from 'react-toastify';
+import CategoryTypeAhead from '../categories/CategoryTypeAhead';
+import { Update_TypeAhead } from '../../../actions/categoryActions';
 //Icons for accept change to category/vendor don't work without it
 import 'font-awesome/css/font-awesome.min.css';
 
@@ -35,6 +35,7 @@ class ProductDescription extends Component {
       desc: this.props.product.single.desc,
       price: this.props.product.single.price,
       changed: false,
+      changedImg: false,
       shouldCancel: false,
       showDBError: false,
       editVendor: false,
@@ -68,7 +69,7 @@ class ProductDescription extends Component {
   }
 
   resetImgEditor() {
-    this.setState({ changed: false, isEditingImg: true });
+    this.setState({ changedImg: false, isEditingImg: true });
   }
 
   onDrop(pictureDataURLs, pictureFiles) {
@@ -106,7 +107,8 @@ class ProductDescription extends Component {
     this.setState({
       isEditingImg: false,
       [event.target.name]: event.target.value,
-      changed: true
+      changed: true,
+      changedImg: true
     });
   };
 
@@ -182,7 +184,7 @@ class ProductDescription extends Component {
       isEditingPrice: false,
       isEditingImg: false
     });
-  }
+  };
 
   buttonCallBackCancelVendor = () => {
     this.setState({
@@ -192,7 +194,7 @@ class ProductDescription extends Component {
       isEditingPrice: false,
       isEditingImg: false
     });
-  }
+  };
 
   buttonCallBackSaveVendor = () => {
     if (this.props.vendorProp.valid_vendor) {
@@ -270,7 +272,7 @@ class ProductDescription extends Component {
         maxFileSize={262144}
         startingImages={imageData}
         startingFiles={imageNames}
-        disabled={this.state.changed}
+        disabled={this.state.changedImg}
         resetCallback={this.resetImgEditor}
       />
     );
@@ -368,9 +370,11 @@ class ProductDescription extends Component {
     this.setState({
       shouldCancel: false,
       showDBError: false,
-      changed: false
+      changed: false,
+      changedImg: false
     });
     this.props.WaitForError();
+    this.props.reloadProducts();
     this.props.history.goBack();
   }
 
@@ -424,14 +428,12 @@ class ProductDescription extends Component {
     }
   }
 
-  
-
   showCat(category) {
     if (this.state.editCat) {
       //editing value, return vendor typeahead and finish button
       return (
         <div className="d-inline">
-                    <Button
+          <Button
             className="d-inline btn fa fa-check d-inline"
             onClick={this.buttonCallBackSaveCat}
           />
@@ -443,7 +445,6 @@ class ProductDescription extends Component {
             placeholder="Category"
             onClickHandler={this.props.Update_TypeAhead}
           />
-
         </div>
       );
     } else {
@@ -515,13 +516,14 @@ class ProductDescription extends Component {
                 </div>
               </div>
             </div>
-            {!this.state.isEditingImg && !this.state.changed ? (
+            {!this.state.isEditingImg && !this.state.changedImg ? (
               <ProductCarousel prod={this.props.product.single} />
             ) : (
               this.showImgEditor()
             )}
             {this.props.user.role === 'admin' &&
-              !this.state.isEditingImg && !this.state.changed && (
+              !this.state.isEditingImg &&
+              !this.state.changedImg && (
                 <Button
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                   onClick={this.buttonCallbackImg}
@@ -530,13 +532,13 @@ class ProductDescription extends Component {
                 </Button>
               )}
             {this.props.user.role === 'admin' &&
-              (this.state.isEditingImg || this.state.changed) && (
+              (this.state.isEditingImg || this.state.changedImg) && (
                 <Button
-                  disabled={this.state.changed}
+                  disabled={this.state.changedImg}
                   className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide mt-2"
                   onClick={this.handleCallbackImg}
                 >
-                  {!this.state.changed ? 'Save changes' : 'Saved changes'}
+                  {!this.state.changedImg ? 'Save changes' : 'Saved changes'}
                 </Button>
               )}
           </div>

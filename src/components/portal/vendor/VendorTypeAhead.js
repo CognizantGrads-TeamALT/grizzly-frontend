@@ -141,7 +141,7 @@ class VendorTypeAhead extends Component {
       <div className={this.props.extraClassNames}>
       <div className="d-inline-block w-100">
         <div className="vendor-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-        <div className="form-group w-75">
+        <div className="form-group w-100 d-webkit-inline-box">
           <TextFieldGroup
             placeholder={this.props.placeholder}
             name="vendor"
@@ -151,14 +151,16 @@ class VendorTypeAhead extends Component {
               this.onChange(event, true), this.vendorSearch(event);
             }}
           />
-          <div className="btn pl-0 move-left d-inline z-index-5000" onClick={this.clearTypeAhead}><i className="far fa-times-circle d-inline"></i></div>
-        </div><br/>
+          <div className="btn pl-0 move-left d-inline z-index-5000" onClick={this.clearTypeAhead}>
+          <i className="far fa-times-circle d-inline"></i></div>
+        </div>
+        </div>
         <div className="vendor-typeahead-position bg-white z-index-5000">
           {this.state.vendorList}
         </div>
       </div>
       </div>
-      </div>
+      
     );
   }
 }

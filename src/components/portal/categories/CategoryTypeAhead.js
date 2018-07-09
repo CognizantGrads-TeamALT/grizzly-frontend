@@ -143,9 +143,9 @@ class CategoryTypeAhead extends Component {
   render() {
     return (
       <div className={this.props.extraClassNames}>
-        <div className="d-inline-block w-100">
+        <div className="w-100">
           <div className="cat-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-          <div className="form-group w-75">
+          <div className="form-group w-100 d-webkit-inline-box">
             <TextFieldGroup
               placeholder={this.props.placeholder}
               name="category"
@@ -157,7 +157,8 @@ class CategoryTypeAhead extends Component {
                 this.onChange(event, true), this.catSearch(event);
               }}
             />
-            <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}><i className="far fa-times-circle d-inline"></i></div>
+            <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}>
+            <i className="far fa-times-circle d-inline my-auto"></i></div>
           </div>
           </div>
           <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>

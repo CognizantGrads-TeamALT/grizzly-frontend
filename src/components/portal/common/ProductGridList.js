@@ -5,15 +5,18 @@ import isEmpty from '../../../validation/is-empty';
 import { Link } from 'react-router-dom';
 import StarRatings from 'react-star-ratings';
 import ProductImage from '../common/ProductImage';
+import { toast } from 'react-toastify';
 
 class ProductGridList extends Component {
-  constructor() {
-    super();
+constructor(props){
+  super(props);
 
-    this.getCategoryEnabled = this.getCategoryEnabled.bind(this);
-  }
+  this.count = 0;
+  this.getCategoryEnabled = this.getCategoryEnabled.bind(this);
+}
 
   show() {
+    this.count=0;
     const products = this.props.product.products;
     let prodArray = [];
     if (!isEmpty(products)) {
@@ -60,6 +63,13 @@ class ProductGridList extends Component {
         }, this
       );
     }
+    else{
+      if(this.count === 0)
+        this.count =1;
+      else{
+      toast.info("Please enter some keywords");
+      this.count =0;
+    }}
   }
 
   getCategoryEnabled(categoryId) {
