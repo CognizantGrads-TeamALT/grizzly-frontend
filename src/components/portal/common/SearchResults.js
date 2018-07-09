@@ -47,7 +47,7 @@ class SearchResults extends Component {
       ));
     } else {
       return (
-        <div className="row mt-5 ml-5" >
+        <div className="mt-5 ml-5" >
           <p>No results found.</p>
         </div>
       );
