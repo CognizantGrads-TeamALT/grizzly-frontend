@@ -150,12 +150,12 @@ class ShoppingCart extends Component {
     this.totalPrice = 0;
     return cartItems.map(prod => (
       <div className="row m-3" key={prod.productId}>
-        <div className="col-3 my-auto mx-auto">
+        <div className="col-4 my-auto mx-auto">
           <Link to={`/customerdetailedproduct/${prod.productId}`}>
             <ProductImage prod={prod} />
           </Link>
         </div>
-        <div className="col-9">
+        <div className="col-8">
           <div className="text-left row">
             <div className="col-4">{prod.name}</div>
             <div className="col-2">${prod.price} x</div>
