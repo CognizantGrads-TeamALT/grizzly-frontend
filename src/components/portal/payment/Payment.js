@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import isEmpty from '../../../validation/is-empty';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PaypalExpressBtn from 'react-paypal-express-checkout';
 import { getProductBatch } from '../../../actions/productsActions';
@@ -91,8 +90,15 @@ class Payment extends Component {
       orderItemDTO: orderItems
     };
     this.props.addOrder(newOrder);
-    toast.success('Your order is being processed. Thank you!');
+    this.redirectSuccessfulPayment();
   }
+
+  redirectSuccessfulPayment() {
+    toast.success('Your order is being processed. Thank you!');
+
+    this.props.history.push('/');
+  }
+
   onCancel(data) {
     // console.log('The payment was cancelled!', data);
     toast.info('The payment was cancelled!');
