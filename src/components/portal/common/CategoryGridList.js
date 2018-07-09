@@ -10,6 +10,23 @@ import Spinner from '../../common/Spinner';
 import ProductImage from '../common/ProductImage';
 
 class CategoryGridList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.scrollElement = this.scrollElement.bind(this);
+    this.loadMore = this.loadMore.bind(this);
+  }
+
+  scrollElement(element) {
+    element.preventDefault();
+    if (
+      document.scrollingElement.scrollTop + document.scrollingElement.clientHeight >=
+      document.scrollingElement.scrollHeight
+    ) {
+      this.loadMore();
+    }
+  }
+
   componentDidMount() {
     // Scroll to top.
     window.scrollTo(0, 0);
@@ -19,6 +36,24 @@ class CategoryGridList extends Component {
       this.props.filterProductsByCategory({
         cur_id: this.props.match.params.catId,
         index: 0,
+        filtered: true
+      });
+    }
+
+    // Detect when scrolled to bottom.
+    document.addEventListener('scroll', this.scrollElement);
+  }
+
+  componentWillUnmount() {
+    // Remove the listener
+    document.removeEventListener('scroll', this.scrollElement);
+  }
+
+  loadMore() {
+    if (this.props.product.filteredHasMore) {
+      this.props.filterProductsByCategory({
+        cur_id: this.props.match.params.catId,
+        index: this.props.product.filteredIndex,
         filtered: true
       });
     }
@@ -40,7 +75,9 @@ class CategoryGridList extends Component {
       filteredProducts = filteredProducts.filter(prod => prod.enabled !== false);
 
       if (isEmpty(filteredProducts))
-        return 'No products were found';
+        return (<div className="text-center">
+                No products were found :(
+                </div>);
       else
         return filteredProducts.map(prod => (
           <div className="card text-left mb-2" key={prod.productId}>

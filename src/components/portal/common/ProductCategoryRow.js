@@ -49,7 +49,7 @@ class ProductCategoryRow extends Component {
 
   render() {
     return (
-      <div className="mb-4 mt-4">
+      <div className="mb-4 mt-4 below-navbar">
         <div className="row mt-4">
           <div className="col">
             <div className="dropdown categoryDropDownMenu">

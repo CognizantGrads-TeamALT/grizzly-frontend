@@ -68,22 +68,18 @@ class Vendor extends Component {
     return (
       <div>
         <VendorSearchSort />
-        <div ref="myscroll" style={{ height: '555px', overflowX: 'hidden', overflowY: 'auto' }}>
-        <div className="overflow-normal-page">
-          <table className="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Vendor Name</th>
-                <th scope="col">Location</th>
-                <th scope="col">Contact</th>
-                <th scope="col" />
-              </tr>
-            </thead>
-            <tbody>{this.show()}</tbody>
-          </table>
-        </div>
-        </div>
+        <table className="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Vendor Name</th>
+              <th scope="col">Location</th>
+              <th scope="col">Contact</th>
+              <th scope="col" />
+            </tr>
+          </thead>
+          <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+        </table>
       </div>
     );
   }

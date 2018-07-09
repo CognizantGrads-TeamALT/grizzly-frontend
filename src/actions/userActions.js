@@ -64,6 +64,10 @@ export const loginUser = googleResponse => dispatch => {
   const decoded = jwt_decode(tokenId);
   // Set current user
   dispatch(loadUserInfo(decoded));
+
+  if (res.data.role === 'admin' || res.data.role === 'vendor') {
+    dispatch(clearFilteredProducts())
+  }
 };
 
 export const loadUserInfo = decoded => dispatch => {
@@ -88,10 +92,7 @@ export const getUserByEmail = () => dispatch => {
       dispatch({
         type: types.GET_USER_BY_EMAIL,
         payload: res.data
-      });      
-      if(res.data.role == 'admin' || res.data.role == 'vendor'){
-        dispatch(clearFilteredProducts())
-      }
+      });
 
       dispatch(setUserUpdated());
     })

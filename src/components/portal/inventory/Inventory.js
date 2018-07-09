@@ -71,7 +71,7 @@ class Inventory extends Component {
         );
       } else if (
         isEmpty(vendorInventory) &&
-        !(this.props.errors.errorMessage === "")
+        !isEmpty(this.props.errors.errorMessage)
       ) {
         this.notify(this.props.errors.errorMessage)
       }

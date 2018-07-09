@@ -138,7 +138,8 @@ class Navbar extends Component {
       !isEmpty(this.props.user.isRegistered)
     ) {
       if (this.props.user.isAuthenticated) {
-        if (this.props.user.role !== 'customer') {
+        if (this.props.user.role !== 'customer' &&
+          this.props.history.location.pathname !== `/${this.props.user.role}`) {
           this.props.history.push(`/${this.props.user.role}`);
         }
       }
