@@ -24,10 +24,23 @@ export const getProducts = index => dispatch => {
       dispatch(refreshProductData(res.data));
     })
     .catch(err => {
-      dispatch({
-        type: types.GET_ERRORS,
-        payload: err.request.response
-      });
+      console.log(err);
+      if(!isEmpty(err.responce)){
+        //if refresh product data throws an error it will not have a .responce value, causing an error. 
+        //this fixes that eventuality
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: err.request.response
+       });}
+      else{
+        //note: this probably wont be a connection error, but rather a coding/generally bad error if this gets thrown
+        //... but the end user doesn't need to know that.
+        //the payload will fail the try{json.parse(...)} and cause the fallback to the default connection error message.
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: "connection Error"
+        })
+      }
       dispatch(setProductUpdated());
       // For development purposes. The micro-services take time to initialise.
       // This will keep requesting data if it gets a 500 or 403 error...
@@ -292,7 +305,11 @@ export const searchProducts = (keyword, index) => dispatch => {
     axios
       .get(PRODUCT_API_GATEWAY + `/search/${keyword}/${index}`)
       .then(res => {
-        dispatch(refreshProductData(res.data));
+        // dispatch(refreshProductData(res.data));
+        dispatch({
+          type: types.SEARCH_RESULTS,
+          payload: res.data
+        });
       })
       .catch(err => {
         dispatch(setProductUpdated());
@@ -428,27 +445,18 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
   if (!isEmpty(data[0])) {
     if (!isEmpty(data[0].productId)) {
-      let vendorIdArray = '';
+      let vendorIdArray = [];
       data
         .filter(prod => prod.vendorId !== 0)
-        .map(
-          prod =>
-            vendorIdArray === ''
-              ? (vendorIdArray = prod.vendorId)
-              : (vendorIdArray = vendorIdArray + ',' + prod.vendorId)
-        );
-      dispatch(getVendorBatch(vendorIdArray));
+        .map(prod => vendorIdArray.push(prod.vendorId));
 
-      let categoryIdArray = '';
+      let categoryIdArray = [];
       data
         .filter(prod => prod.categoryId !== 0)
-        .map(
-          prod =>
-            categoryIdArray === ''
-              ? (categoryIdArray = prod.categoryId)
-              : (categoryIdArray = categoryIdArray + ',' + prod.categoryId)
-        );
-      dispatch(getCategoryBatch(categoryIdArray));
+        .map(prod => categoryIdArray.push(prod.categoryId));
+
+      let cleanCategoryIdArray = [...new Set(categoryIdArray)];
+      dispatch(getCategoryBatch(cleanCategoryIdArray.join()));
     }
   }
 };
