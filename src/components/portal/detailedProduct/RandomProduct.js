@@ -39,7 +39,7 @@ class RandomProduct extends Component {
         .map(prod => (
           <div
             key={prod.productId}
-            className="col-md-2 col-sm-4 imageGrid mt-3"
+            className="col-md-3 imageGrid mt-3"
           >
             <Link
               to={`/customerdetailedproduct/${prod.productId}`}
@@ -48,7 +48,7 @@ class RandomProduct extends Component {
             >
               <ProductImage prod={prod} />
               <div className="card-body inner-product-card text-left surround-parent h-100 w-100">
-                <div className="inner-product-card card-text fnt-weight-400 surround-parent w-100">
+                <div className="inner-product-card card-text text-truncate d-inline-block fnt-weight-400 surround-parent w-100">
                   {prod.name}
                 </div>
                 {/* Totally mock data */}

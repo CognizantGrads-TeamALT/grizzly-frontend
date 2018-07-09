@@ -71,10 +71,12 @@ class CustomerProductDescription extends Component {
             </button>
           </div>
           <div className="row minimal-line-input-div">
+            {/* disable until implement */}
             <input
               className="text-center d-inline w-50"
               type="search"
               name="search"
+              disabled="true"
               placeholder="Enter Promo code"
               value={this.state.search}
               onChange={this.onChange}

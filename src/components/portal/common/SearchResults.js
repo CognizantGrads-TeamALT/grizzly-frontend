@@ -15,14 +15,14 @@ class SearchResults extends Component {
       //   prodArray.push(results[i]);
       // }
       return results.filter(prod => prod.enabled !== false).map(prod => (
-        <div key={prod.productId} className="col-md-2 col-sm-4 imageGrid mt-3">
+        <div key={prod.productId} className="col-lg-3 imageGrid mt-3">
           <Link
             to={`/customerdetailedproduct/${prod.productId}`}
             className="img-thumbnail surround-parent h-100 w-100 card product-card"
           >
             <ProductImage prod={prod} />
             <div className="card-body inner-product-card text-left surround-parent h-100 w-100">
-              <div className="inner-product-card card-text fnt-weight-400 surround-parent w-100">
+              <div className="inner-product-card card-text text-truncate d-inline-block fnt-weight-400 surround-parent w-100">
                 {prod.name}
               </div>
               <div className="fnt-weight-300 dscrptnSize-8 surround-parent w-100">
@@ -47,7 +47,7 @@ class SearchResults extends Component {
       ));
     } else {
       return (
-        <div className="col-md-2 col-sm-4 imageGrid mt-3">
+        <div className="col-lg-3 imageGrid mt-3">
           <p>No results found.</p>
         </div>
       );
