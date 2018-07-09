@@ -147,10 +147,9 @@ class Products extends Component {
             </td>
           </tr>
         );
-      } else if (
-        isEmpty(products) &&
-        !isEmpty(this.props.errors.errorMessage )
-      ) {
+      } else if (isEmpty(products) &&
+        !isEmpty(this.props.errors.errorMessage ))
+        {
         this.notify(this.props.errors.errorMessage)
         }
     }
