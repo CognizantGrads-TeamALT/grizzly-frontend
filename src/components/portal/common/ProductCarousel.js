@@ -29,8 +29,9 @@ class ProductCarousel extends Component {
           className="img-responsive"
           alt={product.name}
           style={{
-            width: '150px',
-            height: '150px'
+            width: '300px',
+            height: '200px',
+            objectFit: 'cover'
           }}
         />
       );

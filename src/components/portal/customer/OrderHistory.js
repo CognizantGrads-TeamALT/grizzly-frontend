@@ -30,10 +30,10 @@ class OrderHistory extends Component {
         .filter(item => item.productId === parseInt(prodId, 10))
         .map(prod => (
           <div className="row m-3" key={prodId}>
-            <div className="col-3 my-auto mx-auto">
+            <div className="col-4 my-auto mx-auto">
               <ProductImage prod={prod} />
             </div>
-            <div className="col-9">
+            <div className="col-8">
               <CardBody>
                 <CardTitle className="text-left">{prod.name}</CardTitle>
                 <CardText className="text-left">{prod.desc}</CardText>
