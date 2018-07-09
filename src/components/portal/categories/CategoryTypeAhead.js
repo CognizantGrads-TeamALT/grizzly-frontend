@@ -103,7 +103,7 @@ class CategoryTypeAhead extends Component {
             type="button"
             name={'No Results'}
             value={0}
-            onClick={this.setCategoryName}
+            onClick={this.clearTypeAhead}
           >
             {'No results found'}
           </button>,

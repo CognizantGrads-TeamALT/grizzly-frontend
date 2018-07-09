@@ -10,7 +10,7 @@ import {
   clearCurrentVendors
 } from '../../../actions/vendorActions';
 import isEmpty from '../../../validation/is-empty';
-import { addProduct } from '../../../actions/productsActions';
+import { addProduct, clearFilteredProducts } from '../../../actions/productsActions';
 
 
 class VendorTypeAhead extends Component {
@@ -110,6 +110,14 @@ class VendorTypeAhead extends Component {
     }
   }
 
+  clearTypeAhead = () => {
+    this.setState(this.baseState)
+    clearInterval(this.state.intervalId);
+    this.setState({vendorList: []});
+    this.props.clearCurrentVendors();
+    this.props.clearFilteredProducts();
+  }
+
   setVendorName(e) {
     this.setState({
       vendor: e.target.name,
@@ -138,6 +146,7 @@ class VendorTypeAhead extends Component {
               this.onChange(event, true), this.vendorSearch(event);
             }}
           />
+          <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}><i className="far fa-times-circle d-inline"></i></div>
         </div><br/>
         <div className="vendor-typeahead-position bg-white z-index-5000">
           {this.state.vendorList}
@@ -166,5 +175,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { addProduct, searchVendors, Vendor_Update_TypeAhead, clearCurrentVendors }
+  { addProduct, searchVendors, Vendor_Update_TypeAhead, clearCurrentVendors, clearFilteredProducts }
 )(withRouter(VendorTypeAhead));
