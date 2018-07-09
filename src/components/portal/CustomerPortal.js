@@ -53,7 +53,7 @@ class CustomerPortal extends Component {
       this.getCategories(categories, '0', 'count');
 
       return (
-        <div className="col-md-12">
+        <div className="col-md-12 more-top-margin">
           {!isEmpty(this.props.product.products) && <ProductCategoryRow />}
           <VendorCarousel />
           <div className="pt-3 mb-5 mock-description">

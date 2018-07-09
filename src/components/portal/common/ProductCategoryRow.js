@@ -3,10 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
-import {
-  searchCategories,
-  sortCategoriesByParamCustomer
-} from '../../../actions/categoryActions';
 import { getProducts } from '../../../actions/productsActions';
 
 class ProductCategoryRow extends Component {
@@ -14,15 +10,12 @@ class ProductCategoryRow extends Component {
     if (isEmpty(this.props.product.products)) {
       this.props.getProducts();
     }
-    if (isEmpty(this.props.category.categories)) {
-      this.props.sortCategoriesByParamCustomer('0', 'count');
-    }
   }
 
   show() {
     const { categories, loading } = this.props.category;
     if (!isEmpty(categories) && !loading) {
-      return categories.map((cat, index) => (
+      return categories.filter(cat => cat.enabled !== false).map((cat, index) => (
         <div className="col" key={index}>
           <Link
             to={`/category/${cat.name}/${cat.categoryId}`}
@@ -82,8 +75,6 @@ class ProductCategoryRow extends Component {
 }
 
 ProductCategoryRow.propTypes = {
-  searchCategories: PropTypes.func.isRequired,
-  sortCategoriesByParamCustomer: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
 
   product: PropTypes.object.isRequired,
@@ -98,8 +89,6 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    searchCategories,
-    sortCategoriesByParamCustomer,
     getProducts
   }
 )(ProductCategoryRow);

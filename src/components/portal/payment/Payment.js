@@ -80,7 +80,7 @@ class Payment extends Component {
     });
 
     const newOrder = {
-      user_id: isEmpty(this.props.user.user.userId)
+      user_id: !isEmpty(this.props.user.user.userId)
         ? this.props.user.user.userId
         : 1,
       txn_id: payment.paymentID,
@@ -137,6 +137,7 @@ class Payment extends Component {
                 <PaypalExpressBtn
                   client={client}
                   currency={'AUD'}
+                  shipping={1}
                   total={this.calcOrderPrice()}
                   onSuccess={this.onSuccess}
                   onCancel={this.onCancel}

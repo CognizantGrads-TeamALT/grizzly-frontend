@@ -10,7 +10,7 @@ import {
   clearCurrentVendors
 } from '../../../actions/vendorActions';
 import isEmpty from '../../../validation/is-empty';
-import { addProduct } from '../../../actions/productsActions';
+import { addProduct, clearFilteredProducts } from '../../../actions/productsActions';
 
 
 class VendorTypeAhead extends Component {
@@ -85,7 +85,7 @@ class VendorTypeAhead extends Component {
           ];
         }, this)
       });
-    } else if (this.state.count > 10) {
+    } else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
       this.setState({
         count: 0,
@@ -96,7 +96,7 @@ class VendorTypeAhead extends Component {
             type="button"
             name={'No Results'}
             value={0}
-            onClick={this.setVendorName}
+            onClick={this.clearTypeAhead}
           >
             {'No results found'}
           </button>,
@@ -108,6 +108,17 @@ class VendorTypeAhead extends Component {
     else {
       this.setState({ count: this.state.count + 1 });
     }
+  }
+
+  clearTypeAhead = () => {
+    this.setState(this.baseState)
+    clearInterval(this.state.intervalId);
+    //this shouldn't be nessessary because this.basestate should do this anyway
+    //but it doesn't, don't know why, this works
+    this.setState({vendorList: [],
+    vendor: ''});
+    this.props.clearCurrentVendors();
+    this.props.clearFilteredProducts();
   }
 
   setVendorName(e) {
@@ -138,8 +149,11 @@ class VendorTypeAhead extends Component {
               this.onChange(event, true), this.vendorSearch(event);
             }}
           />
+          <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}>
+          <i className="far fa-times-circle d-inline"></i>
+          </div>
         </div>
-        <div className="vendor-typeahead-position bg-white">
+        <div className="vendor-typeahead-position bg-white z-index-5000">
           {this.state.vendorList}
         </div>
       </div>
@@ -166,5 +180,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { addProduct, searchVendors, Vendor_Update_TypeAhead, clearCurrentVendors }
+  { addProduct, searchVendors, Vendor_Update_TypeAhead, clearCurrentVendors, clearFilteredProducts }
 )(withRouter(VendorTypeAhead));

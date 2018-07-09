@@ -119,10 +119,15 @@ class Navbar extends Component {
           !this.props.user.isRegistered
         ) {
           toast.success(
-            <span onClick={this.doRedirect}>
-              Hello {this.props.user.googleProfile.given_name}! Click HERE to
-              update your profile.
-            </span>
+            <div>
+              <span onClick={this.doRedirect}>
+                Hello {this.props.user.googleProfile.given_name}!
+              </span>
+              <br />
+              <span onClick={this.doRedirect}>
+                Click HERE to update your profile.
+              </span>
+            </div>
           );
         } else {
           this.notify(this.props.user.googleProfile.given_name);
