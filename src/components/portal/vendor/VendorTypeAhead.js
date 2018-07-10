@@ -139,9 +139,9 @@ class VendorTypeAhead extends Component {
   render() {
     return (
       <div className={this.props.extraClassNames}>
-      <div className="d-inline-block w-100">
+      <div className="d-inline-block w-75">
         <div className="vendor-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-        <div className="form-group w-100 d-webkit-inline-box">
+        <div className="form-group w-100 vendor-type-ahead">
           <TextFieldGroup
             placeholder={this.props.placeholder}
             name="vendor"

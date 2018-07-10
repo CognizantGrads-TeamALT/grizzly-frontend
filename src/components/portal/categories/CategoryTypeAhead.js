@@ -143,7 +143,7 @@ class CategoryTypeAhead extends Component {
   render() {
     return (
       <div className={this.props.extraClassNames}>
-        <div className="w-100">
+        <div className="w-75">
           <div className="cat-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
           <div className="form-group w-100 d-webkit-inline-box">
             <TextFieldGroup

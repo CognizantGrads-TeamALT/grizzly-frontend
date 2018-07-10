@@ -528,6 +528,10 @@ a:-webkit-any-link {
  margin-bottom: 4px;
 }
 
+.vendor-type-ahead {
+  max-height: 30px;
+}
+
 /* Category Row List */
 @media (max-width: 830px) {
   .col.displayAllCategories-buttons {
