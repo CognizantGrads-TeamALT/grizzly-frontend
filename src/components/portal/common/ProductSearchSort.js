@@ -5,6 +5,8 @@ import {
   searchProducts,
   sortProductsByParam
 } from '../../../actions/productsActions';
+import { toast } from 'react-toastify';
+import isEmpty from '../../../validation/is-empty';
 
 class ProductSearchSort extends Component {
   constructor() {
@@ -55,8 +57,12 @@ class ProductSearchSort extends Component {
 
   onSearch(e) {
     e.preventDefault();
+    if (isEmpty(this.state.search)) {
+      toast.info('Please check your input!');
+    } else {
     this.props.searchProducts(this.state.search, '0');
     this.setState({ search: '' });
+    }
   }
 
   render() {

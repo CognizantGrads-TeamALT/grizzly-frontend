@@ -13,6 +13,7 @@ import isEmpty from '../../../validation/is-empty';
 import { toast } from 'react-toastify';
 
 class Products extends Component {
+  
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener('scroll', e => {
@@ -152,12 +153,11 @@ class Products extends Component {
             </td>
           </tr>
         );
-      } else if (
-        isEmpty(products) &&
-        !isEmpty(this.props.errors.errorMessage)
-      ) {
+      } else if (isEmpty(products) &&
+        !isEmpty(this.props.errors.errorMessage ))
+        {
         this.notify(this.props.errors.errorMessage)
-      }
+        }
     }
   }
 
@@ -183,10 +183,8 @@ class Products extends Component {
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-
-  filterProductsByCategory: PropTypes.func.isRequired,
-
   product: PropTypes.object.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
