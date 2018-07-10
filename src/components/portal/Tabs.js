@@ -24,7 +24,6 @@ import {
   getProducts,
   getProductsVendor,
   clearCurrentProducts,
-  clearCurrentProductsTable,
   getVendorInventory
 } from '../../actions/productsActions';
 import Inventory from './inventory/Inventory';
@@ -296,7 +295,6 @@ Tabs.propTypes = {
   getProducts: PropTypes.func.isRequired,
   getProductsVendor: PropTypes.func.isRequired,
   clearCurrentProducts: PropTypes.func.isRequired,
-  clearCurrentProductsTable: PropTypes.func.isRequired,
   clearCurrentVendors: PropTypes.func.isRequired,
   clearCurrentCategories: PropTypes.func.isRequired,
 
@@ -327,7 +325,6 @@ export default connect(
     getProducts,
     getProductsVendor,
     clearCurrentProducts,
-    clearCurrentProductsTable,
     setProductUpdated,
     filterProductsByCategory,
     getVendorInventory
