@@ -22,6 +22,7 @@ import { getVendors, clearCurrentVendors } from '../../actions/vendorActions';
 import Products from './products/Products';
 import {
   getProducts,
+  getProductsVendor,
   clearCurrentProducts,
   getVendorInventory
 } from '../../actions/productsActions';
@@ -50,13 +51,24 @@ class Tabs extends Component {
   }
 
   componentDidMount() {
+    // gets called on fresh login. dont remove.
+    if (this.props.user.role === 'vendor') {
+      if (isEmpty(this.props.product.vendorInventory) && !this.loadingVendorInventory) {
+        this.props.getVendorInventory('0', this.props.user.user.vendorId);
+        this.loadingVendorInventory = true;
+
+        this.props.getProductsVendor(this.props.user.user.vendorId, 0);
+      }
+    }
+
     //this.clear();
     if (isEmpty(this.props.product.products) &&
       !this.props.product.loadingCategories &&
       !this.props.product.loadingVendors &&
       !this.props.product.loading &&
       this.props.product.fresh &&
-      !this.loadingProducts) {
+      !this.loadingProducts &&
+      this.props.user.role !== 'vendor') {
         this.props.getProducts();
         this.loadingProducts = true;
     }
@@ -78,6 +90,8 @@ class Tabs extends Component {
       if (isEmpty(this.props.product.vendorInventory) && !this.loadingVendorInventory) {
         this.props.getVendorInventory('0', this.props.user.user.vendorId);
         this.loadingVendorInventory = true;
+
+        this.props.getProductsVendor(this.props.user.user.vendorId, 0);
       }
     }
 
@@ -279,16 +293,19 @@ Tabs.propTypes = {
   getCategories: PropTypes.func.isRequired,
   getVendors: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
+  getProductsVendor: PropTypes.func.isRequired,
   clearCurrentProducts: PropTypes.func.isRequired,
   clearCurrentVendors: PropTypes.func.isRequired,
   clearCurrentCategories: PropTypes.func.isRequired,
 
   setProductUpdated: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired,
   getVendorInventory: PropTypes.func.isRequired,
   filterProductsByCategory: PropTypes.func.isRequired,
+
+  product: PropTypes.object.isRequired,
   vendor: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired
+  category: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -306,6 +323,7 @@ export default connect(
     getVendors,
     clearCurrentVendors,
     getProducts,
+    getProductsVendor,
     clearCurrentProducts,
     setProductUpdated,
     filterProductsByCategory,

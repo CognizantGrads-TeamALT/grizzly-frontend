@@ -237,21 +237,21 @@ class ProductForm extends Component {
         <div className="col-5">
           <form onSubmit={this.onSubmit}>
             <div className="row mx-auto w-100 mb-2">
-              <CategoryTypeAhead
-                placeholder="Category"
-                onClickHandler={this.props.Update_TypeAhead}
-                extraClassNames="w-100"
-              />
-            </div>
-            <div className="row mx-auto w-100 mb-2">
-            {this.props.user.role === 'admin' && (
-              <VendorTypeAhead
-                placeholder="Vendor"
-                isExact="true"
-                onClickHandler={this.props.Vendor_Update_TypeAhead}
-                extraClassNames="w-100"
-              />
-            )}
+              <div className="col pl-0">
+                <CategoryTypeAhead
+                  placeholder="Category"
+                  onClickHandler={this.props.Update_TypeAhead}
+                />
+              </div>
+              <div className="col pr-0">
+                {this.props.user.role === 'admin' && (
+                  <VendorTypeAhead
+                    placeholder="Vendor"
+                    isExact="true"
+                    onClickHandler={this.props.Vendor_Update_TypeAhead}
+                  />
+                )}
+              </div>
             </div>
             <div className="row mx-auto w-100 mb-2 child-parent-wide-inner">
               <TextFieldGroup
