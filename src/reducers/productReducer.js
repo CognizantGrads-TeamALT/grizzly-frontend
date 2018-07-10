@@ -106,8 +106,6 @@ export default function(state = initialState, action) {
         loadingCategories: false,
         fresh: false
       };
-
-
     case types.ADD_TO_CART:
       var newCart = isEmpty(state.cart) ? {} : state.cart;
       newCart[action.product.productId] = isEmpty(

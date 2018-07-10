@@ -80,10 +80,10 @@ class Tabs extends Component {
       if (isEmpty(this.props.product.vendorInventory) && !this.loadingVendorInventory) {
         this.props.getVendorInventory('0', this.props.user.user.vendorId);
         this.loadingVendorInventory = true;
-      }
 
-      this.props.clearCurrentProductsTable();
-      this.props.getProductsVendor(this.props.user.vendorId);
+        this.props.clearCurrentProductsTable();
+        this.props.getProductsVendor(this.props.user.user.vendorId);
+      }
     }
 
     //if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
@@ -291,11 +291,13 @@ Tabs.propTypes = {
   clearCurrentCategories: PropTypes.func.isRequired,
 
   setProductUpdated: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired,
   getVendorInventory: PropTypes.func.isRequired,
   filterProductsByCategory: PropTypes.func.isRequired,
+
+  product: PropTypes.object.isRequired,
   vendor: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired
+  category: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
