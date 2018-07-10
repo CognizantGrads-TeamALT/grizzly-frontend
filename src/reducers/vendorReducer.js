@@ -86,9 +86,7 @@ export default function (state = initialState, action) {
       };
     case types.CLEAR_CURRENT_VENDORS:
       return {
-        ...state,
-        hasMore: true,
-        vendors: null
+        ...initialState,
       };
     default:
       return state;

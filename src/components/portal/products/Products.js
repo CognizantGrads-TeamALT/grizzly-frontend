@@ -5,6 +5,7 @@ import Spinner from '../../common/Spinner';
 import ProductList from './ProductList';
 import {
   getProducts,
+  getProductsVendor,
   setProductUpdated,
   filterProductsByCategory
 } from '../../../actions/productsActions';
@@ -45,9 +46,14 @@ class Products extends Component {
   }
 
   loadMore() {
-    if (this.props.product.hasMore) {
+    if (this.props.product.hasMore || this.props.product.vendorHasMore) {
       this.notify('Loading more products...')
-      this.props.getProducts(this.props.product.index);
+
+      if (this.props.user.role === 'admin')
+        this.props.getProducts(this.props.product.index);
+      else
+        this.props.getProductsVendor(this.props.user.user.vendorId, this.props.product.vendorIndex);
+
       if (!isEmpty(this.props.errors.errorMessage)) {
         toast.info(this.props.errors.errorMessage);
       }
@@ -123,7 +129,7 @@ class Products extends Component {
           }
           else {
             return products
-            .filter(prod => prod.vendorId === this.props.user.user.userId)
+            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
             .map((prod) => (
               <ProductList
                 key={prod.productId}
@@ -137,7 +143,7 @@ class Products extends Component {
         }
       }
     } else {
-      if (loading) {
+      if (loading || fresh) {
         return (
           <tr>
             <td>
@@ -174,9 +180,12 @@ class Products extends Component {
 
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
+  getProductsVendor: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired,
+
   product: PropTypes.object.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -187,5 +196,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated, filterProductsByCategory }
+  { getProducts, getProductsVendor, setProductUpdated, filterProductsByCategory }
 )(Products);

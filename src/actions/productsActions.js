@@ -48,6 +48,47 @@ export const getProducts = index => dispatch => {
     });
 };
 
+// Get Product List
+export const getProductsVendor = (userid, index) => dispatch => {
+  dispatch(clearErrors());
+  // Default the index to 0 if not given.
+  index = index == null ? 0 : index;
+
+  // getVendorBatch and getCategoryBatch set loading: true
+  // if either data is not loaded yet.
+  // if we set loading here, it will refresh the render too many times
+  // which results in losing the scroll wheel position...
+  //dispatch(setProductLoading());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/byVendor/${userid}/${index}/default`)
+    .then(res => {
+      dispatch(refreshProductDataVendor(res.data, false, userid));
+    })
+    .catch(err => {
+      if (!isEmpty(err.responce)) {
+        //if refresh product data throws an error it will not have a .responce value, causing an error.
+        //this fixes that eventuality
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: err.request.response
+        });
+      } else {
+        //note: this probably wont be a connection error, but rather a coding/generally bad error if this gets thrown
+        //... but the end user doesn't need to know that.
+        //the payload will fail the try{json.parse(...)} and cause the fallback to the default connection error message.
+        dispatch({
+          type: types.GET_ERRORS,
+          payload: 'connection Error'
+        });
+      }
+      dispatch(setProductUpdated());
+      // For development purposes. The micro-services take time to initialise.
+      // This will keep requesting data if it gets a 500 or 403 error...
+      // Should be removed once we actually implement a feature to error or retry x times.
+      //if (index === 0) dispatch(getProducts(index));
+    });
+};
+
 // Get Product with Imgs
 export const getProduct = productId => dispatch => {
   dispatch(clearErrors());
@@ -448,6 +489,41 @@ export const refreshProductData = (data, filtered) => dispatch => {
     dispatch({
       type: types.GET_PRODUCTS,
       payload: data
+    });
+  }
+  if (!isEmpty(data[0])) {
+    if (!isEmpty(data[0].productId)) {
+      let vendorIdArray = [];
+      data
+        .filter(prod => prod.vendorId !== 0)
+        .map(prod => vendorIdArray.push(prod.vendorId));
+
+      let cleanVendorIdArray = [...new Set(vendorIdArray)];
+      dispatch(getVendorBatch(cleanVendorIdArray.join()));
+
+      let categoryIdArray = [];
+      data
+        .filter(prod => prod.categoryId !== 0)
+        .map(prod => categoryIdArray.push(prod.categoryId));
+
+      let cleanCategoryIdArray = [...new Set(categoryIdArray)];
+      dispatch(getCategoryBatch(cleanCategoryIdArray.join()));
+    }
+  }
+};
+
+export const refreshProductDataVendor = (data, filtered, userId) => dispatch => {
+  if (filtered) {
+    dispatch({
+      type: types.GET_FILTERED_PRODUCTS,
+      payload: data,
+      filter: filtered.cur_id
+    });
+  } else {
+    dispatch({
+      type: types.GET_PRODUCTS_VENDORS,
+      payload: data,
+      vendorId: userId
     });
   }
   if (!isEmpty(data[0])) {

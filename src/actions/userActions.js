@@ -9,7 +9,9 @@ import {
 } from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
 import { emptyCart } from './cartActions';
-import { clearFilteredProducts } from './productsActions';
+import { clearFilteredProducts, clearCurrentProducts } from './productsActions';
+import { clearCurrentCategories } from './categoryActions';
+import { clearCurrentVendors } from './vendorActions';
 
 // Get Admins List
 export const getUsers = (role, id) => dispatch => {
@@ -153,6 +155,9 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false);
   // Clear current user, isAuthenticated to false
   dispatch(clearCurrentUser());
+  dispatch(clearCurrentProducts());
+  dispatch(clearCurrentCategories());
+  dispatch(clearCurrentVendors());
 };
 
 export const addOrder = newOrder => dispatch => {
