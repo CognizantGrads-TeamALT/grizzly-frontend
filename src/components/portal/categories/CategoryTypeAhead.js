@@ -23,7 +23,6 @@ class CategoryTypeAhead extends Component {
       valid_cat: false,
       count: 0
     };
-
     this.waitForResponse = this.waitForResponse.bind(this);
     this.onChange = this.onChange.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);
@@ -91,7 +90,6 @@ class CategoryTypeAhead extends Component {
           ];
         }, this)
       });
-
     }
     else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
