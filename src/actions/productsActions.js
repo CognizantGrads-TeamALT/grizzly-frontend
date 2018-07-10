@@ -213,6 +213,15 @@ export const toggleBlockProduct = (productId, enabled) => dispatch => {
     });
 };
 
+// block a cat
+export const toggleBlockCategoryProd = (catid, cat) => dispatch => {
+  dispatch({
+    type: types.PRODUCTS_BLOCKCAT,
+    categoryId: catid,
+    payload: cat,
+  })
+}
+
 // Edit Product
 export const editProduct = newInfo => dispatch => {
   dispatch(clearErrors(true));
@@ -399,6 +408,24 @@ export const sortProductsByParam = (index, param) => dispatch => {
   dispatch(clearCurrentProducts());
   axios
     .get(PRODUCT_API_GATEWAY + `/get/${index}/${param}`)
+    .then(res => {
+      dispatch(refreshProductData(res.data));
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.request.response
+      });
+    });
+};
+
+// same thing as above.
+export const sortProductsVendorByParam = (vendorId, index, param) => dispatch => {
+  dispatch(clearErrors());
+  dispatch(clearCurrentProducts());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/byVendor/${vendorId}/${index}/${param}`)
     .then(res => {
       dispatch(refreshProductData(res.data));
     })
