@@ -65,7 +65,6 @@ class CategoryTypeAhead extends Component {
   }
 
   waitForResponse() {
-    console.log("waiting");
     if (
       !isEmpty(this.props.category.categories) &&
       !this.props.category.loading
