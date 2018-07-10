@@ -65,21 +65,24 @@ class ProductGridList extends Component {
                     </div>
                   </div>
                 </Link>
-                <div className="col pl-0 text-right">
-                  <button
-                    className="btn btn-light"
-                    onClick={() => {
-                      this.props.addToCart(prod);
-                      this.onClick();
-                    }}
-                  >
-                    <img
-                      src={addtocart}
-                      alt="Add to cart"
-                      style={{ width: '20px' }}
-                    />
-                  </button>
-                </div>
+                {this.props.user.role === 'customer' ||
+                  (isEmpty(this.props.user.role) && (
+                    <div className="col pl-0 text-right">
+                      <button
+                        className="btn btn-light"
+                        onClick={() => {
+                          this.props.addToCart(prod);
+                          this.onClick();
+                        }}
+                      >
+                        <img
+                          src={addtocart}
+                          alt="Add to cart"
+                          style={{ width: '20px' }}
+                        />
+                      </button>
+                    </div>
+                  ))}
               </div>
             );
         }, this);
@@ -119,11 +122,13 @@ class ProductGridList extends Component {
 }
 
 ProductGridList.propTypes = {
-  product: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  user: state.user
 });
 
 export default connect(mapStateToProps)(ProductGridList);
