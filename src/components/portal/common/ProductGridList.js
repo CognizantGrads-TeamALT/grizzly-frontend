@@ -66,24 +66,25 @@ class ProductGridList extends Component {
                         ${prod.price}
                       </div>
                       <div className="col text-right d-inline pr-0">
-                        <button
-                          className="btn p-0 my-auto"
-                          onClick={() => {
-                            this.props.addToCart(prod);
-                            this.onClick();
-                          }}
-                        >
-                          <img
-                            src={addtocart}
-                            alt="Add to cart"
-                            style={{ width: '20px', verticalAlign: 'top' }}
-                          />
-                        </button>
+                          {this.props.user.role === 'customer' ||
+                          (isEmpty(this.props.user.role) && (
+                              <button
+                                className="btn p-0 my-auto"
+                                onClick={() => {
+                                  this.props.addToCart(prod);
+                                  this.onClick();
+                                }}
+                              >
+                                <img
+                                  src={addtocart}
+                                  alt="Add to cart"
+                                  style={{ width: '20px', verticalAlign: 'top' }}
+                                />
+                              </button>
+                          ))}
                       </div>
                     </div>
                   </div>
-
-
               </div>
             );
         }, this);
@@ -123,11 +124,13 @@ class ProductGridList extends Component {
 }
 
 ProductGridList.propTypes = {
-  product: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  user: state.user
 });
 
 export default connect(mapStateToProps)(ProductGridList);
