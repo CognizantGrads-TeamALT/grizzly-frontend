@@ -7,6 +7,8 @@ import StarRatings from 'react-star-ratings';
 import ProductImage from '../common/ProductImage';
 import { toast } from 'react-toastify';
 import addtocart from '../../../img/addtocart.png';
+import { setProductUpdated } from "../../../actions/productsActions";
+
 class ProductGridList extends Component {
   constructor(props) {
     super(props);
@@ -55,10 +57,8 @@ class ProductGridList extends Component {
         prodArray.push(products[i]);
       }
       return prodArray
-        .filter(prod => prod.enabled !== false)
+        .filter(prod => prod.enabled !== false && this.getCategoryEnabled(prod.categoryId) !== false)
         .map(function(prod) {
-          if (!this.getCategoryEnabled(prod.categoryId)) return '';
-          else
             return (
               <div key={prod.productId} className="col-lg-2 imageGrid mt-3">
                 <div className="card-body inner-product-card text-left surround-parent h-100 w-100">
@@ -131,6 +131,8 @@ class ProductGridList extends Component {
 }
 
 ProductGridList.propTypes = {
+  setProductUpdated: PropTypes.func.isRequired,
+
   product: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
 };
@@ -140,4 +142,4 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps)(ProductGridList);
+export default connect(mapStateToProps, { setProductUpdated })(ProductGridList);
