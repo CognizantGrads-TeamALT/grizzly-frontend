@@ -44,6 +44,9 @@ class Tabs extends Component {
     this.state = {
       activeTab: '1'
     };
+
+    this.loadingVendorInventory = false;
+    this.loadingProducts = false;
   }
 
   componentDidMount() {
@@ -52,8 +55,10 @@ class Tabs extends Component {
       !this.props.product.loadingCategories &&
       !this.props.product.loadingVendors &&
       !this.props.product.loading &&
-      this.props.product.fresh) {
+      this.props.product.fresh &&
+      !this.loadingProducts) {
         this.props.getProducts();
+        this.loadingProducts = true;
     }
 
     if (isEmpty(this.props.vendor.vendors) &&
@@ -67,23 +72,12 @@ class Tabs extends Component {
     }
   }
 
-  componentDidUpdate(PrevProps) {
+  componentDidUpdate() {
     // now it always checks for whether the user is a vendor or not
     if (this.props.user.role === 'vendor') {
-      if (
-        isEmpty(this.props.product.vendorInventory) &&
-        this.props.product.vendorHasMore
-      ) {
+      if (isEmpty(this.props.product.vendorInventory) && !this.loadingVendorInventory) {
         this.props.getVendorInventory('0', this.props.user.user.vendorId);
-      } else {
-        if (!isEmpty(this.props.product.vendorInventory)) {
-          if (
-            this.props.product.vendorInventory.length < 25 &&
-            this.props.product.vendorHasMore
-          ) {
-            this.props.getVendorInventory('0', this.props.user.user.vendorId);
-          }
-        }
+        this.loadingVendorInventory = true;
       }
     }
 
@@ -110,14 +104,18 @@ class Tabs extends Component {
       this.setState({
         activeTab: tab
       });
+
+      if (!isEmpty(this.props.product.products_filtered)) {
+        this.clear();
+      }
     }
-    if (this.state.activeTab === '1') {
+    if (this.state.activeTab === '1' && this.props.product.fresh) {
       this.props.getProducts();
-    } else if (this.state.activeTab === '2') {
+    } else if (this.state.activeTab === '2' && isEmpty(this.props.vendor.vendors)) {
       this.props.getVendors();
-    } else if (this.state.activeTab === '3') {
+    } else if (this.state.activeTab === '3' && isEmpty(this.props.category.categories)) {
       this.props.getCategories();
-    } else if (this.state.activeTab === '4') {
+    } else if (this.state.activeTab === '4' && isEmpty(this.props.product.vendorInventory)) {
       this.props.getVendorInventory('0', this.props.user.user.vendorId);
     }
   }
@@ -218,7 +216,7 @@ class Tabs extends Component {
                       <div className="col-3 text-center">
                         <CategoryTypeAhead
                           placeholder="Filter by category"
-                          extraClassNames="btn-group mr-2 w-75"
+                          extraClassNames="btn-group"
                           onClickHandler={this.props.filterProductsByCategory}
                           pageIndex={this.props.product.index}
                         />

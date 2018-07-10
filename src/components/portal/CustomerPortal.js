@@ -17,6 +17,7 @@ class CustomerPortal extends Component {
     this.props.loadCart();
     this.addToCart = this.addToCart.bind(this);
   }
+
   componentDidMount() {
     // Scroll to top.
     window.scrollTo(0, 0);
@@ -49,6 +50,7 @@ class CustomerPortal extends Component {
   addToCart(single) {
     this.props.addToCart(single);
   }
+
   render() {
     const { products, loading } = this.props.product;
     const { categories, loading2 } = this.props.category;

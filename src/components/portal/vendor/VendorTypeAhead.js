@@ -28,6 +28,7 @@ class VendorTypeAhead extends Component {
     this.onChange = this.onChange.bind(this);
     this.setVendorName = this.setVendorName.bind(this);
     this.waitForResponse = this.waitForResponse.bind(this);
+    this.clearTypeAhead = this.clearTypeAhead.bind(this);
     this.vendorSearch = _.debounce(e => {
       this.searchVend(e)
     }, 350);
@@ -139,28 +140,26 @@ class VendorTypeAhead extends Component {
   render() {
     return (
       <div className={this.props.extraClassNames}>
-      <div className="d-inline-block w-75">
-        <div className="vendor-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-        <div className="form-group w-100 vendor-type-ahead">
-          <TextFieldGroup
-            placeholder={this.props.placeholder}
-            name="vendor"
-            value={this.state.vendor}
-            onChange={event => {
-              // eslint-disable-next-line
-              this.onChange(event, true), this.vendorSearch(event);
-            }}
-          />
-          <div className="btn pl-0 move-left d-inline z-index-5000" onClick={this.clearTypeAhead}>
-          <i className="far fa-times-circle d-inline"></i></div>
-        </div>
-        </div>
-        <div className="vendor-typeahead-position bg-white z-index-5000">
-          {this.state.vendorList}
+        <div className="d-inline-block w-75">
+          <div className="vendor-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
+            <div className="form-group w-100 vendor-type-ahead">
+              <TextFieldGroup
+                placeholder={this.props.placeholder}
+                name="vendor"
+                value={this.state.vendor}
+                onChange={event => {
+                  // eslint-disable-next-line
+                  this.onChange(event, true), this.vendorSearch(event);
+                }}
+                clearButton={this.clearTypeAhead}
+              />
+            </div>
+          </div>
+          <div className="vendor-typeahead-position d-block bg-white z-index-5000">
+            {this.state.vendorList}
+          </div>
         </div>
       </div>
-      </div>
-      
     );
   }
 }
