@@ -6,8 +6,7 @@ body {
   font-family: sans-serif;
   padding: 0;
   margin: 0;
-  min-height: 100% !important;
-  height: 100%;
+  min-height: 70vh !important;
   width: 100%;
 }
 
@@ -17,16 +16,16 @@ body > #root > .App,
 .griz-portal {
   padding: 0;
   margin: 0;
-  min-height: 100vh !important;
+  min-height: 70vh !important;
 }
 
 .griz-portal-parent {
   padding: 0;
-  margin-top: 5%;
+  margin-top: 0;
   margin-left: 0;
   margin-right: 0;
   margin-bottom: 0;
-  min-height: 95vh !important;
+  min-height: 70vh !important;
 }
 
 .googleLogo {
@@ -55,4 +54,16 @@ body > #root > .App,
   transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
   font-family: Roboto, arial, sans-serif;
   cursor: pointer;
+}
+
+.image-thumb {
+  margin-bottom: 15px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.image-thumb:hover {
+  margin-bottom: 15px;
+  transform: scale(1.1);
+  opacity: 0.9;
 }

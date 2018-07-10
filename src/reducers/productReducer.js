@@ -3,6 +3,9 @@ import isEmpty from '../validation/is-empty';
 import { saveCart } from '../actions/cartActions';
 
 const initialState = {
+  // fresh: this is so data doesn't show "none available" before searching.
+  fresh: true,
+
   // Stores ALL products. Shouldn't clear this.
   products: [],
 
@@ -21,12 +24,14 @@ const initialState = {
   // Stores TEMP data (for listing on category search)
   products_filtered: [],
   products_filtered_last: null,
+  filteredHasMore: false,
+  filteredIndex: 0,
 
   // Infinite scroll & loading variables.
   hasMore: false,
-  loadingVendors: true,
+  loadingVendors: false,
   vendorHasMore: true,
-  loadingCategories: true,
+  loadingCategories: false,
   index: 0,
 
   // Stores locally loaded cart info.
@@ -70,7 +75,6 @@ export default function(state = initialState, action) {
           ? false
           : true;
       let currentProducts = isEmpty(state.products) ? [] : state.products;
-      let index = isEmpty(state.products) ? 1 : state.index + 1;
       let newProducts = isEmpty(action.payload)
         ? currentProducts
         : [
@@ -80,13 +84,18 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
+      let index = (newProducts.length)/30;
+      if(index%1 !== 0){
+        index = index + 1 - index%1;
+      }
       return {
         ...state,
         products: newProducts,
         hasMore: hasMore,
         index: index,
         loadingVendors: true,
-        loadingCategories: true
+        loadingCategories: true,
+        fresh: false
       };
       // No products found message 
       case types.SEARCH_PRODUCT_FAILED:
@@ -185,10 +194,11 @@ export default function(state = initialState, action) {
         products: newMainProducts,
         products_filtered: newProducts,
         products_filtered_last: action.filter,
-        hasMore: hasMore,
-        index: index,
+        filteredHasMore: hasMore,
+        filteredIndex: index,
         loadingVendors: true,
-        loadingCategories: true
+        loadingCategories: true,
+        fresh: false
       };
     case types.GET_VENDOR_INVENTORY:
       const VendorhasMore =
@@ -237,7 +247,8 @@ export default function(state = initialState, action) {
         ...state,
         products: newProducts3,
         random_products:
-          randomResults.length > 12 ? randomResults.slice(0, 12) : randomResults
+          randomResults.length > 12 ? randomResults.slice(0, 12) : randomResults,
+        fresh: false
       };
     case types.PRODUCT_ADDING:
       currentProducts2 = isEmpty(state.products) ? [] : state.products;
@@ -249,7 +260,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         products: newProducts2,
-        hasMore: hasMore2
+        hasMore: hasMore2,
+        fresh: false
       };
     case types.PRODUCTS_DELETING:
       return {
@@ -305,7 +317,13 @@ export default function(state = initialState, action) {
         : state.product_vendor;
       const newProductVendor = isEmpty(action.payload)
         ? currentProductVendor
-        : currentProductVendor.concat(action.payload);
+        : [
+            ...new Map(
+              currentProductVendor
+                .concat(action.payload)
+                .map(o => [o['vendorId'], o])
+            ).values()
+          ];
       const loadingNew = state.loadingCategories;
       return {
         ...state,
@@ -319,7 +337,13 @@ export default function(state = initialState, action) {
         : state.product_category;
       const newProductCat = isEmpty(action.payload)
         ? currentProductCat
-        : currentProductCat.concat(action.payload);
+        : [
+            ...new Map(
+              currentProductCat
+                .concat(action.payload)
+                .map(o => [o['categoryId'], o])
+            ).values()
+          ];
       const loadingNew2 = state.loadingVendors;
       return {
         ...state,
@@ -340,7 +364,9 @@ export default function(state = initialState, action) {
       return {
         ...state,
         products_filtered: null,
-        products_filtered_last: null
+        products_filtered_last: null,
+        filteredHasMore: false,
+        filteredIndex: 0,
       };
     case types.LOAD_CART:
       return {

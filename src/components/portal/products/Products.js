@@ -6,8 +6,7 @@ import ProductList from './ProductList';
 import {
   getProducts,
   setProductUpdated,
-  filterProductsByCategory,
-  clearFilteredProducts
+  filterProductsByCategory
 } from '../../../actions/productsActions';
 import isEmpty from '../../../validation/is-empty';
 //import ErrorComponent from "../../common/ErrorComponent"
@@ -28,13 +27,12 @@ constructor(props){
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
         this.refs.myscroll.scrollHeight &&
         !this.props.product.loadingVendors &&
-        !this.props.product.loadingCategories
+        !this.props.product.loadingCategories &&
+        !this.props.product.loading
       ) {
         this.loadMore();
       }
     });
-
-    this.props.clearFilteredProducts();
   }
 
   componentDidUpdate() {
@@ -44,8 +42,9 @@ constructor(props){
   shouldComponentUpdate() {
     if (
       this.props.product.updateOnce ||
-      this.props.product.loading ||
-      this.props.errors.errorMessage !== ''
+      this.props.product.loading// || // disabled because of infinite scroll position.
+      //this.props.product.loadingVendors ||
+      //this.props.product.loadingCategories
     )
       return true;
     return false;
@@ -79,15 +78,16 @@ constructor(props){
       loadingVendors,
       loadingCategories,
       loading,
-      products_filtered
+      products_filtered,
+      fresh
     } = this.props.product;
-    if (!loadingVendors && !loadingCategories) {
+    if (!loadingVendors && !loadingCategories && !fresh) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
           return (
-          <tr>
-            <td>No products found.</td>
-        </tr>);
+            <tr>
+              <td>No products found :(</td>
+            </tr>);
         }
         else {
           if (!isEmpty(products_filtered)) {
@@ -117,7 +117,10 @@ constructor(props){
         }
       } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
-          return <p>No products found.</p>;
+          return (
+            <tr>
+              <td>No products found :(</td>
+            </tr>);
         } else {
           if (!isEmpty(products_filtered)) {
             return products_filtered
@@ -156,37 +159,29 @@ constructor(props){
             </td>
           </tr>
         );
-      } else if (
-        isEmpty(products) &&
-        !isEmpty(this.props.errors.errorMessage)
-      ) {
+      } else if (isEmpty(products) &&
+        !isEmpty(this.props.errors.errorMessage ))
+        {
         this.notify(this.props.errors.errorMessage)
-      }
+        }
     }
   }
 
   render() {
     return (
-      <div
-        ref="myscroll"
-        style={{ height: '555px', overflowX: 'hidden', overflowY: 'auto' }}
-      >
-        <div className="overflow-normal-page">
-          <table className="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Products Name</th>
-                <th scope="col">Vendor</th>
-                <th scope="col">Category</th>
-                <th scope="col">Rating</th>
-                <th scope="col" />
-              </tr>
-            </thead>
-            <tbody>{this.show()}</tbody>
-          </table>
-        </div>
-      </div>
+      <table className="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Products Name</th>
+            <th scope="col">Vendor</th>
+            <th scope="col">Category</th>
+            <th scope="col">Rating</th>
+            <th scope="col" />
+          </tr>
+        </thead>
+        <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+      </table>
     );
   }
 }
@@ -194,10 +189,8 @@ constructor(props){
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
-  clearFilteredProducts: PropTypes.func.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired,
-
   product: PropTypes.object.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -208,5 +201,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated, filterProductsByCategory, clearFilteredProducts }
+  { getProducts, setProductUpdated, filterProductsByCategory }
 )(Products);

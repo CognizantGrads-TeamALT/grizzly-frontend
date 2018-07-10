@@ -36,7 +36,9 @@ class OrderHistory extends Component {
             <div className="col-7">
               <CardBody>
                 <CardTitle className="text-left">{prod.name}</CardTitle>
-                <CardText className="text-left fnt-weight-400 dscrptnSize-8">{prod.desc}</CardText>
+                <CardText className="text-left fnt-weight-400 dscrptnSize-8">
+                  {prod.desc}
+                </CardText>
               </CardBody>
             </div>
           </div>
@@ -67,16 +69,12 @@ class OrderHistory extends Component {
           </Card>
         </div>
         <div className="col-3 text-left">
-          <div className="mt-2 fnt-weight-500 title-size-1em">In Transit</div>
+          <div className="mt-2 fnt-weight-500 title-size-1em">Deliver to: </div>
           <div className="fnt-weight-400 dscrptnSize-9">
-            Delivering from {ordrs.departing_location}
+            {ordrs.departing_location}
           </div>
-          <div className="mt-2 fnt-weight-500 title-size-1em">
-            Expected Delivery Date:
-          </div>
-          <div className="fnt-weight-400 dscrptnSize-9">
-            On {ordrs.shipped_on}
-          </div>
+          <div className="mt-2 fnt-weight-500 title-size-1em">Order Date:</div>
+          <div className="fnt-weight-400 dscrptnSize-9">{ordrs.shipped_on}</div>
           <button className="mt-3 btn orange-b surround-parent w-75 more-rounded">
             Track Package
           </button>
@@ -109,8 +107,8 @@ class OrderHistory extends Component {
 }
 
 OrderHistory.propTypes = {
-    getUserOrder: PropTypes.func.isRequired,
-    getProducts: PropTypes.func.isRequired
+  getUserOrder: PropTypes.func.isRequired,
+  getProducts: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

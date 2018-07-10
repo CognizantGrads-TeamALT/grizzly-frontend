@@ -69,12 +69,12 @@ class Inventory extends Component {
             </td>
           </tr>
         );
-      } else if (
-        isEmpty(vendorInventory) &&
-        !(this.props.errors.errorMessage === "")
-      ) {
-        this.notify(this.props.errors.errorMessage)
-      }
+      } 
+      // commented out for now to fix toast fires up .. 
+      // ..when no products found in the admin portal search products
+      // else if (isEmpty(vendorInventory) &&
+      //   !(this.props.errors.errorMessage === "")
+      // ) {  this.notify(this.props.errors.errorMessage) }
     }
   }
 
