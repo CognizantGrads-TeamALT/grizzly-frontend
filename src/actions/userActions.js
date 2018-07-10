@@ -3,10 +3,6 @@ import { AUTH_API_GATEWAY, USER_API_GATEWAY } from './microservices';
 import setAuthToken from '../utils/setAuthToken';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-import {
-  startJWTRefreshChecker,
-  stopJWTRefreshChecker
-} from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
 import { emptyCart } from './cartActions';
 import {
@@ -63,7 +59,6 @@ export const loginUser = googleResponse => dispatch => {
   const { tokenId } = googleResponse;
   // Set token to localStorage
   localStorage.setItem('GrizzGoogleToken', tokenId);
-  startJWTRefreshChecker();
   // Set token to Auth header
   setAuthToken(tokenId);
   // Decode Token to get User Data from tokenId, not from tokenObj
@@ -153,8 +148,6 @@ export const logoutUser = () => dispatch => {
 
   // Remove token from localStorage
   localStorage.removeItem('GrizzGoogleToken');
-  stopJWTRefreshChecker();
-  localStorage.removeItem('check_jwt_refresh_timer');
   // Remove auth header for future requests
   setAuthToken(false);
   // Clear current user, isAuthenticated to false
