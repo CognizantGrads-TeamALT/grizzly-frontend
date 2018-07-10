@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TextFieldGroup from '../../common/TextFieldGroup';
+import TextAreaFieldWithCancel from '../../common/TextAreaFieldWithCancel';
 import isEmpty from '../../../validation/is-empty';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -146,8 +146,8 @@ class CategoryTypeAhead extends Component {
       <div className={this.props.extraClassNames}>
         <div className="d-inline-block w-100">
           <div className="vendor-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-            <div className="form-group w-100 d-webkit-inline-box">
-              <TextFieldGroup
+            <div className="form-group d-webkit-inline-box">
+              <TextAreaFieldWithCancel
                 placeholder={this.props.placeholder}
                 name="category"
                 value={this.state.category}
@@ -161,7 +161,7 @@ class CategoryTypeAhead extends Component {
               />
             </div>
           </div>
-          <div className="cat-typeahead-position w-75 bg-white z-index-5000">{this.state.categoryList}</div>
+          <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>
         </div>
       </div>
     );

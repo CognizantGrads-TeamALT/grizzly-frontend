@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import TextFieldGroup from '../../common/TextFieldGroup';
+import TextAreaFieldWithCancel from '../../common/TextAreaFieldWithCancel';
 import _ from 'lodash';
 import {
   searchVendors,
@@ -142,8 +142,8 @@ class VendorTypeAhead extends Component {
       <div className={this.props.extraClassNames}>
         <div className="d-inline-block w-75">
           <div className="vendor-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-            <div className="form-group w-100 vendor-type-ahead">
-              <TextFieldGroup
+            <div className="form-group vendor-type-ahead">
+              <TextAreaFieldWithCancel
                 placeholder={this.props.placeholder}
                 name="vendor"
                 value={this.state.vendor}

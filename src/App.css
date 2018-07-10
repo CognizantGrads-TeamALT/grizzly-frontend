@@ -554,7 +554,6 @@ a:-webkit-any-link {
 /*vendorscrolllist*/
 .vendor-scroll {
   max-height: 7cm;
-  overflow: auto;
 }
 
 .vendor-scroll-button {
