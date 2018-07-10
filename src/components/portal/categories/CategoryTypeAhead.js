@@ -161,7 +161,7 @@ class CategoryTypeAhead extends Component {
               />
             </div>
           </div>
-          <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>
+          <div className="cat-typeahead-position w-75 bg-white z-index-5000">{this.state.categoryList}</div>
         </div>
       </div>
     );
