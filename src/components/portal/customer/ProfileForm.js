@@ -189,11 +189,6 @@ class ProfileForm extends Component {
                     )
                   }
                 />
-                {/* {!this.state.isValid && (
-                  <div className="alert alert-warning">
-                    {'Please check your input.'}
-                  </div>
-                )} */}
                 <div className="row ml-0 mr-0">
                   <div className="col pl-0 text-left">
                     <button className="btn btn-light" onClick={this.onToggle}>
