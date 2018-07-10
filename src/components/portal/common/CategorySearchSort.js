@@ -86,7 +86,7 @@ class CategorySearchSort extends Component {
                 placeholder="Search"
                 value={this.state.search}
                 onChange={this.onChange}
-                disabled={this.state.disabled ? 'disabled' : ''}
+                disabled={this.state.disabled ? true : false}
               />
               <span className="input-group-append-more">
                 <button
