@@ -58,6 +58,7 @@ class VendorTypeAhead extends Component {
     }
     else {
       this.props.searchVendors(e.target.value);
+      clearInterval(this.state.intervalId);
       this.setState({ intervalId: setInterval(this.waitForResponse, 50) });
     }
   }
