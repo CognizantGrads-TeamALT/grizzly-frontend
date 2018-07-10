@@ -389,10 +389,6 @@ export const getVendorInventory = (index, VendorID) => dispatch => {
     })
     .catch(err => {
       dispatch(setProductUpdated());
-      // For development purposes. The micro-services take time to initialise.
-      // This will keep requesting data if it gets a 500 or 403 error...
-      // Should be removed once we actually implement a feature to error or retry x times.
-      if (index === 0) dispatch(getVendorInventory(index, VendorID));
 
       dispatch({
         type: types.GET_ERRORS,

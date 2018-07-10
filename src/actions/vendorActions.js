@@ -177,14 +177,13 @@ export const toggleBlockVendor = (vendorId, enabled) => dispatch => {
   axios
     .post(VENDOR_API_GATEWAY + `/setBlock/${vendorId}`, {'enabled': enabled})
     .then(res =>{
-      // dispatch({
-      //   type: types.VENDOR_TOGGLEBLOCK,
-      //   payload: res.data
-      // });
-      if(enabled===false)
-        dispatch(disableVendorProducts(vendorId, true));
-    }
-    )
+      dispatch({
+        type: types.VENDOR_TOGGLEBLOCK,
+        payload: res.data
+      });
+      //if(enabled===false)
+      //  dispatch(disableVendorProducts(vendorId, true));
+    })
     .catch(err => {
       dispatch(setVendorUpdated());
       dispatch({

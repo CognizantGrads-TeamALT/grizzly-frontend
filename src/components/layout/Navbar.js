@@ -30,15 +30,15 @@ class Navbar extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  toastId = null;
   onSubmit(e) {
     e.preventDefault();
+    const term = this.state.search;
     if (isEmpty(this.state.search)) {
-      if (!toast.isActive(this.toastId)) {
-        this.toastId = toast.info('Please enter some keywords!');
+      this.props.searchProducts(term, '0');
+      if (this.props.history.location.pathname !== '/') {
+        this.props.history.push('/');
       }
     } else {
-      const term = this.state.search;
       this.setState({ search: '' });
       this.props.searchProducts(term, '0', 'nav');
       this.props.history.push('/results');
@@ -138,8 +138,10 @@ class Navbar extends Component {
       !isEmpty(this.props.user.isRegistered)
     ) {
       if (this.props.user.isAuthenticated) {
-        if (this.props.user.role !== 'customer' &&
-          this.props.history.location.pathname !== `/${this.props.user.role}`) {
+        if (
+          this.props.user.role !== 'customer' &&
+          this.props.history.location.pathname !== `/${this.props.user.role}`
+        ) {
           this.props.history.push(`/${this.props.user.role}`);
         }
       }
