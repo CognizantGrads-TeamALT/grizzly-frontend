@@ -512,7 +512,11 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
 };
 
-export const refreshProductDataVendor = (data, filtered, userId) => dispatch => {
+export const refreshProductDataVendor = (
+  data,
+  filtered,
+  userId
+) => dispatch => {
   if (filtered) {
     dispatch({
       type: types.GET_FILTERED_PRODUCTS,
