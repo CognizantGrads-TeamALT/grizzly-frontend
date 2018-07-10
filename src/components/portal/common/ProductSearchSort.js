@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   searchProducts,
-  sortProductsByParam
+  sortProductsByParam,
+  sortProductsVendorByParam
 } from '../../../actions/productsActions';
 import { toast } from 'react-toastify';
 import isEmpty from '../../../validation/is-empty';
@@ -39,19 +40,28 @@ class ProductSearchSort extends Component {
 
   onSortById(e) {
     e.preventDefault();
-    this.props.sortProductsByParam('0', 'productId');
+    if (this.props.user.role === 'admin')
+      this.props.sortProductsByParam('0', 'productId');
+    else
+      this.props.sortProductsVendorByParam(this.props.user.user.vendorId, '0', 'productId');
     this.setState({ search: '' });
   }
 
   onSortByName(e) {
     e.preventDefault();
-    this.props.sortProductsByParam('0', 'name');
+    if (this.props.user.role === 'admin')
+      this.props.sortProductsByParam('0', 'name');
+    else
+      this.props.sortProductsVendorByParam(this.props.user.user.vendorId, '0', 'name');
     this.setState({ search: '' });
   }
 
   onSortByRating(e) {
     e.preventDefault();
-    this.props.sortProductsByParam('0', 'rating');
+    if (this.props.user.role === 'admin')
+      this.props.sortProductsByParam('0', 'rating');
+    else
+      this.props.sortProductsVendorByParam(this.props.user.user.vendorId, '0', 'rating');
     this.setState({ search: '' });
   }
 
@@ -132,14 +142,18 @@ class ProductSearchSort extends Component {
 ProductSearchSort.propTypes = {
   searchProducts: PropTypes.func.isRequired,
   sortProductsByParam: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired
+  sortProductsVendorByParam: PropTypes.func.isRequired,
+
+  product: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  user: state.user
 });
 
 export default connect(
   mapStateToProps,
-  { searchProducts, sortProductsByParam }
+  { searchProducts, sortProductsByParam, sortProductsVendorByParam }
 )(ProductSearchSort);
