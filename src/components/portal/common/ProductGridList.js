@@ -22,6 +22,30 @@ class ProductGridList extends Component {
     }
   }
 
+  showCartBtn(prod) {
+    if (
+      (isEmpty(this.props.user.role) &&
+        isEmpty(this.props.user.isRegistered)) ||
+      this.props.user.role === 'customer'
+    ) {
+      return (
+        <button
+          className="btn p-0 my-auto"
+          onClick={() => {
+            this.props.addToCart(prod);
+            this.onClick();
+          }}
+        >
+          <img
+            src={addtocart}
+            alt="Add to cart"
+            style={{ width: '20px', verticalAlign: 'top' }}
+          />
+        </button>
+      );
+    }
+  }
+
   show() {
     this.count = 0;
     const products = this.props.product.products;
@@ -47,44 +71,27 @@ class ProductGridList extends Component {
                       {prod.name}
                     </div>
                   </Link>
-                    <div className="fnt-weight-300 dscrptnSize-8 text-truncate d-inline-block surround-parent w-100">
-                      {this.showVendorName(prod.vendorId)}
-                    </div>
+                  <div className="fnt-weight-300 dscrptnSize-8 text-truncate d-inline-block surround-parent w-100">
+                    {this.showVendorName(prod.vendorId)}
+                  </div>
 
-                    <div className="fnt-weight-300 dscrptnSize-8">
-                      <StarRatings
-                        rating={prod.rating}
-                        starRatedColor="#f0ca4d"
-                        numberOfStars={5}
-                        name="rating"
-                        starDimension="15px"
-                        starSpacing="1px"
-                      />
-                    </div>
-                    <div className="fnt-weight-600 surround-parent w-100 row">
-                      <div className="col text-left d-inline">
-                        ${prod.price}
-                      </div>
-                      <div className="col text-right d-inline pr-0">
-                          {this.props.user.role === 'customer' ||
-                          (isEmpty(this.props.user.role) && (
-                              <button
-                                className="btn p-0 my-auto"
-                                onClick={() => {
-                                  this.props.addToCart(prod);
-                                  this.onClick();
-                                }}
-                              >
-                                <img
-                                  src={addtocart}
-                                  alt="Add to cart"
-                                  style={{ width: '20px', verticalAlign: 'top' }}
-                                />
-                              </button>
-                          ))}
-                      </div>
+                  <div className="fnt-weight-300 dscrptnSize-8">
+                    <StarRatings
+                      rating={prod.rating}
+                      starRatedColor="#f0ca4d"
+                      numberOfStars={5}
+                      name="rating"
+                      starDimension="15px"
+                      starSpacing="1px"
+                    />
+                  </div>
+                  <div className="fnt-weight-600 surround-parent w-100 row">
+                    <div className="col text-left d-inline">${prod.price}</div>
+                    <div className="col text-right d-inline pr-0">
+                      {this.showCartBtn(prod)}
                     </div>
                   </div>
+                </div>
               </div>
             );
         }, this);
