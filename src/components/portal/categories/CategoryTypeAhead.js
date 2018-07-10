@@ -57,6 +57,9 @@ class CategoryTypeAhead extends Component {
       this.setState({ categoryList: [] });
     } else {
       this.props.searchCategories(e.target.value);
+      //setstate was sometimes being called before the previous one finished running, resulting in an unending loop
+      // as clear interval would nolonger stop that particular interval
+      clearInterval(this.state.intervalId);
       this.setState({ intervalId: setInterval(this.waitForResponse, 50) });
     }
   }
