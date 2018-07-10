@@ -9,6 +9,7 @@ import {
 } from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
 import { emptyCart } from './cartActions';
+import { clearFilteredProducts } from './productsActions';
 
 // Get Admins List
 export const getUsers = (role, id) => dispatch => {
