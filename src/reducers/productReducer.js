@@ -391,12 +391,6 @@ export default function(state = initialState, action) {
       return {
         ...initialState
       };
-    case types.CLEAR_CURRENT_PRODUCTS_TABLE:
-      return {
-        ...state,
-        products: null,
-        index: 0
-      }
     case types.CLEAR_FILTERED_PRODUCTS:
       return {
         ...state,

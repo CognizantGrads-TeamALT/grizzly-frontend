@@ -158,13 +158,6 @@ export const clearCurrentProducts = () => {
   };
 };
 
-// Clear Products TABLE
-export const clearCurrentProductsTable = () => {
-  return {
-    type: types.CLEAR_CURRENT_PRODUCTS_TABLE
-  };
-};
-
 // Clear Filtered Products
 export const clearFilteredProducts = () => {
   return {

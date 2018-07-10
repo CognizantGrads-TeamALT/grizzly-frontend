@@ -52,16 +52,12 @@ class Tabs extends Component {
   }
 
   componentDidMount() {
-    console.log('mounted')
-    console.log(this.props.user)
-
     // gets called on fresh login. dont remove.
     if (this.props.user.role === 'vendor') {
       if (isEmpty(this.props.product.vendorInventory) && !this.loadingVendorInventory) {
         this.props.getVendorInventory('0', this.props.user.user.vendorId);
         this.loadingVendorInventory = true;
 
-        //this.props.clearCurrentProductsTable();
         this.props.getProductsVendor(this.props.user.user.vendorId, 0);
       }
     }
@@ -89,20 +85,13 @@ class Tabs extends Component {
     }
   }
 
-  componentWillUnmount() {
-    console.log('unmounted.')
-  }
-
   componentDidUpdate() {
     // now it always checks for whether the user is a vendor or not
-    console.log(this.props.user.role);
     if (this.props.user.role === 'vendor') {
-      console.log('............')
       if (isEmpty(this.props.product.vendorInventory) && !this.loadingVendorInventory) {
         this.props.getVendorInventory('0', this.props.user.user.vendorId);
         this.loadingVendorInventory = true;
 
-        //this.props.clearCurrentProductsTable();
         this.props.getProductsVendor(this.props.user.user.vendorId, 0);
       }
     }
