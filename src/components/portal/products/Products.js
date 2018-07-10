@@ -137,7 +137,7 @@ class Products extends Component {
         }
       }
     } else {
-      if (loading) {
+      if (loading || fresh) {
         return (
           <tr>
             <td>

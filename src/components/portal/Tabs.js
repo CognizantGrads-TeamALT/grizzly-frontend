@@ -22,7 +22,9 @@ import { getVendors, clearCurrentVendors } from '../../actions/vendorActions';
 import Products from './products/Products';
 import {
   getProducts,
+  getProductsVendor,
   clearCurrentProducts,
+  clearCurrentProductsTable,
   getVendorInventory
 } from '../../actions/productsActions';
 import Inventory from './inventory/Inventory';
@@ -79,6 +81,9 @@ class Tabs extends Component {
         this.props.getVendorInventory('0', this.props.user.user.vendorId);
         this.loadingVendorInventory = true;
       }
+
+      this.props.clearCurrentProductsTable();
+      this.props.getProductsVendor(this.props.user.vendorId);
     }
 
     //if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
@@ -279,7 +284,9 @@ Tabs.propTypes = {
   getCategories: PropTypes.func.isRequired,
   getVendors: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
+  getProductsVendor: PropTypes.func.isRequired,
   clearCurrentProducts: PropTypes.func.isRequired,
+  clearCurrentProductsTable: PropTypes.func.isRequired,
   clearCurrentVendors: PropTypes.func.isRequired,
   clearCurrentCategories: PropTypes.func.isRequired,
 
@@ -306,7 +313,9 @@ export default connect(
     getVendors,
     clearCurrentVendors,
     getProducts,
+    getProductsVendor,
     clearCurrentProducts,
+    clearCurrentProductsTable,
     setProductUpdated,
     filterProductsByCategory,
     getVendorInventory
