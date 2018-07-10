@@ -13,12 +13,6 @@ import isEmpty from '../../../validation/is-empty';
 import { toast } from 'react-toastify';
 
 class Products extends Component {
-constructor(props){
-  super(props);
-
-  this.showLoadedToast = true;
-}
-
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener('scroll', e => {
@@ -52,13 +46,11 @@ constructor(props){
 
   loadMore() {
     if (this.props.product.hasMore) {
+      this.notify('Loading more products...')
       this.props.getProducts(this.props.product.index);
       if (!isEmpty(this.props.errors.errorMessage)) {
         toast.info(this.props.errors.errorMessage);
       }
-    } else if(this.showLoadedToast) {
-      toast.info('All products loaded.');
-      this.showLoadedToast = false;
     }
   }
 
@@ -84,10 +76,7 @@ constructor(props){
     if (!loadingVendors && !loadingCategories && !fresh) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
-          return (
-            <tr>
-              <td>No products found :(</td>
-            </tr>);
+          return <tr><td>No products found :(</td></tr>;
         }
         else {
           if (!isEmpty(products_filtered)) {
@@ -117,10 +106,7 @@ constructor(props){
         }
       } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
-          return (
-            <tr>
-              <td>No products found :(</td>
-            </tr>);
+          return <tr><td>No products found :(</td></tr>;
         } else {
           if (!isEmpty(products_filtered)) {
             return products_filtered
@@ -162,7 +148,7 @@ constructor(props){
       } else if (isEmpty(products) &&
         !isEmpty(this.props.errors.errorMessage ))
         {
-        this.notify(this.props.errors.errorMessage)
+          this.notify(this.props.errors.errorMessage)
         }
     }
   }
