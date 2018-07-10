@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import isEmpty from '../../validation/is-empty';
 
 const TextFieldGroup = ({
   name,
@@ -12,13 +13,14 @@ const TextFieldGroup = ({
   type,
   onChange,
   disabled,
-  classes
+  classes,
+  clearButton
 }) => {
   return (
-    <div className="w-100">
+    <div className="search-form-custom form-inline">
       <input
         type={type}
-        className={classnames(`form-control more-rounded w-100 d-inline z-index-500 ${classes}`, {
+        className={classnames(`form-control left-rounded border-right-0 border d-inline z-index-500`, {
           'is-invalid': error
         })}
         placeholder={placeholder}
@@ -28,6 +30,17 @@ const TextFieldGroup = ({
         disabled={disabled}
         autoComplete="off"
       />
+      {!isEmpty(clearButton) && (
+        <span className="input-group-append-more">
+          <button
+            onClick={clearButton}
+            className="btn btn-outline-success btn-sm right-rounded border-left-0 border"
+            type="button"
+          >
+            <i className="fa fa-times-circle" />
+          </button>
+        </span>
+      )}
       {info && <small className="form-text text-muted">{info}</small>}
       {error && <div className="invalid-feedback">{error}</div>}
     </div>
