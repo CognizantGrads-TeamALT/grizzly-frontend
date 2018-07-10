@@ -81,7 +81,10 @@ class CustomerProductDescription extends Component {
               value={this.state.search}
               onChange={this.onChange}
             />
-            <button disabled className="btn more-rounded d-inline plain-blue-b w-25">
+            <button
+              disabled
+              className="btn more-rounded d-inline plain-blue-b w-25"
+            >
               Go
             </button>
           </div>
@@ -104,13 +107,13 @@ class CustomerProductDescription extends Component {
 
         <div className="container containerCustomerProductView">
           <div className="row">
-            <div className="col-5 picCustomerDetailedProductCol text-left">
+            <div className="col-lg-5 picCustomerDetailedProductCol text-left">
               <div className="row">
                 <ProductCarousel prod={product} />
               </div>
             </div>
 
-            <div className="col-5 containerCustomerProductDesc text-left">
+            <div className="col-lg-5 containerCustomerProductDesc text-left">
               <div className="row fnt-weight-600 title-size-2em">
                 {product.name}
               </div>

@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import ProductGridList from './common/ProductGridList';
 import PropTypes from 'prop-types';
 import { getProducts, setProductUpdated } from '../../actions/productsActions';
-import { loadCart, saveCart } from '../../actions/cartActions';
+import { loadCart, saveCart, addToCart } from '../../actions/cartActions';
 import { sortCategoriesByParamCustomer } from '../../actions/categoryActions';
 import VendorCarousel from './common/VendorCarousel';
 import ProductCategoryRow from './common/ProductCategoryRow';
 import isEmpty from '../../validation/is-empty';
 import Spinner from '../common/Spinner';
 
-
 class CustomerPortal extends Component {
   constructor(props) {
     super(props);
 
     this.props.loadCart();
+    this.addToCart = this.addToCart.bind(this);
   }
   componentDidMount() {
     // Scroll to top.
@@ -46,6 +46,9 @@ class CustomerPortal extends Component {
     }
   }
 
+  addToCart(single) {
+    this.props.addToCart(single);
+  }
   render() {
     const { products, loading } = this.props.product;
     const { categories, loading2 } = this.props.category;
@@ -89,7 +92,7 @@ class CustomerPortal extends Component {
           <div className="fnt-weight-400 text-center title-size-1-5em mb-2">
             Browse our latest products
           </div>
-          <ProductGridList />
+          <ProductGridList addToCart={this.addToCart} />
         </div>
       );
     } else {
@@ -112,6 +115,7 @@ CustomerPortal.propTypes = {
   user: PropTypes.object.isRequired,
 
   loadCart: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
   saveCart: PropTypes.func.isRequired
 };
 
@@ -128,6 +132,7 @@ export default connect(
     setProductUpdated,
     sortCategoriesByParamCustomer,
     loadCart,
-    saveCart
+    saveCart,
+    addToCart
   }
 )(CustomerPortal);

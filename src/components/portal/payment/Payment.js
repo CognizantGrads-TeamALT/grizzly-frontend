@@ -78,15 +78,25 @@ class Payment extends Component {
         quantity: cart[prodId]
       };
     });
-
     const newOrder = {
       user_id: !isEmpty(this.props.user.user.userId)
         ? this.props.user.user.userId
         : 1,
       txn_id: payment.paymentID,
       cost: totalCost,
-      departing_location: 'Melbourne City',
-      shipped_on: '2018-06-15',
+      // This should be shipping address
+      departing_location:
+        payment.address.line1 +
+        ' ' +
+        payment.address.city +
+        ' ' +
+        payment.address.state +
+        ' ' +
+        payment.address.postal_code +
+        ' ' +
+        payment.address.country_code,
+      // This should be order date
+      shipped_on: new Date().toISOString().slice(0, 10),
       orderItemDTO: orderItems
     };
     this.props.addOrder(newOrder);
@@ -137,7 +147,6 @@ class Payment extends Component {
                 <PaypalExpressBtn
                   client={client}
                   currency={'AUD'}
-                  shipping={1}
                   total={this.calcOrderPrice()}
                   onSuccess={this.onSuccess}
                   onCancel={this.onCancel}
