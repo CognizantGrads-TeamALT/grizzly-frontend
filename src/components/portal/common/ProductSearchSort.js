@@ -13,7 +13,7 @@ class ProductSearchSort extends Component {
     super();
     this.state = {
       search: '',
-      disabled: true
+      disabled: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -60,8 +60,8 @@ class ProductSearchSort extends Component {
     if (isEmpty(this.state.search)) {
       toast.info('Please check your input!');
     } else {
-    this.props.searchProducts(this.state.search, '0');
-    this.setState({ search: '' });
+      this.props.searchProducts(this.state.search, '0');
+      this.setState({ search: '' });
     }
   }
 
@@ -77,7 +77,7 @@ class ProductSearchSort extends Component {
               placeholder="Search"
               value={this.state.search}
               onChange={this.onChange}
-              disabled={this.state.disabled ? 'disabled' : ''}
+              disabled={this.state.disabled ? true : false}
             />
             <span className="input-group-append-more">
               <button
