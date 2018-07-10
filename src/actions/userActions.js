@@ -63,6 +63,8 @@ export const loginUser = googleResponse => dispatch => {
   const decoded = jwt_decode(tokenId);
   // Set current user
   dispatch(loadUserInfo(decoded));
+
+  dispatch(clearFilteredProducts())
 };
 
 export const loadUserInfo = decoded => dispatch => {
