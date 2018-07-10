@@ -16,7 +16,7 @@ import ShoppingCart from './components/portal/customer/ShoppingCart';
 import SearchResults from './components/portal/common/SearchResults';
 export default () => {
   return (
-    <div className="surround-parent h-100 griz-portal only-scroll-down">
+    <div className="surround-parent h-100 griz-portal">
       <Switch>
         <Route exact path="/" component={CustomerPortal} />
         <Route exact path="/results" component={SearchResults} />
