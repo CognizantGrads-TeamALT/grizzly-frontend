@@ -4,7 +4,7 @@ import ConfirmModal from "../common/ConfirmModal";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../../common/Spinner";
-import { setProductUpdateOnce, toggleBlockCategoryProd } from "../../../actions/productsActions";
+import { updateCategoryProd } from "../../../actions/productsActions";
 import { toggleBlockCategory, deleteCategory } from "../../../actions/categoryActions";
 import ErrorComponent from "../../common/ErrorComponent";
 
@@ -33,12 +33,11 @@ class CategoriesList extends Component {
 
   onBlockClick() {
     const { category } = this.props;
-    this.props.setProductUpdateOnce();
     this.props.toggleBlockCategory(category.categoryId, !category.enabled);
 
     let copyCat = category;
     copyCat.enabled = !copyCat.enabled;
-    this.props.toggleBlockCategoryProd(category.categoryId, copyCat);
+    this.props.updateCategoryProd(category.categoryId, copyCat);
     //begin checking for an error
     this.setState({listenForError: true,
       block: true,
@@ -120,8 +119,7 @@ class CategoriesList extends Component {
 
 CategoriesList.propTypes = {
   toggleBlockCategory: PropTypes.func.isRequired,
-  toggleBlockCategoryProd: PropTypes.func.isRequired,
-  setProductUpdateOnce: PropTypes.func.isRequired,
+  updateCategoryProd: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired
 };
 
@@ -131,5 +129,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { toggleBlockCategory, deleteCategory, setProductUpdateOnce, toggleBlockCategoryProd }
+  { toggleBlockCategory, deleteCategory, updateCategoryProd }
 )(CategoriesList);

@@ -3,6 +3,7 @@ import ConfirmModal from "../common/ConfirmModal";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { toggleBlockVendor, deleteVendor } from "../../../actions/vendorActions";
+import { updateVendorProd } from '../../../actions/productsActions';
 import ErrorComponent from "../../common/ErrorComponent";
 import VendorForm from './VendorForm';
 
@@ -33,6 +34,10 @@ class VendorList extends Component {
   onBlockClick() {
     const { vendor } = this.props;
     this.props.toggleBlockVendor(vendor.vendorId, !vendor.enabled);
+
+    let copyVendor = vendor;
+    copyVendor.enabled = !copyVendor.enabled;
+    this.props.updateVendorProd(vendor.vendorId, copyVendor);
     //begins a wait method to listen for an error
     this.setState({listenForError: true,
       count: 0,
@@ -105,7 +110,8 @@ class VendorList extends Component {
 
 VendorList.propTypes = {
   toggleBlockVendor: PropTypes.func.isRequired,
-  deleteVendor: PropTypes.func.isRequired
+  deleteVendor: PropTypes.func.isRequired,
+  updateVendorProd: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -114,5 +120,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { toggleBlockVendor, deleteVendor }
+  { toggleBlockVendor, deleteVendor, updateVendorProd }
 )(VendorList);
