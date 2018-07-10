@@ -63,7 +63,7 @@ export default function(state = initialState, action) {
         updateOnce: false,
         loading: false,
         loadingCategories: false,
-        loadingVendors:false
+        loadingVendors: false
       };
     case types.SEARCH_RESULTS:
       return {
@@ -88,9 +88,9 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
-      let index = (newProducts.length)/30;
-      if(index%1 !== 0){
-        index = index + 1 - index%1;
+      let index = newProducts.length / 30;
+      if (index % 1 !== 0) {
+        index = index + 1 - (index % 1);
       }
       return {
         ...state,
@@ -116,9 +116,9 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
-      index = (newProducts.length)/30;
-      if(index%1 !== 0){
-        index = index + 1 - index%1;
+      index = newProducts.length / 30;
+      if (index % 1 !== 0) {
+        index = index + 1 - (index % 1);
       }
       return {
         ...state,
@@ -129,7 +129,7 @@ export default function(state = initialState, action) {
         loadingCategories: true,
         fresh: false
       };
-    // No products found message 
+    // No products found message
     case types.SEARCH_PRODUCT_FAILED:
       return {
         ...state,
@@ -278,7 +278,9 @@ export default function(state = initialState, action) {
         ...state,
         products: newProducts3,
         random_products:
-          randomResults.length > 12 ? randomResults.slice(0, 12) : randomResults,
+          randomResults.length > 12
+            ? randomResults.slice(0, 12)
+            : randomResults,
         fresh: false
       };
     case types.PRODUCT_ADDING:
@@ -382,6 +384,26 @@ export default function(state = initialState, action) {
         loading: loadingNew2,
         loadingCategories: false
       };
+    case types.PRODUCTS_UPDATECATEGORY:
+      return {
+        ...state,
+        product_category: state.product_category.map(
+          category =>
+            category.categoryId === action.payload.categoryId
+              ? action.payload
+              : category
+        )
+      };
+    case types.PRODUCTS_UPDATEVENDOR:
+      return {
+        ...state,
+        product_vendor: state.product_vendor.map(
+          vendor =>
+            vendor.vendorId === action.payload.vendorId
+              ? action.payload
+              : vendor
+        )
+      };
     case types.PRODUCTS_LOADED:
       return {
         ...state,
@@ -389,7 +411,9 @@ export default function(state = initialState, action) {
       };
     case types.CLEAR_CURRENT_PRODUCTS:
       return {
-        ...initialState
+        ...initialState,
+        cart: state.cart,
+        cart_products: state.cart_products
       };
     case types.CLEAR_FILTERED_PRODUCTS:
       return {
@@ -397,7 +421,7 @@ export default function(state = initialState, action) {
         products_filtered: null,
         products_filtered_last: null,
         filteredHasMore: false,
-        filteredIndex: 0,
+        filteredIndex: 0
       };
     case types.LOAD_CART:
       return {

@@ -9,7 +9,11 @@ import {
 } from '../utils/RefreshToken';
 import isEmpty from '../validation/is-empty';
 import { emptyCart } from './cartActions';
-import { clearFilteredProducts, clearCurrentProducts } from './productsActions';
+import {
+  clearFilteredProducts,
+  clearCurrentProducts,
+  getProducts
+} from './productsActions';
 import { clearCurrentCategories } from './categoryActions';
 import { clearCurrentVendors } from './vendorActions';
 
@@ -67,7 +71,7 @@ export const loginUser = googleResponse => dispatch => {
   // Set current user
   dispatch(loadUserInfo(decoded));
 
-  dispatch(clearFilteredProducts())
+  dispatch(clearFilteredProducts());
 };
 
 export const loadUserInfo = decoded => dispatch => {
@@ -158,6 +162,7 @@ export const logoutUser = () => dispatch => {
   dispatch(clearCurrentProducts());
   dispatch(clearCurrentCategories());
   dispatch(clearCurrentVendors());
+  dispatch(getProducts());
 };
 
 export const addOrder = newOrder => dispatch => {

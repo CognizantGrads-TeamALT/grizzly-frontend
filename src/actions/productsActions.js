@@ -213,6 +213,24 @@ export const toggleBlockProduct = (productId, enabled) => dispatch => {
     });
 };
 
+// block a cat
+export const updateCategoryProd = (categoryId, category) => dispatch => {
+  dispatch({
+    type: types.PRODUCTS_UPDATECATEGORY,
+    categoryId: categoryId,
+    payload: category,
+  })
+}
+
+// block a vendor
+export const updateVendorProd = (vendorId, vendor) => dispatch => {
+  dispatch({
+    type: types.PRODUCTS_UPDATEVENDOR,
+    vendorId: vendorId,
+    payload: vendor,
+  })
+}
+
 // Edit Product
 export const editProduct = newInfo => dispatch => {
   dispatch(clearErrors(true));
@@ -411,6 +429,24 @@ export const sortProductsByParam = (index, param) => dispatch => {
     });
 };
 
+// same thing as above.
+export const sortProductsVendorByParam = (vendorId, index, param) => dispatch => {
+  dispatch(clearErrors());
+  dispatch(clearCurrentProducts());
+  axios
+    .get(PRODUCT_API_GATEWAY + `/byVendor/${vendorId}/${index}/${param}`)
+    .then(res => {
+      dispatch(refreshProductData(res.data));
+    })
+    .catch(err => {
+      dispatch(setProductUpdated());
+      dispatch({
+        type: types.GET_ERRORS,
+        payload: err.request.response
+      });
+    });
+};
+
 // get all products beloning to a vendor, and get their inventory details
 export const getVendorInventory = (index, VendorID) => dispatch => {
   dispatch(clearErrors());
@@ -512,7 +548,11 @@ export const refreshProductData = (data, filtered) => dispatch => {
   }
 };
 
-export const refreshProductDataVendor = (data, filtered, userId) => dispatch => {
+export const refreshProductDataVendor = (
+  data,
+  filtered,
+  userId
+) => dispatch => {
   if (filtered) {
     dispatch({
       type: types.GET_FILTERED_PRODUCTS,
