@@ -53,7 +53,7 @@ class CustomerProductDescription extends Component {
         <div>
           <div className="row mt-2">
             <button
-              className="btn orange-b surround-parent w-75 more-rounded mb-2"
+              className="btn orange-b surround-parent w-100 more-rounded mb-2"
               onClick={() => {
                 this.buyNow(product);
               }}
@@ -61,7 +61,7 @@ class CustomerProductDescription extends Component {
               Buy now
             </button>
             <button
-              className="btn yellow-b surround-parent w-75 more-rounded mb-2"
+              className="btn yellow-b surround-parent w-100 more-rounded mb-2"
               onClick={() => {
                 this.props.addToCart(product);
                 this.onClick();
@@ -73,7 +73,7 @@ class CustomerProductDescription extends Component {
           <div className="row minimal-line-input-div">
             {/* disable until implement */}
             <input
-              className="text-center d-inline w-50"
+              className="text-center d-inline w-75"
               type="search"
               name="search"
               disabled="true"
@@ -97,7 +97,7 @@ class CustomerProductDescription extends Component {
     const product = this.props.single;
 
     return (
-      <div>
+      <div className="mt-3 pt-2">
         <Button
           onClick={this.onCancel}
           className="btn more-rounded hover-w-b my-auto float-left dscrptnSize-9 d-inline p-1 px-2 btn-link"
@@ -149,11 +149,10 @@ class CustomerProductDescription extends Component {
             </div>
           </div>
         </div>
-        <br />
-        <span className="anchor-right-outside-p-container btn griz-dark-blue-bg white-text right-rounded w-25 pr-3 text-right">
+        <div className="anchor-right-outside-p-container btn griz-dark-blue-bg white-text right-rounded w-25 pr-3 text-right mt-5 mb-4">
           People also searched for
-        </span>
-        <RandomProduct productId={product.productId} />
+        </div>
+          <RandomProduct productId={product.productId} />
       </div>
     );
   }
