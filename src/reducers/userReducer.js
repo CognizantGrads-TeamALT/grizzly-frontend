@@ -56,7 +56,8 @@ export default function(state = initialState, action) {
         ...state,
         isAuthenticated: !isEmpty(action.payload),
         user: action.payload,
-        role: action.payload.role
+        role: action.payload.role,
+        isRegistered: true
       };
     case types.CLEAR_CURRENT_USER:
       return {
