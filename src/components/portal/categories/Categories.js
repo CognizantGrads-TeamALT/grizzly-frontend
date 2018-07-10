@@ -9,7 +9,7 @@ import {
 } from "../../../actions/categoryActions";
 import CategoriesList from "./CategoriesList";
 import isEmpty from "../../../validation/is-empty";
-
+import { toast } from 'react-toastify';
 
 class Categories extends Component {
   componentDidMount() {
@@ -40,7 +40,10 @@ class Categories extends Component {
 
   loadMore() {
     if (this.props.category.hasMore) {
+      this.notify('Loading more categories...');
       this.props.getCategories(this.props.category.index);
+      if (!isEmpty(this.props.errors.errorMessage))
+        toast.info(this.props.errors.errorMessage);
     }
   }
 
@@ -58,11 +61,7 @@ class Categories extends Component {
       );
     } else {
       if (isEmpty(categories)) {
-        return <tr>
-          <td>
-            <p>No categories found.</p>
-          </td>
-        </tr>;
+        return <tr><td>No categories found.</td></tr>;
       }
 
       return categories.map(category => (

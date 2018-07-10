@@ -84,11 +84,10 @@ class Inventory extends Component {
         <div className="m-3 col">
           <ProductSearchSort />
         </div>
-        <div ref="myscroll" style={{ height: '500px', overflow: 'auto' }}>
-          <table className="table table-sm table-hover">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
+        <table className="table table-sm table-hover">
+          <thead>
+            <tr>
+            <th scope="col">ID</th>
                 <th scope="col">Product List</th>
                 <th scope="col">In Stock</th>
                 <th scope="col">Req.</th>
@@ -97,11 +96,10 @@ class Inventory extends Component {
                 <th scope="col">Pending</th>
                 <th scope="col">Rating</th>
                 <th scope="col" />
-              </tr>
-            </thead>
-            <tbody>{this.show()}</tbody>
-          </table>
-        </div>
+            </tr>
+          </thead>
+          <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+        </table>
       </div>
     );
   }

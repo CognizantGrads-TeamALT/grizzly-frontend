@@ -6,7 +6,7 @@ import VendorSearchSort from "../common/VendorSearchSort";
 import { getVendors, setVendorUpdated } from "../../../actions/vendorActions";
 import VendorList from "./VendorList";
 import isEmpty from "../../../validation/is-empty";
-
+import { toast } from 'react-toastify';
 
 class Vendor extends Component {
   componentDidMount() {
@@ -37,7 +37,10 @@ class Vendor extends Component {
 
   loadMore() {
     if (this.props.vendor.hasMore) {
+      this.notify('Loading more vendors...');
       this.props.getVendors(this.props.vendor.index);
+      if (!isEmpty(this.props.errors.errorMessage))
+        toast.info(this.props.errors.errorMessage);
     }
   }
 
@@ -45,7 +48,7 @@ class Vendor extends Component {
     const { vendors, loading } = this.props.vendor;
     // const {errorMessage } = this.props.errors;
     // show errros if loading is finished, nothing has loaded and an error message exists
- if (loading) {
+    if (loading) {
       return (
         <tr>
           <td>

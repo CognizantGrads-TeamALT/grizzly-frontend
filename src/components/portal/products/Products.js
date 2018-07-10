@@ -5,6 +5,7 @@ import Spinner from '../../common/Spinner';
 import ProductList from './ProductList';
 import {
   getProducts,
+  getProductsVendor,
   setProductUpdated,
   filterProductsByCategory
 } from '../../../actions/productsActions';
@@ -13,12 +14,6 @@ import isEmpty from '../../../validation/is-empty';
 import { toast } from 'react-toastify';
 
 class Products extends Component {
-constructor(props){
-  super(props);
-
-  this.showLoadedToast = true;
-}
-
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener('scroll', e => {
@@ -51,14 +46,17 @@ constructor(props){
   }
 
   loadMore() {
-    if (this.props.product.hasMore) {
-      this.props.getProducts(this.props.product.index);
+    if (this.props.product.hasMore || this.props.product.vendorHasMore) {
+      this.notify('Loading more products...')
+
+      if (this.props.user.role === 'admin')
+        this.props.getProducts(this.props.product.index);
+      else
+        this.props.getProductsVendor(this.props.user.user.vendorId, this.props.product.vendorIndex);
+
       if (!isEmpty(this.props.errors.errorMessage)) {
         toast.info(this.props.errors.errorMessage);
       }
-    } else if(this.showLoadedToast) {
-      toast.info('All products loaded.');
-      this.showLoadedToast = false;
     }
   }
 
@@ -85,9 +83,7 @@ constructor(props){
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
           return (
-            <tr>
-              <td>No products found.</td>
-            </tr>);
+            <tr><td>No products found.</td></tr>);
         }
         else {
           if (!isEmpty(products_filtered)) {
@@ -124,34 +120,34 @@ constructor(props){
         } else {
           if (!isEmpty(products_filtered)) {
             return products_filtered
-            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
-            .map((prod) => (
-              <ProductList
-                key={prod.productId}
-                product_category={product_category}
-                product_vendor={product_vendor}
-                prod={prod}
-                role={this.props.user.role}
-              />
-            ));
+              .filter(prod => prod.vendorId === this.props.user.user.vendorId)
+              .map((prod) => (
+                <ProductList
+                  key={prod.productId}
+                  product_category={product_category}
+                  product_vendor={product_vendor}
+                  prod={prod}
+                  role={this.props.user.role}
+                />
+              ));
           }
           else {
             return products
-            .filter(prod => prod.vendorId === this.props.user.user.userId)
-            .map((prod) => (
-              <ProductList
-                key={prod.productId}
-                product_category={product_category}
-                product_vendor={product_vendor}
-                prod={prod}
-                role={this.props.user.role}
-              />
-            ));
+              .filter(prod => prod.vendorId === this.props.user.user.vendorId)
+              .map((prod) => (
+                <ProductList
+                  key={prod.productId}
+                  product_category={product_category}
+                  product_vendor={product_vendor}
+                  prod={prod}
+                  role={this.props.user.role}
+                />
+              ));
           }
         }
       }
     } else {
-      if (loading) {
+      if (loading || fresh) {
         return (
           <tr>
             <td>
@@ -159,11 +155,12 @@ constructor(props){
             </td>
           </tr>
         );
-      } 
+      }
+      // commented to stop the toast fires up.. 
       // else if (isEmpty(products) &&
       //   !isEmpty(this.props.errors.errorMessage ))
       //   {
-      //   this.notify(this.props.errors.errorMessage)
+      //     this.notify(this.props.errors.errorMessage)
       //   }
     }
   }
@@ -189,9 +186,12 @@ constructor(props){
 
 Products.propTypes = {
   getProducts: PropTypes.func.isRequired,
+  getProductsVendor: PropTypes.func.isRequired,
   setProductUpdated: PropTypes.func.isRequired,
+  filterProductsByCategory: PropTypes.func.isRequired,
+
   product: PropTypes.object.isRequired,
-  filterProductsByCategory: PropTypes.func.isRequired
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -202,5 +202,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, setProductUpdated, filterProductsByCategory }
+  { getProducts, getProductsVendor, setProductUpdated, filterProductsByCategory }
 )(Products);

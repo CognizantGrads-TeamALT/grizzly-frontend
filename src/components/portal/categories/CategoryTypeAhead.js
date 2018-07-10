@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TextFieldGroup from '../../common/TextFieldGroup';
+import TextAreaFieldWithCancel from '../../common/TextAreaFieldWithCancel';
 import isEmpty from '../../../validation/is-empty';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -22,15 +22,24 @@ class CategoryTypeAhead extends Component {
       cur_id: '',
       valid_cat: false,
       count: 0
+      
     };
 
     this.waitForResponse = this.waitForResponse.bind(this);
     this.onChange = this.onChange.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);
+    this.clearTypeAhead = this.clearTypeAhead.bind(this);
     this.catSearch = _.debounce(e => {
       this.searchCat(e)
     }, 350);
     this.baseState = this.state;
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldClear) { 
+      this.props.cleared();
+      this.clearTypeAhead();
+    }
   }
 
   populate(param) {
@@ -130,7 +139,7 @@ class CategoryTypeAhead extends Component {
     });
   }
 
-  clearTypeAhead = () => {
+  clearTypeAhead = (e) => {
     this.setState(this.baseState)
     clearInterval(this.state.intervalId);
         //this shouldn't be nessessary because this.basestate should do this anyway
@@ -138,28 +147,28 @@ class CategoryTypeAhead extends Component {
     this.setState({categoryList: []});
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
+    //this.props.typeAheadValue = e.target.value;
   }
 
   render() {
     return (
       <div className={this.props.extraClassNames}>
-        <div className="w-100">
-          <div className="cat-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
-          <div className="form-group w-100 d-webkit-inline-box">
-            <TextFieldGroup
-              placeholder={this.props.placeholder}
-              name="category"
-              value={this.state.category}
-              autocomplete="off"
-              onChange={event => {
-                // DO NOT DELETE THE COMMENT BELOW
-                // eslint-disable-next-line
-                this.onChange(event, true), this.catSearch(event);
-              }}
-            />
-            <div className="btn pl-0 move-left d-inline z-index-600" onClick={this.clearTypeAhead}>
-            <i className="far fa-times-circle d-inline my-auto"></i></div>
-          </div>
+        <div className="d-inline-block w-100">
+          <div className="vendor-scroll form-inline z-index-5000 d-absolute inner-rounded-corners my-auto inner-mb-0">
+            <div className="form-group d-webkit-inline-box">
+              <TextAreaFieldWithCancel
+                placeholder={this.props.placeholder}
+                name="category"
+                value={this.state.category}
+                autocomplete="off"
+                onChange={event => {
+                  // DO NOT DELETE THE COMMENT BELOW
+                  // eslint-disable-next-line
+                  this.onChange(event, true), this.catSearch(event);
+                }}
+                clearButton={this.clearTypeAhead}
+              />
+            </div>
           </div>
           <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>
         </div>

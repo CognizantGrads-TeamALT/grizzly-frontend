@@ -22,6 +22,7 @@ import { getVendors, clearCurrentVendors } from '../../actions/vendorActions';
 import Products from './products/Products';
 import {
   getProducts,
+  getProductsVendor,
   clearCurrentProducts,
   getVendorInventory
 } from '../../actions/productsActions';
@@ -41,19 +42,42 @@ class Tabs extends Component {
     this.onAddProduct = this.onAddProduct.bind(this);
     this.clear = this.clear.bind(this);
     this.onAddProductCancel = this.onAddProductCancel.bind(this);
+    this.cleared = this.cleared.bind(this);
     this.state = {
       activeTab: '1'
     };
+
+    this.loadingVendorInventory = false;
+    this.loadingProducts = false;
+    // this.typeAheadValue = " ";
+    this.shouldClear = false;
+  }
+
+  cleared() {
+    this.shouldClear = false;
   }
 
   componentDidMount() {
+    // gets called on fresh login. dont remove.
+    if (this.props.user.role === 'vendor') {
+      if (isEmpty(this.props.product.vendorInventory) && !this.loadingVendorInventory) {
+        this.props.getVendorInventory('0', this.props.user.user.vendorId);
+        this.loadingVendorInventory = true;
+
+        this.props.getProductsVendor(this.props.user.user.vendorId, 0);
+      }
+    }
+
     //this.clear();
     if (isEmpty(this.props.product.products) &&
       !this.props.product.loadingCategories &&
       !this.props.product.loadingVendors &&
       !this.props.product.loading &&
-      this.props.product.fresh) {
+      this.props.product.fresh &&
+      !this.loadingProducts &&
+      this.props.user.role !== 'vendor') {
         this.props.getProducts();
+        this.loadingProducts = true;
     }
 
     if (isEmpty(this.props.vendor.vendors) &&
@@ -67,23 +91,14 @@ class Tabs extends Component {
     }
   }
 
-  componentDidUpdate(PrevProps) {
+  componentDidUpdate() {
     // now it always checks for whether the user is a vendor or not
     if (this.props.user.role === 'vendor') {
-      if (
-        isEmpty(this.props.product.vendorInventory) &&
-        this.props.product.vendorHasMore
-      ) {
+      if (isEmpty(this.props.product.vendorInventory) && !this.loadingVendorInventory) {
         this.props.getVendorInventory('0', this.props.user.user.vendorId);
-      } else {
-        if (!isEmpty(this.props.product.vendorInventory)) {
-          if (
-            this.props.product.vendorInventory.length < 25 &&
-            this.props.product.vendorHasMore
-          ) {
-            this.props.getVendorInventory('0', this.props.user.user.vendorId);
-          }
-        }
+        this.loadingVendorInventory = true;
+
+        this.props.getProductsVendor(this.props.user.user.vendorId, 0);
       }
     }
 
@@ -111,14 +126,18 @@ class Tabs extends Component {
       this.setState({
         activeTab: tab
       });
+
+      if (!isEmpty(this.props.product.products_filtered)) {
+        this.clear();
+      }
     }
-    if (this.state.activeTab === '1') {
+    if (this.state.activeTab === '1' && this.props.product.fresh) {
       this.props.getProducts();
-    } else if (this.state.activeTab === '2') {
+    } else if (this.state.activeTab === '2' && isEmpty(this.props.vendor.vendors)) {
       this.props.getVendors();
-    } else if (this.state.activeTab === '3') {
+    } else if (this.state.activeTab === '3' && isEmpty(this.props.category.categories)) {
       this.props.getCategories();
-    } else if (this.state.activeTab === '4') {
+    } else if (this.state.activeTab === '4' && isEmpty(this.props.product.vendorInventory)) {
       this.props.getVendorInventory('0', this.props.user.user.vendorId);
     }
   }
@@ -136,12 +155,8 @@ class Tabs extends Component {
   }
 
   clearAllFilters = (e) => {
-    console.log("inside the fn");
     this.clear();
-    this.setState(this.baseState)
-    this.setState({categoryList: []});
-    this.props.clearCurrentCategories();
-    // this.props.state.setState({[e.target.clearAllFilters] : null})
+    this.shouldClear = true;
   }
   
   render() {
@@ -227,11 +242,12 @@ class Tabs extends Component {
                       </div>
                       <div className="col-3 text-center">
                         <CategoryTypeAhead
-                          name="clearAllFilters"
                           placeholder="Filter by category"
-                          extraClassNames="btn-group mr-2 w-75"
+                          extraClassNames="btn-group"
                           onClickHandler={this.props.filterProductsByCategory}
                           pageIndex={this.props.product.index}
+                          shouldClear={this.shouldClear}
+                          cleared={this.cleared}
                         />
                       </div>
                       <div className="col-3 text-center">
@@ -292,16 +308,19 @@ Tabs.propTypes = {
   getCategories: PropTypes.func.isRequired,
   getVendors: PropTypes.func.isRequired,
   getProducts: PropTypes.func.isRequired,
+  getProductsVendor: PropTypes.func.isRequired,
   clearCurrentProducts: PropTypes.func.isRequired,
   clearCurrentVendors: PropTypes.func.isRequired,
   clearCurrentCategories: PropTypes.func.isRequired,
 
   setProductUpdated: PropTypes.func.isRequired,
-  product: PropTypes.object.isRequired,
   getVendorInventory: PropTypes.func.isRequired,
   filterProductsByCategory: PropTypes.func.isRequired,
+
+  product: PropTypes.object.isRequired,
   vendor: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired
+  category: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -319,6 +338,7 @@ export default connect(
     getVendors,
     clearCurrentVendors,
     getProducts,
+    getProductsVendor,
     clearCurrentProducts,
     setProductUpdated,
     filterProductsByCategory,

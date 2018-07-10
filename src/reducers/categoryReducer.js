@@ -5,8 +5,8 @@ const initialState = {
   categories: null,
   hasMore: false,
   loading: false,
-  index: 0
-};
+  index: 0,
+  };
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -101,9 +101,7 @@ export default function(state = initialState, action) {
       };
     case types.CLEAR_CURRENT_CATEGORIES:
       return {
-        ...state,
-        hasMore: true,
-        categories: null
+        ...initialState,
       };
     default:
       return state;

@@ -136,77 +136,78 @@ class ProfileForm extends Component {
                 * = required fields
               </small>
               <form onSubmit={this.onSubmit}>
-                <TextFieldGroup
-                  placeholder={this.props.user.googleProfile.name}
-                  name="name"
-                  disabled="true"
-                  onChange={this.onChange}
-                  value={this.props.user.googleProfile.name}
-                />
-                <TextFieldGroup
-                  placeholder="* Contact Number"
-                  name="contact_num"
-                  value={
-                    String(contact_num) === 'NaN' ? '' : String(contact_num)
-                  }
-                  onChange={event => this.onChange(event, this.validateNumber)}
-                  error={errors.contact_num}
-                />
-                <TextFieldGroup
-                  placeholder={this.props.user.googleProfile.email}
-                  name="email"
-                  disabled="true"
-                  onChange={this.onChange}
-                  value={this.props.user.googleProfile.email}
-                />
-                <GoogleMapLoader
-                  params={{
-                    key: 'AIzaSyC10O3F4Kop2zNPtt6v3BSZSYegdmZ_f0U',
-                    libraries: 'places,geocode'
-                  }}
-                  render={googleMaps =>
-                    googleMaps && (
-                      <div>
-                        <GooglePlacesSuggest
-                          autocompletionRequest={{ input: search }}
-                          googleMaps={googleMaps}
-                          onSelectSuggest={this.handleSelectSuggest}
-                        >
-                          <TextFieldGroup
-                            name="address"
-                            value={address}
-                            placeholder="* Address"
-                            onChange={event =>
-                              this.handleInputChange(
-                                event,
-                                this.validateAddress
-                              )
-                            }
-                            error={errors.address}
-                          />
-                        </GooglePlacesSuggest>
-                      </div>
-                    )
-                  }
-                />
-                {/* {!this.state.isValid && (
-                  <div className="alert alert-warning">
-                    {'Please check your input.'}
-                  </div>
-                )} */}
-                <div className="row ml-0 mr-0">
-                  <div className="col pl-0 text-left">
-                    <button className="btn btn-light" onClick={this.onToggle}>
+                <div className="row mx-auto w-100 mb-2">
+                  <TextFieldGroup
+                    placeholder={this.props.user.googleProfile.name}
+                    name="name"
+                    disabled="true"
+                    onChange={this.onChange}
+                    value={this.props.user.googleProfile.name}
+                  />
+                </div>
+                <div className="row mx-auto w-100 mb-2">
+                  <TextFieldGroup
+                    placeholder="* Contact Number"
+                    name="contact_num"
+                    value={
+                      String(contact_num) === 'NaN' ? '' : String(contact_num)
+                    }
+                    onChange={event => this.onChange(event, this.validateNumber)}
+                    error={errors.contact_num}
+                  />
+                </div>
+                <div className="row mx-auto w-100 mb-2">
+                  <TextFieldGroup
+                    placeholder={this.props.user.googleProfile.email}
+                    name="email"
+                    disabled="true"
+                    onChange={this.onChange}
+                    value={this.props.user.googleProfile.email}
+                  />
+                </div>
+                <div className="row mx-auto w-100 mb-2 child-parent-wide-inner">
+                  <GoogleMapLoader
+                    params={{
+                      key: 'AIzaSyC10O3F4Kop2zNPtt6v3BSZSYegdmZ_f0U',
+                      libraries: 'places,geocode'
+                    }}
+                    render={googleMaps =>
+                      googleMaps && (
+                        <div>
+                          <GooglePlacesSuggest
+                            autocompletionRequest={{ input: search }}
+                            googleMaps={googleMaps}
+                            onSelectSuggest={this.handleSelectSuggest}
+                          >
+                            <TextFieldGroup
+                              name="address"
+                              value={address}
+                              placeholder="* Address"
+                              onChange={event =>
+                                this.handleInputChange(
+                                  event,
+                                  this.validateAddress
+                                )
+                              }
+                              error={errors.address}
+                            />
+                          </GooglePlacesSuggest>
+                        </div>
+                      )
+                    }
+                  />
+                </div>
+                <div className="row mx-auto w-100 mb-2 mt-5">
+                  <button className="btn plain-b more-rounded hover-w-b w-100 btn-sm my-2 my-sm-0 mr-sm-2" onClick={this.onToggle}>
                       Cancel
                     </button>
-                  </div>
-                  <div className="col pr-0 text-right">
-                    <input
-                      type="submit"
-                      value="Submit"
-                      className="btn btn-outline-success"
-                    />
-                  </div>
+                </div>
+                <div className="row mx-auto w-100 mb-2">
+                  <input
+                        type="submit"
+                        value="Submit"
+                        className="btn orange-b more-rounded hover-w-b w-100 btn-sm my-2 my-sm-0 mr-sm-2"
+                      />
                 </div>
               </form>
             </div>

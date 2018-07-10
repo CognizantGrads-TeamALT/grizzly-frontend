@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TextFieldGroup from '../../common/TextFieldGroup';
+import TextAreaFieldGroup from '../../common/TextAreaFieldGroup';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import {
@@ -222,7 +223,7 @@ class ProductForm extends Component {
       this.searchCat(e);
     }, 200);
     return (
-      <div className="row mx-auto">
+      <div className="row mx-auto min-height-500px">
         <div className="col-5">
           <ImageUploader
             withIcon={true}
@@ -235,51 +236,67 @@ class ProductForm extends Component {
         </div>
         <div className="col-5">
           <form onSubmit={this.onSubmit}>
-            <CategoryTypeAhead
-              placeholder="Category"
-              onClickHandler={this.props.Update_TypeAhead}
-            />
-            <TextFieldGroup
-              placeholder="Name"
-              name="name"
-              value={this.state.name}
-              onChange={this.onChange}
-            />
-            <TextFieldGroup
-              placeholder="Description"
-              name="desc"
-              value={this.state.desc}
-              onChange={this.onChange}
-            />
-            <TextFieldGroup
-              placeholder="Price"
-              name="price"
-              value={this.state.price}
-              onChange={this.onChange}
-            />
-            {this.props.user.role === 'admin' && (
-              <VendorTypeAhead
-                placeholder="Vendor"
-                isExact="true"
-                onClickHandler={this.props.Vendor_Update_TypeAhead}
+            <div className="row mx-auto w-100 mb-2">
+              <div className="col pl-0">
+                <CategoryTypeAhead
+                  placeholder="Category"
+                  onClickHandler={this.props.Update_TypeAhead}
+                />
+              </div>
+              <div className="col pr-0">
+                {this.props.user.role === 'admin' && (
+                  <VendorTypeAhead
+                    placeholder="Vendor"
+                    isExact="true"
+                    onClickHandler={this.props.Vendor_Update_TypeAhead}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="row mx-auto w-100 mb-2 child-parent-wide-inner">
+              <TextFieldGroup
+                placeholder="Name"
+                name="name"
+                value={this.state.name}
+                onChange={this.onChange}
               />
-            )}
+            </div>
+            <div className="row mx-auto w-100 mb-2">
+              <TextFieldGroup
+                placeholder="Price"
+                name="price"
+                value={this.state.price}
+                onChange={this.onChange}
+              />
+            </div>
+            <div className="row mx-auto w-100 mb-2 child-parent-wide-inner">
+              <TextAreaFieldGroup
+                placeholder="Description"
+                name="desc"
+                value={this.state.desc}
+                onChange={this.onChange}
+              />
+            </div>
           </form>
-        </div>
-        <div className="col-2">
-          <button
-            className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
-            onClick={this.onSubmit}
-          >
-            Add
-          </button>
-          <button
-            className="btn more-rounded hover-w-b btn-sm my-2 my-sm-0 mr-sm-2 pr-2"
-            onClick={() => this.cancel()}
-          >
-            Cancel
-          </button>
-          {this.showErrors()}
+          <div className="row mx-auto w-100 mb-2 mt-5">
+            <button
+              className="btn orange-b more-rounded hover-w-b w-100 btn-sm my-2 my-sm-0 mr-sm-2"
+              onClick={this.onSubmit}
+            >
+              Add
+            </button>
+          </div>
+          <div className="row mx-auto w-100 mb-2">
+            <button
+              className="btn plain-b more-rounded hover-w-b w-100 btn-sm my-2 my-sm-0 mr-sm-2"
+              onClick={() => this.cancel()}
+            >
+              Cancel
+            </button>
+          </div>
+          <div className="row w-100 mb-2">
+            {this.showErrors()}
+          </div>
         </div>
       </div>
     );
