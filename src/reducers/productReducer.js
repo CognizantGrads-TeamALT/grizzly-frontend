@@ -103,7 +103,8 @@ export default function(state = initialState, action) {
         ...state,
         updateOnce: true,
         loadingVendors: false,
-        loadingCategories: false
+        loadingCategories: false,
+        fresh: false
       };
 
 

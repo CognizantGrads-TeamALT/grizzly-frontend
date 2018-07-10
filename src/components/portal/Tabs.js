@@ -87,7 +87,8 @@ class Tabs extends Component {
       }
     }
 
-    //if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
+    //if (!isEmpty(PrevProps.product.products_filtered) &&
+    //  isEmpty(this.props.product.products_filtered)) {
     //  this.props.clearCurrentProducts();
     //  this.props.getProducts();
     //}
@@ -134,6 +135,15 @@ class Tabs extends Component {
     });
   }
 
+  clearAllFilters = (e) => {
+    console.log("inside the fn");
+    this.clear();
+    this.setState(this.baseState)
+    this.setState({categoryList: []});
+    this.props.clearCurrentCategories();
+    // this.props.state.setState({[e.target.clearAllFilters] : null})
+  }
+  
   render() {
     return (
       <Row className="griz-portal ml-0 mr-0 w-100">
@@ -217,6 +227,7 @@ class Tabs extends Component {
                       </div>
                       <div className="col-3 text-center">
                         <CategoryTypeAhead
+                          name="clearAllFilters"
                           placeholder="Filter by category"
                           extraClassNames="btn-group mr-2 w-75"
                           onClickHandler={this.props.filterProductsByCategory}
@@ -233,7 +244,7 @@ class Tabs extends Component {
                       </div>
                       <div className="col-2 text-right">
                           <div className="btn pl-0 my-auto d-inline z-index-600" 
-                              onClick={this.clear}>
+                              onClick = {() => this.clearAllFilters()}>
                               Clear all filters
                             <i className="far fa-times-circle d-inline ml-2"></i>
                           </div>

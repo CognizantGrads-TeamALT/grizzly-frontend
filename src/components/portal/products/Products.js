@@ -86,7 +86,7 @@ constructor(props){
         if (isEmpty(products)) {
           return (
             <tr>
-              <td>No products found :(</td>
+              <td>No products found.</td>
             </tr>);
         }
         else {
@@ -119,7 +119,7 @@ constructor(props){
         if (isEmpty(products)) {
           return (
             <tr>
-              <td>No products found :(</td>
+              <td>No products found.</td>
             </tr>);
         } else {
           if (!isEmpty(products_filtered)) {
@@ -159,11 +159,12 @@ constructor(props){
             </td>
           </tr>
         );
-      } else if (isEmpty(products) &&
-        !isEmpty(this.props.errors.errorMessage ))
-        {
-        this.notify(this.props.errors.errorMessage)
-        }
+      } 
+      // else if (isEmpty(products) &&
+      //   !isEmpty(this.props.errors.errorMessage ))
+      //   {
+      //   this.notify(this.props.errors.errorMessage)
+      //   }
     }
   }
 
