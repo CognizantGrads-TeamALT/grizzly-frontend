@@ -14,6 +14,12 @@ import isEmpty from '../../../validation/is-empty';
 import { toast } from 'react-toastify';
 
 class Products extends Component {
+constructor(props){
+  super(props);
+
+  this.showLoadedToast = true;
+}
+
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener('scroll', e => {
@@ -51,8 +57,9 @@ class Products extends Component {
       if (!isEmpty(this.props.errors.errorMessage)) {
         toast.info(this.props.errors.errorMessage);
       }
-    } else {
+    } else if(this.showLoadedToast) {
       toast.info('All products loaded.');
+      this.showLoadedToast = false;
     }
   }
 
