@@ -19,13 +19,9 @@ export function getJWTExpirationDate(token) {
 }
 
 export function checkJWTRefresh() {
-  // console.log('Checking now');
-
   if (!shouldRefreshJWT()) {
     return stopJWTRefreshChecker();
-  }
-
-  if (localStorage.GrizzGoogleToken) {
+  } else if (localStorage.GrizzGoogleToken) {
     if (isJWTExpired(localStorage.GrizzGoogleToken)) {
       refreshExpiredJWT();
     }
@@ -37,15 +33,15 @@ export function shouldRefreshJWT() {
 }
 
 export function startJWTRefreshChecker() {
-  // start the refresh checker (checking once / 5min)
+  // start the refresh checker (checking once / min)
   return localStorage.setItem(
     CHECK_JWT_REFRESH_TIMER_KEY,
-    setInterval(checkJWTRefresh, 300000)
+    setInterval(checkJWTRefresh, 60000)
   );
 }
 
 export function stopJWTRefreshChecker() {
-  return clearInterval(localStorage.CHECK_JWT_REFRESH_TIMER_KEY);
+  return clearInterval(localStorage.check_jwt_refresh_timer);
 }
 
 export function resetJWTRefreshCount() {
@@ -58,6 +54,7 @@ export function isJWTExpired(token) {
   if (date === null) {
     return false;
   }
+
   return !(date.valueOf() > new Date().valueOf());
 }
 
@@ -95,5 +92,7 @@ export function refreshExpiredJWT() {
 }
 
 function getJWTRefreshCount() {
-  return parseInt(localStorage.JWT_REFRESH_COUNT_KEY || '0', 10);
+  if (localStorage.jwt_refresh_count) {
+    return parseInt(localStorage.jwt_refresh_count, 10);
+  } else return 0;
 }
