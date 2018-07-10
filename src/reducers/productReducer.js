@@ -384,6 +384,16 @@ export default function(state = initialState, action) {
         loading: loadingNew2,
         loadingCategories: false
       };
+    case types.PRODUCTS_BLOCKCAT:
+      return {
+        ...state,
+        product_category: state.product_category.map(
+          cat =>
+            cat.categoryId === action.payload.categoryId
+              ? action.payload
+              : cat
+        )
+      };
     case types.PRODUCTS_LOADED:
       return {
         ...state,

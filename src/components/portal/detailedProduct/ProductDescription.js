@@ -89,8 +89,7 @@ class ProductDescription extends Component {
     this.setState({
       isEditingDesc: true,
       isEditingPrice: false,
-      isEditing: false,
-      isEditingImg: false
+      isEditing: false
     });
   };
 
@@ -124,8 +123,7 @@ class ProductDescription extends Component {
     this.setState({
       isEditing: true,
       isEditingDesc: false,
-      isEditingPrice: false,
-      isEditingImg: false
+      isEditingPrice: false
     });
   };
 
@@ -134,8 +132,7 @@ class ProductDescription extends Component {
       editVendor: !this.state.editVendor,
       isEditing: false,
       isEditingDesc: false,
-      isEditingPrice: false,
-      isEditingImg: false
+      isEditingPrice: false
     });
   };
 
@@ -144,8 +141,7 @@ class ProductDescription extends Component {
       editCat: !this.state.editCat,
       isEditing: false,
       isEditingDesc: false,
-      isEditingPrice: false,
-      isEditingImg: false
+      isEditingPrice: false
     });
   };
 
@@ -159,7 +155,6 @@ class ProductDescription extends Component {
         isEditing: false,
         isEditingDesc: false,
         isEditingPrice: false,
-        isEditingImg: false,
         changed: true
       });
     } else {
@@ -167,8 +162,7 @@ class ProductDescription extends Component {
         editCat: false,
         isEditing: false,
         isEditingDesc: false,
-        isEditingPrice: false,
-        isEditingImg: false
+        isEditingPrice: false
       });
       toast.warn(
         'category not valid, please choose one from the list. reverting vendor'
@@ -181,8 +175,7 @@ class ProductDescription extends Component {
       editCat: false,
       isEditing: false,
       isEditingDesc: false,
-      isEditingPrice: false,
-      isEditingImg: false
+      isEditingPrice: false
     });
   };
 
@@ -191,8 +184,7 @@ class ProductDescription extends Component {
       editVendor: false,
       isEditing: false,
       isEditingDesc: false,
-      isEditingPrice: false,
-      isEditingImg: false
+      isEditingPrice: false
     });
   };
 
@@ -213,8 +205,7 @@ class ProductDescription extends Component {
         editVendor: false,
         isEditing: false,
         isEditingDesc: false,
-        isEditingPrice: false,
-        isEditingImg: false
+        isEditingPrice: false
       });
       toast.warn(
         'vendor not valid, please choose one from the list. reverting vendor'
@@ -236,8 +227,7 @@ class ProductDescription extends Component {
     this.setState({
       isEditingPrice: true,
       isEditing: false,
-      isEditingDesc: false,
-      isEditingImg: false
+      isEditingDesc: false
     });
   };
 
