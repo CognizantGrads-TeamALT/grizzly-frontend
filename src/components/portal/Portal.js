@@ -24,7 +24,7 @@ class Portal extends Component {
   }
 
   componentDidMount() {
-    setTimeout(this.delayedRedirect, 500);
+    setTimeout(this.delayedRedirect, 1000);
   }
 
   render() {

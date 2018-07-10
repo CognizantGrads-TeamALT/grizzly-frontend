@@ -61,7 +61,9 @@ class ProductSearchSort extends Component {
       toast.info('Please check your input!');
     } else {
       this.props.searchProducts(this.state.search, '0');
-      this.setState({ search: '' });
+      // This was commented out before, why is that?
+      this.setState({ search: '' }); // Added back
+      //this.setState({ search: '' }); <--- ?
     }
   }
 

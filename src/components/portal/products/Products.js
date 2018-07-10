@@ -13,7 +13,6 @@ import isEmpty from '../../../validation/is-empty';
 import { toast } from 'react-toastify';
 
 class Products extends Component {
-  
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener('scroll', e => {
@@ -47,12 +46,11 @@ class Products extends Component {
 
   loadMore() {
     if (this.props.product.hasMore) {
+      this.notify('Loading more products...')
       this.props.getProducts(this.props.product.index);
       if (!isEmpty(this.props.errors.errorMessage)) {
         toast.info(this.props.errors.errorMessage);
       }
-    } else {
-      toast.info('All products loaded.');
     }
   }
 
@@ -78,10 +76,7 @@ class Products extends Component {
     if (!loadingVendors && !loadingCategories && !fresh) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
-          return (
-            <tr>
-              <td>No products found :(</td>
-            </tr>);
+          return <tr><td>No products found :(</td></tr>;
         }
         else {
           if (!isEmpty(products_filtered)) {
@@ -111,10 +106,7 @@ class Products extends Component {
         }
       } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
-          return (
-            <tr>
-              <td>No products found :(</td>
-            </tr>);
+          return <tr><td>No products found :(</td></tr>;
         } else {
           if (!isEmpty(products_filtered)) {
             return products_filtered
@@ -156,7 +148,7 @@ class Products extends Component {
       } else if (isEmpty(products) &&
         !isEmpty(this.props.errors.errorMessage ))
         {
-        this.notify(this.props.errors.errorMessage)
+          this.notify(this.props.errors.errorMessage)
         }
     }
   }
