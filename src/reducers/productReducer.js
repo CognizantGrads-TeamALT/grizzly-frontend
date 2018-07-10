@@ -75,7 +75,6 @@ export default function(state = initialState, action) {
           ? false
           : true;
       let currentProducts = isEmpty(state.products) ? [] : state.products;
-      let index = isEmpty(state.products) ? 1 : state.index + 1;
       let newProducts = isEmpty(action.payload)
         ? currentProducts
         : [
@@ -85,6 +84,10 @@ export default function(state = initialState, action) {
                 .map(o => [o['productId'], o])
             ).values()
           ];
+      let index = (newProducts.length)/30;
+      if(index%1 !== 0){
+        index = index + 1 - index%1;
+      }
       return {
         ...state,
         products: newProducts,
