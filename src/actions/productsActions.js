@@ -62,7 +62,7 @@ export const getProductsVendor = (userid, index) => dispatch => {
   axios
     .get(PRODUCT_API_GATEWAY + `/byVendor/${userid}/${index}/default`)
     .then(res => {
-      dispatch(refreshProductData(res.data));
+      dispatch(refreshProductDataVendor(res.data, false, userid));
     })
     .catch(err => {
       if (!isEmpty(err.responce)) {
@@ -496,6 +496,41 @@ export const refreshProductData = (data, filtered) => dispatch => {
     dispatch({
       type: types.GET_PRODUCTS,
       payload: data
+    });
+  }
+  if (!isEmpty(data[0])) {
+    if (!isEmpty(data[0].productId)) {
+      let vendorIdArray = [];
+      data
+        .filter(prod => prod.vendorId !== 0)
+        .map(prod => vendorIdArray.push(prod.vendorId));
+
+      let cleanVendorIdArray = [...new Set(vendorIdArray)];
+      dispatch(getVendorBatch(cleanVendorIdArray.join()));
+
+      let categoryIdArray = [];
+      data
+        .filter(prod => prod.categoryId !== 0)
+        .map(prod => categoryIdArray.push(prod.categoryId));
+
+      let cleanCategoryIdArray = [...new Set(categoryIdArray)];
+      dispatch(getCategoryBatch(cleanCategoryIdArray.join()));
+    }
+  }
+};
+
+export const refreshProductDataVendor = (data, filtered, userId) => dispatch => {
+  if (filtered) {
+    dispatch({
+      type: types.GET_FILTERED_PRODUCTS,
+      payload: data,
+      filter: filtered.cur_id
+    });
+  } else {
+    dispatch({
+      type: types.GET_PRODUCTS_VENDORS,
+      payload: data,
+      vendorId: userId
     });
   }
   if (!isEmpty(data[0])) {

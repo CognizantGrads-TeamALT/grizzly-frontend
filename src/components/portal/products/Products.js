@@ -46,13 +46,13 @@ class Products extends Component {
   }
 
   loadMore() {
-    if (this.props.product.hasMore) {
+    if (this.props.product.hasMore || this.props.product.vendorHasMore) {
       this.notify('Loading more products...')
 
       if (this.props.user.role === 'admin')
         this.props.getProducts(this.props.product.index);
       else
-        this.props.getProductsVendor(this.props.user.user.vendorId);
+        this.props.getProductsVendor(this.props.user.user.vendorId, this.props.product.vendorIndex);
 
       if (!isEmpty(this.props.errors.errorMessage)) {
         toast.info(this.props.errors.errorMessage);
@@ -129,7 +129,7 @@ class Products extends Component {
           }
           else {
             return products
-            .filter(prod => prod.vendorId === this.props.user.user.userId)
+            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
             .map((prod) => (
               <ProductList
                 key={prod.productId}

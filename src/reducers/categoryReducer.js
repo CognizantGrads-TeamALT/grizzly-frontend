@@ -101,9 +101,7 @@ export default function(state = initialState, action) {
       };
     case types.CLEAR_CURRENT_CATEGORIES:
       return {
-        ...state,
-        hasMore: true,
-        categories: null
+        ...initialState,
       };
     default:
       return state;

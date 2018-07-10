@@ -34,6 +34,10 @@ const initialState = {
   loadingCategories: false,
   index: 0,
 
+  // Vendors product list.
+  vendorsProductsHasMore: false,
+  vendorsIndex: 0,
+
   // Stores locally loaded cart info.
   cart: {},
   cart_products: [],
@@ -97,7 +101,35 @@ export default function(state = initialState, action) {
         loadingCategories: true,
         fresh: false
       };
-      // No products found message 
+    case types.GET_PRODUCTS_VENDORS:
+      hasMore =
+        action.payload.length < 30 || isEmpty(action.payload.length)
+          ? false
+          : true;
+      currentProducts = isEmpty(state.products) ? [] : state.products;
+      newProducts = isEmpty(action.payload)
+        ? currentProducts.filter(prod => prod.vendorId === action.vendorId)
+        : [
+            ...new Map(
+              currentProducts
+                .concat(action.payload)
+                .map(o => [o['productId'], o])
+            ).values()
+          ];
+      index = (newProducts.length)/30;
+      if(index%1 !== 0){
+        index = index + 1 - index%1;
+      }
+      return {
+        ...state,
+        products: newProducts,
+        vendorsProductsHasMore: hasMore,
+        vendorIndex: index,
+        loadingVendors: true,
+        loadingCategories: true,
+        fresh: false
+      };
+    // No products found message 
     case types.SEARCH_PRODUCT_FAILED:
       return {
         ...state,
