@@ -284,6 +284,14 @@ title-size-2em-inner > * {
 }
 
 /* Nav Bar */
+.googleLogo {
+  border: none;
+}
+
+.gButton {
+  border-radius: 4em;
+}
+
 .full-parent-width::before {
   top: 0;
   right: 0;
