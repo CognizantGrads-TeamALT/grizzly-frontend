@@ -167,12 +167,12 @@ class Navbar extends Component {
           <li className="nav-item mr-1 my-auto">
             <i className="far fa-bell p-t-5 white" />
           </li>
-          <li className="nav-item mr-1 my-auto">
+          <li className="nav-item mr-1 my-auto fnt-weight-400">
             <span>{`Welcome, <${
               this.props.user.googleProfile.given_name
             }> `}</span>
           </li>
-          <li className="nav-item mr-1 my-auto">{this.showCartLink()}</li>
+          <li className="nav-item mr-1 my-auto">cart</li>
           <li className="nav-item dropdown my-auto">
             <a
               className="nav-link dropdown-toggle"
@@ -216,19 +216,31 @@ class Navbar extends Component {
       );
     } else
       return (
-        <div className="search-form-custom row">
-          {this.showCartLink()}
-            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-              <img src={glogo} alt="glogo" className="googleLogo" />
-              <GoogleLogin
-                clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
-                buttonText="Sign in with Google"
-                onSuccess={this.login}
-                onFailure={this.login}
-                className="gButton"
-              />
-            </div>
-        </div>
+        <ul className="navbar-nav pl-2">
+            <Link
+              className="mr-2 mt-2 mb-0 more-rounded my-auto"
+              to="/shoppingcart"
+            >
+            <i className="fas fa-shopping-cart my-auto" />
+            <button
+              className="ml-1 btn more-rounded min-wdth-200 my-auto hover-t-b dscrptnSize-7 btn-sm my-2 my-sm-0 mr-sm-2"
+              type="button"
+            >
+            Cart
+            </button>
+            </Link>
+          <div />
+          <li className="nav-item mr-1 my-auto">
+          <img src={glogo} alt="glogo" className="googleLogo" />
+            <GoogleLogin
+              clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
+              buttonText="Sign in with Google"
+              onSuccess={this.login}
+              onFailure={this.login}
+              className="gButton ml-1 btn more-rounded min-wdth-200 my-auto dscrptnSize-7 btn-sm my-2 my-sm-0 mr-sm-2"
+            />
+          </li>
+        </ul>
       );
   }
 
@@ -258,15 +270,6 @@ class Navbar extends Component {
         </form>
       );
     }
-  }
-
-  showCartLink() {
-    return (
-      <Link
-        className="col-lg-6 col-md-6 col-sm-6 col-xs-12 mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
-        to="/shoppingcart"
-      />
-    );
   }
 
   render() {

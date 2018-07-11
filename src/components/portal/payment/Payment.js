@@ -35,7 +35,7 @@ class Payment extends Component {
       this.props.history.push('/');
     }
   }
-
+ 
   showOrderContent() {
     this.triggeredFetch = true;
     let { cart, cart_products } = this.props.product;
@@ -69,7 +69,7 @@ class Payment extends Component {
     cart_products.map(
       prod => (totalPrice += prod.price * cart[prod.productId])
     );
-    return totalPrice;
+      return totalPrice;
   }
 
   onSuccess(payment) {
