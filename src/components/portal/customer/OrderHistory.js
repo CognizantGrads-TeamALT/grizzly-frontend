@@ -84,7 +84,7 @@ class OrderHistory extends Component {
                   {ordrs.txn_id}
                 </div>
               </div>
-              <div className="col-4 text-right">$AU {ordrs.cost}</div>
+              <div className="col-4 text-right">${ordrs.cost}</div>
             </CardHeader>
             {this.displayItems(ordrs)}
           </Card>

@@ -59,7 +59,7 @@ class Payment extends Component {
         <td>
           {prod.name} x{cart[prod.productId]}
         </td>
-        <td>Price (AUD): ${prod.price * cart[prod.productId]}.00</td>
+        <td>Price (AUD): ${prod.price * cart[prod.productId]}</td>
       </tr>
     ));
   }
@@ -143,7 +143,7 @@ class Payment extends Component {
             <div className="row surround-parent mb-4 title-size-1em">
               <div className="col">Total:</div>
               <div className="col bottom-border">
-                ${this.calcOrderPrice()}.00
+                ${this.calcOrderPrice()}
               </div>
             </div>
             <div className="row surround-parent">
