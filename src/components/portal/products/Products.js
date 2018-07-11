@@ -47,7 +47,7 @@ class Products extends Component {
 
   loadMore() {
     //vendor has more is always true on the admin portal (default value) anyway, only relevent if the current user is a vendor
-    if (this.props.product.hasMore || (this.props.product.vendorHasMore && this.props.user.role === 'vendor')) {
+    if ((this.props.product.hasMore && this.props.user.role === 'admin') || (this.props.product.vendorHasMore && this.props.user.role === 'vendor')) {
       this.notify('Loading more products...')
 
       if (this.props.user.role === 'admin')
