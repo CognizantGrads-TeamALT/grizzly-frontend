@@ -61,7 +61,7 @@ class Categories extends Component {
       );
     } else {
       if (isEmpty(categories)) {
-        return <tr><td>No categories found :(</td></tr>;
+        return <tr><td>No categories found.</td></tr>;
       }
 
       return categories.map(category => (

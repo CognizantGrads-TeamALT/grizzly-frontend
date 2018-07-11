@@ -22,8 +22,8 @@ class CategoryTypeAhead extends Component {
       cur_id: '',
       valid_cat: false,
       count: 0
+      
     };
-
     this.waitForResponse = this.waitForResponse.bind(this);
     this.onChange = this.onChange.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);
@@ -32,6 +32,13 @@ class CategoryTypeAhead extends Component {
       this.searchCat(e)
     }, 350);
     this.baseState = this.state;
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldClear) { 
+      this.props.cleared();
+      this.clearTypeAhead();
+    }
   }
 
   populate(param) {
@@ -57,6 +64,9 @@ class CategoryTypeAhead extends Component {
       this.setState({ categoryList: [] });
     } else {
       this.props.searchCategories(e.target.value);
+      //setstate was sometimes being called before the previous one finished running, resulting in an unending loop
+      // as clear interval would nolonger stop that particular interval
+      clearInterval(this.state.intervalId);
       this.setState({ intervalId: setInterval(this.waitForResponse, 50) });
     }
   }
@@ -88,7 +98,6 @@ class CategoryTypeAhead extends Component {
           ];
         }, this)
       });
-
     }
     else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
@@ -131,7 +140,7 @@ class CategoryTypeAhead extends Component {
     });
   }
 
-  clearTypeAhead = () => {
+  clearTypeAhead = (e) => {
     this.setState(this.baseState)
     clearInterval(this.state.intervalId);
         //this shouldn't be nessessary because this.basestate should do this anyway
@@ -139,7 +148,7 @@ class CategoryTypeAhead extends Component {
     this.setState({categoryList: []});
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
-  }
+   }
 
   render() {
     return (

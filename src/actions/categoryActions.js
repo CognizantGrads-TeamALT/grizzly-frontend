@@ -266,3 +266,4 @@ export const clearCurrentCategories = () => {
     type: types.CLEAR_CURRENT_CATEGORIES
   };
 };
+

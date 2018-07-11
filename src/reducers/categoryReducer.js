@@ -5,8 +5,8 @@ const initialState = {
   categories: null,
   hasMore: false,
   loading: false,
-  index: 0
-};
+  index: 0,
+  };
 
 export default function(state = initialState, action) {
   switch (action.type) {

@@ -42,12 +42,18 @@ class Tabs extends Component {
     this.onAddProduct = this.onAddProduct.bind(this);
     this.clear = this.clear.bind(this);
     this.onAddProductCancel = this.onAddProductCancel.bind(this);
+    this.cleared = this.cleared.bind(this);
     this.state = {
       activeTab: '1'
     };
 
     this.loadingVendorInventory = false;
-    this.loadingProducts = false;
+    this.loadingProducts = false;    
+    this.shouldClear = false;
+  }
+
+  cleared() {
+    this.shouldClear = false;
   }
 
   componentDidMount() {
@@ -95,7 +101,8 @@ class Tabs extends Component {
       }
     }
 
-    //if (!isEmpty(PrevProps.product.products_filtered) && isEmpty(this.props.product.products_filtered)) {
+    //if (!isEmpty(PrevProps.product.products_filtered) &&
+    //  isEmpty(this.props.product.products_filtered)) {
     //  this.props.clearCurrentProducts();
     //  this.props.getProducts();
     //}
@@ -146,6 +153,11 @@ class Tabs extends Component {
     });
   }
 
+  clearAllFilters = (e) => {
+    this.clear();
+    this.shouldClear = true;
+  }
+  
   render() {
     return (
       <Row className="griz-portal ml-0 mr-0 w-100">
@@ -233,6 +245,8 @@ class Tabs extends Component {
                           extraClassNames="btn-group"
                           onClickHandler={this.props.filterProductsByCategory}
                           pageIndex={this.props.product.index}
+                          shouldClear={this.shouldClear}
+                          cleared={this.cleared}
                         />
                       </div>
                       <div className="col-3 text-center">
@@ -245,7 +259,7 @@ class Tabs extends Component {
                       </div>
                       <div className="col-2 text-right">
                           <div className="btn pl-0 my-auto d-inline z-index-600" 
-                              onClick={this.clear}>
+                              onClick = {() => this.clearAllFilters()}>
                               Clear all filters
                             <i className="far fa-times-circle d-inline ml-2"></i>
                           </div>
