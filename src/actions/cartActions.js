@@ -51,4 +51,5 @@ export const removeFromCart = productId => dispatch => {
 // Empty the cart.
 export const emptyCart = () => {
   localStorage.removeItem(location);
+  localStorage.removeItem('grizzly-alt-cart-prods');
 };
