@@ -90,7 +90,7 @@ export const getProductsVendor = (userid, index) => dispatch => {
 };
 
 // Get Product with Imgs
-export const getProduct = productId => dispatch => {
+export const getProduct = (productId, addToList) => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductLoading());
   axios
@@ -98,7 +98,8 @@ export const getProduct = productId => dispatch => {
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT,
-        payload: res.data
+        payload: res.data,
+        addToList: addToList
       });
       if (!isEmpty(res.data)) {
         if (!isEmpty(res.data.productId)) {
@@ -218,18 +219,18 @@ export const updateCategoryProd = (categoryId, category) => dispatch => {
   dispatch({
     type: types.PRODUCTS_UPDATECATEGORY,
     categoryId: categoryId,
-    payload: category,
-  })
-}
+    payload: category
+  });
+};
 
 // block a vendor
 export const updateVendorProd = (vendorId, vendor) => dispatch => {
   dispatch({
     type: types.PRODUCTS_UPDATEVENDOR,
     vendorId: vendorId,
-    payload: vendor,
-  })
-}
+    payload: vendor
+  });
+};
 
 // Edit Product
 export const editProduct = newInfo => dispatch => {
@@ -392,14 +393,15 @@ export const searchProductFailed = (keyword, index) => dispatch => {
 };
 
 // Search Products
-export const getRandomProducts = catId => dispatch => {
+export const getRandomProducts = (catId, productId) => dispatch => {
   dispatch(clearErrors());
   axios
     .get(PRODUCT_API_GATEWAY + `/byCategory/${catId}/0/default`)
     .then(res => {
       dispatch({
         type: types.GET_RANDOM_PRODUCTS,
-        payload: res.data
+        payload: res.data,
+        productId: productId
       });
     })
     .catch(err => {
@@ -430,7 +432,11 @@ export const sortProductsByParam = (index, param) => dispatch => {
 };
 
 // same thing as above.
-export const sortProductsVendorByParam = (vendorId, index, param) => dispatch => {
+export const sortProductsVendorByParam = (
+  vendorId,
+  index,
+  param
+) => dispatch => {
   dispatch(clearErrors());
   dispatch(clearCurrentProducts());
   axios

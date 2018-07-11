@@ -4,11 +4,18 @@ import TextAreaFieldWithCancel from '../../common/TextAreaFieldWithCancel';
 import isEmpty from '../../../validation/is-empty';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { addProduct, clearFilteredProducts } from '../../../actions/productsActions';
+import {
+  addProduct,
+  clearFilteredProducts,
+  getProducts,
+  getVendorInventory,
+  getProductsVendor
+} from '../../../actions/productsActions';
 import {
   searchCategories,
   Update_TypeAhead,
-  clearCurrentCategories
+  clearCurrentCategories,
+  getCategories
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
 
@@ -28,9 +35,16 @@ class CategoryTypeAhead extends Component {
     this.setCategoryName = this.setCategoryName.bind(this);
     this.clearTypeAhead = this.clearTypeAhead.bind(this);
     this.catSearch = _.debounce(e => {
-      this.searchCat(e)
+      this.searchCat(e);
     }, 350);
     this.baseState = this.state;
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldClear) {
+      this.props.cleared();
+      this.clearTypeAhead();
+    }
   }
 
   populate(param) {
@@ -74,7 +88,7 @@ class CategoryTypeAhead extends Component {
       list = this.populate(categories);
       this.setState({
         count: 0,
-        categoryList: list.map(function (listItem) {
+        categoryList: list.map(function(listItem) {
           return [
             <button
               className="btn btn-outline-info z-index-5000 d-absolute btn-sm cat-scroll-button"
@@ -90,8 +104,7 @@ class CategoryTypeAhead extends Component {
           ];
         }, this)
       });
-    }
-    else if (this.state.count > 20) {
+    } else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
       this.setState({
         count: 0,
@@ -110,8 +123,7 @@ class CategoryTypeAhead extends Component {
         ]
       });
       this.props.clearCurrentCategories();
-    }
-    else {
+    } else {
       this.setState({ count: this.state.count + 1 });
     }
   }
@@ -132,15 +144,22 @@ class CategoryTypeAhead extends Component {
     });
   }
 
-  clearTypeAhead = () => {
-    this.setState(this.baseState)
+  clearTypeAhead = e => {
+    this.setState(this.baseState);
     clearInterval(this.state.intervalId);
-        //this shouldn't be nessessary because this.basestate should do this anyway
+    //this shouldn't be nessessary because this.basestate should do this anyway
     //but it doesn't, don't know why, this works
-    this.setState({categoryList: []});
+    this.setState({ categoryList: [] });
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
-  }
+
+    if (this.props.user.role === 'vendor') {
+      this.props.getVendorInventory('0', this.props.user.user.vendorId);
+      this.props.getProductsVendor(this.props.user.user.vendorId, 0);
+    } else this.props.getProducts();
+
+    this.props.getCategories();
+  };
 
   render() {
     return (
@@ -162,7 +181,9 @@ class CategoryTypeAhead extends Component {
               />
             </div>
           </div>
-          <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>
+          <div className="cat-typeahead-position bg-white z-index-5000">
+            {this.state.categoryList}
+          </div>
         </div>
       </div>
     );
@@ -184,10 +205,21 @@ CategoryTypeAhead.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  category: state.category
+  category: state.category,
+  user: state.user
 });
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead, clearCurrentCategories, clearFilteredProducts }
+  {
+    addProduct,
+    searchCategories,
+    Update_TypeAhead,
+    clearCurrentCategories,
+    clearFilteredProducts,
+    getCategories,
+    getProducts,
+    getVendorInventory,
+    getProductsVendor
+  }
 )(withRouter(CategoryTypeAhead));

@@ -25,13 +25,17 @@ class Payment extends Component {
     this.onError = this.onError.bind(this);
   }
 
+  componentWillMount(){
+    window.scrollTo(0, 0)
+  }
+
   componentDidMount() {
     let { cart, cart_products } = this.props.product;
     if (isEmpty(cart) || isEmpty(cart_products)) {
       this.props.history.push('/');
     }
   }
-
+ 
   showOrderContent() {
     this.triggeredFetch = true;
     let { cart, cart_products } = this.props.product;
@@ -65,7 +69,7 @@ class Payment extends Component {
     cart_products.map(
       prod => (totalPrice += prod.price * cart[prod.productId])
     );
-    return totalPrice;
+      return totalPrice;
   }
 
   onSuccess(payment) {
@@ -127,15 +131,15 @@ class Payment extends Component {
     };
 
     return (
-      <div className="container m-5 p-5 my-auto">
+      <div className="container p-5 my-auto">
         <div className="row title-size-2em mb-3">Confirm Purchase</div>
         <div className="row mb-3">
-          <div className="col-8 pl-0">
+          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 pl-0">
             <table className="table">
-              <tbody>{this.showOrderContent()}</tbody>
+              <tbody className="noHeightTBODY">{this.showOrderContent()}</tbody>
             </table>
           </div>
-          <div className="col-4 mx-auto">
+          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 mx-auto">
             <div className="row surround-parent mb-4 title-size-1em">
               <div className="col">Total:</div>
               <div className="col bottom-border">

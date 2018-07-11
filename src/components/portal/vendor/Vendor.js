@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Spinner from "../../common/Spinner";
-import PropTypes from "prop-types";
-import VendorSearchSort from "../common/VendorSearchSort";
-import { getVendors, setVendorUpdated } from "../../../actions/vendorActions";
-import VendorList from "./VendorList";
-import isEmpty from "../../../validation/is-empty";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Spinner from '../../common/Spinner';
+import PropTypes from 'prop-types';
+import VendorSearchSort from '../common/VendorSearchSort';
+import { getVendors, setVendorUpdated } from '../../../actions/vendorActions';
+import VendorList from './VendorList';
+import isEmpty from '../../../validation/is-empty';
 import { toast } from 'react-toastify';
 
 class Vendor extends Component {
   componentDidMount() {
     // Detect when scrolled to bottom.
-    this.refs.myscroll.addEventListener("scroll", e => {
+    this.refs.myscroll.addEventListener('scroll', e => {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-          this.refs.myscroll.scrollHeight &&
+          this.refs.myscroll.scrollHeight - 10 &&
         !this.props.vendor.loading
       ) {
         this.loadMore();
@@ -24,16 +24,22 @@ class Vendor extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.vendor.updateOnce)
-      this.props.setVendorUpdated();
+    if (this.props.vendor.updateOnce) this.props.setVendorUpdated();
   }
 
   shouldComponentUpdate() {
-    if (this.props.vendor.updateOnce || this.props.vendor.loading)
-      return true;
+    if (this.props.vendor.updateOnce || this.props.vendor.loading) return true;
 
     return false;
   }
+
+  toastId = null;
+
+  notify = msg => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info(msg);
+    }
+  };
 
   loadMore() {
     if (this.props.vendor.hasMore) {
@@ -52,13 +58,17 @@ class Vendor extends Component {
       return (
         <tr>
           <td>
-            <Spinner size={'150px'}/>
+            <Spinner size={'150px'} />
           </td>
         </tr>
       );
     } else {
       if (isEmpty(vendors)) {
-        return <tr><td>No vendors found :(</td></tr>;
+        return (
+          <tr>
+            <td>No vendors found.</td>
+          </tr>
+        );
       }
 
       return vendors.map(vendor => (
@@ -81,7 +91,12 @@ class Vendor extends Component {
               <th scope="col" />
             </tr>
           </thead>
-          <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+          <tbody
+            ref="myscroll"
+            style={{ overflowX: 'hidden', overflowY: 'auto' }}
+          >
+            {this.show()}
+          </tbody>
         </table>
       </div>
     );

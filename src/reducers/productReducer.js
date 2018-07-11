@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as types from '../actions/types';
 import isEmpty from '../validation/is-empty';
 import { saveCart } from '../actions/cartActions';
@@ -256,6 +257,14 @@ export default function(state = initialState, action) {
         vendorIndex: VendorIndex
       };
     case types.GET_PRODUCT:
+      if (action.addToList) {
+        newProducts = state.products;
+        newProducts.push(action.payload);
+        return {
+          ...state,
+          products: newProducts
+        };
+      }
       return {
         ...state,
         single: action.payload
@@ -273,14 +282,17 @@ export default function(state = initialState, action) {
           ];
       let randomResults = isEmpty(action.payload)
         ? []
-        : action.payload.filter(prod => prod.enabled !== false);
+        : _.shuffle(
+            action.payload.filter(
+              prod =>
+                prod.enabled !== false && prod.productId !== action.productId
+            )
+          );
       return {
         ...state,
         products: newProducts3,
         random_products:
-          randomResults.length > 12
-            ? randomResults.slice(0, 12)
-            : randomResults,
+          randomResults.length > 6 ? randomResults.slice(0, 6) : randomResults,
         fresh: false
       };
     case types.PRODUCT_ADDING:

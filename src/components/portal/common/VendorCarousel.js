@@ -1,50 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import isEmpty from '../../../validation/is-empty';
 import Slider from 'react-slick';
-// import { Link } from 'react-router-dom';
-class VendorCarousel extends Component {
-  fetchBanners() {
-    let imageArray = [];
-    imageArray.push('https://akshaybhasme.com/imgs/watch_banner_big.jpg');
-    imageArray.push(
-      'https://www.atomos.com/assets/images/home/UNLEASH-banner.jpg'
-    );
-    imageArray.push('https://mymobile.com.au/media/wysiwyg/note8banner.png');
-    imageArray.push(
-      'https://www.affordablelaptops.com.au/contents/media/b_gigabyte-gaming-laptop-notebook-banner.jpg'
-    );
-    imageArray.push(
-      'https://www.hamiltonbeach.com/media/cat-headers/category_banner_hbpro.jpg'
-    );
-    return imageArray;
-  }
-  show() {
-    let bannerArray = this.fetchBanners();
+import { Link } from 'react-router-dom';
 
-    // const { products, loading } = this.props.product;
-    // let prodArray = [];
-    // // let currentImage = 0;
-    // if (!isEmpty(products) && !loading) {
-    //   for (let i = 2; i < 28; i += 6) {
-    //     prodArray.push(products[i]);
-    //   }
-    //   // In case hitting refresh causes crashes
-    //   if (!isEmpty(prodArray)) {
-    //     return prodArray.map(
-    return bannerArray.map(
-      (src, index) => (
-        // (prod, index) =>
-        //   !isEmpty(prod) &&
-        //   (
-        <div key={index}>
+const imageArray = [
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner1.jpg',
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner2.jpg',
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner6.jpg',
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner5.jpg',
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner4.jpg'
+];
+
+const catLinks = [
+  '/category/Cameras/2',
+  '/category/Maps/8',
+  '/category/Blenders/5',
+  '/category/Laptops/4',
+  '/category/Phones/3'
+];
+class VendorCarousel extends Component {
+  show() {
+    return imageArray.map((img, index) => (
+      <Link key={index} to={catLinks[index]}>
+        <div>
           <img
-            // src={bannerArray[index]}
-            src={src}
+            src={img}
             className="rounded parent-wide custCarousel"
             style={{
-              height: '385px',
+              height: '400px',
               width: 'auto',
               display: 'block',
               objectFit: 'cover'
@@ -52,11 +36,8 @@ class VendorCarousel extends Component {
             alt=""
           />
         </div>
-      )
-      // )
-    );
-    //   }
-    // }
+      </Link>
+    ));
   }
 
   render() {

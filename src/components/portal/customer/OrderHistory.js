@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getUserOrder } from '../../../actions/userActions';
-import { getProducts } from '../../../actions/productsActions';
+import { getProducts, getProduct } from '../../../actions/productsActions';
+import TrackOrderModal from './TrackOrderModal';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import { Card, CardHeader, CardBody, CardTitle, CardText } from 'reactstrap';
@@ -12,9 +13,9 @@ import ProductImage from '../common/ProductImage';
 class OrderHistory extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      userId: 1
-    };
+
+    this.fetchedProdIds = {};
+
     this.props.getUserOrder();
     if (
       isEmpty(this.props.product.products) ||
@@ -26,23 +27,30 @@ class OrderHistory extends Component {
 
   getProductDetails(prodId) {
     if (!isEmpty(this.props.product.products)) {
-      return this.props.product.products
-        .filter(item => item.productId === parseInt(prodId, 10))
-        .map(prod => (
-          <div className="row m-3" key={prodId}>
-            <div className="col-5 my-auto mx-auto">
-              <ProductImage prod={prod} />
+      if (isEmpty(this.props.product.products.filter(
+        product => product.productId === parseInt(prodId, 10)
+      )) && isEmpty(this.fetchedProdIds[prodId])) {
+          this.props.getProduct(parseInt(prodId, 10), true);
+          this.fetchedProdIds[prodId] = true;
+      } else {
+        return this.props.product.products
+          .filter(item => item.productId === parseInt(prodId, 10))
+          .map(prod => (
+            <div className="row m-3" key={prodId}>
+              <div className="col-5 my-auto mx-auto">
+                <ProductImage prod={prod} />
+              </div>
+              <div className="col-7">
+                <CardBody>
+                  <CardTitle className="text-left">{prod.name}</CardTitle>
+                  <CardText className="text-left fnt-weight-399 dscrptnSize-8">
+                    {prod.desc}
+                  </CardText>
+                </CardBody>
+              </div>
             </div>
-            <div className="col-7">
-              <CardBody>
-                <CardTitle className="text-left">{prod.name}</CardTitle>
-                <CardText className="text-left fnt-weight-400 dscrptnSize-8">
-                  {prod.desc}
-                </CardText>
-              </CardBody>
-            </div>
-          </div>
-        ));
+          ));
+      }
     }
   }
 
@@ -60,24 +68,34 @@ class OrderHistory extends Component {
         <div className="col-9 pl-0">
           <Card>
             <CardHeader className="fnt-weight-400 dscrptnSize-9 row m-0">
-              <div className="col text-left">
-                Transaction ID: {ordrs.txn_id}
+              <div className="col-8 text-left">
+                <div className="fnt-weight-400 d-inline">
+                Transaction ID: 
+                </div>
+                <div className="pl-1 fnt-weight-300 d-inline">
+                {ordrs.txn_id}
+                </div>
               </div>
-              <div className="col text-right">$AU {ordrs.cost}</div>
+              <div className="col-4 text-right">$AU {ordrs.cost}</div>
             </CardHeader>
             {this.displayItems(ordrs)}
           </Card>
         </div>
         <div className="col-3 text-left">
           <div className="mt-2 fnt-weight-500 title-size-1em">Deliver to: </div>
-          <div className="fnt-weight-400 dscrptnSize-9">
+          <div className="fnt-weight-300 dscrptnSize-8">
             {ordrs.departing_location}
           </div>
           <div className="mt-2 fnt-weight-500 title-size-1em">Order Date:</div>
-          <div className="fnt-weight-400 dscrptnSize-9">{ordrs.shipped_on}</div>
-          <button className="mt-3 btn orange-b surround-parent w-75 more-rounded">
-            Track Package
-          </button>
+          <div className="fnt-weight-300 dscrptnSize-8">{ordrs.shipped_on}</div>
+          <TrackOrderModal
+            ordr={ordrs}
+            buttonLabel="Track Package"
+            title="Track Package"
+            actionLabel="Track Package"
+            buttonClass="mt-3 btn orange-b surround-parent w-75 more-rounded"
+            className="track-order w-100"
+          />
         </div>
       </div>
     );
@@ -108,7 +126,8 @@ class OrderHistory extends Component {
 
 OrderHistory.propTypes = {
   getUserOrder: PropTypes.func.isRequired,
-  getProducts: PropTypes.func.isRequired
+  getProducts: PropTypes.func.isRequired,
+  getProduct: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -121,6 +140,7 @@ export default connect(
   mapStateToProps,
   {
     getUserOrder,
-    getProducts
+    getProducts,
+    getProduct
   }
 )(OrderHistory);

@@ -40,6 +40,10 @@ class ShoppingCart extends Component {
     this.totalPrice = 0;
   }
 
+  componentWillMount(){
+    window.scrollTo(0, 0)
+  }
+
   // Load their cart from local storage if it is empty...
   componentDidMount() {
     if (
@@ -58,6 +62,10 @@ class ShoppingCart extends Component {
   onClick(e) {
     if (!toast.isActive(this.toastId)) {
       this.toastId = toast.info('Your product has been removed');
+    }
+    if(isEmpty(this.cart_products))
+    {
+      this.totalPrice = 0 ;
     }
   }
 
@@ -141,7 +149,7 @@ class ShoppingCart extends Component {
     } else if (isEmpty(this.props.product.cart)) {
       return (
         <p align="center" className="mt-6">
-          No items found.
+          No items in cart.
         </p>
       );
     }
