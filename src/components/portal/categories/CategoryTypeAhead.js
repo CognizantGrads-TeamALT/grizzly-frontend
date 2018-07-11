@@ -6,7 +6,10 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import {
   addProduct,
-  clearFilteredProducts
+  clearFilteredProducts,
+  getProducts,
+  getVendorInventory,
+  getProductsVendor
 } from '../../../actions/productsActions';
 import {
   searchCategories,
@@ -149,6 +152,12 @@ class CategoryTypeAhead extends Component {
     this.setState({ categoryList: [] });
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
+
+    if (this.props.user.role === 'vendor') {
+      this.props.getVendorInventory('0', this.props.user.user.vendorId);
+      this.props.getProductsVendor(this.props.user.user.vendorId, 0);
+    } else this.props.getProducts();
+
     this.props.getCategories();
   };
 
@@ -196,7 +205,8 @@ CategoryTypeAhead.propTypes = {
 
 const mapStateToProps = state => ({
   product: state.product,
-  category: state.category
+  category: state.category,
+  user: state.user
 });
 
 export default connect(
@@ -207,6 +217,9 @@ export default connect(
     Update_TypeAhead,
     clearCurrentCategories,
     clearFilteredProducts,
-    getCategories
+    getCategories,
+    getProducts,
+    getVendorInventory,
+    getProductsVendor
   }
 )(withRouter(CategoryTypeAhead));
