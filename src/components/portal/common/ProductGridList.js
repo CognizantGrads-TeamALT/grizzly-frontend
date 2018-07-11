@@ -57,7 +57,7 @@ class ProductGridList extends Component {
         prodArray.push(products[i]);
       }
       return prodArray
-        .filter(prod => prod.enabled !== false && this.getCategoryEnabled(prod.categoryId) !== false)
+        .filter(prod => prod.enabled !== false && this.getCategoryEnabled(prod.categoryId) !== false && this.getVendorEnabled(prod.vendorId)  !== false)
         .map(function(prod) {
             return (
               <div key={prod.productId} className="col-lg-2 imageGrid mt-3">
@@ -110,6 +110,14 @@ class ProductGridList extends Component {
     )[0];
 
     return !isEmpty(category) ? category.enabled : false;
+  }
+
+  getVendorEnabled(vendorId) {
+    const vendor = this.props.product.product_vendor.filter(
+      item => item.vendorId === vendorId
+    )[0];
+
+    return !isEmpty(vendor) ? vendor.enabled : false;
   }
 
   showVendorName(vendorId) {
