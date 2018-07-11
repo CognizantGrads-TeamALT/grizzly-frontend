@@ -145,7 +145,7 @@ class ShoppingCart extends Component {
     } else if (isEmpty(this.props.product.cart)) {
       return (
         <p align="center" className="mt-6">
-          No items found.
+          No items in cart.
         </p>
       );
     }
