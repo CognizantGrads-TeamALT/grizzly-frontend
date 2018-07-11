@@ -291,6 +291,7 @@ title-size-2em-inner > * {
 .googleLogo {
   border: none;
   object-fit: contain;
+  height: 20px;
 }
 
 .full-parent-width::before {
