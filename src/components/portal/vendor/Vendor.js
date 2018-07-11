@@ -58,7 +58,7 @@ class Vendor extends Component {
       );
     } else {
       if (isEmpty(vendors)) {
-        return <tr><td>No vendors found :(</td></tr>;
+        return <tr><td>No vendors found.</td></tr>;
       }
 
       return vendors.map(vendor => (

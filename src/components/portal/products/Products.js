@@ -82,7 +82,8 @@ class Products extends Component {
     if (!loadingVendors && !loadingCategories && !fresh) {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
-          return <tr><td>No products found :(</td></tr>;
+          return (
+            <tr><td>No products found.</td></tr>);
         }
         else {
           if (!isEmpty(products_filtered)) {
@@ -112,33 +113,36 @@ class Products extends Component {
         }
       } else if (this.props.user.role === 'vendor') {
         if (isEmpty(products)) {
-          return <tr><td>No products found :(</td></tr>;
+          return (
+            <tr>
+              <td>No products found.</td>
+            </tr>);
         } else {
           if (!isEmpty(products_filtered)) {
             return products_filtered
-            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
-            .map((prod) => (
-              <ProductList
-                key={prod.productId}
-                product_category={product_category}
-                product_vendor={product_vendor}
-                prod={prod}
-                role={this.props.user.role}
-              />
-            ));
+              .filter(prod => prod.vendorId === this.props.user.user.vendorId)
+              .map((prod) => (
+                <ProductList
+                  key={prod.productId}
+                  product_category={product_category}
+                  product_vendor={product_vendor}
+                  prod={prod}
+                  role={this.props.user.role}
+                />
+              ));
           }
           else {
             return products
-            .filter(prod => prod.vendorId === this.props.user.user.vendorId)
-            .map((prod) => (
-              <ProductList
-                key={prod.productId}
-                product_category={product_category}
-                product_vendor={product_vendor}
-                prod={prod}
-                role={this.props.user.role}
-              />
-            ));
+              .filter(prod => prod.vendorId === this.props.user.user.vendorId)
+              .map((prod) => (
+                <ProductList
+                  key={prod.productId}
+                  product_category={product_category}
+                  product_vendor={product_vendor}
+                  prod={prod}
+                  role={this.props.user.role}
+                />
+              ));
           }
         }
       }
@@ -151,11 +155,13 @@ class Products extends Component {
             </td>
           </tr>
         );
-      } else if (isEmpty(products) &&
-        !isEmpty(this.props.errors.errorMessage ))
-        {
-          this.notify(this.props.errors.errorMessage)
-        }
+      }
+      // commented to stop the toast fires up.. 
+      // else if (isEmpty(products) &&
+      //   !isEmpty(this.props.errors.errorMessage ))
+      //   {
+      //     this.notify(this.props.errors.errorMessage)
+      //   }
     }
   }
 

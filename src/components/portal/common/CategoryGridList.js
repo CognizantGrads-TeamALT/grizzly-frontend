@@ -76,7 +76,7 @@ class CategoryGridList extends Component {
 
       if (isEmpty(filteredProducts))
         return (<div className="text-center">
-                No products were found :(
+                No products were found .
                 </div>);
       else
         return filteredProducts.map(prod => (

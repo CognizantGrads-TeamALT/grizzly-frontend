@@ -22,6 +22,7 @@ class CategoryTypeAhead extends Component {
       cur_id: '',
       valid_cat: false,
       count: 0
+      
     };
 
     this.waitForResponse = this.waitForResponse.bind(this);
@@ -32,6 +33,13 @@ class CategoryTypeAhead extends Component {
       this.searchCat(e)
     }, 350);
     this.baseState = this.state;
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldClear) { 
+      this.props.cleared();
+      this.clearTypeAhead();
+    }
   }
 
   populate(param) {
@@ -131,7 +139,7 @@ class CategoryTypeAhead extends Component {
     });
   }
 
-  clearTypeAhead = () => {
+  clearTypeAhead = (e) => {
     this.setState(this.baseState)
     clearInterval(this.state.intervalId);
         //this shouldn't be nessessary because this.basestate should do this anyway
@@ -139,7 +147,7 @@ class CategoryTypeAhead extends Component {
     this.setState({categoryList: []});
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
-  }
+   }
 
   render() {
     return (
