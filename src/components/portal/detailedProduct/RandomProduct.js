@@ -51,7 +51,6 @@ class RandomProduct extends Component {
               <div className="inner-product-card card-text text-truncate d-inline-block fnt-weight-400 surround-parent w-100">
                 {prod.name}
               </div>
-              {/* Totally mock data */}
               <div className="fnt-weight-300 dscrptnSize-8 surround-parent w-100">
                 {this.showVendorName(prod.vendorId)}
               </div>
