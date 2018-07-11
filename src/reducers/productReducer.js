@@ -274,7 +274,12 @@ export default function(state = initialState, action) {
           ];
       let randomResults = isEmpty(action.payload)
         ? []
-        : _.shuffle(action.payload.filter(prod => prod.enabled !== false));
+        : _.shuffle(
+            action.payload.filter(
+              prod =>
+                prod.enabled !== false && prod.productId !== action.productId
+            )
+          );
       return {
         ...state,
         products: newProducts3,
