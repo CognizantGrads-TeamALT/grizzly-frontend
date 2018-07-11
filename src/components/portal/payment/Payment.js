@@ -32,11 +32,7 @@ class Payment extends Component {
       this.props.history.push('/');
     }
   }
-  // forceUpdate()
-  // {
-  //   this.totalPrice = 0;
-  // }
-
+ 
   showOrderContent() {
     this.triggeredFetch = true;
     let { cart, cart_products } = this.props.product;
