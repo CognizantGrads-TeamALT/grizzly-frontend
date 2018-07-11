@@ -272,6 +272,15 @@ class Navbar extends Component {
     }
   }
 
+  showCartLink() {
+    return (
+      <Link
+        className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
+        to="/shoppingcart"
+      />
+    );
+  }
+
   render() {
     return (
       <nav className="navbar navbar-light navbar-expand-sm text-center nav-bar-bottom-border">
