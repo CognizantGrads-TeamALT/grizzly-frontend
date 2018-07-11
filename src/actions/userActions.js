@@ -86,7 +86,7 @@ export const setCurrentUser = googleProfile => {
 export const getUserByEmail = () => dispatch => {
   dispatch(setUserLoading());
   axios
-    .get(AUTH_API_GATEWAY + `/userData`)
+    .get(USER_API_GATEWAY + `/userData`)
     .then(res => {
       dispatch({
         type: types.GET_USER_BY_EMAIL,
