@@ -7,6 +7,7 @@ import TrackOrderModal from './TrackOrderModal';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import { Card, CardHeader, CardBody, CardTitle, CardText } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import ProductImage from '../common/ProductImage';
 
@@ -38,7 +39,11 @@ class OrderHistory extends Component {
           .map(prod => (
             <div className="row m-3" key={prodId}>
               <div className="col-5 my-auto mx-auto">
+                <Link
+                      to={`/customerdetailedproduct/${prod.productId}`}
+                  >
                 <ProductImage prod={prod} />
+                </Link>
               </div>
               <div className="col-7">
                 <CardBody>

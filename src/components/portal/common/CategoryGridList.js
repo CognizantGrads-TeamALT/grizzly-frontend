@@ -97,7 +97,11 @@ class CategoryGridList extends Component {
             <div className="card-body">
               <div className="row">
                 <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <Link
+                    to={`/customerdetailedproduct/${prod.productId}`}
+                  >
                   <ProductImage prod={prod} />
+                  </Link>
                 </div>
                 <div className="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                   <div className="productTitle">
