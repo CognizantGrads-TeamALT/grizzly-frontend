@@ -4,11 +4,15 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import isEmpty from '../../../validation/is-empty';
 import { getProducts } from '../../../actions/productsActions';
+import { getCategories } from '../../../actions/categoryActions';
 
 class ProductCategoryRow extends Component {
   componentDidMount() {
     if (isEmpty(this.props.product.products)) {
       this.props.getProducts();
+    }
+    if (isEmpty(this.props.category.categories)) {
+      this.props.getCategories();
     }
   }
 
@@ -39,7 +43,7 @@ class ProductCategoryRow extends Component {
           <Link
             key={index}
             to={`/category/${cat.name}/${cat.categoryId}`}
-            className="dropdown-item more-rounded"
+            className="dropdown-item more-rounded fnt-weight-300"
           >
             {cat.name}
           </Link>
@@ -82,7 +86,7 @@ class ProductCategoryRow extends Component {
 
 ProductCategoryRow.propTypes = {
   getProducts: PropTypes.func.isRequired,
-
+  getCategories: PropTypes.func.isRequired,
   product: PropTypes.object.isRequired,
   category: PropTypes.object.isRequired
 };
@@ -95,6 +99,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
-    getProducts
+    getProducts,
+    getCategories
   }
 )(ProductCategoryRow);
