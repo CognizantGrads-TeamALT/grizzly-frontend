@@ -257,6 +257,14 @@ export default function(state = initialState, action) {
         vendorIndex: VendorIndex
       };
     case types.GET_PRODUCT:
+      if (action.addToList) {
+        newProducts = state.products;
+        newProducts.push(action.payload);
+        return {
+          ...state,
+          products: newProducts
+        };
+      }
       return {
         ...state,
         single: action.payload
