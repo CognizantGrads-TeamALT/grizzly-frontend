@@ -5,19 +5,19 @@ import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 
 const imageArray = [
-  'https://akshaybhasme.com/imgs/watch_banner_big.jpg',
-  'https://www.atomos.com/assets/images/home/UNLEASH-banner.jpg',
-  'https://mymobile.com.au/media/wysiwyg/note8banner.png',
-  'https://www.affordablelaptops.com.au/contents/media/b_gigabyte-gaming-laptop-notebook-banner.jpg',
-  'https://www.hamiltonbeach.com/media/cat-headers/category_banner_hbpro.jpg'
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner1.jpg',
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner2.jpg',
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner6.jpg',
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner5.jpg',
+  'https://raw.githubusercontent.com/CognizantGrads-TeamALT/grizzly-frontend/development/src/img/grizzbanner4.jpg'
 ];
 
 const catLinks = [
-  '/category/Watches/1',
   '/category/Cameras/2',
-  '/category/Phones/3',
+  '/category/Maps/8',
+  '/category/Blenders/5',
   '/category/Laptops/4',
-  '/category/Blenders/5'
+  '/category/Phones/3'
 ];
 class VendorCarousel extends Component {
   show() {
