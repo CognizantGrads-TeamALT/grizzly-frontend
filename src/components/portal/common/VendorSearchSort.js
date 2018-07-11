@@ -44,7 +44,9 @@ class VendorSearchSort extends Component {
       toast.info('Please check your input!');
     } else {
       this.props.searchVendors(this.state.search);
-      this.setState({ search: '' });
+      // This was commented out before, why is that?
+      // update: Because we have a clear all filter button now.
+      //this.setState({ search: '' });
     }
   }
 
@@ -65,6 +67,11 @@ class VendorSearchSort extends Component {
     e.preventDefault();
     this.props.sortVendorsByParam('0', 'website');
     this.setState({ search: '' });
+  }
+
+  clearSearch() {
+    this.setState({ search: '' });
+    this.props.clear();
   }
 
   render() {
@@ -137,6 +144,14 @@ class VendorSearchSort extends Component {
             actionLabel="Add Vendor"
             buttonClass="btn more-rounded hover-w-b btn-sm mx-auto w-75 surround-parent my-2 my-sm-0"
           />
+        </div>
+
+        <div className="col-2 text-right">
+            <div className="btn pl-0 my-auto d-inline z-index-600" 
+                onClick = {() => this.clearSearch()}>
+                Clear all filters
+              <i className="far fa-times-circle d-inline ml-2"></i>
+            </div>
         </div>
       </div>
     );

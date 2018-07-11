@@ -80,7 +80,7 @@ class Vendor extends Component {
   render() {
     return (
       <div>
-        <VendorSearchSort />
+        <VendorSearchSort clear={this.props.clear} />
         <table className="table table-sm table-hover">
           <thead>
             <tr>
