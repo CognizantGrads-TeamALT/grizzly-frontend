@@ -172,7 +172,7 @@ class Navbar extends Component {
               this.props.user.googleProfile.given_name
             }> `}</span>
           </li>
-          <li className="nav-item mr-1 my-auto">cart</li>
+          <li className="nav-item mr-1 my-auto">{this.showCartLink()}</li>
           <li className="nav-item dropdown my-auto">
             <a
               className="nav-link dropdown-toggle"
@@ -250,7 +250,7 @@ class Navbar extends Component {
         <form onSubmit={this.onSubmit} className="form-inline">
           <div className="search-form-custom">
             <input
-              className="form-control left-rounded border-right-0 border col-8 customerSearchBar"
+              className="form-control left-rounded border-right-0 border col-8"
               type="search"
               name="search"
               placeholder="Search"
