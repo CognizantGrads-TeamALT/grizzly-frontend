@@ -25,12 +25,17 @@ class Payment extends Component {
     this.onError = this.onError.bind(this);
   }
 
+
   componentDidMount() {
     let { cart, cart_products } = this.props.product;
     if (isEmpty(cart) || isEmpty(cart_products)) {
       this.props.history.push('/');
     }
   }
+  // forceUpdate()
+  // {
+  //   this.totalPrice = 0;
+  // }
 
   showOrderContent() {
     this.triggeredFetch = true;
@@ -65,7 +70,7 @@ class Payment extends Component {
     cart_products.map(
       prod => (totalPrice += prod.price * cart[prod.productId])
     );
-    return totalPrice;
+      return totalPrice;
   }
 
   onSuccess(payment) {

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getUserOrder } from '../../../actions/userActions';
 import { getProducts } from '../../../actions/productsActions';
+import TrackOrderModal from './TrackOrderModal';
 import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import { Card, CardHeader, CardBody, CardTitle, CardText } from 'reactstrap';
@@ -60,10 +61,10 @@ class OrderHistory extends Component {
         <div className="col-9 pl-0">
           <Card>
             <CardHeader className="fnt-weight-400 dscrptnSize-9 row m-0">
-              <div className="col text-left">
+              <div className="col-8 text-left">
                 Transaction ID: {ordrs.txn_id}
               </div>
-              <div className="col text-right">$AU {ordrs.cost}</div>
+              <div className="col-4 text-right">$AU {ordrs.cost}</div>
             </CardHeader>
             {this.displayItems(ordrs)}
           </Card>
@@ -75,9 +76,14 @@ class OrderHistory extends Component {
           </div>
           <div className="mt-2 fnt-weight-500 title-size-1em">Order Date:</div>
           <div className="fnt-weight-400 dscrptnSize-9">{ordrs.shipped_on}</div>
-          <button className="mt-3 btn orange-b surround-parent w-75 more-rounded">
-            Track Package
-          </button>
+          <TrackOrderModal
+            ordr={ordrs}
+            buttonLabel="Track Package"
+            title="Track Package"
+            actionLabel="Track Package"
+            buttonClass="mt-3 btn orange-b surround-parent w-75 more-rounded"
+            className="track-order w-100"
+          />
         </div>
       </div>
     );

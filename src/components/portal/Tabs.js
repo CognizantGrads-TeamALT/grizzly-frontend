@@ -48,7 +48,7 @@ class Tabs extends Component {
     };
 
     this.loadingVendorInventory = false;
-    this.loadingProducts = false;
+    this.loadingProducts = false;    
     this.shouldClear = false;
   }
 

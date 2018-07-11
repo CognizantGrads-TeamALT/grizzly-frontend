@@ -4,11 +4,15 @@ import TextAreaFieldWithCancel from '../../common/TextAreaFieldWithCancel';
 import isEmpty from '../../../validation/is-empty';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { addProduct, clearFilteredProducts } from '../../../actions/productsActions';
+import {
+  addProduct,
+  clearFilteredProducts
+} from '../../../actions/productsActions';
 import {
   searchCategories,
   Update_TypeAhead,
-  clearCurrentCategories
+  clearCurrentCategories,
+  getCategories
 } from '../../../actions/categoryActions';
 import _ from 'lodash';
 
@@ -22,21 +26,19 @@ class CategoryTypeAhead extends Component {
       cur_id: '',
       valid_cat: false,
       count: 0
-      
     };
-
     this.waitForResponse = this.waitForResponse.bind(this);
     this.onChange = this.onChange.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);
     this.clearTypeAhead = this.clearTypeAhead.bind(this);
     this.catSearch = _.debounce(e => {
-      this.searchCat(e)
+      this.searchCat(e);
     }, 350);
     this.baseState = this.state;
   }
 
   componentDidUpdate() {
-    if (this.props.shouldClear) { 
+    if (this.props.shouldClear) {
       this.props.cleared();
       this.clearTypeAhead();
     }
@@ -65,6 +67,9 @@ class CategoryTypeAhead extends Component {
       this.setState({ categoryList: [] });
     } else {
       this.props.searchCategories(e.target.value);
+      //setstate was sometimes being called before the previous one finished running, resulting in an unending loop
+      // as clear interval would nolonger stop that particular interval
+      clearInterval(this.state.intervalId);
       this.setState({ intervalId: setInterval(this.waitForResponse, 50) });
     }
   }
@@ -80,7 +85,7 @@ class CategoryTypeAhead extends Component {
       list = this.populate(categories);
       this.setState({
         count: 0,
-        categoryList: list.map(function (listItem) {
+        categoryList: list.map(function(listItem) {
           return [
             <button
               className="btn btn-outline-info z-index-5000 d-absolute btn-sm cat-scroll-button"
@@ -96,9 +101,7 @@ class CategoryTypeAhead extends Component {
           ];
         }, this)
       });
-
-    }
-    else if (this.state.count > 20) {
+    } else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
       this.setState({
         count: 0,
@@ -117,8 +120,7 @@ class CategoryTypeAhead extends Component {
         ]
       });
       this.props.clearCurrentCategories();
-    }
-    else {
+    } else {
       this.setState({ count: this.state.count + 1 });
     }
   }
@@ -139,15 +141,16 @@ class CategoryTypeAhead extends Component {
     });
   }
 
-  clearTypeAhead = (e) => {
-    this.setState(this.baseState)
+  clearTypeAhead = e => {
+    this.setState(this.baseState);
     clearInterval(this.state.intervalId);
-        //this shouldn't be nessessary because this.basestate should do this anyway
+    //this shouldn't be nessessary because this.basestate should do this anyway
     //but it doesn't, don't know why, this works
-    this.setState({categoryList: []});
+    this.setState({ categoryList: [] });
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
-    }
+    this.props.getCategories();
+  };
 
   render() {
     return (
@@ -169,7 +172,9 @@ class CategoryTypeAhead extends Component {
               />
             </div>
           </div>
-          <div className="cat-typeahead-position bg-white z-index-5000">{this.state.categoryList}</div>
+          <div className="cat-typeahead-position bg-white z-index-5000">
+            {this.state.categoryList}
+          </div>
         </div>
       </div>
     );
@@ -196,5 +201,12 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addProduct, searchCategories, Update_TypeAhead, clearCurrentCategories, clearFilteredProducts }
+  {
+    addProduct,
+    searchCategories,
+    Update_TypeAhead,
+    clearCurrentCategories,
+    clearFilteredProducts,
+    getCategories
+  }
 )(withRouter(CategoryTypeAhead));
