@@ -33,6 +33,14 @@ class Vendor extends Component {
     return false;
   }
 
+  toastId = null;
+
+  notify = msg => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info(msg);
+    }
+  };
+
   loadMore() {
     if (this.props.vendor.hasMore) {
       this.notify('Loading more vendors...');

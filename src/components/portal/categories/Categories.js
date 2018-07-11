@@ -37,6 +37,14 @@ class Categories extends Component {
     return false;
   }
 
+  toastId = null;
+
+  notify = msg => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info(msg);
+    }
+  };
+
   loadMore() {
     if (this.props.category.hasMore) {
       this.notify('Loading more categories...');
