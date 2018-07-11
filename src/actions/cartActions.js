@@ -50,5 +50,5 @@ export const removeFromCart = productId => dispatch => {
 
 // Empty the cart.
 export const emptyCart = () => {
-  localStorage.clear(location);
+  localStorage.removeItem(location);
 };
