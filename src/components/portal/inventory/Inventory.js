@@ -82,6 +82,7 @@ class Inventory extends Component {
     return (
       <div>
         <div className="m-3 col">
+          {/* Comment this out. Search not working properly in Inventory Tab */}
           <ProductSearchSort />
         </div>
         <table className="table table-sm table-hover">
