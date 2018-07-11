@@ -1,50 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import isEmpty from '../../../validation/is-empty';
 import Slider from 'react-slick';
-// import { Link } from 'react-router-dom';
-class VendorCarousel extends Component {
-  fetchBanners() {
-    let imageArray = [];
-    imageArray.push('https://akshaybhasme.com/imgs/watch_banner_big.jpg');
-    imageArray.push(
-      'https://www.atomos.com/assets/images/home/UNLEASH-banner.jpg'
-    );
-    imageArray.push('https://mymobile.com.au/media/wysiwyg/note8banner.png');
-    imageArray.push(
-      'https://www.affordablelaptops.com.au/contents/media/b_gigabyte-gaming-laptop-notebook-banner.jpg'
-    );
-    imageArray.push(
-      'https://www.hamiltonbeach.com/media/cat-headers/category_banner_hbpro.jpg'
-    );
-    return imageArray;
-  }
-  show() {
-    let bannerArray = this.fetchBanners();
+import { Link } from 'react-router-dom';
 
-    // const { products, loading } = this.props.product;
-    // let prodArray = [];
-    // // let currentImage = 0;
-    // if (!isEmpty(products) && !loading) {
-    //   for (let i = 2; i < 28; i += 6) {
-    //     prodArray.push(products[i]);
-    //   }
-    //   // In case hitting refresh causes crashes
-    //   if (!isEmpty(prodArray)) {
-    //     return prodArray.map(
-    return bannerArray.map(
-      (src, index) => (
-        // (prod, index) =>
-        //   !isEmpty(prod) &&
-        //   (
-        <div key={index}>
+const imageArray = [
+  'https://akshaybhasme.com/imgs/watch_banner_big.jpg',
+  'https://www.atomos.com/assets/images/home/UNLEASH-banner.jpg',
+  'https://mymobile.com.au/media/wysiwyg/note8banner.png',
+  'https://www.affordablelaptops.com.au/contents/media/b_gigabyte-gaming-laptop-notebook-banner.jpg',
+  'https://www.hamiltonbeach.com/media/cat-headers/category_banner_hbpro.jpg'
+];
+
+const catLinks = [
+  '/category/Watches/1',
+  '/category/Cameras/2',
+  '/category/Phones/3',
+  '/category/Laptops/4',
+  '/category/Blenders/5'
+];
+class VendorCarousel extends Component {
+  show() {
+    return imageArray.map((img, index) => (
+      <Link key={index} to={catLinks[index]}>
+        <div>
           <img
-            // src={bannerArray[index]}
-            src={src}
+            src={img}
             className="rounded parent-wide custCarousel"
             style={{
-              height: '385px',
+              height: '400px',
               width: 'auto',
               display: 'block',
               objectFit: 'cover'
@@ -52,11 +36,8 @@ class VendorCarousel extends Component {
             alt=""
           />
         </div>
-      )
-      // )
-    );
-    //   }
-    // }
+      </Link>
+    ));
   }
 
   render() {
