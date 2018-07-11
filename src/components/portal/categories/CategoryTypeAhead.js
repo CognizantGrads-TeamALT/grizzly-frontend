@@ -24,7 +24,6 @@ class CategoryTypeAhead extends Component {
       count: 0
       
     };
-
     this.waitForResponse = this.waitForResponse.bind(this);
     this.onChange = this.onChange.bind(this);
     this.setCategoryName = this.setCategoryName.bind(this);
@@ -65,6 +64,9 @@ class CategoryTypeAhead extends Component {
       this.setState({ categoryList: [] });
     } else {
       this.props.searchCategories(e.target.value);
+      //setstate was sometimes being called before the previous one finished running, resulting in an unending loop
+      // as clear interval would nolonger stop that particular interval
+      clearInterval(this.state.intervalId);
       this.setState({ intervalId: setInterval(this.waitForResponse, 50) });
     }
   }
@@ -96,7 +98,6 @@ class CategoryTypeAhead extends Component {
           ];
         }, this)
       });
-
     }
     else if (this.state.count > 20) {
       clearInterval(this.state.intervalId);
