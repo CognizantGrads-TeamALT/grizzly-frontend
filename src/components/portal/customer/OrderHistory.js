@@ -8,7 +8,7 @@ import Spinner from '../../common/Spinner';
 import isEmpty from '../../../validation/is-empty';
 import { Card, CardHeader, CardBody, CardTitle, CardText } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+import _ from 'lodash';
 import ProductImage from '../common/ProductImage';
 
 class OrderHistory extends Component {
@@ -28,11 +28,16 @@ class OrderHistory extends Component {
 
   getProductDetails(prodId) {
     if (!isEmpty(this.props.product.products)) {
-      if (isEmpty(this.props.product.products.filter(
-        product => product.productId === parseInt(prodId, 10)
-      )) && isEmpty(this.fetchedProdIds[prodId])) {
-          this.props.getProduct(parseInt(prodId, 10), true);
-          this.fetchedProdIds[prodId] = true;
+      if (
+        isEmpty(
+          this.props.product.products.filter(
+            product => product.productId === parseInt(prodId, 10)
+          )
+        ) &&
+        isEmpty(this.fetchedProdIds[prodId])
+      ) {
+        this.props.getProduct(parseInt(prodId, 10), true);
+        this.fetchedProdIds[prodId] = true;
       } else {
         return this.props.product.products
           .filter(item => item.productId === parseInt(prodId, 10))
@@ -74,11 +79,9 @@ class OrderHistory extends Component {
           <Card>
             <CardHeader className="fnt-weight-400 dscrptnSize-9 row m-0">
               <div className="col-8 text-left">
-                <div className="fnt-weight-400 d-inline">
-                Transaction ID: 
-                </div>
+                <div className="fnt-weight-400 d-inline">Transaction ID:</div>
                 <div className="pl-1 fnt-weight-300 d-inline">
-                {ordrs.txn_id}
+                  {ordrs.txn_id}
                 </div>
               </div>
               <div className="col-4 text-right">$AU {ordrs.cost}</div>
@@ -108,8 +111,8 @@ class OrderHistory extends Component {
 
   show() {
     if (!isEmpty(this.props.orders) && !this.props.user.loading) {
-      const { orderDTO } = this.props.orders;
-      return orderDTO.map(ordr => this.displayOrders(ordr));
+      const orderDTO = this.props.orders.orderDTO;
+      return _.reverse(orderDTO).map(ordr => this.displayOrders(ordr));
     } else {
       return <Spinner size={'150px'} />;
     }
