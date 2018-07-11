@@ -12,7 +12,7 @@ class SearchResults extends Component {
     const { results } = this.props.product;
     if (!isEmpty(results)) {
       return results.filter(prod => prod.enabled !== false).map(prod => (
-        <div key={prod.productId} className="col-lg-2 imageGrid mt-3">
+        <div key={prod.productId} className="col-lg-2 col-sm-4 imageGrid mt-3">
           <Link
             to={`/customerdetailedproduct/${prod.productId}`}
             className="img-thumbnail surround-parent h-100 w-100 card product-card"

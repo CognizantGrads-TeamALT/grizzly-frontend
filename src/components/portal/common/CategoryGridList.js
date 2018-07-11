@@ -20,7 +20,8 @@ class CategoryGridList extends Component {
   scrollElement(element) {
     element.preventDefault();
     if (
-      document.scrollingElement.scrollTop + document.scrollingElement.clientHeight >=
+      document.scrollingElement.scrollTop +
+        document.scrollingElement.clientHeight >=
       document.scrollingElement.scrollHeight
     ) {
       this.loadMore();
@@ -32,7 +33,10 @@ class CategoryGridList extends Component {
     window.scrollTo(0, 0);
 
     // Retain state, don't reload filtered list.
-    if (this.props.product.products_filtered_last !== this.props.match.params.catId) {
+    if (
+      this.props.product.products_filtered_last !==
+      this.props.match.params.catId
+    ) {
       this.props.filterProductsByCategory({
         cur_id: this.props.match.params.catId,
         index: 0,
@@ -72,21 +76,21 @@ class CategoryGridList extends Component {
       !isEmpty(this.props.product.product_vendor)
     ) {
       let filteredProducts = this.props.product.products_filtered;
-      filteredProducts = filteredProducts.filter(prod => prod.enabled !== false);
+      filteredProducts = filteredProducts.filter(
+        prod => prod.enabled !== false
+      );
 
       if (isEmpty(filteredProducts))
-        return (<div className="text-center">
-                No products were found .
-                </div>);
+        return <div className="text-center">No products were found .</div>;
       else
         return filteredProducts.map(prod => (
           <div className="card text-left mb-2" key={prod.productId}>
             <div className="card-body">
               <div className="row">
-                <div className="col-3">
+                <div className="col-lg-3">
                   <ProductImage prod={prod} />
                 </div>
-                <div className="col-5">
+                <div className="col-lg-5">
                   <div className="productTitle">
                     <b className="d-inline">{prod.name}</b>
                     <p className="d-inline dscrptnSize-9">
@@ -99,8 +103,8 @@ class CategoryGridList extends Component {
                     </p>
                   </div>
                 </div>
-                <div className="col-2">${prod.price}</div>
-                <div className="col-2">
+                <div className="col-lg-2">${prod.price}</div>
+                <div className="col-lg-2">
                   <Link
                     to={`/customerdetailedproduct/${prod.productId}`}
                     className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide"
@@ -123,14 +127,14 @@ class CategoryGridList extends Component {
 
   render() {
     return (
-      <div className="col-11 only-scroll-down more-top-margin mx-auto">
+      <div className="col-lg-11 only-scroll-down more-top-margin mx-auto">
         <div className="row mb-4 mt-3">
-          <div className="col-9 my-auto">
+          <div className="col-lg-9 my-auto">
             <h1 className="text-left text-uppercase font-weight-bold my-auto mb-4 d-inline">
               {this.props.match.params.searchParam}
             </h1>
           </div>
-          <div className="col-3 my-auto">
+          <div className="col-lg-3 my-auto">
             <Button
               onClick={this.onCancel}
               className="btn more-rounded hover-w-b btn-sm parent-wide-inner my-auto parent-wide"
@@ -148,11 +152,11 @@ class CategoryGridList extends Component {
 CategoryGridList.propTypes = {
   filterProductsByCategory: PropTypes.func.isRequired,
 
-  product: PropTypes.object.isRequired,
+  product: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product,
+  product: state.product
 });
 
 export default connect(
