@@ -217,16 +217,27 @@ class Navbar extends Component {
     } else
       return (
         <ul className="navbar-nav pl-2">
-          {this.showCartLink()}
+            <Link
+              className="mr-2 mt-2 mb-0 more-rounded my-auto"
+              to="/shoppingcart"
+            >
+            <i className="fas fa-shopping-cart my-auto" />
+            <button
+              className="ml-1 btn more-rounded min-wdth-200 my-auto hover-t-b dscrptnSize-7 btn-sm my-2 my-sm-0 mr-sm-2"
+              type="button"
+            >
+            Cart
+            </button>
+            </Link>
           <div />
-          <img src={glogo} alt="glogo" className="googleLogo" />
           <li className="nav-item mr-1 my-auto">
+          <img src={glogo} alt="glogo" className="googleLogo" />
             <GoogleLogin
               clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
               buttonText="Sign in with Google"
               onSuccess={this.login}
               onFailure={this.login}
-              className="gButton"
+              className="gButton ml-1 btn more-rounded min-wdth-200 my-auto dscrptnSize-7 btn-sm my-2 my-sm-0 mr-sm-2"
             />
           </li>
         </ul>
@@ -259,15 +270,6 @@ class Navbar extends Component {
         </form>
       );
     }
-  }
-
-  showCartLink() {
-    return (
-      <Link
-        className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
-        to="/shoppingcart"
-      />
-    );
   }
 
   render() {

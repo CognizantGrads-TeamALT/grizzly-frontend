@@ -284,12 +284,13 @@ title-size-2em-inner > * {
 }
 
 /* Nav Bar */
-.googleLogo {
-  border: none;
+.min-wdth-200 {
+  min-width: 100px;
 }
 
-.gButton {
-  border-radius: 4em;
+.googleLogo {
+  border: none;
+  object-fit: contain;
 }
 
 .full-parent-width::before {
