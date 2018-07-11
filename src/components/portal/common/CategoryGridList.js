@@ -6,7 +6,7 @@ import isEmpty from '../../../validation/is-empty';
 import { filterProductsByCategory } from '../../../actions/productsActions';
 import Button from 'react-ions/lib/components/Button';
 import Spinner from '../../common/Spinner';
-
+import { toast } from 'react-toastify';
 import ProductImage from '../common/ProductImage';
 
 class CategoryGridList extends Component {
@@ -22,7 +22,7 @@ class CategoryGridList extends Component {
     if (
       document.scrollingElement.scrollTop +
         document.scrollingElement.clientHeight >=
-      document.scrollingElement.scrollHeight
+      document.scrollingElement.scrollHeight - 10
     ) {
       this.loadMore();
     }
@@ -53,7 +53,16 @@ class CategoryGridList extends Component {
     document.removeEventListener('scroll', this.scrollElement);
   }
 
+  toastId = null;
+
+  notify = msg => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info(msg);
+    }
+  };
+
   loadMore() {
+    // this.notify('Loading more...');
     if (this.props.product.filteredHasMore) {
       this.props.filterProductsByCategory({
         cur_id: this.props.match.params.catId,

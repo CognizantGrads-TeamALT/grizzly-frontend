@@ -20,7 +20,7 @@ class Products extends Component {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-        this.refs.myscroll.scrollHeight &&
+          this.refs.myscroll.scrollHeight - 10 &&
         !this.props.product.loadingVendors &&
         !this.props.product.loadingCategories &&
         !this.props.product.loading
@@ -37,7 +37,7 @@ class Products extends Component {
   shouldComponentUpdate() {
     if (
       this.props.product.updateOnce ||
-      this.props.product.loading// || // disabled because of infinite scroll position.
+      this.props.product.loading // || // disabled because of infinite scroll position.
       //this.props.product.loadingVendors ||
       //this.props.product.loadingCategories
     )
@@ -49,11 +49,13 @@ class Products extends Component {
     //vendor has more is always true on the admin portal (default value) anyway, only relevent if the current user is a vendor
     if ((this.props.product.hasMore && this.props.user.role === 'admin') || (this.props.product.vendorHasMore && this.props.user.role === 'vendor')) {
       this.notify('Loading more products...')
-
       if (this.props.user.role === 'admin')
         this.props.getProducts(this.props.product.index);
       else
-        this.props.getProductsVendor(this.props.user.user.vendorId, this.props.product.vendorIndex);
+        this.props.getProductsVendor(
+          this.props.user.user.vendorId,
+          this.props.product.vendorIndex
+        );
 
       if (!isEmpty(this.props.errors.errorMessage)) {
         toast.info(this.props.errors.errorMessage);
@@ -63,7 +65,7 @@ class Products extends Component {
 
   toastId = null;
 
-  notify = (errorMessage) => {
+  notify = errorMessage => {
     if (!toast.isActive(this.toastId)) {
       this.toastId = toast.info(errorMessage);
     }
@@ -84,11 +86,13 @@ class Products extends Component {
       if (this.props.user.role === 'admin') {
         if (isEmpty(products)) {
           return (
-            <tr><td>No products found.</td></tr>);
-        }
-        else {
+            <tr>
+              <td>No products found.</td>
+            </tr>
+          );
+        } else {
           if (!isEmpty(products_filtered)) {
-            return products_filtered.map((prod) => (
+            return products_filtered.map(prod => (
               <ProductList
                 key={prod.productId}
                 product_category={product_category}
@@ -98,9 +102,8 @@ class Products extends Component {
                 errors={this.props.errors}
               />
             ));
-          }
-          else {
-            return products.map((prod) => (
+          } else {
+            return products.map(prod => (
               <ProductList
                 key={prod.productId}
                 product_category={product_category}
@@ -117,12 +120,13 @@ class Products extends Component {
           return (
             <tr>
               <td>No products found.</td>
-            </tr>);
+            </tr>
+          );
         } else {
           if (!isEmpty(products_filtered)) {
             return products_filtered
               .filter(prod => prod.vendorId === this.props.user.user.vendorId)
-              .map((prod) => (
+              .map(prod => (
                 <ProductList
                   key={prod.productId}
                   product_category={product_category}
@@ -131,11 +135,10 @@ class Products extends Component {
                   role={this.props.user.role}
                 />
               ));
-          }
-          else {
+          } else {
             return products
               .filter(prod => prod.vendorId === this.props.user.user.vendorId)
-              .map((prod) => (
+              .map(prod => (
                 <ProductList
                   key={prod.productId}
                   product_category={product_category}
@@ -157,7 +160,7 @@ class Products extends Component {
           </tr>
         );
       }
-      // commented to stop the toast fires up.. 
+      // commented to stop the toast fires up..
       // else if (isEmpty(products) &&
       //   !isEmpty(this.props.errors.errorMessage ))
       //   {
@@ -179,7 +182,12 @@ class Products extends Component {
             <th scope="col" />
           </tr>
         </thead>
-        <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+        <tbody
+          ref="myscroll"
+          style={{ overflowX: 'hidden', overflowY: 'auto' }}
+        >
+          {this.show()}
+        </tbody>
       </table>
     );
   }
@@ -203,5 +211,10 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getProducts, getProductsVendor, setProductUpdated, filterProductsByCategory }
+  {
+    getProducts,
+    getProductsVendor,
+    setProductUpdated,
+    filterProductsByCategory
+  }
 )(Products);
