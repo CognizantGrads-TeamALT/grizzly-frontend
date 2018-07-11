@@ -90,7 +90,7 @@ export const getProductsVendor = (userid, index) => dispatch => {
 };
 
 // Get Product with Imgs
-export const getProduct = productId => dispatch => {
+export const getProduct = (productId, addToList) => dispatch => {
   dispatch(clearErrors());
   dispatch(setProductLoading());
   axios
@@ -98,7 +98,8 @@ export const getProduct = productId => dispatch => {
     .then(res => {
       dispatch({
         type: types.GET_PRODUCT,
-        payload: res.data
+        payload: res.data,
+        addToList: addToList
       });
       if (!isEmpty(res.data)) {
         if (!isEmpty(res.data.productId)) {
