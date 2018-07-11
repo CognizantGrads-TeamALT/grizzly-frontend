@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Spinner from "../../common/Spinner";
-import PropTypes from "prop-types";
-import CategorySearchSort from "../common/CategorySearchSort";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Spinner from '../../common/Spinner';
+import PropTypes from 'prop-types';
+import CategorySearchSort from '../common/CategorySearchSort';
 import {
   getCategories,
   setCategoryUpdated
-} from "../../../actions/categoryActions";
-import CategoriesList from "./CategoriesList";
-import isEmpty from "../../../validation/is-empty";
+} from '../../../actions/categoryActions';
+import CategoriesList from './CategoriesList';
+import isEmpty from '../../../validation/is-empty';
 import { toast } from 'react-toastify';
 
 class Categories extends Component {
   componentDidMount() {
     // Detect when scrolled to bottom.
-    this.refs.myscroll.addEventListener("scroll", e => {
+    this.refs.myscroll.addEventListener('scroll', e => {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-        this.refs.myscroll.scrollHeight &&
+          this.refs.myscroll.scrollHeight - 10 &&
         !this.props.category.loading
       ) {
         this.loadMore();
@@ -27,8 +27,7 @@ class Categories extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.category.updateOnce)
-      this.props.setCategoryUpdated();
+    if (this.props.category.updateOnce) this.props.setCategoryUpdated();
   }
 
   shouldComponentUpdate() {
@@ -51,7 +50,7 @@ class Categories extends Component {
     const { categories, loading } = this.props.category;
     // const { errorMessage } = this.props.errors;
     //show errors if finsihed loading, no cats were found and an error message exists
-   if (loading) {
+    if (loading) {
       return (
         <tr>
           <td>
@@ -61,7 +60,11 @@ class Categories extends Component {
       );
     } else {
       if (isEmpty(categories)) {
-        return <tr><td>No categories found.</td></tr>;
+        return (
+          <tr>
+            <td>No categories found.</td>
+          </tr>
+        );
       }
 
       return categories.map(category => (
@@ -83,7 +86,12 @@ class Categories extends Component {
               <th scope="col" />
             </tr>
           </thead>
-          <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+          <tbody
+            ref="myscroll"
+            style={{ overflowX: 'hidden', overflowY: 'auto' }}
+          >
+            {this.show()}
+          </tbody>
         </table>
       </div>
     );

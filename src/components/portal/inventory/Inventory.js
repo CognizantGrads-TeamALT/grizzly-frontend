@@ -18,7 +18,7 @@ class Inventory extends Component {
       e.preventDefault();
       if (
         this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-          this.refs.myscroll.scrollHeight &&
+          this.refs.myscroll.scrollHeight - 10 &&
         !this.props.product.loading
       ) {
         this.loadMore();
@@ -48,7 +48,7 @@ class Inventory extends Component {
 
   toastId = null;
 
-  notify = (errorMessage) => {
+  notify = errorMessage => {
     if (!toast.isActive(this.toastId)) {
       this.toastId = toast.info(errorMessage);
     }
@@ -69,8 +69,8 @@ class Inventory extends Component {
             </td>
           </tr>
         );
-      } 
-      // commented out for now to fix toast fires up .. 
+      }
+      // commented out for now to fix toast fires up ..
       // ..when no products found in the admin portal search products
       // else if (isEmpty(vendorInventory) &&
       //   !(this.props.errors.errorMessage === "")
@@ -87,18 +87,23 @@ class Inventory extends Component {
         <table className="table table-sm table-hover">
           <thead>
             <tr>
-            <th scope="col">ID</th>
-                <th scope="col">Product List</th>
-                <th scope="col">In Stock</th>
-                <th scope="col">Req.</th>
-                <th scope="col">Buffer</th>
-                <th scope="col">Price</th>
-                <th scope="col">Pending</th>
-                <th scope="col">Rating</th>
-                <th scope="col" />
+              <th scope="col">ID</th>
+              <th scope="col">Product List</th>
+              <th scope="col">In Stock</th>
+              <th scope="col">Req.</th>
+              <th scope="col">Buffer</th>
+              <th scope="col">Price</th>
+              <th scope="col">Pending</th>
+              <th scope="col">Rating</th>
+              <th scope="col" />
             </tr>
           </thead>
-          <tbody ref="myscroll" style={{ overflowX: 'hidden', overflowY: 'auto' }}>{this.show()}</tbody>
+          <tbody
+            ref="myscroll"
+            style={{ overflowX: 'hidden', overflowY: 'auto' }}
+          >
+            {this.show()}
+          </tbody>
         </table>
       </div>
     );
