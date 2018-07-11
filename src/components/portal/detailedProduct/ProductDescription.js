@@ -574,7 +574,7 @@ class ProductDescription extends Component {
                     <InlineEdit
                       className="d-inline ml-0 mr-0"
                       name="price"
-                      placeholder={'' + this.state.price}
+                      placeholder={'$' + this.state.price}
                       isEditing={this.state.isEditingPrice}
                       changeCallback={this.handleCallbackPrice}
                     />
