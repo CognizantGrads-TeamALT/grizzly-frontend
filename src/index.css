@@ -50,7 +50,7 @@ body > #root > .App,
   border: none;
   text-align: center;
   font-size: 12px;
-  display: block;
+  display: inline-block;
   transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
   font-family: Roboto, arial, sans-serif;
   cursor: pointer;

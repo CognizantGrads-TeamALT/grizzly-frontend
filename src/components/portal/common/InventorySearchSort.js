@@ -35,12 +35,10 @@ class InventorySearchSort extends Component {
     if (isEmpty(this.state.search)) {
       toast.info('Please check your input!');
     } else {
-      const searchTerm = {
-        search: this.state.search
-      };
-
-      this.props.searchVendors(searchTerm);
-      this.setState({ search: '' });
+      this.props.searchVendors(this.state.search);
+      // This was commented out before, why is that?
+      // update: Because we have a clear all filter button now.
+      //this.setState({ search: '' });
     }
   }
 

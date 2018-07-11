@@ -216,20 +216,19 @@ class Navbar extends Component {
       );
     } else
       return (
-        <ul className="navbar-nav pl-2">
+        <div className="search-form-custom row">
           {this.showCartLink()}
-          <div />
-          <img src={glogo} alt="glogo" className="googleLogo" />
-          <li className="nav-item mr-1 my-auto">
-            <GoogleLogin
-              clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
-              buttonText="Sign in with Google"
-              onSuccess={this.login}
-              onFailure={this.login}
-              className="gButton"
-            />
-          </li>
-        </ul>
+            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <img src={glogo} alt="glogo" className="googleLogo" />
+              <GoogleLogin
+                clientId="296954481305-plmc2jf1o7j7t0aignvp73arbk2mt3pq.apps.googleusercontent.com"
+                buttonText="Sign in with Google"
+                onSuccess={this.login}
+                onFailure={this.login}
+                className="gButton"
+              />
+            </div>
+        </div>
       );
   }
 
@@ -239,7 +238,7 @@ class Navbar extends Component {
         <form onSubmit={this.onSubmit} className="form-inline">
           <div className="search-form-custom">
             <input
-              className="form-control left-rounded border-right-0 border col-8"
+              className="form-control left-rounded border-right-0 border col-8 customerSearchBar"
               type="search"
               name="search"
               placeholder="Search"
@@ -264,7 +263,7 @@ class Navbar extends Component {
   showCartLink() {
     return (
       <Link
-        className="mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
+        className="col-lg-6 col-md-6 col-sm-6 col-xs-12 mr-2 mt-2 mb-0 more-rounded fas fa-shopping-cart"
         to="/shoppingcart"
       />
     );

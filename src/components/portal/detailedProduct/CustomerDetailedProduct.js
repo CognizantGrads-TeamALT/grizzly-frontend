@@ -10,6 +10,7 @@ import {
   getRandomProducts
 } from '../../../actions/productsActions';
 import { addToCart, saveCart } from '../../../actions/cartActions';
+import { sortCategoriesByParamCustomer } from '../../../actions/categoryActions';
 
 class CustomerDetailedProduct extends Component {
   constructor(props) {
@@ -29,13 +30,19 @@ class CustomerDetailedProduct extends Component {
 
 
   componentWillMount(){
-
     window.scrollTo(0, 0)
   }
 
   componentDidMount() {
-    this.loadData(this.props.match.params.productId);
-    this.props.getProduct(this.props.match.params.productId);
+      this.loadData(this.props.match.params.productId);
+
+    // If there is no product, load it.
+    //if (isEmpty(this.props.product.single))
+    //  this.props.getProduct(this.props.match.params.productId);
+
+    // If there is no categories, load it for the productcategoryrow.
+    if (isEmpty(this.props.category.categories))
+      this.props.sortCategoriesByParamCustomer(0, 'count');
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -89,16 +96,17 @@ class CustomerDetailedProduct extends Component {
       loadingCategories,
       loadingVendors,
       product_vendor,
+      loading,
       fresh
     } = this.props.product;
-    if (loadingVendors || loadingCategories || fresh) {
+    if (loading || loadingVendors || loadingCategories || fresh) {
       return <Spinner size={'150px'} />;
     } else {
-      if (isEmpty(single) || isEmpty(product_vendor)) {
-        return <p>The item was not found.</p>;
+      if (isEmpty(single)) {
+        return <p>The item was not found :(</p>;
       }
 
-      const vendor = this.props.product.product_vendor.filter(
+      const vendor = product_vendor.filter(
         item => item.vendorId === single.vendorId
       )[0];
       return (
@@ -127,15 +135,18 @@ class CustomerDetailedProduct extends Component {
 CustomerDetailedProduct.propTypes = {
   getProduct: PropTypes.func.isRequired,
   getRandomProducts: PropTypes.func.isRequired,
+  sortCategoriesByParamCustomer: PropTypes.func.isRequired,
 
   addToCart: PropTypes.func.isRequired,
   saveCart: PropTypes.func.isRequired,
 
-  product: PropTypes.object.isRequired
+  product: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  product: state.product
+  product: state.product,
+  category: state.category
 });
 
 export default connect(
@@ -144,6 +155,7 @@ export default connect(
     getProduct,
     getRandomProducts,
     addToCart,
-    saveCart
+    saveCart,
+    sortCategoriesByParamCustomer
   }
 )(CustomerDetailedProduct);
