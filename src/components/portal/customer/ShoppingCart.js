@@ -40,6 +40,10 @@ class ShoppingCart extends Component {
     this.totalPrice = 0;
   }
 
+  componentWillMount(){
+    window.scrollTo(0, 0)
+  }
+
   // Load their cart from local storage if it is empty...
   componentDidMount() {
     if (

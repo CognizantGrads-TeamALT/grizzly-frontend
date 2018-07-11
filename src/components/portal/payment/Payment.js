@@ -25,6 +25,10 @@ class Payment extends Component {
     this.onError = this.onError.bind(this);
   }
 
+  componentWillMount(){
+    window.scrollTo(0, 0)
+  }
+
   componentDidMount() {
     let { cart, cart_products } = this.props.product;
     if (isEmpty(cart) || isEmpty(cart_products)) {

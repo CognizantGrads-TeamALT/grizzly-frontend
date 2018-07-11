@@ -18,7 +18,6 @@ class CustomerDetailedProduct extends Component {
     this.state = {
       single: null,
       id: null
-      
     };
     this.addToCart = this.addToCart.bind(this);
     this.fetchedRandom = false;
@@ -27,7 +26,6 @@ class CustomerDetailedProduct extends Component {
   addToCart(single) {
     this.props.addToCart(single);
   }
-
 
   componentWillMount(){
     window.scrollTo(0, 0)
@@ -66,7 +64,7 @@ class CustomerDetailedProduct extends Component {
       !this.fetchedRandom &&
       this.state.id === this.props.match.params.productId
     ) {
-      this.props.getRandomProducts(single.categoryId);
+      this.props.getRandomProducts(single.categoryId, single.productId);
       this.fetchedRandom = true;
     }
   }

@@ -1579,6 +1579,10 @@ a:hover {
   margin-top: 100px;
 }
 
+.modal-dialog.track-order.w-100 {
+  max-width: 700px!important;
+}
+
 /* Payment */
 .paypal-button,
 .paypal-button-number-0,
