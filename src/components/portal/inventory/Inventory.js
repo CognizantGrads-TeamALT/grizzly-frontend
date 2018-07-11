@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ProductSearchSort from '../common/ProductSearchSort';
+// import ProductSearchSort from '../common/ProductSearchSort';
 import PropTypes from 'prop-types';
 import Spinner from '../../common/Spinner';
 import InventoryList from './InventoryList';
@@ -82,7 +82,8 @@ class Inventory extends Component {
     return (
       <div>
         <div className="m-3 col">
-          <ProductSearchSort />
+          {/* Comment this out. Search not working properly in Inventory Tab */}
+          {/* <ProductSearchSort /> */}
         </div>
         <table className="table table-sm table-hover">
           <thead>
