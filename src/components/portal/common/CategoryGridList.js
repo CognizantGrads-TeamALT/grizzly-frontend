@@ -96,10 +96,10 @@ class CategoryGridList extends Component {
           <div className="card text-left mb-2" key={prod.productId}>
             <div className="card-body">
               <div className="row">
-                <div className="col-lg-3">
+                <div className="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                   <ProductImage prod={prod} />
                 </div>
-                <div className="col-lg-5">
+                <div className="col-lg-5 col-md-5 col-sm-5 col-xs-12">
                   <div className="productTitle">
                     <b className="d-inline">{prod.name}</b>
                     <p className="d-inline dscrptnSize-9">
@@ -112,8 +112,8 @@ class CategoryGridList extends Component {
                     </p>
                   </div>
                 </div>
-                <div className="col-lg-2">${prod.price}</div>
-                <div className="col-lg-2">
+                <div className="col-lg-2 col-md-2 col-sm-2 col-xs-12">${prod.price}</div>
+                <div className="col-lg-2 col-md-2 col-sm-2 col-xs-12">
                   <Link
                     to={`/customerdetailedproduct/${prod.productId}`}
                     className="btn more-rounded hover-t-b btn-sm mx-auto surround-parent parent-wide"

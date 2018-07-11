@@ -72,8 +72,8 @@ class ProductSearchSort extends Component {
     } else {
       this.props.searchProducts(this.state.search, '0');
       // This was commented out before, why is that?
-      this.setState({ search: '' }); // Added back
-      //this.setState({ search: '' }); <--- ?
+      // update: Because we have a clear all filter button now.
+      //this.setState({ search: '' });
     }
   }
 
