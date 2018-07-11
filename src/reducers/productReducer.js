@@ -383,12 +383,24 @@ export default function(state = initialState, action) {
         loading: loadingNew2,
         loadingCategories: false
       };
-    case types.PRODUCTS_BLOCKCAT:
+    case types.PRODUCTS_UPDATECATEGORY:
       return {
         ...state,
         product_category: state.product_category.map(
-          cat =>
-            cat.categoryId === action.payload.categoryId ? action.payload : cat
+          category =>
+            category.categoryId === action.payload.categoryId
+              ? action.payload
+              : category
+        )
+      };
+    case types.PRODUCTS_UPDATEVENDOR:
+      return {
+        ...state,
+        product_vendor: state.product_vendor.map(
+          vendor =>
+            vendor.vendorId === action.payload.vendorId
+              ? action.payload
+              : vendor
         )
       };
     case types.PRODUCTS_LOADED:

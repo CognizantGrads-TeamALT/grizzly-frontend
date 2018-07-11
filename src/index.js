@@ -15,11 +15,12 @@ import setAuthToken from './utils/setAuthToken';
 import { startJWTRefreshChecker } from './utils/RefreshToken';
 import store from './store';
 
+startJWTRefreshChecker();
 // Check for timeout, log user out if needed
 // Check for token
 if (localStorage.GrizzGoogleToken) {
   // Refresh token when expired (log user out after 10 refreshes)
-  startJWTRefreshChecker();
+
 
   //Decode token and get user info and expiration
   const decoded = jwt_decode(localStorage.GrizzGoogleToken);

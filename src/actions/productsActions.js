@@ -214,11 +214,20 @@ export const toggleBlockProduct = (productId, enabled) => dispatch => {
 };
 
 // block a cat
-export const toggleBlockCategoryProd = (catid, cat) => dispatch => {
+export const updateCategoryProd = (categoryId, category) => dispatch => {
   dispatch({
-    type: types.PRODUCTS_BLOCKCAT,
-    categoryId: catid,
-    payload: cat,
+    type: types.PRODUCTS_UPDATECATEGORY,
+    categoryId: categoryId,
+    payload: category,
+  })
+}
+
+// block a vendor
+export const updateVendorProd = (vendorId, vendor) => dispatch => {
+  dispatch({
+    type: types.PRODUCTS_UPDATEVENDOR,
+    vendorId: vendorId,
+    payload: vendor,
   })
 }
 
