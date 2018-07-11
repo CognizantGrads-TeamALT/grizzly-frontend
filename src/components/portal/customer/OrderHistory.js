@@ -37,7 +37,7 @@ class OrderHistory extends Component {
             <div className="col-7">
               <CardBody>
                 <CardTitle className="text-left">{prod.name}</CardTitle>
-                <CardText className="text-left fnt-weight-400 dscrptnSize-8">
+                <CardText className="text-left fnt-weight-300 dscrptnSize-8">
                   {prod.desc}
                 </CardText>
               </CardBody>
@@ -62,7 +62,12 @@ class OrderHistory extends Component {
           <Card>
             <CardHeader className="fnt-weight-400 dscrptnSize-9 row m-0">
               <div className="col-8 text-left">
-                Transaction ID: {ordrs.txn_id}
+                <div className="fnt-weight-400 d-inline">
+                Transaction ID: 
+                </div>
+                <div className="pl-1 fnt-weight-300 d-inline">
+                {ordrs.txn_id}
+                </div>
               </div>
               <div className="col-4 text-right">$AU {ordrs.cost}</div>
             </CardHeader>
@@ -71,11 +76,11 @@ class OrderHistory extends Component {
         </div>
         <div className="col-3 text-left">
           <div className="mt-2 fnt-weight-500 title-size-1em">Deliver to: </div>
-          <div className="fnt-weight-400 dscrptnSize-9">
+          <div className="fnt-weight-300 dscrptnSize-8">
             {ordrs.departing_location}
           </div>
           <div className="mt-2 fnt-weight-500 title-size-1em">Order Date:</div>
-          <div className="fnt-weight-400 dscrptnSize-9">{ordrs.shipped_on}</div>
+          <div className="fnt-weight-300 dscrptnSize-8">{ordrs.shipped_on}</div>
           <TrackOrderModal
             ordr={ordrs}
             buttonLabel="Track Package"

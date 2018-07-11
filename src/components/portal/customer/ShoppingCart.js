@@ -59,6 +59,10 @@ class ShoppingCart extends Component {
     if (!toast.isActive(this.toastId)) {
       this.toastId = toast.info('Your product has been removed');
     }
+    if(isEmpty(this.cart_products))
+    {
+      this.totalPrice = 0 ;
+    }
   }
 
   // This will fetch the items from the API.
@@ -141,7 +145,7 @@ class ShoppingCart extends Component {
     } else if (isEmpty(this.props.product.cart)) {
       return (
         <p align="center" className="mt-6">
-          No items found.
+          No items in cart.
         </p>
       );
     }
