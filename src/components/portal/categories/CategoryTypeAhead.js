@@ -147,8 +147,7 @@ class CategoryTypeAhead extends Component {
     this.setState({categoryList: []});
     this.props.clearCurrentCategories();
     this.props.clearFilteredProducts();
-    //this.props.typeAheadValue = e.target.value;
-  }
+    }
 
   render() {
     return (
