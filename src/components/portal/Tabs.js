@@ -237,7 +237,7 @@ class Tabs extends Component {
                   <Col sm="12">
                     <div className="m-3 row">
                       <div className="col-4 text-left">
-                        <ProductSearchSort />
+                        <ProductSearchSort shouldClear={this.shouldClear} clear={this.clear} cleared={this.cleared} />
                       </div>
                       <div className="col-3 text-center">
                         <CategoryTypeAhead
@@ -272,14 +272,14 @@ class Tabs extends Component {
               <TabPane tabId="2">
                 <Row>
                   <Col sm="12">
-                    <Vendor />
+                    <Vendor clear={this.clear} />
                   </Col>
                 </Row>
               </TabPane>
               <TabPane tabId="3">
                 <Row>
                   <Col sm="12">
-                    <Categories />
+                    <Categories clear={this.clear} />
                   </Col>
                 </Row>
               </TabPane>

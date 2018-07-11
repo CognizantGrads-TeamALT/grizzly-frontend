@@ -6,7 +6,7 @@ import {
   sortProductsByParam,
   sortProductsVendorByParam
 } from '../../../actions/productsActions';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import isEmpty from '../../../validation/is-empty';
 
 class ProductSearchSort extends Component {
@@ -27,6 +27,11 @@ class ProductSearchSort extends Component {
 
   componentDidUpdate() {
     if (this.state.disabled) this.setState({ disabled: false });
+
+    if (this.props.shouldClear) {
+      this.props.cleared();
+      this.setState({ search: '' });
+    }
   }
 
   onChange(e) {
@@ -68,7 +73,9 @@ class ProductSearchSort extends Component {
   onSearch(e) {
     e.preventDefault();
     if (isEmpty(this.state.search)) {
-      toast.info('Please check your input!');
+      //toast.info('Please check your input!');
+      this.props.clear();
+      this.setState({ search: '' });
     } else {
       this.props.searchProducts(this.state.search, '0');
       // This was commented out before, why is that?

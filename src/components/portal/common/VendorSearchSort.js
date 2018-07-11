@@ -5,7 +5,7 @@ import {
   searchVendors,
   sortVendorsByParam
 } from '../../../actions/vendorActions';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import VendorForm from '../vendor/VendorForm';
 import isEmpty from '../../../validation/is-empty';
 
@@ -41,7 +41,8 @@ class VendorSearchSort extends Component {
   onSearch(e) {
     e.preventDefault();
     if (isEmpty(this.state.search)) {
-      toast.info('Please check your input!');
+      //toast.info('Please check your input!');
+      this.clearSearch();
     } else {
       this.props.searchVendors(this.state.search);
       // This was commented out before, why is that?
@@ -69,10 +70,15 @@ class VendorSearchSort extends Component {
     this.setState({ search: '' });
   }
 
+  clearSearch() {
+    this.setState({ search: '' });
+    this.props.clear();
+  }
+
   render() {
     return (
       <div className="mt-3 mb-3 row w-100">
-        <div className="col text-center">
+        <div className="col-4 text-center">
           <form
             onSubmit={this.onSearch}
             className="btn-group form-inline ml-0 mr-1"
@@ -139,6 +145,14 @@ class VendorSearchSort extends Component {
             actionLabel="Add Vendor"
             buttonClass="btn more-rounded hover-w-b btn-sm mx-auto w-75 surround-parent my-2 my-sm-0"
           />
+        </div>
+
+        <div className="col-2 text-right">
+            <div className="btn pl-0 my-auto d-inline z-index-600" 
+                onClick = {() => this.clearSearch()}>
+                Clear all filters
+              <i className="far fa-times-circle d-inline ml-2"></i>
+            </div>
         </div>
       </div>
     );

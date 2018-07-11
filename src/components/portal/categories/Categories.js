@@ -84,7 +84,7 @@ class Categories extends Component {
   render() {
     return (
       <div>
-        <CategorySearchSort />
+        <CategorySearchSort clear={this.props.clear} />
         <table className="table table-sm table-hover">
           <thead>
             <tr>
