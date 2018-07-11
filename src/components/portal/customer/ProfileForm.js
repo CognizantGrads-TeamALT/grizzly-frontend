@@ -198,16 +198,16 @@ class ProfileForm extends Component {
                   />
                 </div>
                 <div className="row mx-auto w-100 mb-2 mt-5">
-                  <button className="btn plain-b more-rounded hover-w-b w-100 btn-sm my-2 my-sm-0 mr-sm-2" onClick={this.onToggle}>
-                      Cancel
-                    </button>
-                </div>
-                <div className="row mx-auto w-100 mb-2">
-                  <input
+                    <input
                         type="submit"
                         value="Submit"
                         className="btn orange-b more-rounded hover-w-b w-100 btn-sm my-2 my-sm-0 mr-sm-2"
                       />
+                </div>
+                <div className="row mx-auto w-100 mb-2">
+                    <button className="btn plain-b more-rounded hover-w-b w-100 btn-sm my-2 my-sm-0 mr-sm-2" onClick={this.onToggle}>
+                      Cancel
+                    </button>
                 </div>
               </form>
             </div>
