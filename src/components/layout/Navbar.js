@@ -167,7 +167,7 @@ class Navbar extends Component {
           <li className="nav-item mr-1 my-auto">
             <i className="far fa-bell p-t-5 white" />
           </li>
-          <li className="nav-item mr-1 my-auto">
+          <li className="nav-item mr-1 my-auto fnt-weight-400">
             <span>{`Welcome, <${
               this.props.user.googleProfile.given_name
             }> `}</span>

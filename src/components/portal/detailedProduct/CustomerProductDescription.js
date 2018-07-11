@@ -114,17 +114,17 @@ class CustomerProductDescription extends Component {
             </div>
 
             <div className="col-lg-5 containerCustomerProductDesc text-left">
-              <div className="row fnt-weight-600 title-size-2em">
+              <div className="row fnt-weight-500 title-size-2em">
                 {product.name}
               </div>
-              <div className="row fnt-weight-400 title-size-1em CustomerDetailedProductPrice">
+              <div className="row fnt-weight-300 title-size-1em CustomerDetailedProductPrice">
                 {product.vendorId === 0 ||
                 isEmpty(product.vendorId) ||
                 isEmpty(this.props.vendor)
                   ? ''
                   : ' by ' + this.props.vendor.name}
               </div>
-              <div className="row fnt-weight-400 title-size-1em CustomerDetailedProductPrice">
+              <div className="row fnt-weight-300 title-size-1em CustomerDetailedProductPrice">
                 <StarRatings
                   rating={product.rating}
                   starRatedColor="#f0ca4d"
@@ -138,10 +138,10 @@ class CustomerProductDescription extends Component {
                 <p className="mb-0">${product.price}</p>
               </div>
               <div className="row">
-                <div className="title-size-1em fnt-weight-400" />
+                <div className="title-size-1em fnt-weight-300" />
               </div>
               <div className="row">
-                <div className="dscrptnSize-7 fnt-weight-400 mb-5">
+                <div className="dscrptnSize-8 fnt-weight-300 mb-5">
                   {product.desc}
                 </div>
               </div>

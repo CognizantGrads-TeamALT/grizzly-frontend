@@ -39,7 +39,7 @@ class ProductCategoryRow extends Component {
           <Link
             key={index}
             to={`/category/${cat.name}/${cat.categoryId}`}
-            className="dropdown-item more-rounded"
+            className="dropdown-item more-rounded fnt-weight-300"
           >
             {cat.name}
           </Link>
