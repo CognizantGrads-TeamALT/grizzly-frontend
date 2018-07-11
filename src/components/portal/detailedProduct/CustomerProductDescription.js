@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import isEmpty from '../../../validation/is-empty';
 import RandomProduct from './RandomProduct';
 import StarRatings from 'react-star-ratings';
-import Button from 'react-ions/lib/components/Button';
 import ProductCarousel from '../common/ProductCarousel';
 import { toast } from 'react-toastify';
 
@@ -97,24 +96,15 @@ class CustomerProductDescription extends Component {
     const product = this.props.single;
 
     return (
-      <div className="mt-3 pt-2">
-        <Button
-          onClick={this.onCancel}
-          className="btn more-rounded hover-w-b my-auto float-left dscrptnSize-9 d-inline p-1 px-2 btn-link"
-        >
-          Back
-        </Button>
-
+      <div className="mt-3">
         <div className="container containerCustomerProductView">
           <div className="row">
-            <div className="col-lg-5 picCustomerDetailedProductCol text-left">
-              <div className="row">
-                <ProductCarousel prod={product} />
-              </div>
+            <div className="col-lg-6 col-md-8 col-sm-12 col-xs-12 picCustomerDetailedProductCol text-left imgCarousel">
+              <ProductCarousel prod={product} />
             </div>
 
-            <div className="col-lg-5 containerCustomerProductDesc text-left">
-              <div className="row fnt-weight-500 title-size-2em">
+            <div className="col-lg-6 col-md-8 col-sm-12 col-xs-12 containerCustomerProductDesc text-left imgCarousel">
+              <div className="row fnt-weight-600 title-size-2em">
                 {product.name}
               </div>
               <div className="row fnt-weight-300 title-size-1em CustomerDetailedProductPrice">
@@ -149,7 +139,7 @@ class CustomerProductDescription extends Component {
             </div>
           </div>
         </div>
-        <div className="anchor-right-outside-p-container btn griz-dark-blue-bg white-text right-rounded w-25 pr-3 text-right mt-5 mb-4">
+        <div className="anchor-right-outside-p-container btn griz-dark-blue-bg white-text right-rounded pr-3 text-right mt-5 mb-4">
           People also searched for
         </div>
           <RandomProduct productId={product.productId} />

@@ -44,7 +44,9 @@ class VendorSearchSort extends Component {
       toast.info('Please check your input!');
     } else {
       this.props.searchVendors(this.state.search);
-      this.setState({ search: '' });
+      // This was commented out before, why is that?
+      // update: Because we have a clear all filter button now.
+      //this.setState({ search: '' });
     }
   }
 

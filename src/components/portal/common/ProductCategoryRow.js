@@ -70,7 +70,7 @@ class ProductCategoryRow extends Component {
                 </button>
               )}
               <div
-                className="dropdown-menu"
+                className="dropdown-menu categoryDropDown"
                 aria-labelledby="categoryDropDownMenu"
               >
                 {this.displayAllCategories()}
