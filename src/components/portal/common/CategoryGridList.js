@@ -22,7 +22,7 @@ class CategoryGridList extends Component {
     if (
       document.scrollingElement.scrollTop +
         document.scrollingElement.clientHeight >=
-      document.scrollingElement.scrollHeight
+      document.scrollingElement.scrollHeight - 10
     ) {
       this.loadMore();
     }
