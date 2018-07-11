@@ -24,13 +24,7 @@ class Profile extends Component {
             <div className="profile-usertitle-title d-inline fnt-weight-500">
               {user.name}
             </div>
-            <button
-              type="button"
-              disabled
-              className="btn btn-link d-inline p-1 my-auto profile-blue-color profile-small-link float-right"
-            >
-              Edit
-            </button>
+            
           </div>
           <div className="profile-userpic p-4">
             <img

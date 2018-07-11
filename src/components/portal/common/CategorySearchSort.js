@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import {
   searchCategories,
   sortCategoriesByParam
@@ -41,7 +41,8 @@ class CategorySearchSort extends Component {
   onSearch(e) {
     e.preventDefault();
     if (isEmpty(this.state.search)) {
-      toast.info('Please check your input!');
+      //toast.info('Please check your input!');
+      this.clearSearch();
     } else {
       this.props.searchCategories(this.state.search);
       // This was commented out before, why is that?
@@ -80,7 +81,7 @@ class CategorySearchSort extends Component {
     };
     return (
       <div className="mt-3 mb-3 row w-100">
-        <div className="col text-center">
+        <div className="col-4 text-center">
           <form
             onSubmit={this.onSearch}
             className="btn-group form-inline ml-0 mr-1"

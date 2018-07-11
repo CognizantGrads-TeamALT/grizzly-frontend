@@ -237,7 +237,7 @@ class Tabs extends Component {
                   <Col sm="12">
                     <div className="m-3 row">
                       <div className="col-4 text-left">
-                        <ProductSearchSort shouldClear={this.shouldClear} cleared={this.cleared} />
+                        <ProductSearchSort shouldClear={this.shouldClear} clear={this.clear} cleared={this.cleared} />
                       </div>
                       <div className="col-3 text-center">
                         <CategoryTypeAhead
