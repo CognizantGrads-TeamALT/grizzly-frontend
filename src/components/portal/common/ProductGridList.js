@@ -7,7 +7,7 @@ import StarRatings from 'react-star-ratings';
 import ProductImage from '../common/ProductImage';
 import { toast } from 'react-toastify';
 import addtocart from '../../../img/addtocart.png';
-import { setProductUpdated } from "../../../actions/productsActions";
+import { setProductUpdated } from '../../../actions/productsActions';
 
 class ProductGridList extends Component {
   constructor(props) {
@@ -57,43 +57,50 @@ class ProductGridList extends Component {
         prodArray.push(products[i]);
       }
       return prodArray
-        .filter(prod => prod.enabled !== false && this.getCategoryEnabled(prod.categoryId) !== false)
+        .filter(
+          prod =>
+            prod.enabled !== false &&
+            this.getCategoryEnabled(prod.categoryId) !== false
+        )
         .map(function(prod) {
-            return (
-              <div key={prod.productId} className="col-lg-2 imageGrid mt-3">
-                <div className="card-body inner-product-card text-left surround-parent h-100 w-100">
-                  <Link
-                    to={`/customerdetailedproduct/${prod.productId}`}
-                    className="img-thumbnail surround-parent pl-0 h-100 w-100 card product-card"
-                  >
-                    <ProductImage prod={prod} />
-                    <div className="inner-product-card card-text text-truncate d-inline-block fnt-weight-400 surround-parent w-100">
-                      {prod.name}
-                    </div>
-                  </Link>
-                  <div className="fnt-weight-300 dscrptnSize-8 text-truncate d-inline-block surround-parent w-100">
-                    {this.showVendorName(prod.vendorId)}
+          return (
+            <div
+              key={prod.productId}
+              className="col-lg-2 col-sm-4 imageGrid mt-3"
+            >
+              <div className="card-body inner-product-card text-left surround-parent h-100 w-100">
+                <Link
+                  to={`/customerdetailedproduct/${prod.productId}`}
+                  className="img-thumbnail surround-parent pl-0 h-100 w-100 card product-card"
+                >
+                  <ProductImage prod={prod} />
+                  <div className="inner-product-card card-text text-truncate d-inline-block fnt-weight-400 surround-parent w-100">
+                    {prod.name}
                   </div>
+                </Link>
+                <div className="fnt-weight-300 dscrptnSize-8 text-truncate d-inline-block surround-parent w-100">
+                  {this.showVendorName(prod.vendorId)}
+                </div>
 
-                  <div className="fnt-weight-300 dscrptnSize-8">
-                    <StarRatings
-                      rating={prod.rating}
-                      starRatedColor="#f0ca4d"
-                      numberOfStars={5}
-                      name="rating"
-                      starDimension="15px"
-                      starSpacing="1px"
-                    />
-                  </div>
-                  <div className="fnt-weight-600 surround-parent w-100 row">
-                    <div className="col text-left d-inline">${prod.price}</div>
-                    <div className="col text-right d-inline pr-0">
-                      {this.showCartBtn(prod)}
-                    </div>
+                <div className="fnt-weight-300 dscrptnSize-8">
+                  <StarRatings
+                    rating={prod.rating}
+                    starRatedColor="#f0ca4d"
+                    numberOfStars={5}
+                    name="rating"
+                    starDimension="15px"
+                    starSpacing="1px"
+                  />
+                </div>
+                <div className="fnt-weight-600 surround-parent w-100 row">
+                  <div className="col text-left d-inline">${prod.price}</div>
+                  <div className="col text-right d-inline pr-0">
+                    {this.showCartBtn(prod)}
                   </div>
                 </div>
               </div>
-            );
+            </div>
+          );
         }, this);
     } else {
       if (this.count === 0) this.count = 1;
@@ -142,4 +149,7 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, { setProductUpdated })(ProductGridList);
+export default connect(
+  mapStateToProps,
+  { setProductUpdated }
+)(ProductGridList);
