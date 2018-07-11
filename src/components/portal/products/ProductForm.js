@@ -22,6 +22,7 @@ import validator from 'validator';
 import VendorTypeAhead from '../vendor/VendorTypeAhead';
 import { Vendor_Update_TypeAhead } from '../../../actions/vendorActions';
 import ErrorComponent from '../../common/ErrorComponent';
+import { toast } from 'react-toastify';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -46,11 +47,19 @@ class ProductForm extends Component {
     };
     this.pictures = [];
     this.files = [];
+    this.notify = this.notify.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.validateProduct = this.validateProduct.bind(this);
   }
+
+  toastId = null;
+  notify = msg => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.info(msg);
+    }
+  };
 
   onDrop(pictureDataURLs, pictureFiles) {
     this.pictures = pictureDataURLs;
@@ -127,6 +136,7 @@ class ProductForm extends Component {
     // No validation errors found!
     else {
       this.props.addProduct(newProd);
+      this.notify('Adding new product...');
       //add product, set should cancel to true, this will trigger the closure of the window If no error is thrown.
       this.setState({
         shouldCancel: true,
@@ -294,9 +304,7 @@ class ProductForm extends Component {
               Cancel
             </button>
           </div>
-          <div className="row w-100 mb-2">
-            {this.showErrors()}
-          </div>
+          <div className="row w-100 mb-2">{this.showErrors()}</div>
         </div>
       </div>
     );
