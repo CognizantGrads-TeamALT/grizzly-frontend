@@ -37,7 +37,7 @@ class ProfileForm extends Component {
         this.setState({ contact_num: user.contact_num });
         this.hasLoadedNum = true;
       }
-      if (!isEmpty(user.address)) {
+      if (!isEmpty(user.address) && !this.hasLoadedAddress) {
         this.setState({ address: user.address });
         this.hasLoadedAddress = true;
       }
