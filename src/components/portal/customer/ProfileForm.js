@@ -25,39 +25,50 @@ class ProfileForm extends Component {
     this.onToggle = this.onToggle.bind(this);
     this.handleSelectSuggest = this.handleSelectSuggest.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+
+    this.addressSelected = false;
+    this.hasLoadedAddress = false;
+    this.hasLoadedNum = false;
   }
   componentDidMount() {
     const { user } = this.props.user;
     if (!isEmpty(user)) {
-      if (!isEmpty(user.contact_num)) {
+      if (!isEmpty(user.contact_num) && !this.hasLoadedNum) {
         this.setState({ contact_num: user.contact_num });
+        this.hasLoadedNum = true;
       }
-      if (!isEmpty(user.address)) {
+      if (!isEmpty(user.address) && !this.hasLoadedAddress) {
         this.setState({ address: user.address });
+        this.hasLoadedAddress = true;
       }
     }
   }
 
   componentDidUpdate(prevProps) {
     const { user } = this.props.user;
+    if (isEmpty(user)) { return; }
     if (!isEmpty(user.address)) {
-      if (isEmpty(this.state.address)) {
+      if (isEmpty(this.state.address) && !this.hasLoadedAddress) {
         this.setState({ address: user.address });
+        this.hasLoadedAddress = true;
       }
     }
     if (!isEmpty(user.contact_num)) {
-      if (isEmpty(this.state.contact_num)) {
+      if (isEmpty(this.state.contact_num) && !this.hasLoadedNum) {
         this.setState({ contact_num: user.contact_num });
+        this.hasLoadedNum = true;
       }
     }
   }
 
   handleInputChange(e, validationFunction) {
+    this.addressSelected = false;
     this.setState({ search: e.target.value, address: e.target.value });
-    validationFunction(e.target.value);
+    //validationFunction(e.target.value);
   }
 
   handleSelectSuggest(suggest) {
+    this.addressSelected = true;
     this.setState({ search: '', address: suggest.formatted_address });
   }
 
@@ -69,6 +80,7 @@ class ProfileForm extends Component {
   onSubmit(e) {
     e.preventDefault();
 
+    this.validateAddress();
     if (this.validateForm()) {
       this.setState({ isValid: true });
       const profileData = {
@@ -239,7 +251,7 @@ class ProfileForm extends Component {
   };
 
   validateAddress = input => {
-    if (validator.isEmpty(input)) {
+    if (!this.addressSelected) {
       this.setState({
         errors: {
           ...this.state.errors,
@@ -275,7 +287,9 @@ class ProfileForm extends Component {
 }
 
 ProfileForm.propTypes = {
-  createOrUpdateProfile: PropTypes.func.isRequired
+  createOrUpdateProfile: PropTypes.func.isRequired,
+
+  user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
